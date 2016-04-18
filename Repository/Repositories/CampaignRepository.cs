@@ -191,22 +191,30 @@ namespace MPC.Repository.Repositories
                                 }
                             }
                         }
-                       
 
+                        string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                        using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                        {
+                            writer.WriteLine("Message : EmailbodyMesg notificationEmails" + "<br/>" + Environment.NewLine + "StackTrace :" + notificationEmails +
+                               "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                            writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                        }
+                
                         if (notificationEmails != null && notificationEmails.Count > 0)
                         {
                             foreach (string val in notificationEmails)
                             {
-                                if (ValidatEmail(val))
+                                if (ValidatEmail(val.Trim()))
                                 {
 
                                     if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
                                     {
-                                        result = AddMsgToTblQueue(val, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
+                                        result = AddMsgToTblQueue(val.Trim(), secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
                                     }
                                     else
                                     {
-                                        result = AddMsgToTblQueue(val, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
+                                        result = AddMsgToTblQueue(val.Trim(), secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
                                     }
 
                                     if (oCampaign.EmailEvent == (int)Events.OnlineOrder)

@@ -300,8 +300,7 @@ namespace MPC.Webstore.Controllers
                         if (oPaymentGateWay == null)
                         {
                             shopCart = LoadOrderDetail(OrderId.ToString());
-                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlpaymentgnotset", UserCookieManager.WBStoreId, "Payment Gateway is not set.")
-;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("ltrlpaymentgnotset", UserCookieManager.WBStoreId, "Payment Gateway is not set.");
                             return shopCart;
                         }
                         else

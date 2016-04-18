@@ -228,6 +228,10 @@ namespace MPC.Repository.Repositories
                     objPage.BackGroundType = 1;
                     objPage.BackgroundFileName = obj.BackgroundFileName;
                     objPage.PageType = 1;  // pageType(1 = without color 2 = with color )  Color C  Color M  Color Y Color K   
+                    if (obj.Height.HasValue)
+                        objPage.Height = obj.Height.Value;
+                    if (obj.Width.HasValue)
+                        objPage.Width = obj.Width.Value;
                     db.TemplatePages.Add(objPage);
 
                 }
@@ -263,6 +267,11 @@ namespace MPC.Repository.Repositories
                             objPage.BackGroundType = 1;
                             objPage.BackgroundFileName = obj.BackgroundFileName;
                             objPage.PageType = 1;  // pageType(1 = without color 2 = with color )  Color C  Color M  Color Y Color K   
+                            if (obj.Height.HasValue)
+                                objPage.Height = obj.Height.Value;
+                            if (obj.Width.HasValue)
+                                objPage.Width = obj.Width.Value;
+
                             db.TemplatePages.Add(objPage);
                             db.SaveChanges();
                             // get old page

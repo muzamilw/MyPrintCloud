@@ -557,10 +557,11 @@ function g1(D1AO) {
         $("#inputcharSpacing").spinner("option", "disabled", false);
         $("#BtnFontSize").spinner("option", "disabled", false);
         $("#txtLineHeight").spinner("option", "disabled", false);
-     //   $("#inputObjectWidthTxt").spinner("option", "disabled", false);
-    //    $("#inputObjectHeightTxt").spinner("option", "disabled", false);
-     //   $("#inputPositionXTxt").spinner("option", "disabled", false);
-        //   $("#inputPositionYTxt").spinner("option", "disabled", false);
+        $("#inputObjectWidthTxt").spinner("option", "disabled", false);
+        $("#inputObjectHeightTxt").spinner("option", "disabled", false);
+        $("#inputPositionXTxt").spinner("option", "disabled", false);
+        $("#inputPositionYTxt").spinner("option", "disabled", false);
+        $("#BtnLockTxtPosition").removeAttr("disabled");
        
     }
     else {
