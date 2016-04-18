@@ -118,6 +118,7 @@
           <Property Name="FileType" Type="varchar" MaxLength="50" />
           <Property Name="FolderId" Type="bigint" />
           <Property Name="CompanyId" Type="bigint" />
+          <Property Name="UpdateDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="Campaign">
           <Key>
@@ -15612,6 +15613,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Assets_Company" FromRole="Asset" ToRole="Company" />
           <NavigationProperty Name="AssetItems" Relationship="DomainModels.FK_AssetItem_Assets" FromRole="Asset" ToRole="AssetItem" />
           <NavigationProperty Name="Folder" Relationship="DomainModels.FK_Assets_Folder" FromRole="Asset" ToRole="Folder" />
+          <Property Name="UpdateDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Assets_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -21099,6 +21101,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Assets">
             <EntityTypeMapping TypeName="DomainModels.Asset">
               <MappingFragment StoreEntitySet="Assets">
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="FolderId" ColumnName="FolderId" />
                 <ScalarProperty Name="FileType" ColumnName="FileType" />

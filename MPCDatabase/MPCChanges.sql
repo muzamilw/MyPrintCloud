@@ -10488,3 +10488,6 @@ values(41,'Order Cancelled','Order Cancelled',1)
 insert into emailevent (emaileventid, eventname, description, eventType)
 values(42,'Order Reverted','Order Reverted',1)
 set identity_insert emailevent OFF
+
+alter table Assets add UpdateDateTime datetime
+update Assets set UpdateDateTime = creationDateTime

@@ -22,6 +22,7 @@ namespace MPC.Models.DomainModels
 
         public virtual Company Company { get; set; }
         public virtual Folder Folder { get; set; }
+        public Nullable<System.DateTime> UpdateDateTime { get; set; }
 
         public virtual ICollection<AssetItem> AssetItems { get; set; }
     }

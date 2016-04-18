@@ -666,7 +666,7 @@
                     $("#assetCatNameUser_side").text(' '+response.AssetFolder.FolderName);
 
 
-                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    var newDate = response.Asset.UpdateDateTime.toString('dd-MM-yy');
 
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
@@ -815,8 +815,10 @@
 
         }
         $("#Searchfolder").keypress(function (event) {
+            debugger;
             if (event.keyCode == 13) {
-                if ($("#txtsearch").val() == '') {
+                var val=$("#Searchfolder").val();
+                if (val == '') {
                     RebindGrid();
                     event.preventDefault();
                     return false;
@@ -1270,8 +1272,12 @@
             debugger;
             
             var fil = document.querySelector("#selectedFiles");
+            var valid = AssetsValidation();
             if (!hasChanges && fil.childElementCount > 0)
                 hasChanges = true;
+            if (!valid && UpdateAsset) {
+                return;
+            }
             if(hasChanges==true)
             {
                 if(AssetsValidationForUpdateCase()==true)
@@ -1293,6 +1299,7 @@
                 $("#AddFolderPanel").css("display", "none");
                 postedFiles = [];
             }
+            
         }
         function ShowPreview(input) {
             if (input.files && input.files[0]) {
@@ -2041,8 +2048,8 @@
 
             }
         }
-        function DeleteItem(AssetID,btndel,AssestItemId)
-        {
+        function DeleteItem(AssetID,btndel,AssestItemId) {
+            debugger;
             if (typeof(btndel) == "object") {
                 $(btndel).closest("div").remove();
             } else {
@@ -2050,7 +2057,20 @@
             }
 
             RemovedID+='/'+AssestItemId;
+            AssetItemsList = $.grep(AssetItemsList, function (item) {
+                return (item.AssetItemId != AssestItemId);
+            });
+            //var removedImage = getImageFromList(AssestItemId);
+            
+            //if (removedImage) {
+               
+            //}
 
+        }
+        function getImageFromList (id) {
+            return AssetItemsList.find(function (item) {
+                return item.AssetItemId === id;
+            });
         }
         function ActionForFolder(FolderId,imagpath,thisflagPointer)
         {
@@ -2158,7 +2178,7 @@
                     $("#assetCatNameUser").text("Category:"+response.AssetFolder.FolderName);
 
 
-                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    var newDate = response.Asset.UpdateDateTime.toString('dd-MM-yy');
 
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
@@ -2206,7 +2226,7 @@
                     BindPreviewItems(response.Asset.AssetItems);
 
 
-                    var newDate = response.Asset.CreationDateTime.toString('dd-MM-yy');
+                    var newDate = response.Asset.UpdateDateTime.toString('dd-MM-yy');
 
                     var changedate=newDate.split("-");
                     var getd=changedate[2].split("T");
