@@ -166,7 +166,8 @@ var isImageUploaded = false;
 var userTerritoryId = 0;
 var userColorTerritoryId = 0;
 function buildParams() {
-    // locVars.push(0); // handle null terriotry 
+    // locVars.push(0); // handle null terriotry
+    console.log(window.location.protocol);
     if (window.location.protocol == "https:")
         V2Url = "https://designerv2.saleflow.com/";
     userColorTerritoryId = locVars[locVars.length - 1];
