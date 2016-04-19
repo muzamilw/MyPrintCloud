@@ -1935,6 +1935,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.GetFoldersByCompanyId(CompanyID, OrganisationID);
         }
+        public List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId)
+        {
+            return _FolderRepository.GetFoldersByCompanyTerritory(companyId, organisationId, territoryId);
+        }
         public void DeleteAsset(long AssetID)
         {
             _AssestsRepository.DeleteAsset(AssetID);
@@ -1963,6 +1967,11 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.GetTreeVeiwList(CompanyId, OrganisationId);
         }
+
+        public List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId)
+        {
+            return _FolderRepository.GetTreeVeiwListByTerritory(companyId, organisationId, territoryId);
+        }
         public List<Asset> GetAssetsByCompanyIDAndFolderID(long CompanyID, long FolderId)
         {
             return _AssestsRepository.GetAssetsByCompanyIDAndFolderID(CompanyID, FolderId);
@@ -1990,6 +1999,7 @@ namespace MPC.Implementation.WebStoreServices
         }
         public void UpdateFolder(Folder Ufolder)
         {
+            
             _FolderRepository.UpdateFolder(Ufolder);
         }
         public void DeleteFolder(long folderID)
