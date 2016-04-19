@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Collections.ObjectModel;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -36,6 +37,22 @@ namespace MPC.Repository.Repositories
 
             return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && (i.ParentFolderId == null || i.ParentFolderId == 0)).ToList();
         }
+
+        public List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+           
+            var qry = from folder in DbSet
+                join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                where
+                    folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
+                    folder.OrganisationId == organisationId
+                select folder;
+
+
+            return qry.ToList();
+        }
+
         public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
         {
             db.Configuration.LazyLoadingEnabled = false;
@@ -58,6 +75,22 @@ namespace MPC.Repository.Repositories
             folder.ParentFolderId = NewFolder.ParentFolderId;
             folder.CompanyId = NewFolder.CompanyId;
             folder.OrganisationId = NewFolder.OrganisationId;
+
+            if (NewFolder.FolderTerritories != null)
+            {
+               folder.FolderTerritories = new Collection<FolderTerritory>();
+                foreach (var terr in NewFolder.FolderTerritories)
+                {
+                    var folderTerritory = new FolderTerritory
+                    {
+                        FolderTerritoryId = 0,
+                        TerritoryId = terr.TerritoryId,
+                        CompanyId = NewFolder.CompanyId,
+                        OrganisationId = NewFolder.OrganisationId
+                    };
+                    folder.FolderTerritories.Add(folderTerritory);
+                }
+            }
             db.Folders.Add(folder);
             if (db.SaveChanges() > 0)
             {
@@ -82,7 +115,7 @@ namespace MPC.Repository.Repositories
         public Folder GetFolderByFolderId(long FolderID)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            return db.Folders.Where(i => i.FolderId == FolderID).FirstOrDefault();
+            return db.Folders.Include(c => c.FolderTerritories).Where(i => i.FolderId == FolderID).FirstOrDefault();
             
         }
 
@@ -100,6 +133,24 @@ namespace MPC.Repository.Repositories
             {
                 BuildChildNode(i);
                 
+            }
+            return rootNode;
+        }
+        public List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId)
+        {
+            List<TreeViewNodeVM> rootNode = (from e1 in db.Folders
+                                             join folderTerritory in db.FolderTerritories on e1.FolderId equals folderTerritory.FolderId
+                                             where folderTerritory.TerritoryId == territoryId && e1.CompanyId == companyId && e1.OrganisationId == organisationId && (e1.ParentFolderId == null || e1.ParentFolderId == 0)
+                                             select new TreeViewNodeVM()
+                                             {
+                                                 FolderName = e1.FolderName,
+                                                 ParentFolderId = e1.ParentFolderId,
+                                                 FolderId = e1.FolderId
+                                             }).ToList();
+            foreach (var i in rootNode)
+            {
+                BuildChildNode(i);
+
             }
             return rootNode;
         }
@@ -137,11 +188,44 @@ namespace MPC.Repository.Repositories
             {
                 model.ImagePath = Ufolder.ImagePath;
             }
+
+            //Naveed Added below code lines
+            if (Ufolder.FolderTerritories != null)
+            {
+                foreach (var terr in Ufolder.FolderTerritories)
+                {
+                    var folderTerritory = model.FolderTerritories.FirstOrDefault(f => f.TerritoryId == terr.TerritoryId);
+                    if (folderTerritory == null)
+                    {
+                        folderTerritory = new FolderTerritory
+                        {
+                            FolderTerritoryId = 0,
+                            TerritoryId = terr.TerritoryId,
+                            CompanyId = model.CompanyId,
+                            OrganisationId = model.OrganisationId
+                        };
+                        model.FolderTerritories.Add(folderTerritory);
+                    }
+                }
+                List<FolderTerritory> linesToBeRemoved = model.FolderTerritories.Where(
+                  ft => !IsNewFolderTerritory(ft) && Ufolder.FolderTerritories.All(sourceft => sourceft.TerritoryId != ft.TerritoryId))
+                    .ToList();
+                linesToBeRemoved.ForEach(line => db.FolderTerritories.Remove(line));
+            }
+            
+
+            //End
+
+
+
             db.Folders.Attach(model);
             db.Entry(model).State = EntityState.Modified;
             db.SaveChanges();
         }
-
+        private static bool IsNewFolderTerritory(FolderTerritory sourceItem)
+        {
+            return sourceItem.FolderTerritoryId <= 0;
+        }
         //public TreeViewNodeVM FoldersTree(long ComapnyId, long OrganisationId)
         //{
         //    return GetTreeVeiwList(ComapnyId, OrganisationId);
@@ -182,6 +266,8 @@ namespace MPC.Repository.Repositories
             db.Folders.Remove(folder);
             db.SaveChanges();
         }
+
+        
     }
    
 }

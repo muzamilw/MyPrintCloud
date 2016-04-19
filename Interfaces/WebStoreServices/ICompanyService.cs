@@ -314,5 +314,7 @@ namespace MPC.Interfaces.WebStoreServices
         bool IsValidNumber(string cardNum);
         int GetCardTypeIdFromNumber(string cardNum);
         long GetStoreIdByCustomerId(long CustomerId);
+        List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId);
+        List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId);
     }
 }
