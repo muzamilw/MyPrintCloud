@@ -3459,15 +3459,6 @@ namespace MPC.Implementation.WebStoreServices
             catch (Exception e)
             {
                 theDoc.Clear();
-                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
-
-                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
-                {
-                    writer.WriteLine("Message :" + e.Message + "<br/>" + Environment.NewLine + "StackTrace :" + e.StackTrace +
-                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
-                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
-                }
-                throw e;
                 return null;
             }
             finally
