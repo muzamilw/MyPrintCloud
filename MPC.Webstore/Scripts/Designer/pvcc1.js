@@ -167,6 +167,8 @@ var userTerritoryId = 0;
 var userColorTerritoryId = 0;
 function buildParams() {
     // locVars.push(0); // handle null terriotry 
+    if (window.location.protocol == "https:")
+        V2Url = "https://designerv2.saleflow.com/";
     userColorTerritoryId = locVars[locVars.length - 1];
     userTerritoryId = locVars[locVars.length - 2];
 
