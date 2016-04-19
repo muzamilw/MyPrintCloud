@@ -22,6 +22,7 @@
             </div>
             <div style="margin-top:42px;">
                 <div class="pull-right" style="margin-right:15px;">
+                    <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedCostCenter().costCentreId() > 0">Delete</button>
                     <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                         &nbsp;Save
                     </button>
@@ -47,7 +48,7 @@
                                             <div class="form-group ">
                                                 <div class="col-lg-5 text-right">
 
-                                                    
+
 
                                                 </div>
 
@@ -62,7 +63,7 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
 
-                                                        </div>
+                                                    </div>
 
 
                                                     <label for="txtWebDesc" class="control-label text-right tooltip-float">Description</label>
@@ -103,7 +104,7 @@
 
 
                                                     </div>
-                                                    
+
                                                     <label for="ddCarrier" class="control-label text-right tooltip-float">Fedex Service Type</label>
 
                                                 </div>
@@ -139,8 +140,8 @@
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         @*<a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Markup applied to delivery." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>*@
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>*@
 
                                                     </div>
 
@@ -161,7 +162,7 @@
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                     </div>
-                                                    
+
                                                     <label for="txtDelvTime" class="control-label text-right tooltip-float">Fixed Delivery Time</label>
                                                 </div>
                                                 <div>
@@ -394,7 +395,7 @@
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
         });
-        
-        
+
+
     </script>
 }

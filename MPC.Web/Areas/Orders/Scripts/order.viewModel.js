@@ -3342,7 +3342,7 @@ define("order/order.viewModel",
                             taxCalculateForShippingItem();
                         }
                     }),
-                    calculateTaxValue = ko.computed({
+                    calculateShippingTaxValue = ko.computed({
                         read: function () {
                             if (!selectedShippingItem()) {
                                 return 0;
@@ -3769,7 +3769,7 @@ define("order/order.viewModel",
                     onAddCustomShippingCharge: onAddCustomShippingCharge,
                     selectedShippingItem: selectedShippingItem,
                     calculateGrossTotalForShipping: calculateGrossTotalForShipping,
-                    calculateTaxValue: calculateTaxValue,
+                    calculateShippingTaxValue: calculateShippingTaxValue,
                     onCloseShippingDetail: onCloseShippingDetail,
                     onSaveShippingDetail: onSaveShippingDetail,
                     editShippingItem: editShippingItem

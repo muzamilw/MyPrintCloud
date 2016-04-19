@@ -22,6 +22,7 @@ define("invoice/invoice.viewModel",
                     // Company Addresses
                     companyAddresses = ko.observableArray([]),
                      selectedFilterFlag = ko.observable(0),
+                     selectedShippingItem = ko.observable(),
                     // System Users
                     systemUsers = ko.observableArray([]),
                     invoiceTypes = ko.observableArray([
@@ -1329,6 +1330,36 @@ define("invoice/invoice.viewModel",
                             }
                         }
                     }).extend({ required: true, numberInput: ist.numberFormat }),
+                    calculateShippingTaxValue = ko.computed({
+                        read: function () {
+                            if (!selectedShippingItem()) {
+                                return 0;
+                            }
+                            return selectedShippingItem().tax1() || 0;
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedShippingItem().tax1()) {
+                                return;
+                            }
+                            // tax can not be more than 100%
+                            if (value > 100) {
+                                selectedShippingItem().tax1(100);
+                            } else if (value < 0) {
+                                selectedShippingItem().tax1(0);
+                            } else {
+                                selectedShippingItem().tax1(value);
+                            }
+
+                            taxCalculateForShippingItem();
+
+                            if (value > 100) {
+                                return 100;
+                            }
+                            else if (value < 0) {
+                                return 0;
+                            }
+                        }
+                    }).extend({ required: true, numberInput: ist.numberFormat }),
 
                     taxCalculateForInvoiceDetail = function () {
                         var itemCharge = (selectedInvoiceDetail().itemCharge() !== undefined && selectedInvoiceDetail().itemCharge() !== null) ? selectedInvoiceDetail().itemCharge() : 0;
@@ -1396,6 +1427,105 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
+                    calculateGrossTotalForShipping = ko.computed({
+                        read: function () {
+                            if (!selectedShippingItem()) {
+                                return 0;
+                            }
+                            return selectedShippingItem().qty1NetTotal() || 0;
+                        },
+                        write: function (value) {
+                            if (!value || value === selectedShippingItem().qty1NetTotal()) {
+                                return;
+                            }
+                            selectedShippingItem().qty1NetTotal(value);
+                            taxCalculateForShippingItem();
+                        }
+                    }),
+                    taxCalculateForShippingItem = function () {
+                        var itemCharge = (selectedShippingItem().qty1NetTotal() !== undefined && selectedShippingItem().qty1NetTotal() !== null) ? selectedShippingItem().qty1NetTotal() : 0;
+                        var taxCalculate1 = ((((selectedShippingItem().tax1() !== undefined && selectedShippingItem().tax1() !== null) ? selectedShippingItem().tax1() : 0) / 100) * (itemCharge));
+                        selectedShippingItem().qty1Tax1Value(taxCalculate1);
+                        var totalCharge = parseFloat(itemCharge) + parseFloat(taxCalculate1);
+                        selectedShippingItem().qty1GrossTotal(totalCharge);
+                    },
+                    onCloseShippingDetail = function () {
+                        view.hideShippingChargeDialog();
+                    },
+                    onSaveShippingDetail = function () {
+                        createNewShippingCharge();
+                    },
+                    editShippingItem = function (item) {
+                        selectedShippingItem(item);
+                        selectedShippingItem().qty1NetTotal(item.qty1NetTotal());
+                        view.showShippingChargeDialog();
+                    },
+                    createNewShippingCharge = function () {
+                        var item = selectedShippingItem();
+                        item.qty1(1);
+                        item.qty2(1);
+                        item.qty3(1);
+
+                        //Req: Item Product code is set to '2', so while editting item's section is non mandatory
+                        item.productType(2);
+
+                        var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
+                        itemSection.name("Text Sheet");
+                        //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
+                        itemSection.qty1(1);
+                        itemSection.qty2(1);
+                        itemSection.qty3(1);
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+                        itemSection.baseCharge1(item.qty1NetTotal());//To Set
+
+                        var sectionCostCenter = itemModel.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.name("Custom Shipping Charge");
+
+                        //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                        sectionCostCenter.qty1Charge(item.qty1NetTotal());//To Set
+                        //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
+                        sectionCostCenter.qty1(1);
+                        sectionCostCenter.qty2(1);
+                        sectionCostCenter.qty3(1);
+                        selectedSectionCostCenter(sectionCostCenter);
+                        selectedQty(1);
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
+
+                        item.itemSections.push(itemSection);
+                        var itemSectionForAddView = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSectionForAddView.id(counterForSection);
+                        itemSectionForAddView.flagForAdd(true);
+                        item.itemSections.push(itemSectionForAddView);
+                        item.itemType(2); // Delivery Item
+                        var deliveryItem = _.find(selectedInvoice().items(), function (itemWithType2) {
+                            return itemWithType2.itemType() === 2;
+                        });
+                        if (deliveryItem !== undefined) {
+                            selectedInvoice().items.remove(deliveryItem);
+                        }
+
+                        selectedInvoice().items.splice(0, 0, item);
+                        selectedSection(itemSection);
+                        itemDetailVm.updateOrderData(selectedInvoice(), selectedShippingItem(), selectedSectionCostCenter(), selectedQty(), selectedSection());
+                        view.hideShippingChargeDialog();
+                    },
+
+                     onAddCustomShippingCharge = function () {
+                         if (selectedInvoice().companyId() === undefined) {
+                             toastr.error("Please select customer.");
+                             return;
+                         }
+                         var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                         selectedShippingItem(item);
+                         view.showShippingChargeDialog();
+                     },
                         //Initialize method to call in every screen
                         initializeScreen = function (specifiedView) {
                             view = specifiedView;
@@ -1491,7 +1621,14 @@ define("invoice/invoice.viewModel",
                     onArchiveInvoice: onArchiveInvoice,
                     onPostInvoice: onPostInvoice,
                     onUnPostInvoice : onUnPostInvoice,
-                    exportInvoice: exportInvoice
+                    exportInvoice: exportInvoice,
+                    selectedShippingItem: selectedShippingItem,
+                    onCloseShippingDetail: onCloseShippingDetail,
+                    onSaveShippingDetail: onSaveShippingDetail,
+                    editShippingItem: editShippingItem,
+                    onAddCustomShippingCharge : onAddCustomShippingCharge,
+                    calculateGrossTotalForShipping: calculateGrossTotalForShipping,
+                    calculateShippingTaxValue: calculateShippingTaxValue
                     //#endregion
                 };
             })()

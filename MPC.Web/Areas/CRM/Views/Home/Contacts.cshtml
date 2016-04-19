@@ -11,7 +11,7 @@
                     <li><a href="#">&nbsp;</a></li>
 
                 </ol>
-                <h1 style="padding-left:0px;">Public Store Registered Users</h1>
+                <h1 style="padding-left:0px;">Registered Users on all Stores</h1>
                 <div class="clearfix pull-left" style="padding-left:0px;">
                     <p class="group-header-description">Create Contacts, Customers and Suppliers. Add to-do items and update shared calendars.</p>
                 </div>
@@ -27,7 +27,7 @@
                         <ul class="nav nav-tabs">
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 @*@Html.ActionLink("All Contacts", "Contacts", "Home")*@
-                                <a href="#tab-Contacts" data-toggle="tab">Public Store Registered Users</a>
+                                <a href="#tab-Contacts" data-toggle="tab">Registered Users</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
                                 @Html.ActionLink("Companies", "Index", "Home")
