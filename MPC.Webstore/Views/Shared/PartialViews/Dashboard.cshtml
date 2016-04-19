@@ -18,15 +18,15 @@
                         var dashboardId = "dashb_" + Utils.specialCharactersEncoder(item.Name);
                         <div id="@dashboardId" class="col-lg-6 col-md-6 col-sm-12" onclick="ChangePassPopupShow();">
                             <a onclick="ChangePassPopupShow();">
-                                <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
+                                <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px" >
                                     @Html.Raw(item.ImageURL)
                                 </div>
 
-                                <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                    <div class="dashboard_item_main_heading">
+                                <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px" >
+                                    <div class="dashboard_item_main_heading" onclick="RedirectToNUrl();">
                                         <label id="lblBCName">@item.Name</label>
                                     </div>
-                                    <div class="dashboard_item_detail">
+                                    <div class="dashboard_item_detail" >
                                         <label id="lblBCDescription">@item.Description</label>
                                     </div>
                                 </div>
@@ -36,17 +36,17 @@
                     else
                     {
                         var dashbrdId = "dashb_" + Utils.specialCharactersEncoder(item.Name);
-                        <div id="@dashbrdId" class="col-lg-6 col-md-6 col-sm-12">
+                        <div id="@dashbrdId" class="col-lg-6 col-md-6 col-sm-12" onclick="RedirectToNUrl('@item.PageNavigateURl');">
                             <a href="@item.PageNavigateURl" onclick="ShowLoader();">
                                 <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
                                     @Html.Raw(item.ImageURL)
                                 </div>
 
-                                <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                    <div class="dashboard_item_main_heading">
+                                <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px" onclick="RedirectToNUrl('@item.PageNavigateURl');">
+                                    <div class="dashboard_item_main_heading" onclick="RedirectToNUrl('@item.PageNavigateURl');">
                                         <label id="lblBCName">@item.Name</label>
                                     </div>
-                                    <div class="dashboard_item_detail">
+                                    <div class="dashboard_item_detail" onclick="RedirectToNUrl('@item.PageNavigateURl');">
                                         <label id="lblBCDescription">@item.Description</label>
                                     </div>
                                 </div>
@@ -340,6 +340,10 @@
                 document.getElementById("layer").style.display = "none";
                 document.getElementById("innerLayer").style.display = "none";
             }
+        }
+
+        function RedirectToNUrl(urlToRD) {
+            window.location.href = urlToRD;
         }
     </script>
 </div>
