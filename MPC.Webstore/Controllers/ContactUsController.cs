@@ -160,7 +160,7 @@ namespace MPC.Webstore.Controllers
                 { // locate by lat long
 
 
-                    ViewBag.googleMapScript = @"<script> isGeoCode = false; var lat = '" + StoreBaseResopnse.StoreDetaultAddress.GeoLatitude + "'; var long='" + StoreBaseResopnse.StoreDetaultAddress.GeoLongitude + "';var info='" + MapInfoWindow + "';</script>";
+                    ViewBag.googleMapScript = @"<script> isGeoCode = false; var lat = '" + StoreBaseResopnse.StoreDetaultAddress.GeoLatitude + "'; var long='" + StoreBaseResopnse.StoreDetaultAddress.GeoLongitude + "';var info='" + MapInfoWindow.Replace("'", " ") + "';</script>";
                     ViewBag.MapImage = null;
                 }
                 else 

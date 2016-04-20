@@ -38,7 +38,7 @@ namespace MPC.Webstore.Controllers
             //else
             //{
                 ViewData["ParentCats"] = parentCategories.ToList();
-            //}
+            
             ViewData["SubCats"] = categories.Where(p => p.ParentCategoryId != null || p.ParentCategoryId != 0).OrderBy(s => s.DisplayOrder).ToList();
             ViewBag.AboutUs = null;
             if (StoreBaseResopnse.SecondaryPages != null)
