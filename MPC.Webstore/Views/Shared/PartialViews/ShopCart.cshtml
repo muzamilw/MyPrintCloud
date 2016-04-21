@@ -45,25 +45,11 @@
             <table style="  width: 100%;">
                 <tr>
                     <td>
-                        @if (ViewBag.EmailProofButtonVisible == true)
-                        {
+                      
                             <div class="contact_us_heading float_left_simple">
                                 <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
                             </div>
-                            <div class="float_right">
-                                <input id="prof_btn" style="" type="button" onclick="return EmailProofClick()" class="btn_brown float_right rounded_corners5" value="Send Email Proof" />
-                            </div>
-                            <div class="clearBoth">
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="contact_us_heading ">
-                                <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
-                            </div>
-                        }
-                     
+                        
                     </td>
 
                 </tr>
@@ -454,8 +440,16 @@
                             {
                                 <input type="button" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="CantPlaceOrder();" /><br />
                             }*@
-                           
-                           <a href="/"><button id="btn_ContinueShopping" type="button" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button></a> 
+                            @if (ViewBag.EmailProofButtonVisible == true)
+                            {
+                             
+                                    <input id="prof_btn" style="margin-bottom:10px;" type="button" onclick="return EmailProofClick()" class="btn_brown float_right rounded_corners5" value="Send Email Proof" />
+                               
+                              
+                            }
+                           <a href="/">
+                            <button id="btn_ContinueShopping" type="button" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+                           </a> 
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
