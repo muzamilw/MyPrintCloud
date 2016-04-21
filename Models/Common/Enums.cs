@@ -129,7 +129,13 @@ namespace MPC.Models.Common
         ShippedOrder_Notifiaction_To_Customer = 32,
         PO_Notification_To_SalesManager = 33,
         PO_Notification_To_Supplier = 34,
-        PO_CancellationEmail_To_Supplier = 36
+        PO_CancellationEmail_To_Supplier = 36,
+        EstimateProgressedToOrder = 37,
+        OrderMovedToProduction = 38,
+        OrderMovedToShipping = 39,
+        OrderInvoiced = 40,
+        OrderCancelled = 41,
+        OrderStatusReverted = 42
     }
     public enum ScheduledStatus
     {

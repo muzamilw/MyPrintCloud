@@ -1,4 +1,5 @@
-﻿using MPC.Models.ResponseModels;
+﻿using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -8,5 +9,6 @@ namespace MPC.Interfaces.MISServices
     public interface ICampaignService
     {
         CampaignBaseResponse GetBaseData();
+        Campaign SaveCampaign(Campaign campaign);
     }
 }

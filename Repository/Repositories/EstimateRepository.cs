@@ -352,6 +352,22 @@ namespace MPC.Repository.Repositories
             return response;
         }
 
+     
+        public void GetTotalOrderByCustomer()
+        {
+            try
+            {
+                var now = from ord in db.Estimates
+                          join tblCmsOffer in db.CompanyContacts on ord.ContactId equals tblCmsOffer.ContactId
+                          group ord by ord.EstimateId into g
+                          select new { OrderCount = g.Count(), g.FirstOrDefault().ContactId};
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         #endregion
     }

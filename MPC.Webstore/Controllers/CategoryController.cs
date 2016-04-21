@@ -118,7 +118,7 @@ namespace MPC.Webstore.Controllers
                     hasOnePinkProduct = true;
                 }
 
-                if (hasOnePinkProduct)
+                if (hasOnePinkProduct && (subCategoryList == null || subCategoryList.Count == 0))
                 {
                     Response.Redirect("/ProductOptions/" + productList.FirstOrDefault().ProductCategoryId + "/" + productList.FirstOrDefault().ItemId + "/DesignOrUpload");
                     return null;

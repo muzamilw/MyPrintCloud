@@ -153,7 +153,7 @@ namespace MPC.Webstore.Controllers
                 if (StoreBaseResopnse.Company.isShowGoogleMap == 2) // geo code aka zip code lookup 
                 {
                     ViewBag.MapImage = null;
-                    ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + oAddress.ZipCode + "," + oAddress.City + "," + oAddress.Country + "';var info='" + MapInfoWindow + "';</script>";
+                    ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + oAddress.ZipCode + "," + oAddress.City + "," + oAddress.Country + "';var info='" + MapInfoWindow.Replace("'"," ") + "';</script>";
                     //ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + oAddress.Address1 + "," + oAddress.Address2 + "," + oAddress.City + "," + oAddress.Country + "," + oAddress.ZipCode + "';var info='" + MapInfoWindow + "';</script>";
                 }
                 else if (StoreBaseResopnse.Company.isShowGoogleMap == 1) // geo code aka zip code lookup 

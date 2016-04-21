@@ -22,6 +22,8 @@ namespace MPC.Interfaces.Repository
         
         List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId);
         List<Folder> GetAllFolders(long CompanyID, long OrganisationID);
+        List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId);
+        List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId);
     }
     
 

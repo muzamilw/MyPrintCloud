@@ -30,7 +30,7 @@
                     <div style="float: right;text-align: right; padding-right:0px;margin-top:-10px;">
                         <button data-bind="visible:!$root.showSectionDetail(),click:$root.closeItemDetail" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
-                    <div style="float: right;margin-top:-10px;" data-bind="visible:($root.selectedOrder()!==undefined && $root.selectedOrder().isDirectSale() && !$root.showSectionDetail()),click:$root.deleteItem">
+                    <div style="float: right;margin-top:-10px;" data-bind="visible:($root.selectedOrder()!==undefined && !$root.showSectionDetail()),click:$root.deleteItem">
                         <button class="btn btn-danger" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Delete</button>
                     </div>
 
@@ -188,7 +188,7 @@
                                                 <div style="height: 35px;">&nbsp;</div>
                                                 <!--/ko-->
                                                 <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
-                                                    <div class="btn btn-success" data-bind="click:$root.createNewItemSection">
+                                                    <div class="btn btn-success" data-bind="click:$root.onCreateNewItemSection">
                                                         Add New Section
                                                     </div>
                                                 </div>

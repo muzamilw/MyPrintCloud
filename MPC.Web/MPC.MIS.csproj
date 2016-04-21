@@ -338,6 +338,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Api\Models\EmailsResponse.cs" />
     <Compile Include="Properties\App_Start\BundleConfig.cs" />
     <Compile Include="Properties\App_Start\CustomRazorViewEngine.cs" />
     <Compile Include="Properties\App_Start\FilterConfig.cs" />
@@ -1138,6 +1139,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\sectionflags.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\sectionflags.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\sectionflags.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\emails.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\emails.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\emails.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\emails.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -2331,6 +2336,8 @@
     <Content Include="Areas\Settings\Views\Home\_Notes.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_AddEditTemplateFont.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_EmailSignatureDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\NotificationEmails.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_AddEditCustomShipping.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

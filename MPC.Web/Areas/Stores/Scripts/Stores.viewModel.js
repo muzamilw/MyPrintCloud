@@ -50,6 +50,7 @@ define("stores/stores.viewModel",
                     // widget section sub header title for Selected
                     productsFilterSubHeadingSelected = ko.observable(),
                     discountVouuchers = ko.observableArray([]),
+                    isMisEmail = ko.observable(false),
                     //territorySpotColors = ko.observableArray([]),
                     // for real estate lisitng
                     realEstateCampaigns = ko.observableArray([]),
@@ -2179,6 +2180,8 @@ define("stores/stores.viewModel",
                     },
                     //Save Campaign
                     onSaveEmail = function (email) {
+                        if (email == undefined)
+                            email = selectedEmail();
                         if (dobeforeSaveEmail()) {
                             var emailMessage = CKEDITOR.instances.content.getData();
                             email.hTMLMessageA(emailMessage);
@@ -5414,7 +5417,18 @@ define("stores/stores.viewModel",
                         getStores();
                     },
 
-
+                    onCloseCampaignEditor = function () {
+                        if (selectedEmail().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(onSaveEmail);
+                            confirmation.afterCancel(function () {
+                                view.hideEmailCamapaignDialog();
+                            });
+                            confirmation.show();
+                        } else {
+                            view.hideEmailCamapaignDialog();
+                        }
+                    },
                     //Get Base Data By company Id
                     getBaseData = function () {
                         dataservice.getBaseData({
@@ -8579,7 +8593,7 @@ define("stores/stores.viewModel",
                     isUseTerritoryFontUi: isUseTerritoryFontUi,
                     getStoreTemplateFonts: getStoreTemplateFonts,
                     getTerritoryTemplateFonts: getTerritoryTemplateFonts,
-                    onEditTemplateFont : onEditTemplateFont,
+                    onEditTemplateFont: onEditTemplateFont,
                     selectedCompanyTemplateFont: selectedCompanyTemplateFont,
                     onCloseCompanyTemplateFont: onCloseCompanyTemplateFont,
                     onSaveCompanyTemplateFont: onSaveCompanyTemplateFont,
@@ -8587,8 +8601,10 @@ define("stores/stores.viewModel",
                     uploadEot: uploadEot,
                     uploadTtf: uploadTtf,
                     onAddTemplateFont: onAddTemplateFont,
-                    onAddTerritoryTemplateFont : onAddTerritoryTemplateFont,
-                    onEditTerritoryTemplateFont: onEditTerritoryTemplateFont
+                    onAddTerritoryTemplateFont: onAddTerritoryTemplateFont,
+                    onEditTerritoryTemplateFont: onEditTerritoryTemplateFont,
+                    isMisEmail: isMisEmail,
+                    onCloseCampaignEditor: onCloseCampaignEditor
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

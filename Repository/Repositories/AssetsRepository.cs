@@ -74,6 +74,7 @@ namespace MPC.Repository.Repositories
                 Asset.Keywords = UpdatedAsset.Keywords;
                 Asset.Price = UpdatedAsset.Price;
                 Asset.Quantity = UpdatedAsset.Quantity;
+                Asset.UpdateDateTime = DateTime.Now.Date;
                 db.Assets.Attach(Asset);
                 db.Entry(Asset).State = EntityState.Modified;
                 db.SaveChanges();
@@ -93,6 +94,7 @@ namespace MPC.Repository.Repositories
                 As.CompanyId = Asset.CompanyId;
                 As.Description = Asset.Description;
                 As.CreationDateTime = System.DateTime.Now.Date;
+                As.UpdateDateTime = DateTime.Now.Date;
                 As.FolderId = Asset.FolderId;
                 As.Price = Asset.Price;
                 As.Quantity = Asset.Quantity;

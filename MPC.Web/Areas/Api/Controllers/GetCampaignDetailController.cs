@@ -1,9 +1,11 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Web.Http;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
+
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -15,6 +17,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Private
         private readonly ICompanyService companyService;
+        private readonly ICampaignService _campaignService;
         #endregion
 
         #region Constructor
@@ -22,9 +25,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public GetCampaignDetailController(ICompanyService companyService)
+        public GetCampaignDetailController(ICompanyService companyService, ICampaignService campaignService)
         {
             this.companyService = companyService;
+            this._campaignService = campaignService;
         }
 
         #endregion
@@ -39,6 +43,18 @@ namespace MPC.MIS.Areas.Api.Controllers
         public Campaign Get([FromUri]long campaignId)
         {
             return companyService.GetCampaignById(campaignId).CreateFrom();
+        }
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
+        public EmailsResponse Get()
+        {
+            return companyService.GetOrganisationCampaigns().CreateFrom();
+        }
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
+        public Campaign Post(Campaign campaign)
+        {
+            return _campaignService.SaveCampaign(campaign.CreateFrom()).CreateFrom();
         }
         #endregion
     }

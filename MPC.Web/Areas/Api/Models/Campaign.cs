@@ -38,7 +38,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IncludeCorporateCustomers { get; set; }
         public bool? EnableLogFiles { get; set; }
         public string EmailLogFileAddress3 { get; set; }
-
+        public string NotificationEmailIds { get; set; }
 
         public List<CampaignImage> CampaignImages { get; set; }
     }

@@ -377,8 +377,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                                                    <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
+                                                <div class="col-sm-6" style="margin-top:10px">
+                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
+                                                    </div>
+                                                    <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
+                                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onAddCustomShippingCharge">Add Custom Shipping</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-6" style="margin-top:10px">
                                                     <div class="col-sm-6 text-right">
@@ -454,7 +459,7 @@
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
                                         <td style=" padding-top: 10px;">
-                                            <span style="font-size:24px;" data-bind="text: productName"></span>
+                                            <a href="#" style="font-size: 24px" data-bind="text: productName, click: $root.editShippingItem"></a>                                            
                                         </td>
                                         <td>&nbsp;</td>
                                         <td class="text-right">
@@ -483,6 +488,7 @@
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderCostCenterQuantity.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Home/_ProgressToOrderDialog.cshtml")
+@Html.Partial("~/Areas/Orders/Views/Shared/_AddEditCustomShipping.cshtml")
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ItemDetail.cshtml")
 <!--/ko-->

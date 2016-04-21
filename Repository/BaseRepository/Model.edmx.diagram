@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="10">
+      <Diagram DiagramId="0c6ecf3b582e41a886f18a9ec44ef403" Name="Diagram1" ZoomLevel="16">
         <EntityTypeShape EntityType="DomainModels.Company" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.ChartOfAccount" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="DomainModels.CmsSkinPageWidget" Width="1.5" PointX="9.125" PointY="3.125" />
@@ -336,10 +336,7 @@
         <EntityTypeShape EntityType="DomainModels.ZapierWebHookTargetUrl" Width="1.5" PointX="39.375" PointY="11.75" />
         <EntityTypeShape EntityType="DomainModels.ListingBulletPoint" Width="1.5" PointX="35.625" PointY="48.625" />
         <EntityTypeShape EntityType="DomainModels.Asset" Width="1.5" PointX="10.25" PointY="53.125" />
-        <EntityTypeShape EntityType="DomainModels.Folder" Width="1.5" PointX="3" PointY="61.375" />
         <AssociationConnector Association="DomainModels.FK_Assets_Company" />
-        <AssociationConnector Association="DomainModels.FK_Assets_Folder" />
-        <AssociationConnector Association="DomainModels.FK_Folder_Folder" />
         <EntityTypeShape EntityType="DomainModels.AssetItem" Width="1.5" PointX="12.5" PointY="82.125" />
         <AssociationConnector Association="DomainModels.FK_AssetItem_Assets" />
         <EntityTypeShape EntityType="DomainModels.Listing" Width="1.5" PointX="33.375" PointY="48" />
@@ -354,6 +351,11 @@
         <AssociationConnector Association="DomainModels.FK_tbl_stock_cost_and_price_tbl_stockitems" />
         <AssociationConnector Association="DomainModels.FK_tbl_stockitems_tbl_stocksubcategories" />
         <EntityTypeShape EntityType="DomainModels.StagingProductPriceImport" Width="1.5" PointX="45.375" PointY="30.5" />
+        <EntityTypeShape EntityType="DomainModels.Folder" Width="1.5" PointX="3" PointY="77" />
+        <EntityTypeShape EntityType="DomainModels.FolderTerritory" Width="1.5" PointX="5.25" PointY="77.375" />
+        <AssociationConnector Association="DomainModels.FK_Assets_Folder" />
+        <AssociationConnector Association="DomainModels.FK_Folder_Folder" />
+        <AssociationConnector Association="DomainModels.FK_FolderTerritory_Folder" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

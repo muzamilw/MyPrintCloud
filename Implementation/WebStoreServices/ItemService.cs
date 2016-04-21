@@ -200,8 +200,8 @@ namespace MPC.Implementation.WebStoreServices
                 newItem.TemplateType = ActualItem.TemplateType;
 
                 newItem.ItemCreationDateTime = DateTime.Now;
-
-
+               
+                
                 if(PdfTemplateheight > 0 && PdfTemplatewidth > 0)
                 {
                     if (SystemLengthUnit == 1)
@@ -426,6 +426,11 @@ namespace MPC.Implementation.WebStoreServices
                 //  SaveAdditionalAddonsOrUpdateStockItemType(SelectedAddOnsList, newItem.ItemId, StockID, isCopyProduct, "");
                 // additional addon required the newly inserted cloneditem
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
+                if (isSavedDesign == true)
+                {
+                    newItem.IsSavedDesign = true;
+
+                }
 
                 _ItemRepository.SaveChanges();
 

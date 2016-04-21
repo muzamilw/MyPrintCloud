@@ -1552,7 +1552,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             address1 = ko.observable(specifiedAddress1).extend({ required: true }),
             address2 = ko.observable(specifiedAddress2),
             address3 = ko.observable(specifiedAddress3),
-            city = ko.observable(specifiedCity).extend({ required: true }),
+            city = ko.observable(specifiedCity),
             state = ko.observable(specifiedState),
             country = ko.observable(specifiedCountry),
             stateName = ko.observable(specifiedStateName),
@@ -1986,7 +1986,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         , specifiedIncludeCustomers, specifiedIncludeSuppliers, specifiedIncludeProspects, specifiedIncludeNewsLetterSubscribers, specifiedIncludeFlag, specifiedFlagIDs,
         specifiedCustomerTypeIDs, specifiedGroupIDs, specifiedSubjectA, specifiedHTMLMessageA, specifiedFromName, specifiedFromAddress, specifiedReturnPathAddress,
         specifiedReplyToAddress, specifiedEmailLogFileAddress2, specifiedEmailEvent, specifiedEventName, specifiedSendEmailAfterDays, specifiedIncludeType,
-        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3
+        specifiedIncludeCorporateCustomers, specifiedEnableLogFiles, specifiedEmailLogFileAddress3,specifiedNotificationIds
         ) {
         var self,
             id = ko.observable(specifiedCampaignId),
@@ -2026,7 +2026,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         enableLogFiles = ko.observable(specifiedEnableLogFiles),
         isEditorDirty = ko.observable(),
         emailLogFileAddress3 = ko.observable(specifiedEmailLogFileAddress3).extend({ email: true }),
-
+        notificationEmailIds = ko.observable(specifiedNotificationIds),
         // Errors
         errors = ko.validation.group({
             campaignName: campaignName,
@@ -2149,7 +2149,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            reset: reset
+            reset: reset,
+            notificationEmailIds: notificationEmailIds
         };
         return self;
     };

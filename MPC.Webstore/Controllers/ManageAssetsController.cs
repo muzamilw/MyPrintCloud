@@ -79,6 +79,7 @@ namespace MPC.Webstore.Controllers
                 //    var txtAuctionDate = String.Format("{0:MM/dd/yyyy}", time.CreationDateTime);
                 
                 //}
+                 List<TreeViewNodeVM> TreeModel = new List<TreeViewNodeVM>();
                 if (FolderId > 0)
                 {
 
@@ -87,15 +88,38 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-
-                    GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                    if (_webclaims.loginContactRoleID() != Convert.ToInt64(Roles.Adminstrator) &&
+                   _webclaims.loginContactRoleID() != Convert.ToInt64(Roles.Manager))
+                    {
+                        //Get Folders by Company Territory
+                        GetFolder = _myCompanyService.GetFoldersByCompanyTerritory(UserCookieManager.WBStoreId,
+                            UserCookieManager.WEBOrganisationID, _webclaims.loginContactTerritoryID());
+                    }
+                    else
+                    {
+                        GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                    }
+                    
+                }
+                if (_webclaims.loginContactRoleID() != Convert.ToInt64(Roles.Adminstrator) &&
+                   _webclaims.loginContactRoleID() != Convert.ToInt64(Roles.Manager))
+                {
+                    //Get Folders by Company Territory
+                    TreeModel = _myCompanyService.GetTreeVeiwListByTerritory(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, _webclaims.loginContactTerritoryID());
+                }
+                else
+                {
+                    TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 }
                 //   if (Searchfolder != null && Searchfolder != string.Empty)
                 // {
                 //   GetFolder = FilteredFolderList(Searchfolder,false);
                 // }
+                if (TreeModel.Count > 0)
+                    TreeModel.Insert(0, new TreeViewNodeVM {FolderId = 0, FolderName = "Home"});
+                
                 ViewBag.Folders = GetFolder;
-                List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                
                 ViewBag.TreeModel = TreeModel;
                 ViewBag.Assets = GetAssets;
 
@@ -147,9 +171,12 @@ namespace MPC.Webstore.Controllers
         public JsonResult GetFolders()
         {
             List<Folder> GetFolder = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).OrderBy(i=>i.FolderName).ToList();
+
+            List<CompanyTerritory> companyTerritories = _myCompanyService.GetAllCompanyTerritories(UserCookieManager.WBStoreId).ToList();
             
             JsonResponse obj = new JsonResponse();
             obj.Folders = GetFolder;
+            obj.CompanyTerritories = companyTerritories;
             return Json(obj, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
@@ -243,6 +270,14 @@ namespace MPC.Webstore.Controllers
                 Response.Redirect("/ShopCart?Orderid=" + OrderID + "");
             }
         }
+        [HttpGet]
+        public JsonResult GetStoreTerritories()
+        {
+            List<CompanyTerritory> companyTerritories = _myCompanyService.GetAllCompanyTerritories(UserCookieManager.WBStoreId).ToList();
+            JsonResponse obj = new JsonResponse();
+            obj.CompanyTerritories = companyTerritories;
+            return Json(obj, JsonRequestBehavior.AllowGet);
+        }
         //public void BindData(long FolderId)
         //{ 
         
@@ -252,6 +287,7 @@ namespace MPC.Webstore.Controllers
         {
             public List<Folder> Folders;
             public List<Asset> Assets;
+            public List<CompanyTerritory> CompanyTerritories;
         }
         //UpdateAsset has been made in the repository
     }

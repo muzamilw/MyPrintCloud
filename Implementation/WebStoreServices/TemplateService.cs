@@ -2310,8 +2310,10 @@ namespace MPC.Implementation.WebStoreServices
                                     objPage.PageName = "Back";
                                 }
                                 objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
+                                objPage.Width = theDoc.MediaBox.Width;
+                                objPage.Height = theDoc.MediaBox.Height;
                                 listNewTemplatePages.Add(objPage);
-                               
+                            
                                 // save pdf 
                                 Doc singlePagePdf = new Doc();
                                 try
@@ -2439,6 +2441,8 @@ namespace MPC.Implementation.WebStoreServices
                             {
                                 objPage.PageName = "Back";
                             }
+                            objPage.Width = theDoc.MediaBox.Width;
+                            objPage.Height = theDoc.MediaBox.Height;
                             objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                             listPages.Add(objPage);
                             //int templatePage = SaveTemplatePage(i, TemplateID, "Front", TemplateID + "/Side" + (i).ToString() + ".pdf");
@@ -3459,15 +3463,6 @@ namespace MPC.Implementation.WebStoreServices
             catch (Exception e)
             {
                 theDoc.Clear();
-                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
-
-                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
-                {
-                    writer.WriteLine("Message :" + e.Message + "<br/>" + Environment.NewLine + "StackTrace :" + e.StackTrace +
-                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
-                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
-                }
-                throw e;
                 return null;
             }
             finally

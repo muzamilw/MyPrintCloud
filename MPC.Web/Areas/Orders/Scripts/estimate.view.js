@@ -181,6 +181,14 @@ define("order/estimate.view",
                 hideInksDialog = function () {
                     $("#inkDialogModel").modal("hide");
                 },
+                // Show Shipping Charge dialog
+                showShippingChargeDialog = function () {
+                    $("#customShippingDialog").modal("show");
+                },
+               // Hide Shipping Charge dialog
+                hideShippingChargeDialog = function () {
+                    $("#customShippingDialog").modal("hide");
+                },
                 //#endregion
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -232,7 +240,9 @@ define("order/estimate.view",
                 showProgressToOrderDialog: showProgressToOrderDialog,
                 hideProgressToOrderDialog: hideProgressToOrderDialog,
                 showInksDialog: showInksDialog,
-                hideInksDialog: hideInksDialog
+                hideInksDialog: hideInksDialog,
+                showShippingChargeDialog: showShippingChargeDialog,
+                hideShippingChargeDialog: hideShippingChargeDialog
             };
         })(orderViewModel);
 

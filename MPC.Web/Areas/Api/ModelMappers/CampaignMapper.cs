@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StartDateTime = source.StartDateTime,
                 CampaignImages = source.CampaignImages != null ? source.CampaignImages.Select(ci => ci.CreateFrom()).ToList() : null,
                 EventName = source.CampaignEmailEvent != null ? source.CampaignEmailEvent.EventName : null,
+                NotificationEmailIds = source.NotificationEmailIds
             };
         }
 
@@ -99,7 +100,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IncludeCorporateCustomers = source.IncludeCorporateCustomers,
                 EnableLogFiles = source.EnableLogFiles,
                 EmailLogFileAddress3 = source.EmailLogFileAddress3,
-                CampaignImages = source.CampaignImages != null ? source.CampaignImages.Select(ci => ci.CreateFrom()).ToList() : null
+                CampaignImages = source.CampaignImages != null ? source.CampaignImages.Select(ci => ci.CreateFrom()).ToList() : null,
+                NotificationEmailIds = source.NotificationEmailIds
 
             };
         }
@@ -114,6 +116,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyTypes = source.CompanyTypes.Select(ct => ct.CreateFrom()).ToList(),
                 Groups = source.Groups.Select(g => g.CreateFrom()).ToList(),
                 SectionFlags = source.SectionFlags.Select(g => g.CreateFromDropDown()).ToList(),
+                CampaignSections = source.CampaignSections.Select(g => g.CreateFromCampaign()).ToList()
+            };
+        }
+
+        public static EmailsResponse CreateFrom(this ResponseModels.EmailsResponse source)
+        {
+            return new EmailsResponse
+            {
+                OrganisationEmails = source.OrganisationEmails.Select(ct => ct.CreateFrom()).ToList(),
+                EmailEvents = source.EmailEvents.Select(g => g.CreateFrom()).ToList(),
                 CampaignSections = source.CampaignSections.Select(g => g.CreateFromCampaign()).ToList()
             };
         }
