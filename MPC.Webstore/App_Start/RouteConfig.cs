@@ -619,6 +619,12 @@ namespace MPC.Webstore
 "StripeGateway/{OrderID}",
 new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
 );
+
+            routes.MapRoute(
+"WorldPayGateway",
+"WorldPayGateway/{OrderID}",
+new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+);
             routes.MapRoute(
 "Confirmation",
 "Confirmation/{SubscriptionCode}",

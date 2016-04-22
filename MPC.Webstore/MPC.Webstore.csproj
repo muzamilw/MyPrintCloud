@@ -1234,6 +1234,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
     <Content Include="Views\Home\Confirmation.cshtml" />
     <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
+    <Content Include="Views\Shared\PartialViews\WorldpayGateway.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
