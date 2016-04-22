@@ -24222,7 +24222,6 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
 
         this.selectionEnd = this.selectionStart;
         this._removeExtraneousStyles();
-        console.log(this.maxHeight - this.formattedLines);
         if ((this.maxHeight - this.formattedLines) > this.fontSize) {
             if (e.keyCode == 8 && IsCalledFrom == 4 && this.AutoShrinkText == true) {
                 this.fontSize = this.fontSize + 0.667;
