@@ -11451,6 +11451,12 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       */
     AutoShrinkText: false,
       /**
+    * formattedLines just use for reference to compute the box height // added by saqib
+    * @property
+    * @type boolean
+    */
+    formattedLines: [],
+      /**
   * AutoShrinkText // added by saqib
   * @property
   * @type boolean
@@ -19707,7 +19713,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 	'maxWidth', 'customStyles', 'textPaddingTop', 'VAllignment',
 		'maxHeight',
 		'charSpacing', 'clippedText', 'IsPositionLocked', 'IsEditable', 'autoCollapseText',
-    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'hasInlineFontStyle', 'hasInlineFontFamily', 'IsOverlayObject', 'AutofitImage', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint', 'bullets'
+    'IsHidden', 'IsTextEditable', 'AutoShrinkText', 'formattedLines', 'hasInlineFontStyle', 'hasInlineFontFamily', 'IsOverlayObject', 'AutofitImage', 'IsQuickText', 'textCase', 'IsUnderlinedText', 'isBulletPoint', 'bullets'
   );
 
     /**
@@ -20435,6 +20441,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                         line = testLine + " ";
                     }
                 }
+
                 CalcWidthChars = chars + testLine;
                 var demoLines = CalcWidthChars.split(/\r\n|\r|\n/);
                 var maxHeightLastLine = this._getHeightOfLine(context, demoLines.length - 1, demoLines);
@@ -20452,7 +20459,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                     }
                 }
             }
-           
+            this.formattedLines = MaxHeight;
 
             if (this.VAllignment == 2)
             {  // middle
@@ -20521,6 +20528,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
                 textLines = this._performClipping(ctx, this.text, this);
             }
             // this.text.split(this._reNewline);
+          //  this.formattedLines = textLines;
             this._renderTextBackground(ctx, textLines);
             this._translateForTextAlign(ctx);
             this._renderText(ctx, textLines);
@@ -23675,6 +23683,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
     * @param {Event} e Event object
     */
     onKeyDown: function (e) {
+       
         if (IsInputSelected) return;
         if (!this.isEditing) return;
         if (e.keyCode in this._keysMap) {
@@ -23756,6 +23765,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
     * @param {Event} e Event object
     */
     onKeyPress: function (e) {
+       
         if (IsInputSelected) return;
         if (!this.isEditing || e.metaKey || e.ctrlKey || e.keyCode === 8 || e.keyCode === 13) {
             return;
@@ -24201,6 +24211,7 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
     * Inserts a character where cursor is (replacing selection if one exists)
     */
     removeChars: function (e) {
+      
         if (IsInputSelected) return;
         if (this.selectionStart === this.selectionEnd) {
             this._removeCharsNearCursor(e);
@@ -24211,7 +24222,12 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
 
         this.selectionEnd = this.selectionStart;
         this._removeExtraneousStyles();
-
+        console.log(this.maxHeight - this.formattedLines);
+        if ((this.maxHeight - this.formattedLines) > this.fontSize) {
+            if (e.keyCode == 8 && IsCalledFrom == 4 && this.AutoShrinkText == true) {
+                this.fontSize = this.fontSize + 0.667;
+            }
+        }
         if (this.canvas) {
             // TODO: double renderAll gets rid of text box shift happenning sometimes
             // need to find out what exactly causes it and fix it
