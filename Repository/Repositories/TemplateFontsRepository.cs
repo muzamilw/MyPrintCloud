@@ -93,7 +93,7 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
             List<TemplateFont> fonts = new List<TemplateFont>();
-            var item = db.Items.FirstOrDefault(g => g.TemplateId == templateId);
+            var item = db.Items.Where(g => g.TemplateId == templateId).FirstOrDefault();
             if(item != null)
             {
                 fonts = db.TemplateFonts.Where(g => g.CustomerId == item.CompanyId || g.CustomerId == null).ToList();

@@ -361,6 +361,12 @@ namespace MPC.Webstore.Controllers
                                         break;
 
                                     }
+                                case 10:
+                                    {
+                                        Response.Redirect("/WorldPayGateway/" + OrderId);
+                                        break;
+
+                                    }
                                 default:
                                     break;
                             }
@@ -501,6 +507,13 @@ namespace MPC.Webstore.Controllers
                                      case 9:
                                     {
                                         Response.Redirect("/StripeGateway/" + OrderId);
+                                        break;
+
+                                    }
+                                                 
+                                case 10:
+                                    {
+                                        Response.Redirect("/WorldPayGateway/" + OrderId);
                                         break;
 
                                     }
