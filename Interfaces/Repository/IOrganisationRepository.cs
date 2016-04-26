@@ -28,5 +28,8 @@ namespace MPC.Interfaces.Repository
         void UpdateOrganisationZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
         void UnSubscribeZapTargetUrl(long organisationId, string sTargetUrl, int zapTargetType);
         List<string> GetZapsUrListByOrganisation(int webHookEvent, long organisationId);
+
+        void UpdateOrganisationForXeroPosting(string userName, string authToken, string verifier, string orgCode,
+            long invoiceId);
     }
 }

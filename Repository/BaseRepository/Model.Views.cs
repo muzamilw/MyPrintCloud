@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets2552F03A59F3003F941A44831B44A3D131102652EDF828D42C4A1AEA57363CCB))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets25EDE231689870D8145A9B9E2A72B41C9910011C1942BB259950B321867FA21F))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets2552F03A59F3003F941A44831B44A3D131102652EDF828D42C4A1AEA57363CCB : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets25EDE231689870D8145A9B9E2A72B41C9910011C1942BB259950B321867FA21F : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets2552F03A59F3003F941A44831B44A3D131102652EDF828D42C4A1AEA57363CCB()
+        public ViewsForBaseEntitySets25EDE231689870D8145A9B9E2A72B41C9910011C1942BB259950B321867FA21F()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "78fd156c274a4217d9d3fef3919c6d3c6dbd542d68d1851265ae5310e1fab270";
-            this.HashOverAllExtentViews = "bf1edfe2b22b95cfb391e14ad71ec12a60e8281da066d79e22d8859c85c47710";
+            this.HashOverMappingClosure = "a6b21e99e65ca802f2650dc8d9222bee83c3a83685e8f007e93d65b5ff874547";
+            this.HashOverAllExtentViews = "a964f399fa127256a0c5a62a3b442f385d2c416bb001aa9caa5fc88232aca7f8";
             this.ViewCount = 370;
         }
         
@@ -1772,7 +1772,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView6()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5643);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(6525);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisation\r\n        [DomainModels.Store.Org");
             viewString.Append("anisation](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.");
             viewString.Append("Organisation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Or");
@@ -1797,53 +1797,64 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("HeadNote, T1.Organisation_OrderFootNote, T1.Organisation_InvoiceHeadNote, T1.Org");
             viewString.Append("anisation_InvoiceFootNote, T1.Organisation_DeliveryHeadNote, T1.Organisation_Del");
             viewString.Append("iveryFootNote, T1.Organisation_PurchaseHeadNote, T1.Organisation_PurchaseFootNot");
-            viewString.Append("e)\r\n    FROM (\r\n        SELECT \r\n            T.OrganisationId AS Organisation_Or");
-            viewString.Append("ganisationId, \r\n            T.OrganisationName AS Organisation_OrganisationName,");
-            viewString.Append(" \r\n            T.Address1 AS Organisation_Address1, \r\n            T.Address2 AS ");
-            viewString.Append("Organisation_Address2, \r\n            T.Address3 AS Organisation_Address3, \r\n    ");
-            viewString.Append("        T.City AS Organisation_City, \r\n            T.StateId AS Organisation_Sta");
-            viewString.Append("teId, \r\n            T.CountryId AS Organisation_CountryId, \r\n            T.ZipCo");
-            viewString.Append("de AS Organisation_ZipCode, \r\n            T.Tel AS Organisation_Tel, \r\n         ");
-            viewString.Append("   T.Fax AS Organisation_Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n ");
-            viewString.Append("           T.Email AS Organisation_Email, \r\n            T.URL AS Organisation_UR");
-            viewString.Append("L, \r\n            T.WebsiteLogo AS Organisation_WebsiteLogo, \r\n            T.MISL");
-            viewString.Append("ogo AS Organisation_MISLogo, \r\n            T.TaxRegistrationNo AS Organisation_T");
-            viewString.Append("axRegistrationNo, \r\n            T.LicenseLevel AS Organisation_LicenseLevel, \r\n ");
-            viewString.Append("           T.CustomerAccountNumber AS Organisation_CustomerAccountNumber, \r\n    ");
-            viewString.Append("        T.SmtpServer AS Organisation_SmtpServer, \r\n            T.SmtpUserName AS");
-            viewString.Append(" Organisation_SmtpUserName, \r\n            T.SmtpPassword AS Organisation_SmtpPas");
-            viewString.Append("sword, \r\n            T.VATRegNumber AS Organisation_VATRegNumber, \r\n            ");
-            viewString.Append("T.SystemLengthUnit AS Organisation_SystemLengthUnit, \r\n            T.SystemWeigh");
-            viewString.Append("tUnit AS Organisation_SystemWeightUnit, \r\n            T.CurrencyId AS Organisati");
-            viewString.Append("on_CurrencyId, \r\n            T.LanguageId AS Organisation_LanguageId, \r\n        ");
-            viewString.Append("    T.BleedAreaSize AS Organisation_BleedAreaSize, \r\n            T.ShowBleedArea");
-            viewString.Append(" AS Organisation_ShowBleedArea, \r\n            T.isXeroIntegrationRequired AS Org");
-            viewString.Append("anisation_isXeroIntegrationRequired, \r\n            T.XeroApiId AS Organisation_X");
-            viewString.Append("eroApiId, \r\n            T.XeroApiKey AS Organisation_XeroApiKey, \r\n            T");
-            viewString.Append(".TaxServiceUrl AS Organisation_TaxServiceUrl, \r\n            T.TaxServiceKey AS O");
-            viewString.Append("rganisation_TaxServiceKey, \r\n            T.IsImperical AS Organisation_IsImperic");
-            viewString.Append("al, \r\n            T.AgileApiKey AS Organisation_AgileApiKey, \r\n            T.Agi");
-            viewString.Append("leApiUrl AS Organisation_AgileApiUrl, \r\n            T.isAgileActive AS Organisat");
-            viewString.Append("ion_isAgileActive, \r\n            T.isTrial AS Organisation_isTrial, \r\n          ");
-            viewString.Append("  T.LiveStoresCount AS Organisation_LiveStoresCount, \r\n            T.WebStoreOrd");
-            viewString.Append("ersCount AS Organisation_WebStoreOrdersCount, \r\n            T.MisOrdersCount AS ");
-            viewString.Append("Organisation_MisOrdersCount, \r\n            T.BillingDate AS Organisation_Billing");
-            viewString.Append("Date, \r\n            T.OfflineStoreClicks AS Organisation_OfflineStoreClicks, \r\n ");
-            viewString.Append("           T.CreateContactZapTargetUrl AS Organisation_CreateContactZapTargetUrl");
-            viewString.Append(", \r\n            T.CreateInvoiceZapTargetUrl AS Organisation_CreateInvoiceZapTarg");
-            viewString.Append("etUrl, \r\n            T.IsZapierEnable AS Organisation_IsZapierEnable, \r\n        ");
-            viewString.Append("    T.DefaultPOTax AS Organisation_DefaultPOTax, \r\n            T.MailChimpApikey");
-            viewString.Append(" AS Organisation_MailChimpApikey, \r\n            T.MailChimpApiId AS Organisation");
-            viewString.Append("_MailChimpApiId, \r\n            T.isMailChimpActive AS Organisation_isMailChimpAc");
-            viewString.Append("tive, \r\n            T.MailChimpListName AS Organisation_MailChimpListName, \r\n   ");
-            viewString.Append("         T.OrderHeadNote AS Organisation_OrderHeadNote, \r\n            T.OrderFoo");
-            viewString.Append("tNote AS Organisation_OrderFootNote, \r\n            T.InvoiceHeadNote AS Organisa");
-            viewString.Append("tion_InvoiceHeadNote, \r\n            T.InvoiceFootNote AS Organisation_InvoiceFoo");
-            viewString.Append("tNote, \r\n            T.DeliveryHeadNote AS Organisation_DeliveryHeadNote, \r\n    ");
-            viewString.Append("        T.DeliveryFootNote AS Organisation_DeliveryFootNote, \r\n            T.Pur");
-            viewString.Append("chaseHeadNote AS Organisation_PurchaseHeadNote, \r\n            T.PurchaseFootNote");
-            viewString.Append(" AS Organisation_PurchaseFootNote, \r\n            True AS _from0\r\n        FROM Ba");
-            viewString.Append("seDbContext.Organisations AS T\r\n    ) AS T1");
+            viewString.Append("e, T1.Organisation_XeroAuthToken, T1.Organisation_XeroAutVerifier, T1.Organisati");
+            viewString.Append("on_XeroOrganisationCode, T1.Organisation_PostedInvoiceId, T1.Organisation_XeroCo");
+            viewString.Append("nsumerKey, T1.Organisation_XeroConsumerSecret, T1.Organisation_XeroCallbackUrl, ");
+            viewString.Append("T1.Organisation_XeroUserName, T1.Organisation_IsXeroActive)\r\n    FROM (\r\n       ");
+            viewString.Append(" SELECT \r\n            T.OrganisationId AS Organisation_OrganisationId, \r\n       ");
+            viewString.Append("     T.OrganisationName AS Organisation_OrganisationName, \r\n            T.Addres");
+            viewString.Append("s1 AS Organisation_Address1, \r\n            T.Address2 AS Organisation_Address2, ");
+            viewString.Append("\r\n            T.Address3 AS Organisation_Address3, \r\n            T.City AS Organ");
+            viewString.Append("isation_City, \r\n            T.StateId AS Organisation_StateId, \r\n            T.C");
+            viewString.Append("ountryId AS Organisation_CountryId, \r\n            T.ZipCode AS Organisation_ZipC");
+            viewString.Append("ode, \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisatio");
+            viewString.Append("n_Fax, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email AS O");
+            viewString.Append("rganisation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.Webs");
+            viewString.Append("iteLogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_MIS");
+            viewString.Append("Logo, \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n   ");
+            viewString.Append("         T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.CustomerAc");
+            viewString.Append("countNumber AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer AS");
+            viewString.Append(" Organisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserN");
+            viewString.Append("ame, \r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.");
+            viewString.Append("VATRegNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit AS O");
+            viewString.Append("rganisation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_S");
+            viewString.Append("ystemWeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n      ");
+            viewString.Append("      T.LanguageId AS Organisation_LanguageId, \r\n            T.BleedAreaSize AS ");
+            viewString.Append("Organisation_BleedAreaSize, \r\n            T.ShowBleedArea AS Organisation_ShowBl");
+            viewString.Append("eedArea, \r\n            T.isXeroIntegrationRequired AS Organisation_isXeroIntegra");
+            viewString.Append("tionRequired, \r\n            T.XeroApiId AS Organisation_XeroApiId, \r\n           ");
+            viewString.Append(" T.XeroApiKey AS Organisation_XeroApiKey, \r\n            T.TaxServiceUrl AS Organ");
+            viewString.Append("isation_TaxServiceUrl, \r\n            T.TaxServiceKey AS Organisation_TaxServiceK");
+            viewString.Append("ey, \r\n            T.IsImperical AS Organisation_IsImperical, \r\n            T.Agi");
+            viewString.Append("leApiKey AS Organisation_AgileApiKey, \r\n            T.AgileApiUrl AS Organisatio");
+            viewString.Append("n_AgileApiUrl, \r\n            T.isAgileActive AS Organisation_isAgileActive, \r\n  ");
+            viewString.Append("          T.isTrial AS Organisation_isTrial, \r\n            T.LiveStoresCount AS ");
+            viewString.Append("Organisation_LiveStoresCount, \r\n            T.WebStoreOrdersCount AS Organisatio");
+            viewString.Append("n_WebStoreOrdersCount, \r\n            T.MisOrdersCount AS Organisation_MisOrdersC");
+            viewString.Append("ount, \r\n            T.BillingDate AS Organisation_BillingDate, \r\n            T.O");
+            viewString.Append("fflineStoreClicks AS Organisation_OfflineStoreClicks, \r\n            T.CreateCont");
+            viewString.Append("actZapTargetUrl AS Organisation_CreateContactZapTargetUrl, \r\n            T.Creat");
+            viewString.Append("eInvoiceZapTargetUrl AS Organisation_CreateInvoiceZapTargetUrl, \r\n            T.");
+            viewString.Append("IsZapierEnable AS Organisation_IsZapierEnable, \r\n            T.DefaultPOTax AS O");
+            viewString.Append("rganisation_DefaultPOTax, \r\n            T.MailChimpApikey AS Organisation_MailCh");
+            viewString.Append("impApikey, \r\n            T.MailChimpApiId AS Organisation_MailChimpApiId, \r\n    ");
+            viewString.Append("        T.isMailChimpActive AS Organisation_isMailChimpActive, \r\n            T.M");
+            viewString.Append("ailChimpListName AS Organisation_MailChimpListName, \r\n            T.OrderHeadNot");
+            viewString.Append("e AS Organisation_OrderHeadNote, \r\n            T.OrderFootNote AS Organisation_O");
+            viewString.Append("rderFootNote, \r\n            T.InvoiceHeadNote AS Organisation_InvoiceHeadNote, \r");
+            viewString.Append("\n            T.InvoiceFootNote AS Organisation_InvoiceFootNote, \r\n            T.");
+            viewString.Append("DeliveryHeadNote AS Organisation_DeliveryHeadNote, \r\n            T.DeliveryFootN");
+            viewString.Append("ote AS Organisation_DeliveryFootNote, \r\n            T.PurchaseHeadNote AS Organi");
+            viewString.Append("sation_PurchaseHeadNote, \r\n            T.PurchaseFootNote AS Organisation_Purcha");
+            viewString.Append("seFootNote, \r\n            T.XeroAuthToken AS Organisation_XeroAuthToken, \r\n     ");
+            viewString.Append("       T.XeroAutVerifier AS Organisation_XeroAutVerifier, \r\n            T.XeroOr");
+            viewString.Append("ganisationCode AS Organisation_XeroOrganisationCode, \r\n            T.PostedInvoi");
+            viewString.Append("ceId AS Organisation_PostedInvoiceId, \r\n            T.XeroConsumerKey AS Organis");
+            viewString.Append("ation_XeroConsumerKey, \r\n            T.XeroConsumerSecret AS Organisation_XeroCo");
+            viewString.Append("nsumerSecret, \r\n            T.XeroCallbackUrl AS Organisation_XeroCallbackUrl, \r");
+            viewString.Append("\n            T.XeroUserName AS Organisation_XeroUserName, \r\n            T.IsXero");
+            viewString.Append("Active AS Organisation_IsXeroActive, \r\n            True AS _from0\r\n        FROM ");
+            viewString.Append("BaseDbContext.Organisations AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Organisation", viewString.ToString());
         }
         
@@ -6200,7 +6211,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView127()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5650);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(6532);
             viewString.Append("\r\n    SELECT VALUE -- Constructing Organisations\r\n        [DomainModels.Organisa");
             viewString.Append("tion](T1.Organisation_OrganisationId, T1.Organisation_OrganisationName, T1.Organ");
             viewString.Append("isation_Address1, T1.Organisation_Address2, T1.Organisation_Address3, T1.Organis");
@@ -6224,54 +6235,65 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("isMailChimpActive, T1.Organisation_MailChimpListName, T1.Organisation_OrderHeadN");
             viewString.Append("ote, T1.Organisation_OrderFootNote, T1.Organisation_InvoiceHeadNote, T1.Organisa");
             viewString.Append("tion_InvoiceFootNote, T1.Organisation_DeliveryHeadNote, T1.Organisation_Delivery");
-            viewString.Append("FootNote, T1.Organisation_PurchaseHeadNote, T1.Organisation_PurchaseFootNote)\r\n ");
-            viewString.Append("   FROM (\r\n        SELECT \r\n            T.OrganisationId AS Organisation_Organis");
-            viewString.Append("ationId, \r\n            T.OrganisationName AS Organisation_OrganisationName, \r\n  ");
-            viewString.Append("          T.Address1 AS Organisation_Address1, \r\n            T.Address2 AS Organ");
-            viewString.Append("isation_Address2, \r\n            T.Address3 AS Organisation_Address3, \r\n         ");
-            viewString.Append("   T.City AS Organisation_City, \r\n            T.ZipCode AS Organisation_ZipCode,");
-            viewString.Append(" \r\n            T.Tel AS Organisation_Tel, \r\n            T.Fax AS Organisation_Fa");
-            viewString.Append("x, \r\n            T.Mobile AS Organisation_Mobile, \r\n            T.Email AS Organ");
-            viewString.Append("isation_Email, \r\n            T.URL AS Organisation_URL, \r\n            T.WebsiteL");
-            viewString.Append("ogo AS Organisation_WebsiteLogo, \r\n            T.MISLogo AS Organisation_MISLogo");
-            viewString.Append(", \r\n            T.TaxRegistrationNo AS Organisation_TaxRegistrationNo, \r\n       ");
-            viewString.Append("     T.LicenseLevel AS Organisation_LicenseLevel, \r\n            T.CustomerAccoun");
-            viewString.Append("tNumber AS Organisation_CustomerAccountNumber, \r\n            T.SmtpServer AS Org");
-            viewString.Append("anisation_SmtpServer, \r\n            T.SmtpUserName AS Organisation_SmtpUserName,");
-            viewString.Append(" \r\n            T.SmtpPassword AS Organisation_SmtpPassword, \r\n            T.VATR");
-            viewString.Append("egNumber AS Organisation_VATRegNumber, \r\n            T.SystemLengthUnit AS Organ");
-            viewString.Append("isation_SystemLengthUnit, \r\n            T.SystemWeightUnit AS Organisation_Syste");
-            viewString.Append("mWeightUnit, \r\n            T.CurrencyId AS Organisation_CurrencyId, \r\n          ");
-            viewString.Append("  T.LanguageId AS Organisation_LanguageId, \r\n            T.StateId AS Organisati");
-            viewString.Append("on_StateId, \r\n            T.CountryId AS Organisation_CountryId, \r\n            T");
-            viewString.Append(".BleedAreaSize AS Organisation_BleedAreaSize, \r\n            T.ShowBleedArea AS O");
-            viewString.Append("rganisation_ShowBleedArea, \r\n            T.isXeroIntegrationRequired AS Organisa");
-            viewString.Append("tion_isXeroIntegrationRequired, \r\n            T.XeroApiId AS Organisation_XeroAp");
-            viewString.Append("iId, \r\n            T.XeroApiKey AS Organisation_XeroApiKey, \r\n            T.TaxS");
-            viewString.Append("erviceUrl AS Organisation_TaxServiceUrl, \r\n            T.TaxServiceKey AS Organi");
-            viewString.Append("sation_TaxServiceKey, \r\n            T.IsImperical AS Organisation_IsImperical, \r");
-            viewString.Append("\n            T.AgileApiKey AS Organisation_AgileApiKey, \r\n            T.AgileApi");
-            viewString.Append("Url AS Organisation_AgileApiUrl, \r\n            T.isAgileActive AS Organisation_i");
-            viewString.Append("sAgileActive, \r\n            T.isTrial AS Organisation_isTrial, \r\n            T.L");
-            viewString.Append("iveStoresCount AS Organisation_LiveStoresCount, \r\n            T.WebStoreOrdersCo");
-            viewString.Append("unt AS Organisation_WebStoreOrdersCount, \r\n            T.MisOrdersCount AS Organ");
-            viewString.Append("isation_MisOrdersCount, \r\n            T.BillingDate AS Organisation_BillingDate,");
-            viewString.Append(" \r\n            T.OfflineStoreClicks AS Organisation_OfflineStoreClicks, \r\n      ");
-            viewString.Append("      T.CreateContactZapTargetUrl AS Organisation_CreateContactZapTargetUrl, \r\n ");
-            viewString.Append("           T.CreateInvoiceZapTargetUrl AS Organisation_CreateInvoiceZapTargetUrl");
-            viewString.Append(", \r\n            T.IsZapierEnable AS Organisation_IsZapierEnable, \r\n            T");
-            viewString.Append(".DefaultPOTax AS Organisation_DefaultPOTax, \r\n            T.MailChimpApikey AS O");
-            viewString.Append("rganisation_MailChimpApikey, \r\n            T.MailChimpApiId AS Organisation_Mail");
-            viewString.Append("ChimpApiId, \r\n            T.isMailChimpActive AS Organisation_isMailChimpActive,");
-            viewString.Append(" \r\n            T.MailChimpListName AS Organisation_MailChimpListName, \r\n        ");
-            viewString.Append("    T.OrderHeadNote AS Organisation_OrderHeadNote, \r\n            T.OrderFootNote");
-            viewString.Append(" AS Organisation_OrderFootNote, \r\n            T.InvoiceHeadNote AS Organisation_");
-            viewString.Append("InvoiceHeadNote, \r\n            T.InvoiceFootNote AS Organisation_InvoiceFootNote");
-            viewString.Append(", \r\n            T.DeliveryHeadNote AS Organisation_DeliveryHeadNote, \r\n         ");
-            viewString.Append("   T.DeliveryFootNote AS Organisation_DeliveryFootNote, \r\n            T.Purchase");
-            viewString.Append("HeadNote AS Organisation_PurchaseHeadNote, \r\n            T.PurchaseFootNote AS O");
-            viewString.Append("rganisation_PurchaseFootNote, \r\n            True AS _from0\r\n        FROM DomainM");
-            viewString.Append("odelsStoreContainer.Organisation AS T\r\n    ) AS T1");
+            viewString.Append("FootNote, T1.Organisation_PurchaseHeadNote, T1.Organisation_PurchaseFootNote, T1");
+            viewString.Append(".Organisation_XeroAuthToken, T1.Organisation_XeroAutVerifier, T1.Organisation_Xe");
+            viewString.Append("roOrganisationCode, T1.Organisation_PostedInvoiceId, T1.Organisation_XeroConsume");
+            viewString.Append("rKey, T1.Organisation_XeroConsumerSecret, T1.Organisation_XeroCallbackUrl, T1.Or");
+            viewString.Append("ganisation_XeroUserName, T1.Organisation_IsXeroActive)\r\n    FROM (\r\n        SELE");
+            viewString.Append("CT \r\n            T.OrganisationId AS Organisation_OrganisationId, \r\n            ");
+            viewString.Append("T.OrganisationName AS Organisation_OrganisationName, \r\n            T.Address1 AS");
+            viewString.Append(" Organisation_Address1, \r\n            T.Address2 AS Organisation_Address2, \r\n   ");
+            viewString.Append("         T.Address3 AS Organisation_Address3, \r\n            T.City AS Organisati");
+            viewString.Append("on_City, \r\n            T.ZipCode AS Organisation_ZipCode, \r\n            T.Tel AS");
+            viewString.Append(" Organisation_Tel, \r\n            T.Fax AS Organisation_Fax, \r\n            T.Mobi");
+            viewString.Append("le AS Organisation_Mobile, \r\n            T.Email AS Organisation_Email, \r\n      ");
+            viewString.Append("      T.URL AS Organisation_URL, \r\n            T.WebsiteLogo AS Organisation_Web");
+            viewString.Append("siteLogo, \r\n            T.MISLogo AS Organisation_MISLogo, \r\n            T.TaxRe");
+            viewString.Append("gistrationNo AS Organisation_TaxRegistrationNo, \r\n            T.LicenseLevel AS ");
+            viewString.Append("Organisation_LicenseLevel, \r\n            T.CustomerAccountNumber AS Organisation");
+            viewString.Append("_CustomerAccountNumber, \r\n            T.SmtpServer AS Organisation_SmtpServer, \r");
+            viewString.Append("\n            T.SmtpUserName AS Organisation_SmtpUserName, \r\n            T.SmtpPa");
+            viewString.Append("ssword AS Organisation_SmtpPassword, \r\n            T.VATRegNumber AS Organisatio");
+            viewString.Append("n_VATRegNumber, \r\n            T.SystemLengthUnit AS Organisation_SystemLengthUni");
+            viewString.Append("t, \r\n            T.SystemWeightUnit AS Organisation_SystemWeightUnit, \r\n        ");
+            viewString.Append("    T.CurrencyId AS Organisation_CurrencyId, \r\n            T.LanguageId AS Organ");
+            viewString.Append("isation_LanguageId, \r\n            T.StateId AS Organisation_StateId, \r\n         ");
+            viewString.Append("   T.CountryId AS Organisation_CountryId, \r\n            T.BleedAreaSize AS Organ");
+            viewString.Append("isation_BleedAreaSize, \r\n            T.ShowBleedArea AS Organisation_ShowBleedAr");
+            viewString.Append("ea, \r\n            T.isXeroIntegrationRequired AS Organisation_isXeroIntegrationR");
+            viewString.Append("equired, \r\n            T.XeroApiId AS Organisation_XeroApiId, \r\n            T.Xe");
+            viewString.Append("roApiKey AS Organisation_XeroApiKey, \r\n            T.TaxServiceUrl AS Organisati");
+            viewString.Append("on_TaxServiceUrl, \r\n            T.TaxServiceKey AS Organisation_TaxServiceKey, \r");
+            viewString.Append("\n            T.IsImperical AS Organisation_IsImperical, \r\n            T.AgileApi");
+            viewString.Append("Key AS Organisation_AgileApiKey, \r\n            T.AgileApiUrl AS Organisation_Agi");
+            viewString.Append("leApiUrl, \r\n            T.isAgileActive AS Organisation_isAgileActive, \r\n       ");
+            viewString.Append("     T.isTrial AS Organisation_isTrial, \r\n            T.LiveStoresCount AS Organ");
+            viewString.Append("isation_LiveStoresCount, \r\n            T.WebStoreOrdersCount AS Organisation_Web");
+            viewString.Append("StoreOrdersCount, \r\n            T.MisOrdersCount AS Organisation_MisOrdersCount,");
+            viewString.Append(" \r\n            T.BillingDate AS Organisation_BillingDate, \r\n            T.Offlin");
+            viewString.Append("eStoreClicks AS Organisation_OfflineStoreClicks, \r\n            T.CreateContactZa");
+            viewString.Append("pTargetUrl AS Organisation_CreateContactZapTargetUrl, \r\n            T.CreateInvo");
+            viewString.Append("iceZapTargetUrl AS Organisation_CreateInvoiceZapTargetUrl, \r\n            T.IsZap");
+            viewString.Append("ierEnable AS Organisation_IsZapierEnable, \r\n            T.DefaultPOTax AS Organi");
+            viewString.Append("sation_DefaultPOTax, \r\n            T.MailChimpApikey AS Organisation_MailChimpAp");
+            viewString.Append("ikey, \r\n            T.MailChimpApiId AS Organisation_MailChimpApiId, \r\n         ");
+            viewString.Append("   T.isMailChimpActive AS Organisation_isMailChimpActive, \r\n            T.MailCh");
+            viewString.Append("impListName AS Organisation_MailChimpListName, \r\n            T.OrderHeadNote AS ");
+            viewString.Append("Organisation_OrderHeadNote, \r\n            T.OrderFootNote AS Organisation_OrderF");
+            viewString.Append("ootNote, \r\n            T.InvoiceHeadNote AS Organisation_InvoiceHeadNote, \r\n    ");
+            viewString.Append("        T.InvoiceFootNote AS Organisation_InvoiceFootNote, \r\n            T.Deliv");
+            viewString.Append("eryHeadNote AS Organisation_DeliveryHeadNote, \r\n            T.DeliveryFootNote A");
+            viewString.Append("S Organisation_DeliveryFootNote, \r\n            T.PurchaseHeadNote AS Organisatio");
+            viewString.Append("n_PurchaseHeadNote, \r\n            T.PurchaseFootNote AS Organisation_PurchaseFoo");
+            viewString.Append("tNote, \r\n            T.XeroAuthToken AS Organisation_XeroAuthToken, \r\n          ");
+            viewString.Append("  T.XeroAutVerifier AS Organisation_XeroAutVerifier, \r\n            T.XeroOrganis");
+            viewString.Append("ationCode AS Organisation_XeroOrganisationCode, \r\n            T.PostedInvoiceId ");
+            viewString.Append("AS Organisation_PostedInvoiceId, \r\n            T.XeroConsumerKey AS Organisation");
+            viewString.Append("_XeroConsumerKey, \r\n            T.XeroConsumerSecret AS Organisation_XeroConsume");
+            viewString.Append("rSecret, \r\n            T.XeroCallbackUrl AS Organisation_XeroCallbackUrl, \r\n    ");
+            viewString.Append("        T.XeroUserName AS Organisation_XeroUserName, \r\n            T.IsXeroActiv");
+            viewString.Append("e AS Organisation_IsXeroActive, \r\n            True AS _from0\r\n        FROM Domai");
+            viewString.Append("nModelsStoreContainer.Organisation AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Organisations", viewString.ToString());
         }
         

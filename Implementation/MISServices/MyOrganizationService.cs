@@ -303,6 +303,9 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.DeliveryFootNote = organisation.DeliveryFootNote;
             organisationDbVersion.PurchaseHeadNote = organisation.PurchaseHeadNote;
             organisationDbVersion.PurchaseFootNote = organisation.PurchaseFootNote;
+            organisationDbVersion.XeroConsumerKey = organisation.XeroConsumerKey;
+            organisationDbVersion.XeroConsumerSecret = organisation.XeroConsumerSecret;
+            organisationDbVersion.IsXeroActive = organisation.IsXeroActive;
 
             if(organisation.IsImperical == true)
             {

@@ -242,7 +242,15 @@ namespace MPC.Models.DomainModels
         public string DeliveryFootNote { get; set; }
         public string PurchaseHeadNote { get; set; }
         public string PurchaseFootNote { get; set; }
-
+        public string XeroAuthToken { get; set; }
+        public string XeroAutVerifier { get; set; }
+        public string XeroOrganisationCode { get; set; }
+        public string XeroConsumerKey { get; set; }
+        public string XeroConsumerSecret { get; set; }
+        public string XeroCallbackUrl { get; set; }
+        public long? PostedInvoiceId { get; set; }
+        public string XeroUserName { get; set; }
+        public bool? IsXeroActive { get; set; }
         #endregion
         
         #region Reference Properties

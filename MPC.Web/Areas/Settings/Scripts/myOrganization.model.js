@@ -87,7 +87,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              deliveryFootNote = ko.observable(),
              purchaseHeadNote = ko.observable(),
              purchaseFootNote = ko.observable(),
-
+             xeroConsumerKey = ko.observable(),
+             xeroConsumerSecret = ko.observable(),
+             isXeroActive = ko.observable(),
             //Language Editor List
             languageEditors = ko.observableArray([]),
              // Errors
@@ -146,8 +148,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  deliveryHeadNote: deliveryHeadNote,
                  deliveryFootNote: deliveryFootNote,
                  purchaseHeadNote: purchaseHeadNote,
-                 purchaseFootNote: purchaseFootNote
-
+                 purchaseFootNote: purchaseFootNote,
+                 xeroConsumerKey: xeroConsumerKey,
+                 xeroConsumerSecret: xeroConsumerSecret,
+                 isXeroActive: isXeroActive
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -211,7 +215,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isValid: isValid,
              dirtyFlag: dirtyFlag,
              hasChanges: hasChanges,
-             reset: reset
+             reset: reset,
+             xeroConsumerKey: xeroConsumerKey,
+             xeroConsumerSecret: xeroConsumerSecret,
+             isXeroActive: isXeroActive
          };
          return self;
      };
@@ -424,6 +431,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.deliveryFootNote(source.DeliveryFootNote);
         companySites.purchaseHeadNote(source.PurchaseHeadNote);
         companySites.purchaseFootNote(source.PurchaseFootNote);
+        companySites.xeroConsumerKey(source.XeroConsumerKey);
+        companySites.xeroConsumerSecret(source.XeroConsumerSecret);
+        companySites.isXeroActive(source.IsXeroActive);
+        
         
         return companySites;
     };
@@ -490,6 +501,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.DeliveryFootNote = source.deliveryFootNote() === undefined ? null : source.deliveryFootNote();
         result.PurchaseHeadNote = source.purchaseHeadNote() === undefined ? null : source.purchaseHeadNote();
         result.PurchaseFootNote = source.purchaseFootNote() === undefined ? null : source.purchaseFootNote();
+        result.XeroConsumerKey = source.xeroConsumerKey() === undefined ? null : source.xeroConsumerKey();
+        result.XeroConsumerSecret = source.xeroConsumerSecret() === undefined ? null : source.xeroConsumerSecret();
+        result.IsXeroActive = source.isXeroActive() === undefined ? null : source.isXeroActive();
+        
+        
         //Markup
         result.Markups = [];
         _.each(source.markupsInMyOrganization(), function (item) {

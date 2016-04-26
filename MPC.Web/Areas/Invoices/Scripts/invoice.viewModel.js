@@ -813,6 +813,10 @@ define("invoice/invoice.viewModel",
                                             }
                                         }
                                     }
+                                    if (data.XeroPostUrl != null) {
+                                        var uri = encodeURI(data.XeroPostUrl);
+                                        window.open(uri, 'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=575,height=375');
+                                    }
 
                                     if (callback && typeof callback === "function") {
                                         callback();

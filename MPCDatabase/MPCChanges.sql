@@ -10491,3 +10491,15 @@ set identity_insert emailevent OFF
 
 alter table Assets add UpdateDateTime datetime
 update Assets set UpdateDateTime = creationDateTime
+
+-----
+alter table Organisation add XeroAuthToken varchar(255)
+alter table Organisation add XeroAutVerifier varchar(100)
+alter table Organisation add XeroOrganisationCode varchar(100)
+alter table Organisation add PostedInvoiceId bigint
+
+alter table Organisation add XeroConsumerKey nvarchar(255)
+alter table Organisation add XeroConsumerSecret nvarchar(255)
+alter table Organisation add XeroCallbackUrl nvarchar(255)
+alter table Organisation add XeroUserName nvarchar(200)
+alter table Organisation add IsXeroActive bit

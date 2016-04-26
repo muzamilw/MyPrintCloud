@@ -2837,6 +2837,15 @@
           <Property Name="DeliveryFootNote" Type="nvarchar" MaxLength="1500" />
           <Property Name="PurchaseHeadNote" Type="nvarchar" MaxLength="1500" />
           <Property Name="PurchaseFootNote" Type="nvarchar" MaxLength="1500" />
+          <Property Name="XeroAuthToken" Type="varchar" MaxLength="255" />
+          <Property Name="XeroAutVerifier" Type="varchar" MaxLength="100" />
+          <Property Name="XeroOrganisationCode" Type="varchar" MaxLength="100" />
+          <Property Name="PostedInvoiceId" Type="bigint" />
+          <Property Name="XeroConsumerKey" Type="nvarchar" MaxLength="255" />
+          <Property Name="XeroConsumerSecret" Type="nvarchar" MaxLength="255" />
+          <Property Name="XeroCallbackUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="XeroUserName" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsXeroActive" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -9173,6 +9182,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="DeliveryFootNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
           <Property Name="PurchaseHeadNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
           <Property Name="PurchaseFootNote" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="XeroAuthToken" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="XeroAutVerifier" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="XeroOrganisationCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PostedInvoiceId" Type="Int64" />
+          <Property Name="XeroConsumerKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="XeroConsumerSecret" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="XeroCallbackUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="XeroUserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsXeroActive" Type="Boolean" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -16523,6 +16541,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="IsXeroActive" ColumnName="IsXeroActive" />
+                <ScalarProperty Name="XeroUserName" ColumnName="XeroUserName" />
+                <ScalarProperty Name="XeroCallbackUrl" ColumnName="XeroCallbackUrl" />
+                <ScalarProperty Name="XeroConsumerSecret" ColumnName="XeroConsumerSecret" />
+                <ScalarProperty Name="XeroConsumerKey" ColumnName="XeroConsumerKey" />
+                <ScalarProperty Name="PostedInvoiceId" ColumnName="PostedInvoiceId" />
+                <ScalarProperty Name="XeroOrganisationCode" ColumnName="XeroOrganisationCode" />
+                <ScalarProperty Name="XeroAutVerifier" ColumnName="XeroAutVerifier" />
+                <ScalarProperty Name="XeroAuthToken" ColumnName="XeroAuthToken" />
                 <ScalarProperty Name="PurchaseFootNote" ColumnName="PurchaseFootNote" />
                 <ScalarProperty Name="PurchaseHeadNote" ColumnName="PurchaseHeadNote" />
                 <ScalarProperty Name="DeliveryFootNote" ColumnName="DeliveryFootNote" />
