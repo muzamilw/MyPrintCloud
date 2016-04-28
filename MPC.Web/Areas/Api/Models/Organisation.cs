@@ -282,7 +282,10 @@ namespace MPC.MIS.Areas.Api.Models
         public string DeliveryFootNote { get; set; }
         public string PurchaseHeadNote { get; set; }
         public string PurchaseFootNote { get; set; }
-
+        public string XeroConsumerKey { get; set; }
+        public string XeroConsumerSecret { get; set; }
+        public bool? IsXeroActive { get; set; }
+        public bool? IsAutoCreatePurchaseOrder { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

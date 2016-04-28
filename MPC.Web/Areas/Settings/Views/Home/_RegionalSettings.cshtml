@@ -102,7 +102,8 @@
                         Template Bleed Size for designer
                     </label>
                 </div>
-                <div class="col-lg-2">
+
+                <div class="col-lg-3">
                     
                     <input type="text" class="form-control text-right" id="txtBleedAreaMetric" placeholder="Enter Bleed Size" data-bind="autoNumeric: bleedAreaSize , settings:{mDec:2}, visible: $root.selectedMyOrganization().isImperical() == 'false'">
                     
@@ -113,6 +114,35 @@
                 </div>
 
             </div>
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <label  class="control-label text-right tooltip-float">
+                        Default Purchase Order Tax
+                    </label>
+                </div>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" tabindex="-1" href="#">%</span>
+                        <input type="text" class="form-control" style="text-align:right;" name="Tax Rate should be a valid number" id="txtTax" placeholder="Enter Default PO Tax here" data-bind="autoNumeric: $root.selectedMyOrganization().defaultPOTax, settings:{mDec:2}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <label for="switchisAutoPo" class="control-label text-right tooltip-float">Auto Create Purchase Order</label>
+                </div>
+                <div class="col-lg-3">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisAutoPo" data-bind="checked:$root.selectedMyOrganization().isAutoCreatePurchaseOrder">
+                        <label class="onoffswitch-label" for="switchisAutoPo">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
            
         </div>
     </div>

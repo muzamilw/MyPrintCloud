@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using GrapeCity.ActiveReports.Expressions.Remote.GlobalDataTypes;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -3473,6 +3474,22 @@ namespace MPC.Repository.Repositories
                 db.ZapierWebHookTargetUrls.Where(o => o.OrganisationId == organisationId && o.WebHookEvent == webHookEvent).Select(o => o.TargetUrl)
                     .ToList();
         }
+
+        public void UpdateOrganisationForXeroPosting(string userName, string authToken, string verifier, string orgCode, long invoiceId)
+        {
+            var org = GetOrganizatiobByID();
+            if (org != null)
+            {
+                org.XeroAuthToken = authToken;
+                org.XeroAutVerifier = verifier;
+                org.XeroOrganisationCode = orgCode;
+                org.PostedInvoiceId = invoiceId;
+                org.XeroUserName = userName;
+                SaveChanges();
+            }
+            
+        }
+
         
     }
 }

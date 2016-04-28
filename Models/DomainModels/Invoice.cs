@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -43,6 +44,8 @@ namespace MPC.Models.DomainModels
         public string FootNotes { get; set; }
         public string XeroAccessCode { get; set; }
         public long? OrganisationId { get; set; }
+        [NotMapped]
+        public string XeroPostUrl { get; set; }
 
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<Item> Items { get; set; }

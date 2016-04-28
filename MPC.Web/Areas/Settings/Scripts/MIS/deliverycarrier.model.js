@@ -5,10 +5,10 @@
             self,
             carrierId = ko.observable(),
             carrierName = ko.observable().extend({ required: true }),
-            url = ko.observable().extend({ required: true }),
-            apiKey = ko.observable().extend({ required: true }),
-            apiPassword = ko.observable().extend({ required: true }),
-            carrierPhone = ko.observable().extend({ required: true }),
+            url = ko.observable(),
+            apiKey = ko.observable(),
+            apiPassword = ko.observable(),
+            carrierPhone = ko.observable(),
             isenable = ko.observable(),
             showErrors = ko.observable(false),
             readonly = ko.observable(false),
@@ -17,11 +17,6 @@
             errors = ko.validation.group({
                 carrierId: carrierId,
                 carrierName: carrierName,
-                url: url,
-                apiKey: apiKey,
-                apiPassword: apiPassword,
-                carrierPhone: carrierPhone,
-                isenable: isenable,
                 showErrors: showErrors
                 
             }),

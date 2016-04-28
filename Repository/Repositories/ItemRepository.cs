@@ -3833,7 +3833,7 @@ namespace MPC.Repository.Repositories
                      (item.ProductCode.Contains(request.SearchString)) || (item.Company.Name.Contains(request.SearchString)))
                     && item.OrganisationId == OrganisationId
                     && item.IsPublished == true
-                    && item.EstimateId == null && item.IsEnabled == true
+                    && item.EstimateId == null && item.IsEnabled == true && item.IsArchived != true
               && ((!isNonPrintProductSpecified && item.ProductType == (int)ProductType.PrintProduct) ||
               (isNonPrintProductSpecified && item.ProductType == (int)ProductType.NonPrintProduct));
 

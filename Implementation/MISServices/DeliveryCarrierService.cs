@@ -28,6 +28,7 @@ namespace MPC.Implementation.MISServices
 
         public bool Update(DeliveryCarrier upddeliverycarriers)
         {
+            upddeliverycarriers.OrganisationId = _deliveryCarrierRepository.OrganisationId;
             _deliveryCarrierRepository.Update(upddeliverycarriers);
             _deliveryCarrierRepository.SaveChanges();
 

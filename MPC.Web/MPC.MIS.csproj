@@ -16,7 +16,7 @@
     <AssemblyName>MPC.MIS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
@@ -338,6 +338,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Api\Controllers\XeroInvoiceController.cs" />
     <Compile Include="Areas\Api\Models\EmailsResponse.cs" />
     <Compile Include="Properties\App_Start\BundleConfig.cs" />
     <Compile Include="Properties\App_Start\CustomRazorViewEngine.cs" />
@@ -2338,6 +2339,7 @@
     <Content Include="Areas\Common\Views\Shared\_EmailSignatureDialog.cshtml" />
     <Content Include="Areas\Settings\Views\Home\NotificationEmails.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddEditCustomShipping.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\Xero.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3676,7 +3678,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

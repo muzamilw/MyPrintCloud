@@ -62,5 +62,6 @@ namespace MPC.Models.ResponseModels
 
         public string OrderFlagColor { get; set; }
         public string OrderFlagTitle { get; set; }
+        public bool IsDirectSale { get; set; }
     }
 }
