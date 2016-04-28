@@ -437,6 +437,7 @@
     <Compile Include="Controllers\OxfordAboutUsController.cs" />
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
+    <Compile Include="Controllers\WorldPayGatewayController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\StripeGatewayController.cs" />
     <Compile Include="Controllers\PayWayController.cs" />
@@ -517,6 +518,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Controllers\HeaderController.cs" />
     <Compile Include="ViewModels\MatchingSetViewModel.cs" />
+    <Compile Include="ViewModels\WorldPayViewModel.cs" />
     <Compile Include="ViewModels\StripeViewModel.cs" />
     <Compile Include="ViewModels\NABViewModel.cs" />
     <Compile Include="ViewModels\PaypalViewModel.cs" />
@@ -1234,7 +1236,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
     <Content Include="Views\Home\Confirmation.cshtml" />
     <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
-    <Content Include="Views\Shared\PartialViews\WorldpayGateway.cshtml" />
+    <Content Include="Views\Payment\WorldpayGateway.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

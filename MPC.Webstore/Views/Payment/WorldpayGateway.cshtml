@@ -1,0 +1,70 @@
+﻿@model MPC.Webstore.ViewModels.WorldPayViewModel
+
+@{
+   
+    ViewBag.Title = "WorldPay";
+}
+
+<form action="https://secure-test.worldpay.com/wcc/purchase" name="BuyForm" method="POST">
+    <input type="hidden" name="testMode" value="100">
+    <!-- These first four elements are mandatory. -->
+    <input type="hidden" name="instId" value="@Model.InstallationID">
+    <input type="hidden" name="cartId" value="@Model.OrderID">
+    <input type="hidden" name="currency" value="@Model.currency_code">
+    <input type="hidden" name="amount" value="@Model.OrderTotal">
+    <!-- These elements below are optional. -->
+    <input type="hidden" name="desc" value="@Model.description">
+    <input type="hidden" name="name" value="@Model.fullName">
+
+    <input type="hidden" name="address1" value="@Model.address1">
+    <input type="hidden" name="address2" value="@Model.address2">
+    <input type="hidden" name="city" value="@Model.city">
+    <input type="hidden" name="postcode" value="@Model.postcode">
+    <input type="hidden" name="email" value="@Model.email">
+    <input type="hidden" name="tel" value="@Model.phone">
+    <input type="hidden" name="country" value="@Model.country">
+    <!-- End of order details submission form elements. -->
+    <!-- JavaScript is used to give functionality to some of the pages elements. -->
+    <!-- This function defines the price of each product. To add the product edit further down
+    the page. -->
+   
+
+    </form>
+
+
+    @*@using (Html.BeginForm(null, null, FormMethod.Post, new { @action = @Model.URL, id = "payForm" }))*@
+    
+      
+        @*@Html.HiddenFor(model => model.cmd)
+        @Html.HiddenFor(model => model.business)
+        @Html.HiddenFor(model => model.upload)
+        @Html.HiddenFor(model => model.custom)
+        @Html.HiddenFor(model => model.no_shipping)
+        <input type="hidden" name="return" value="@Model.return_url" />
+
+        @Html.HiddenFor(model => model.rm)
+        @Html.HiddenFor(model => model.notify_url)
+        <input type="hidden" name="cancel_return" value="@Model.cancel_url" />
+        @Html.HiddenFor(model => model.currency_code)
+        @Html.HiddenFor(model => model.handling_cart)
+        @Html.HiddenFor(model => model.discount_amount_cart)
+        @Html.HiddenFor(model => model.tax_cart)
+        @Html.HiddenFor(model => model.txtJason, new { id = "txtJason" })*@
+
+
+
+
+        <div style="text-align:center; height:600px; margin-top:300px; font:arial; font-size:16px;">Please wait while we redirect you to WorldPay.</div>
+    
+
+    @Scripts.Render("~/bundles/jquery")
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+
+      
+
+           document.forms[0].submit();
+        });
+
+    </script>

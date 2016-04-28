@@ -21,7 +21,7 @@ using MPC.Models.ResponseModels;
 
 namespace MPC.Webstore.Controllers
 {
-    public class PaymentController : Controller
+    public class WorldPayGatewayController : Controller
     {
         private readonly IItemService _ItemService;
         private readonly IOrderService _OrderService;
@@ -33,7 +33,7 @@ namespace MPC.Webstore.Controllers
         private readonly IPayPalResponseService _PayPalResponseService;
         private readonly ITemplateService _templateService;
 
-        public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
+        public WorldPayGatewayController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
            , ITemplateService templateService)
         {
             this._ItemService = ItemService;
@@ -48,7 +48,7 @@ namespace MPC.Webstore.Controllers
         }
 
         // GET: Payment
-        public ActionResult PaypalSubmit(long OrderId)
+        public ActionResult Index(long OrderId)
         {
             PaypalViewModel opaypal = new PaypalViewModel();
             try
@@ -151,7 +151,7 @@ namespace MPC.Webstore.Controllers
             {
 
             }
-            return View(opaypal);
+            return View( "payment/WorldPayGateway", opaypal);
         }
 
         [HttpPost]
@@ -408,276 +408,8 @@ namespace MPC.Webstore.Controllers
             return Redirect(queryString);
         }
 
+   
 
-        public ActionResult WorldPaySubmit(long OrderId)
-        {
-            WorldPayViewModel opaypal = new WorldPayViewModel();
-            try
-            {
-
-                if (OrderId > 0)
-                {
-                    //string CacheKeyName = "CompanyBaseResponse";
-                    //ObjectCache cache = MemoryCache.Default;
-                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
-                    if (oGateWay != null)
-                    {
-                        opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
-                        opaypal.notify_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/PaypalIPN";
-                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart?OrderId=" + OrderId + "&Error=UserCancelled";
-
-                        // opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/" + OrderId;//oGateWay.ReturnUrl;
-                        // opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
-                        // opaypal.cancel_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ShopCart/" + OrderId; //oGateWay.CancelPurchaseUrl;
-
-
-                        opaypal.InstallationID = oGateWay.BusinessEmail;
-                        
-                        opaypal.currency_code = _myCompanyService.GetCurrencyCodeById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
-                        opaypal.no_shipping = "1";
-                        opaypal.handling_cart = "0";
-                        opaypal.OrderID = OrderId.ToString();
-
-                          
-
-
-                        Estimate order = _OrderService.GetOrderByID(OrderId);
-                        
-
-
-                        var oContact = _myCompanyService.GetContactByID(order.ContactId.Value);
-                        var oAddress = _myCompanyService.GetAddressByID(order.BillingAddressId.Value);
-
-                        opaypal.fullName = oContact.FirstName + " " + oContact.LastName;
-                        opaypal.email = oContact.Email;
-                        opaypal.OrderTotal = order.Estimate_Total.Value;
-
-
-                        opaypal.address1 = oAddress.Address1;
-                        opaypal.address2 = oAddress.Address2;
-                        opaypal.city = oAddress.City;
-                        opaypal.postcode = oAddress.PostCode;
-                        
-                        opaypal.phone = oContact.Mobile;
-
-
-                       
-
-                        string Description = "";
-
-
-                        List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
-                        Item DeliveryItem = CartItemsList.Where(c => c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
-                        double VATTotal = 0;
-                        if (CartItemsList != null)
-                        {
-                            List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
-
-                            foreach (Item item in CartItemsList)
-                            {
-                                if (item.ItemType != (int)ItemTypes.Delivery)
-                                {
-                                    
-                                        Description += item.ProductName + "<br>";
-                                        
-                                        
-                                    
-                                    VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
-                                   
-                                }
-                            }
-
-                            if (DeliveryItem != null)
-                            {
-                               
-                                     Description += "Shipping: " + DeliveryItem.ProductName;
-                                   
-                                
-                                VATTotal = VATTotal + DeliveryItem.Qty1Tax1Value ?? 0;
-                               
-                            }
-
-                            if (VATTotal == 0)
-                            {
-                                opaypal.tax_cart = "0.00";
-                            }
-                            else
-                            {
-                                opaypal.tax_cart = VATTotal.ToString("#.##");
-                            }
-
-                            opaypal.description = Description;
-
-                        }
-
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return View("WorldPayGateway", opaypal);
-        }
-
-
-             [HttpPost]
-        public ActionResult WorldPayResponse()
-        {
-            try
-            {
-
-
-
-                int orderID = Convert.ToInt32(Request["cartId"]);
-
-                if (orderID > 0)
-                {
-                    long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
-
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
-
-                    string output = "";
-
-                    // error exists flag
-                    bool errorExists = false;
-
-                    // transaction response code
-                    string txnResponseCode = "";
-
-
-
-                    // Initialise the Local Variables
-                    output = "<font color='orange'><b>NOT CALCULATED</b></font>";
-                    bool hashValidated = true;
-
-                    try
-                    {
-
-
-                        // Get the standard receipt data from the parsed response
-                        txnResponseCode = Request["transStatus"].Length > 0 ? Request["transStatus"] : "Unknown";
-
-                        //if (!hashValidated)
-                        //{
-                        //    Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=ANZ Hash validation failed, Query string is tempered. Contact support");
-                        //}
-                        if (txnResponseCode == "C")
-                        {
-                            Response.Redirect("/ShopCart?Error=UserCancelled");
-                        }
-                        //else if (!txnResponseCode.Equals("0"))
-                        //{
-                        //    Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=" + getANZResponseDescription(txnResponseCode));
-                        //}
-
-                        output += "Response Code : " + txnResponseCode;
-                        output += "Response Code desc : " + getANZResponseDescription(txnResponseCode);
-
-                        output += "amount : " + (Request["amount"].Length > 0 ? Request["amount"] : "Unknown");
-
-                        //output += "merchant id  : " + (Request["vpc_Merchant"].Length > 0 ? Request["vpc_Merchant"] : "Unknown");
-
-                        // only display this data if not an error condition
-                        if (!errorExists && txnResponseCode.Equals("Y"))
-                        {
-                            output += "instId  : " + (Request["instId"].Length > 0 ? Request["instId"] : "Unknown");
-                            output += "card type  : " + (Request["cardType"].Length > 0 ? Request["cardType"] : "Unknown");
-                            output += "transId  : " + (Request["transId"].Length > 0 ?Request["transId"] : "Unknown");
-
-                            output += "cartId  : " + (Request["cartId"].Length > 0 ? Request["cartId"] : "Unknown");
-
-
-                            ////////////////////////////////processing the payment information
-                            long? customerID = null;
-                            Estimate modelOrder = _OrderService.GetOrderByID(orderID);
-                            StoreMode ModeOfStore = StoreMode.Retail;
-                            if (modelOrder != null)
-                                customerID = modelOrder.CompanyId;
-
-                            // order code and order creation date
-                            CampaignEmailParams cep = new CampaignEmailParams();
-
-                            string AttachmentPath = null;
-                            cep.ContactId = modelOrder.ContactId ?? 0;
-                            cep.CompanyId = modelOrder.CompanyId;
-                            cep.EstimateId = orderID; //PageParameters.OrderID;
-                            Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
-                            Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
-                            CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
-                            _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
-                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
-
-                            if (Store.IsCustomer == (int)CustomerTypes.Corporate)
-                            {
-                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // corp
-                                ModeOfStore = StoreMode.Corp;
-                            }
-                            else
-                            {
-                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // retail
-                            }
-                            List<string> AttachmentList = new List<string>();
-                            AttachmentList.Add(AttachmentPath);
-                            cep.OrganisationId = Store.OrganisationId ?? 0;
-                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
-                            cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                            cep.StoreId = Store.CompanyId;
-                            cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
-                            long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
-                            cep.CorporateManagerID = ManagerID;
-                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
-                            {
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
-                            }
-                            else
-                            {
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
-
-                            }
-
-                            //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-                            // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
-
-
-
-
-                            _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), 0, Request.QueryString["vpc_TransactionNo"], Convert.ToDouble(modelOrder.Estimate_Total), ModeOfStore);
-
-
-                            Response.Redirect("/Receipt/" + orderID.ToString());
-
-                        }
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-
-                    }
-
-                }
-                else
-                {
-                        Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=InvalidOrderID" );
-                }
-
-
-
-                }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return View();
-        }
        
         public ActionResult ANZResponse()
         {
