@@ -912,7 +912,9 @@ namespace MPC.Implementation.MISServices
         public string PostInvoiceToXero(string authToken, string verifier, string organisation)
         {
             _user = XeroApiHelper.User();
-            _authenticator = XeroApiHelper.MvcAuthenticator();
+           // _authenticator = XeroApiHelper.MvcAuthenticator();
+            if (XeroCommon.Authenticator != null)
+                _authenticator = (IMvcAuthenticator) XeroCommon.Authenticator;
             var orgForInvoiceId = organisationRepository.GetOrganizatiobByID();
             organisationRepository.UpdateOrganisationForXeroPosting(_user.Name, authToken,
                 verifier, organisation, orgForInvoiceId.PostedInvoiceId?? 0);
@@ -920,9 +922,13 @@ namespace MPC.Implementation.MISServices
             {
                 var accessToken = _authenticator.RetrieveAndStoreAccessToken(_user.Name, authToken, verifier, organisation);
                 PostInvoiceToXero(orgForInvoiceId.PostedInvoiceId ?? 0);
+                return "Invoice posted to Xero successfully.";
             }
-           
-            return "Invoice posted to Xero successfully.";
+            else
+            {
+                return "Failed to post invoice to Xero.";
+            }
+            
         }
 
         private string CheckForXeroPosting(long invoiceId)
@@ -1059,7 +1065,8 @@ namespace MPC.Implementation.MISServices
                         LineAmount = Convert.ToDecimal(id.ItemCharge),
                         UnitAmount = Convert.ToDecimal(((id.ItemCharge) / (id.Quantity))),
                         AccountCode = "SALES",
-                        TaxType = "OUTPUT"
+                        TaxAmount = Convert.ToDecimal(id.TaxValue)
+                        
                     }));
             }
             if (invoiceToPost.Items != null && invoiceToPost.Items.Count > 0)
@@ -1072,17 +1079,27 @@ namespace MPC.Implementation.MISServices
                         LineAmount = Convert.ToDecimal(p.Qty1NetTotal),
                         UnitAmount = Convert.ToDecimal(((p.Qty1NetTotal ?? 0) / (p.Qty1 ?? 1))),
                         AccountCode = "SALES",
-                        TaxType = "OUTPUT"
+                        TaxAmount = Convert.ToDecimal(p.Qty1Tax1Value)
+                        
                     }));
             }
 
-           
+            double dblInvoiceNetTotal = invoiceToPost.Items != null ? invoiceToPost.Items.Sum(a => a.Qty1NetTotal ?? 0) : 0;
+            dblInvoiceNetTotal = dblInvoiceNetTotal +
+                                 (invoiceToPost.InvoiceDetails != null
+                                     ? invoiceToPost.InvoiceDetails.Sum(d => d.ItemCharge)
+                                     : 0);
+            double dblInvoiceTax = invoiceToPost.Items != null ? invoiceToPost.Items.Sum(a => a.Qty1Tax1Value ?? 0) : 0;
+            dblInvoiceTax = dblInvoiceTax +
+                                 (invoiceToPost.InvoiceDetails != null
+                                     ? invoiceToPost.InvoiceDetails.Sum(d => d.TaxValue??0)
+                                     : 0);
 
             Xero.Api.Core.Model.Invoice xeroInvoice = new Xero.Api.Core.Model.Invoice();
             xeroInvoice.Number = invoiceToPost.InvoiceCode;
            // xeroInvoice.Total = Convert.ToDecimal(invoiceToPost.InvoiceTotal);
-            xeroInvoice.SubTotal = Convert.ToDecimal(invoiceToPost.InvoiceTotal);
-            xeroInvoice.TotalTax = Convert.ToDecimal(invoiceToPost.TaxValue?? 0);
+            xeroInvoice.SubTotal = Convert.ToDecimal(dblInvoiceNetTotal);
+            xeroInvoice.TotalTax = Convert.ToDecimal(dblInvoiceTax);
             xeroInvoice.Date = invoiceToPost.InvoiceDate;
             xeroInvoice.DueDate = Convert.ToDateTime(invoiceToPost.InvoiceDate).AddDays(1);
             xeroInvoice.LineItems = invItems;

@@ -251,6 +251,7 @@ namespace MPC.Models.DomainModels
         public long? PostedInvoiceId { get; set; }
         public string XeroUserName { get; set; }
         public bool? IsXeroActive { get; set; }
+        public bool? IsAutoCreatePurchaseOrder { get; set; }
         #endregion
         
         #region Reference Properties

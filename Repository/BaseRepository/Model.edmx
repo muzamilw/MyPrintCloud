@@ -2846,6 +2846,7 @@
           <Property Name="XeroCallbackUrl" Type="nvarchar" MaxLength="255" />
           <Property Name="XeroUserName" Type="nvarchar" MaxLength="200" />
           <Property Name="IsXeroActive" Type="bit" />
+          <Property Name="IsAutoCreatePurchaseOrder" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -9191,6 +9192,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="XeroCallbackUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="XeroUserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsXeroActive" Type="Boolean" />
+          <Property Name="IsAutoCreatePurchaseOrder" Type="Boolean" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -16541,6 +16543,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="IsAutoCreatePurchaseOrder" ColumnName="IsAutoCreatePurchaseOrder" />
                 <ScalarProperty Name="IsXeroActive" ColumnName="IsXeroActive" />
                 <ScalarProperty Name="XeroUserName" ColumnName="XeroUserName" />
                 <ScalarProperty Name="XeroCallbackUrl" ColumnName="XeroCallbackUrl" />

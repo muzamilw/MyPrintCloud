@@ -306,6 +306,7 @@ namespace MPC.Implementation.MISServices
             organisationDbVersion.XeroConsumerKey = organisation.XeroConsumerKey;
             organisationDbVersion.XeroConsumerSecret = organisation.XeroConsumerSecret;
             organisationDbVersion.IsXeroActive = organisation.IsXeroActive;
+            organisationDbVersion.IsAutoCreatePurchaseOrder = organisation.IsAutoCreatePurchaseOrder;
 
             if(organisation.IsImperical == true)
             {

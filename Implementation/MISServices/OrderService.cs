@@ -813,7 +813,15 @@ namespace MPC.Implementation.MISServices
             bool isReverted = false;
             if (oldStatus != newStatus)
             {
-                //Invoied to any other status
+
+                //Cancelled to any other status
+                isReverted = oldStatus == (int)OrderStatus.CancelledOrder && (newStatus == (int)OrderStatus.Completed_NotShipped ||
+                        newStatus == (int)OrderStatus.InProduction ||
+                        newStatus == (int)OrderStatus.ConfirmedOrder ||
+                        newStatus == (int)OrderStatus.Invoice)
+                    ? true
+                    : false;
+                //Invoiced to any other status
                 isReverted = oldStatus == (int)OrderStatus.Invoice && (newStatus == (int)OrderStatus.Completed_NotShipped ||
                         newStatus == (int) OrderStatus.InProduction ||
                         newStatus == (int) OrderStatus.ConfirmedOrder)

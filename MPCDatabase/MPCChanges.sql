@@ -10503,3 +10503,4 @@ alter table Organisation add XeroConsumerSecret nvarchar(255)
 alter table Organisation add XeroCallbackUrl nvarchar(255)
 alter table Organisation add XeroUserName nvarchar(200)
 alter table Organisation add IsXeroActive bit
+alter table organisation add IsAutoCreatePurchaseOrder bit

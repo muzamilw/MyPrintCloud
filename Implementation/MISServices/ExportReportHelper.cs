@@ -213,6 +213,7 @@ namespace MPC.Implementation.MISServices
                     if (currReport != null)
                     {
                         currReport.Run();
+                        
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
                         pdf.ImageQuality = ImageQuality.Highest;
                         pdf.ImageResolution = 770 * 140;

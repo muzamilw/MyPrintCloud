@@ -413,6 +413,16 @@ define("order/order.viewModel",
                         }
                         closeOrderEditor();
                     },
+                    onclickOrdersList = function () {
+                        if (callFrom() == "delivery") {
+                            var host = window.location.host;
+                            var uri = encodeURI(window.location.protocol + "//" + host + "/mis/Orders/Home");
+                            window.open(uri, "_self");
+                        } else {
+                            onCloseOrderEditor();
+                        }
+                        
+                    },
                     resetOrderBreadcrumb = function () {
                         selectedOrder().reset();
                         closeOrderEditor();
@@ -3772,7 +3782,8 @@ define("order/order.viewModel",
                     calculateShippingTaxValue: calculateShippingTaxValue,
                     onCloseShippingDetail: onCloseShippingDetail,
                     onSaveShippingDetail: onSaveShippingDetail,
-                    editShippingItem: editShippingItem
+                    editShippingItem: editShippingItem,
+                    onclickOrdersList: onclickOrdersList
                     //#endregion
                 };
             })()

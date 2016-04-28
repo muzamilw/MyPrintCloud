@@ -90,6 +90,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              xeroConsumerKey = ko.observable(),
              xeroConsumerSecret = ko.observable(),
              isXeroActive = ko.observable(),
+             isAutoCreatePurchaseOrder = ko.observable(),
             //Language Editor List
             languageEditors = ko.observableArray([]),
              // Errors
@@ -151,7 +152,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  purchaseFootNote: purchaseFootNote,
                  xeroConsumerKey: xeroConsumerKey,
                  xeroConsumerSecret: xeroConsumerSecret,
-                 isXeroActive: isXeroActive
+                 isXeroActive: isXeroActive,
+                 isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -218,7 +220,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              reset: reset,
              xeroConsumerKey: xeroConsumerKey,
              xeroConsumerSecret: xeroConsumerSecret,
-             isXeroActive: isXeroActive
+             isXeroActive: isXeroActive,
+             isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder
          };
          return self;
      };
@@ -434,6 +437,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.xeroConsumerKey(source.XeroConsumerKey);
         companySites.xeroConsumerSecret(source.XeroConsumerSecret);
         companySites.isXeroActive(source.IsXeroActive);
+        companySites.isAutoCreatePurchaseOrder(source.IsAutoCreatePurchaseOrder);
         
         
         return companySites;
@@ -504,6 +508,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.XeroConsumerKey = source.xeroConsumerKey() === undefined ? null : source.xeroConsumerKey();
         result.XeroConsumerSecret = source.xeroConsumerSecret() === undefined ? null : source.xeroConsumerSecret();
         result.IsXeroActive = source.isXeroActive() === undefined ? null : source.isXeroActive();
+        result.IsAutoCreatePurchaseOrder = source.isAutoCreatePurchaseOrder() === undefined ? null : source.isAutoCreatePurchaseOrder();
         
         
         //Markup

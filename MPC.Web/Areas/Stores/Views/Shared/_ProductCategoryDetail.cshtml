@@ -14,7 +14,7 @@
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs" id="categoryTabItems">
                                 <li class="active"><a href="#tab-CatNameAndImages" data-toggle="tab">Basic Details</a></li>
-                                <li id="productCatFirstTab"><a href="#tab-productCatDisplay" data-toggle="tab">Category Display</a></li>
+                                @*<li id="productCatFirstTab"><a href="#tab-productCatDisplay" data-toggle="tab">Category Display</a></li>*@
                                 <li><a href="#tab-productCategorySEO" data-toggle="tab">Search Engine Optimization</a></li>
                                 <li><a href="#tab-productCategoryDesc" data-toggle="tab">Category Descriptions</a></li>
                                 <li><a href="#tab-productCategoryDisplay" data-toggle="tab">Product Display</a></li>
@@ -29,12 +29,7 @@
                                         <div class="col-lg-8">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Category Name contains name of specifice category." data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                            </a>
-                                        </div>*@
-                                                    <label for="txtProductName" class="control-label text-right tooltip-float">Category Name</label>
+                                                  <label for="txtProductName" class="control-label text-right tooltip-float">Category Name</label>
                                                 </div>
                                                 <div class="col-lg-6" style="height:35px;">
                                                     <input type="text" class="form-control" id="txtCategoryName" placeholder="Enter Category Name" data-bind="value: categoryName, validationTooltip: categoryName">
@@ -43,12 +38,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
-                                                    @*<div class="bs-example-tooltips tooltip-float-width">
-                                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Parent categories" data-original-title="" title="">
-                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                            </a>
-                                        </div>*@
-                                                    <label for="txtCompanyName" class="control-label text-right">Parent Category</label>
+                                                   <label for="txtCompanyName" class="control-label text-right">Parent Category</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     @*<select class="form-control col-lg-4" data-bind="options:$root.parentCategories,optionsText:'categoryName',optionsValue:'productCategoryId',optionsCaption:'Top Level Category', value: parentCategoryId"></select>*@
@@ -56,6 +46,21 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-4 text-right">
+                                                    @*<div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the order of your categories here. If you leave this field blank, categories will show in alphabetical order. " data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>*@
+                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Sort Order</label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" data-bind="value: displayOrder">
+                                                </div>
+                                            </div>
+                                            
+
 
                                             @*<div class="form-group" style="margin-bottom:10px;">
                                     <div class="col-lg-4 text-right">
@@ -175,23 +180,8 @@
                                         <div class="col-lg-12">
 
 
-                                            <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-
-                                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Set the order of your categories here. If you leave this field blank, categories will show in alphabetical order. " data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-                                                    <label for="txtSortOrder" class="control-label text-right tooltip-float">Category Sort Order</label>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <input type="text" class="form-control" id="txtSortOrder" placeholder="Enter Sort Order" data-bind="value: displayOrder">
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group" style="margin-bottom:10px;">
+                                            
+                                            <div class="form-group" style="margin-bottom:10px;" data-bind="visible: false">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -216,7 +206,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group" style="margin-bottom:10px;">
+                                            <div class="form-group" style="margin-bottom:10px;" data-bind="visible: false">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
@@ -239,7 +229,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" data-bind="visible: false">
                                                 <div class="col-lg-3 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
