@@ -578,7 +578,7 @@
      <script src="/Scripts/jquery-1.10.1.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
     <script type="text/javascript">
-    DisplayEmailButton();
+
     function EmailProofClick() {
 
         //var Email1=$("#").val();
@@ -704,23 +704,7 @@
         }
     }
 
-        function DisplayEmailButton()
-        {
-            var flag='@ViewBag.EmailProofButtonVisible';
-            
-            if (flag=="True")
-            {
-                $("#grdViewShopCart").css("cssText","width:82%!important;");
-
-                $("#prof_btn").css("display", "block");
-            }
-            else
-            {
-                $("#prof_btn").css("display", "none");
-           
-                $("#grdViewShopCart").css("cssText","width:100%!important;");
-            }
-    }
+    
 
     function EmailItems() {
         var ModeOfStore = '<%=Mode %>';
