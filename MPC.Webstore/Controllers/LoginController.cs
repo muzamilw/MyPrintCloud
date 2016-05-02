@@ -100,6 +100,7 @@ namespace MPC.Webstore.Controllers
 
             if (!string.IsNullOrEmpty(Message))
             {
+                Message = "Invalid login attempt. Please go to the sign up page complete the registration process using social links and then sign in again.";
                 ViewBag.OauthErrorMessage = @"<script type='text/javascript' language='javascript'> $(document).ready(function () {ShowPopUp('Message', '" + Message + "'); });</script>";
                
             }
