@@ -97,6 +97,9 @@
     <Content Include="Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll" />
     <Content Include="Externaldlls\Ionic.Zip.dll" />
     <Content Include="Externaldlls\PDFlib_dotnet.dll" />
+    <Content Include="Externaldlls\Xero.Api.dll" />
+    <Content Include="Externaldlls\Xero.Api.Example.Applications.dll" />
+    <Content Include="Externaldlls\Xero.Api.Example.TokenStores.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
