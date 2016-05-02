@@ -56,89 +56,89 @@
                     <div class="controlParentDiv">
                         <h5 class="detailSection">Property address</h5>
                         
-                        <div class="controlDiv">
+                        <div id="recdvUnitNumber" class="controlDiv">
                             <label>Unit Number</label>
                             @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
                             @Html.TextBoxFor(model => model.UnitNumber, new { id = "txtUnitNumber", @class = "generalTextBox {{UnitNum}}", maxlength = 255, PlaceHolder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlUnitNumber", UserCookieManager.WBStoreId, "Unit number")) })
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvStreeNo" class="fntSize11px">
                             <label>Street No.</label>
-                            @Html.TextBoxFor(model => model.StreetNumber, new { id = "txtStreetNumber", @class = "generalTextBox {{StreetNum}}", maxlength = 255, placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetNumber", UserCookieManager.WBStoreId, "Street number"))})
+                            @Html.TextBoxFor(model => model.StreetNumber, new { id = "txtStreetNumber", @class = "generalTextBox {{StreetNum}}", maxlength = 255, placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetNumber", UserCookieManager.WBStoreId, "Street number")) })
                             @*<input type="text" id="txtStreetNumber" class="generalTextBox {{StreetNum}}" placeholder="Street number" value="@Model.StreetNumber">*@
                         </div>
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <div id="recdvPropertyName"  class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Property Name</label>
                             @*<input type="text" ID="txtUnitNumber" Class="generalTextBox {{UnitNum}}" PlaceHolder="Unit number" value="@Model.UnitNumber">*@
                             @Html.TextBoxFor(model => model.PropertyName, new { id = "PropertyName", @class = "generalTextBox fullWidth {{UnitNum}}", maxlength = 255, PlaceHolder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPropertyName", UserCookieManager.WBStoreId, "Property Name")) })
                         </div>
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <div id="recdvStreetName"  class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Street Name</label>
                             @*<input type="text" id="txtStreetName" class="generalTextBox full-width-boxes {{Street}}" style="" placeholder="Street name" value="@Model.Street">*@
                             @Html.TextBoxFor(model => model.Street, new { id = "txtStreetName", @class = "generalTextBox fullWidth {{Street}}", maxlength = 255, placeholder = @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlStreetName", UserCookieManager.WBStoreId, "Street name")) })
                         </div>
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <div id="recdvSuburb" class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Suburb</label>
                             @Html.TextBoxFor(model => model.Suburb, new { id = "txtSuburb", @class = "generalTextBox fullWidth {{Suburb}}", maxlength = 255, placeholder = "Suburb / Town" })
                             @*<input type="text" id="txtSuburb" class="generalTextBox full-width-boxes {{Suburb}}" style="" placeholder="Suburb / Town" value="@Model.Suburb">*@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvState" class="controlDiv">
                             <label>State</label>
                             @Html.TextBoxFor(model => model.State, new { id = "txtShipAddLine1", @class = "generalTextBox {{State}}", maxlength = 255, placeholder = "State" })
                             @*<input type="text" id="txtState" class="generalTextBox {{State}}" placeholder="State" value="@Model.State">*@
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPostcode" class="fntSize11px" >
                             <label>Postcode</label>
                             @Html.TextBoxFor(model => model.PostCode, new { id = "txtPostcode", @class = "generalTextBox {{PostCode}}", maxlength = 255, placeholder = "Postcode" })
                             @*<input type="text" id="txtPostcode" class="generalTextBox {{PostCode}}" placeholder="Postcode" value="@Model.PostCode">*@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv" style="float: inherit;">
+                        <div id="recdvListingID" class="controlDiv" style="float: inherit;">
                             <label>Listing ID</label>
                             @Html.TextBoxFor(model => model.ClientListingId, new { id = "ClientListingId", @class = "generalTextBox {{ListingID}}", maxlength = 255, placeholder = "ClientListingId" })
                             @*<input  type="text" id="txtListingId" class="generalTextBox {{ListingID}}" placeholder="Listing Id" value="@Model.ClientListingId" >*@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <h5 class="detailSection">Rates</h5>
-                        <div class="controlDiv">
+                        <h5 id="recdvRatesHead" class="detailSection">Rates</h5>
+                        <div id="recdvRatescouncil" class="controlDiv" >
                             <label>Council</label>
                             @Html.TextBoxFor(model => model.CounsilRates, new { id = "txtCouncil", @class = "generalTextBox {{CouncilRates}}", maxlength = 255, placeholder = "Council" })
                             @*<input type="text" id="txtCouncil" class="generalTextBox {{CouncilRates}}" placeholder="Council" value="@Model.CounsilRates">*@
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvStarta" class="fntSize11px" >
                             <label>Starta</label>
                             @Html.TextBoxFor(model => model.StrataSinking, new { id = "txtStarta", @class = "generalTextBox {{StrataSinking}}", maxlength = 255, placeholder = "Starta" })
                             @*<input type="text" id="txtStarta" class="generalTextBox {{StrataSinking}}" placeholder="Starta" value="@Model.StrataSinking">*@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvRatesWater" class="controlDiv">
                             <label>Water</label>
                             @Html.TextBoxFor(model => model.WaterRates, new { id = "txtWater", @class = "generalTextBox {{WaterRates}}", maxlength = 255, placeholder = "Water" })
                             @*<input type="text" id="txtWater" class="generalTextBox {{WaterRates}}" placeholder="Water" value="@Model.WaterRates">*@
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvRatesLand" class="fntSize11px">
                             <label>Land</label>
                             @Html.TextBoxFor(model => model.LandTax, new { id = "txtLand", @class = "generalTextBox {{LandTax}}", maxlength = 255, placeholder = "Land" })
                             @*<input type="text" id="txtLand" class="generalTextBox {{LandTax}}" placeholder="Land" value="@Model.LandTax">*@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvRatesStartaAdmin" class="controlDiv">
                             <label>Starta Admin</label>
                             @Html.TextBoxFor(model => model.StrataAdmin, new { id = "txtStartaAdmin", @class = "generalTextBox {{StrataAdmin}}", maxlength = 255, placeholder = "StartaAdmin" })
                             @*<input type="text" id="txtStartaAdmin" class="generalTextBox {{StrataAdmin}}" placeholder="Starta Admin" value="@Model.StrataAdmin">*@
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvRatesOther" class="fntSize11px">
                             <label>Other</label>
                             @Html.TextBoxFor(model => model.OtherOutgoings, new { id = "txtOther", @class = "generalTextBox {{OtherOutgoings}}", maxlength = 255, placeholder = "Other" })
                             @*<input type="text" id="txtOther" class="generalTextBox {{OtherOutgoings}}" placeholder="Other" value="@Model.OtherOutgoings">*@
@@ -146,28 +146,28 @@
                     </div>
                 </div>
                 <div class="smartFormFirstChild">
-                    <h4 class="propertySection">PROPERTY FEATURES</h4>
+                    <h4 id="recdvPropFeatHead" class="propertySection">PROPERTY FEATURES</h4>
                     <div class="controlParentDiv">
                         <h5 class="detailSection">Features</h5>
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatType" class="controlDiv">
                             <label>Property Type</label>
                             @*<input type="text" id="txtPropertyType" class="generalTextBox {{PropertyType}}" placeholder="Property Type" value="@Model.PropertyType">*@
                             @Html.TextBoxFor(model => model.PropertyType, new { id = "txtPropertyType", @class = "generalTextBox {{PropertyType}}", maxlength = 255, placeholder = "Property Type" })
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatCat" class="fntSize11px">
                             <label>Category</label>
                             @*<input type="text" id="txtCategory" class="generalTextBox {{PropertyCategory}}" placeholder="Category" value="@Model.PropertyCategory">*@
                             @Html.TextBoxFor(model => model.PropertyCategory, new { id = "txtCategory", @class = "generalTextBox {{PropertyCategory}}", maxlength = 255, placeholder = "Category" })
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatConstruction" class="controlDiv">
                             <label>Construction</label>
                             @*<input type="text" id="txtConstruction"class="generalTextBox {{Construction}}" placeholder="Construction" value="@Model.Construction">*@
                             @Html.TextBoxFor(model => model.Construction, new { id = "txtConstruction", @class = "generalTextBox {{Construction}}", maxlength = 255, placeholder = "Construction" })
                         </div>
                         <div >
-                            <div class="fntSize11px">
+                            <div id="recdvPropFeatStyle" class="fntSize11px">
                                 <label>Style</label>
                                 @*<input type="text" id="txtStyle" class="generalTextBox {{Style}}" placeholder="Style" value="@Model.Features">*@
                                 @Html.TextBoxFor(model => model.Features, new { id = "txtStyle", @class = "generalTextBox {{Style}}", maxlength = 255, placeholder = "Style" })
@@ -175,72 +175,72 @@
                     </div>
                         </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatLandSize" class="controlDiv">
                             <label>Land Size</label>
                             @*<input type="text" id="txtLandSize" class="generalTextBox {{LandAreaUnit}}" placeholder="Land Size" value="@Model.LandArea">*@
                             @Html.TextBoxFor(model => model.LandArea, new { id = "txtLandSize", @class = "generalTextBox {{LandAreaUnit}}", maxlength = 255, placeholder = "Land Size" })
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatBuildingSize" class="fntSize11px">
                             <label>Building Size</label>
                             @*<input type="text" id="txtBuildingSize" class="generalTextBox {{BuildingAreaSqm}}" placeholder="Building Size" value="@Model.BuildingAreaSqm">*@
                             @Html.TextBoxFor(model => model.BuildingAreaSqm, new { id = "txtBuildingSize", @class = "generalTextBox {{BuildingAreaSqm}}", maxlength = 255, placeholder = "Building Size" })
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatCondition" class="controlDiv" >
                             <label>Condition</label>
                             @*<input type="text" id="txtCondition" class="generalTextBox {{PropertyCondition}}" placeholder="Condition" value="@Model.PropertyCondition">*@
                             @Html.TextBoxFor(model => model.PropertyCondition, new { id = "txtCondition", @class = "generalTextBox {{PropertyCondition}}", maxlength = 255, placeholder = "Condition" })
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatView" class="fntSize11px" >
                             <label>View / Aspect</label>
                             @*<input type="text" id="txtViewAspect" class="generalTextBox {{Aspect}}" placeholder="View / Aspect" value="@Model.Aspect">*@
                             @Html.TextBoxFor(model => model.Aspect, new { id = "txtViewAspect", @class = "generalTextBox {{Aspect}}", maxlength = 255, placeholder = "View / Aspect" })
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatBedrooms" class="controlDiv">
                             <label>Bedrooms</label>
                             @*<input type="text" id="txtBedrooms" class="generalTextBox {{BedRooms}}" placeholder="Bedrooms" value="@Model.BedRooms">*@
                             @Html.TextBoxFor(model => model.BedRooms, new { id = "txtBedrooms", @class = "generalTextBox {{BedRooms}}", maxlength = 255, placeholder = "Bedrooms" })
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatBathrooms" class="fntSize11px">
                             <label>Bathrooms</label>
                             @*<input type="text" id="txtBathrooms" class="generalTextBox {{BathRooms}}" placeholder="Bathrooms" value="@Model.BathRooms">*@
                             @Html.TextBoxFor(model => model.BathRooms, new { id = "txtBathrooms", @class = "generalTextBox {{BathRooms}}", maxlength = 255, placeholder = "Bathrooms" })
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatLoungeRooms" class="controlDiv">
                             <label>Lounge Rooms</label>
                             @*<input type="text" id="txtLoungeRooms" class="generalTextBox {{LoungeRooms}}" placeholder="Lounge Rooms" value="@Model.LoungeRooms">*@
-                           @Html.TextBoxFor(model => model.LoungeRooms, new { id = "txtLoungeRooms", @class = "generalTextBox {{LoungeRooms}}", maxlength = 255, placeholder = "Lounge Rooms" })
+                            @Html.TextBoxFor(model => model.LoungeRooms, new { id = "txtLoungeRooms", @class = "generalTextBox {{LoungeRooms}}", maxlength = 255, placeholder = "Lounge Rooms" })
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatToilets" class="fntSize11px">
                             <label>Toilets</label>
                             @Html.TextBoxFor(model => model.Toilets, new { id = "txtToilets", @class = "generalTextBox {{Toilets}}", maxlength = 255, placeholder = "Toilets" })
                             @*<input type="text" id="txtToilets" class="generalTextBox {{Toilets}}" placeholder="Toilets" value="@Model.Toilets">*@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatStudies" class="controlDiv">
                             <label>Studies</label>
                             @Html.TextBoxFor(model => model.Studies, new { id = "txtStudies", @class = "generalTextBox {{Studies}}", maxlength = 255, placeholder = "Studies" })
                             @*<input type="text" id="txtStudies" class="generalTextBox {{Studies}}" placeholder="Studies" value="@Model.Studies">*@
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatPools" class="fntSize11px">
                             <label>Pools</label>
                             @*<input type="text" id="txtPools" class="generalTextBox {{Pools}}" placeholder="Pools" value="@Model.Pools">*@
                             @Html.TextBoxFor(model => model.Pools, new { id = "txtPools", @class = "generalTextBox {{Pools}}", maxlength = 25, placeholder = "Pools" })
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <div class="controlDiv">
+                        <div id="recdvPropFeatGarages" class="controlDiv">
                             <label>Garages</label>
                             @Html.TextBoxFor(model => model.Garages, new { id = "txtGarages", @class = "generalTextBox {{Garages}}", maxlength = 255, placeholder = "Garages" })
                             @*<input type="text" id="txtGarages" class="generalTextBox {{Garages}}" placeholder="Garages" value="@Model.Garages">*@
                         </div>
-                        <div class="fntSize11px">
+                        <div id="recdvPropFeatCarSpaces" class="fntSize11px">
                             <label>Car Spaces</label>
                             @Html.TextBoxFor(model => model.CarSpaces, new { id = "txtCarSpaces", @class = "generalTextBox {{CarSpaces}}", maxlength = 255, placeholder = "Car Spaces" })
                             @*<input type="text" id="txtCarSpaces" class="generalTextBox {{CarSpaces}}" placeholder="Car Spaces" value="@Model.CarSpaces">*@
@@ -253,23 +253,23 @@
             <div class="smartFormParentDiv">
                 <div class="smartFormSecondChild">
                     <div class="controlParentDiv">
-                        <h5 class="detailSection">Listing Details</h5>
-                        <div class="controlSecondDiv">
+                        <h5 id="recdvPropListDetailshead" class="detailSection">Listing Details</h5>
+                        <div id="recdvPropListDetailType" class="controlSecondDiv">
                             <label>Listing Type</label>
                             @*<input type="text" id="txtListingType" class="generalTextBox {{ListingType}}" placeholder="Listing Type" value="@Model.ListingType">*@
                             @Html.TextBoxFor(model => model.ListingType, new { id = "txtListingType", @class = "generalTextBox {{ListingType}}", maxlength = 255, placeholder = "Listing Type" })
                         </div>
-                        <div class="controlSecondDiv">
+                        <div id="recdvPropListDetailPrice" class="controlSecondDiv">
                             <label>Price</label>
                             @*<input type="text" id="txtPrice" class="generalTextBox {{DisplayPrice}}" style="margin-right: 10px;" placeholder="Price" value="@Model.DisplayPrice">*@
                             @Html.TextBoxFor(model => model.DisplayPrice, new { id = "txtPrice", @class = "generalTextBox {{DisplayPrice}}", maxlength = 255, placeholder = "Price" })
                         </div>
-                        <div class="controlSecondDiv">
+                        <div id="recdvPropListDetailPriceGuide" class="controlSecondDiv">
                             <label>Price Guide</label>
                             @*<input type="text" id="txtPriceGuid" class="generalTextBox {{SearchPrice}}" placeholder="Price Guid" value="@Model.SearchPrice">*@
                             @Html.TextBoxFor(model => model.SearchPrice, new { id = "txtPriceGuid", @class = "generalTextBox {{SearchPrice}}", maxlength = 255, placeholder = "Price Guide" })
                         </div>
-                        <div class="controlSecondDiv">
+                        <div id="recdvPropListDetailWebsite" class="controlSecondDiv">
                             <label style="margin-left: 0px;">Website</label>
                             @*<input type="text" id="txtWebsite" class="generalTextBox width-234 {{WebLink}}" style="" placeholder="Website" value="@Model.WebLink">*@
                             @Html.TextBoxFor(model => model.WebLink, new { id = "txtWebsite", @class = "generalTextBox width-234 {{WebLink}}", maxlength = 255, placeholder = "Website" })
@@ -279,34 +279,35 @@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <h5 class="detailSection">Inspection Dates</h5>
-                        <div class="controlSecondDiv">
+                        <h5 id="recdvInspectionDateHead" class="detailSection">Inspection Dates</h5>
+                        <div id="recdvInspectionDate" class="controlSecondDiv" >
                             <label>Inspection Date</label>
-                            
-                                @Html.TextBoxFor(model => model.AvailableDate, new { id = "txtInspectionDate", @class = "generalTextBox {{AvailableDate}}", maxlength = 255, placeholder = "Inspection Date", @readonly = "readonly" })
-                                @*<input type="text" id="txtInspectionDate" class="generalTextBox {{AvailableDate}}" placeholder="Inspection Date" value="@Model.AvailableDate">*@
-                           
-                           
+
+                            @Html.TextBoxFor(model => model.AvailableDate, new { id = "txtInspectionDate", @class = "generalTextBox {{AvailableDate}}", maxlength = 255, placeholder = "Inspection Date", @readonly = "readonly" })
+                            @*<input type="text" id="txtInspectionDate" class="generalTextBox {{AvailableDate}}" placeholder="Inspection Date" value="@Model.AvailableDate">*@
+
+
                             @*<ajaxToolkit:CalendarExtender TargetControlID="txtInspectionDate" Format="MM/dd/yyyy" ID="txtInspectionDatePickerExtender"
-                                                          BehaviorID="txtInspectionDatePickerExtender" runat="server" />*@
+            BehaviorID="txtInspectionDatePickerExtender" runat="server" />*@
 
 
                             @*@Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = Html.Raw(Html.GetKeyValueFromResourceFile("ltrldeliverydate", UserCookieManager.WBStoreId, "Desired Delivery")), maxlength = 500, @readonly = "readonly" })*@
-                           
+
                         </div>
-                        <div class="controlSecondDiv">
+                        <div id="recdvInspectionDateStartTime" class="controlSecondDiv">
                             <label>Start Time</label>
                             @*<input type="text" id="txtInspectionStartTime" class="generalTextBox {{InspectionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.InspectionTimeFrom1">*@
-                            @Html.TextBoxFor(model => model.InspectionTimeFrom1, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time",  type = "time" })
+                            @Html.TextBoxFor(model => model.InspectionTimeFrom1, new { id = "txtInspectionStartTime", @class = "generalTextBox {{InspectionStartTime}}", maxlength = 255, placeholder = "Start Time", type = "time" })
                         </div>
-                        <div class="controlSecondDiv" style="">
+
+                        <div id="recdvInspectionDateendtime" class="controlSecondDiv" style="">
                             <label>End Time</label>
                             @Html.TextBoxFor(model => model.InspectionTimeFrom2, new { id = "txtInspectionEndTime", @class = "generalTextBox {{InspectionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
                             @*<input type="text" id="txtInspectionEndTime" class="generalTextBox {{InspectionEndTime}}" placeholder="End Time" value="@Model.InspectionTimeFrom2">*@
                         </div>
-                        <div class="controlSecondDiv" style="text-align: right;">
+                        <div id="recdvInspectionDatebtn" class="controlSecondDiv" style="text-align: right;">
                             <label>&nbsp;</label>
-                           
+
                             <input type="button" id="btnInspectionDateTime" class="inspectionBtn" value="+ Inspection dates / times" style="display:none;" />
                         </div>
                         <div class="clearBoth">
@@ -314,27 +315,27 @@
                         </div>
                     </div>
                     <div class="controlParentDiv">
-                        <h5 class="detailSection">Auction Details</h5>
-                        <div class="controlSecondDiv">
-                           
+                        <h5 id="recdvAuctionDetailsHead" class="detailSection">Auction Details</h5>
+                        <div id="recdvAuctionDetailsDate" class="controlSecondDiv">
+
                             <label>Auction Date</label>
                             @*<asp:TextBox runat="server" ID="txtAuctionDate" CssClass="generalTextBox {{AuctionDate}}" PlaceHolder="Auction Date"></asp:TextBox>*@
                             @*<ajaxToolkit:CalendarExtender TargetControlID="txtAuctionDate" Format="MM/dd/yyyy" ID="txtAuctionDatePickerExtender"
-                                                          BehaviorID="txtAuctionDatePickerExtender" runat="server" />*@
+            BehaviorID="txtAuctionDatePickerExtender" runat="server" />*@
                             @*<input type="text" class="generalTextBox {{AuctionDate}}" id="txtAuctionDate" placeholder="Auction Date" value="@Model.AuctionDate" />*@
                             @Html.TextBoxFor(model => model.AuctionDate, new { id = "txtAuctionDate", @class = "generalTextBox {{AuctionDate}}", maxlength = 255, placeholder = "Auction Date", @readonly = "readonly" })
                         </div>
-                        <div class="controlSecondDiv">
+                        <div id="recdvAuctionDetailsDateStartTime" class="controlSecondDiv">
                             <label>Start Time</label>
                             @Html.TextBoxFor(model => model.AuctionTime, new { id = "AuctionStratTime", @class = "generalTextBox {{AuctionStartTime}}", maxlength = 255, placeholder = "Start Time", type = "time" })
                             @*<input type="text" id="txtAuctionStartTime" class="generalTextBox {{AuctionStartTime}}" style="margin-right: 10px;" placeholder="Start Time" value="@Model.AuctionTime">*@
                         </div>
-                        <div class="controlSecondDiv">
+                        <div id="recdvAuctionDetailsDateEndTime" class="controlSecondDiv">
                             <label>End Time</label>
                             @Html.TextBoxFor(model => model.AuctionEndTime, new { id = "txtAuctionEndTime", @class = "generalTextBox {{AuctionEndTime}}", maxlength = 255, placeholder = "End Time", type = "time" })
                             @*<input type="text" id="txtAuctionEndTime" class="generalTextBox {{AuctionEndTime}}" placeholder="End Time" value="@Model.AuctionEndTime">*@
                         </div>
-                        <div class="controlSecondDiv" style="">
+                        <div id="recdvAuctionDetailsLocation" class="controlSecondDiv" style="">
                             <label style="margin-left: 0px;">Location</label>
                             @Html.TextBoxFor(model => model.AutionVenue, new { id = "txtLocation", @class = "generalTextBox width-234 {{AuctionVenue}}", maxlength = 255, placeholder = "Location" })
                             @*<input type="text" id="txtLocation" class="generalTextBox width-234 {{AuctionVenue}}" style="" placeholder="Location" value="@Model.AutionVenue">*@
@@ -350,11 +351,11 @@
                         <div class="clearBoth">
                             &nbsp;
                         </div>
-                        <div id="ListingAgentBoxes">
+                        <div id="recdvListingAgents" id="ListingAgentBoxes">
                             <input id="NewImageClick" class="ListingImgBtn" type="button" value="+ Listing Image" onclick="AgainCall();">
-                            
-                                <input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;">
-                            
+
+                            <input type="button" id="MainContent_btnAddBullets" class="AgentBtn" value="+ Bullet Point" onclick="AddPoints();" style="font-size: 9px !important;">
+
                             @*@foreach (var Agent in ListingAgents)
             {
 
@@ -380,62 +381,63 @@
                 index++;
             }*@
                             @{
-                                IEnumerable<WebGridColumn> cols =
-                                    new List<WebGridColumn> {
+            IEnumerable<WebGridColumn> cols =
+                new List<WebGridColumn> {
 
                 new WebGridColumn{
                     Header="FirstName",
                     Format = @<text>
-                            <span class="display"><label id="lblFirstName">@item.FirstName</label></span>
-                            
-                            @*<input id="lblFirstName" value="@item.FirstName" />*@
+                        <span class="display"><label id="lblFirstName">@item.FirstName</label></span>
+
+                        @*<input id="lblFirstName" value="@item.FirstName" />*@
                         <input type="text" id="inID" value="@item.FirstName" class="edit" />
                     </text>,Style="WebGridPaddingSmartForm"
                 },
                 new WebGridColumn{
                     Header="Tel",
                     Format = @<text>
-                            <span class="display"><label id="lblHomeTel">@item.HomeTel1</label></span>
-                            
-                            @*<input id="lblHomeTel" value="@item.HomeTel1" />*@
-                            <input type="text" id="inName" value="@item.HomeTel1 " class="edit" />
+                        <span class="display"><label id="lblHomeTel">@item.HomeTel1</label></span>
+
+                        @*<input id="lblHomeTel" value="@item.HomeTel1" />*@
+                        <input type="text" id="inName" value="@item.HomeTel1 " class="edit" />
                     </text>
                 },
                 new WebGridColumn{
                     Header="Mobile ",
                     Format = @<text>
-                            <span class="display"><label id="lblMobileNo">@item.Mobile</label></span>
-                          
-                            @*<input id="lblMobileNo" value="@item.Mobile" />*@
-                            <input type="text" id="inMobile" value="@item.Mobile " class="edit" />
+                        <span class="display"><label id="lblMobileNo">@item.Mobile</label></span>
+
+                        @*<input id="lblMobileNo" value="@item.Mobile" />*@
+                        <input type="text" id="inMobile" value="@item.Mobile " class="edit" />
                     </text>
                 },
                 new WebGridColumn{
                     Header="Email  ",
                     Format = @<text>
-                            <span class="display"><label id="lblEmail">@item.Email</label></span>
-                           
-                            @*<input id="lblEmail" value="@item.Email" />*@
-                            <input type="text" id="inEmail" value="@item.Email " class="edit" />
+                        <span class="display"><label id="lblEmail">@item.Email</label></span>
+
+                        @*<input id="lblEmail" value="@item.Email" />*@
+                        <input type="text" id="inEmail" value="@item.Email " class="edit" />
                     </text>
                 },
                 new WebGridColumn{
                     Format = @<text>
-                            <i class="fa fa-pencil edit-address display edit-btn" title="Edit" style="display: none;"></i>
-                                @*<a class="display edit-btn">Edit</a>*@
-                                @*<a class="edit save-btn">Save</a>*@
-                            <i style="font-size:15px;display: none;" class="fa fa-floppy-o edit save-btn" title="Save"></i>
-                                @*<a class="edit cancel-btn">Close</a>*@
-                            <i class="fa fa-eye edit cancel-btn" style="font-size:17px;display: none;" title="Close" ></i>
-                                @*<a class="display delete-btn" onclick="DeleteAgent(@item.ContactId)">Delete</a>*@
-                            <i style="font-size:18px; display: none;" title="Delete" class="fa fa-times display delete-btn" onclick="DeleteAgent(@item.ContactId)"></i>
-                        </text>
+                        <i class="fa fa-pencil edit-address display edit-btn" title="Edit" style="display: none;"></i>
+                        @*<a class="display edit-btn">Edit</a>*@
+                        @*<a class="edit save-btn">Save</a>*@
+                        <i style="font-size:15px;display: none;" class="fa fa-floppy-o edit save-btn" title="Save"></i>
+                        @*<a class="edit cancel-btn">Close</a>*@
+                        <i class="fa fa-eye edit cancel-btn" style="font-size:17px;display: none;" title="Close"></i>
+                        @*<a class="display delete-btn" onclick="DeleteAgent(@item.ContactId)">Delete</a>*@
+                        <i style="font-size:18px; display: none;" title="Delete" class="fa fa-times display delete-btn" onclick="DeleteAgent(@item.ContactId)"></i>
+                    </text>
                 }
             };
-                        }
+                            }
 
 
-</div>
+                        </div>
+
                         @*<div id="MainAjentsHtml" style="display:none;">
                             @grid.Table(columns: cols, tableStyle: "WebGridTableStyle", headerStyle: "WebGridheader", rowStyle: "gridViewRowStyleForWebGrid", alternatingRowStyle: "gridViewRowStyleForWebGrid")
                         </div>*@
@@ -594,22 +596,22 @@
             </div>
            
             <div class="smartFormFirstChild">
-                <h4 class="propertySection">PROPERTY MARKETING</h4>
+                <h4 id="recdvPropmarktHead" class="propertySection">PROPERTY MARKETING</h4>
                 <div class="controlParentDiv">
                     <h5 class="detailSection">BROCHURES</h5>
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                    <div id="recdvBrochuremainhead" class="controlDiv controlParentDiv" style="width: 100%;">
                         <label>Main Headline</label>
                         @Html.TextBoxFor(model => model.BrochureMainHeadLine, new { id = "txtbrochuresMainHeading", @class = "generalTextBox full-width-boxes {{BrochureMainHeadLine}}", maxlength = 255, placeholder = "Main Headline" })
                         @*<input type="text" id="txtbrochuresMainHeading"class="generalTextBox full-width-boxes {{BrochureMainHeadLine}}" placeholder="Main Headline" value="@Model.BrochureMainHeadLine">*@
                     </div>
-                    <div class="controlDiv controlParentDiv marginForTextAreas marginForTextAreas" style="width: 100%;">
+                    <div id="recdvBrochureSumm" class="controlDiv controlParentDiv marginForTextAreas marginForTextAreas" style="width: 100%;">
                         <label>Summary</label>
 
                         @Html.TextAreaFor(model => model.BrochureSummary, 20, 10, new { @class = "generalTextBoxFoTextArea {{BrochureSummary}}", placeholder = "Property Summary" })
                         @*<textarea rows="4" cols="50"  id="txtbrochuresSummery" class="MultilineTextBox full-width-boxes {{BrochureSummary}}" style="height:auto !important;" placeholder="Property summary">@Model.BrochureSummary</textarea>
             </div>*@
                     </div>
-                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                    <div id="recdvBrochuredesc" class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                         <label>Description</label>
                         @*<textarea rows="4" cols="50" id="txtbrochuresDesc" class="MultilineTextBox full-width-boxes {{BrochureDescription}}" style="" placeholder="Property Description" >@Model.BrochureDescription</textarea>
             </div>*@
@@ -623,22 +625,22 @@
             <div class="smartFormFirstChild">
                 <h4 class="propertySection">&nbsp;</h4>
                 <div class="controlParentDiv">
-                    <h5 class="detailSection">SIGNBOARD</h5>
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                    <h5 id="recdvsignbhead" class="detailSection">SIGNBOARD</h5>
+                    <div id="recdvsignbheadline" class="controlDiv controlParentDiv" style="width: 100%;">
                         <label>Main Headline</label>
                         @Html.TextBoxFor(model => model.SignBoardMainHeadLine, new { id = "txtSignboardMainHead", @class = "generalTextBox full-width-boxes {{SignBoardMainHeadLine}}", maxlength = 255, PlaceHolder = "Main Headline" })
                         @*<input type="text"  ID="txtSignboardMainHead" Class="generalTextBox full-width-boxes {{SignBoardMainHeadLine}}" PlaceHolder="Main Headline" value="@Model.SignBoardMainHeadLine"/>*@
                     </div>
-                    <div class="controlDiv controlParentDiv" style="width: 100%;">
+                    <div id="recdvsignbsumm" class="controlDiv controlParentDiv" style="width: 100%;">
 
                         <label>Summary</label>
                         @*<textarea rows="4" cols="50" id="txtSignboardSummery" class="MultilineTextBox full-width-boxes {{SignBoardSummary}}" placeholder="Property summary"  >@Model.SignBoardSummary</textarea>
-                </div>*@
+            </div>*@
 
                         @Html.TextAreaFor(model => model.SignBoardSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
                         <input type="hidden" id="DeleteImagesList" name="DeleteImagesList" />
                     </div>
-                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                    <div id="recdvsignbdesc" class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
 
                         <label>Description</label>
                         @*<textarea rows="4" cols="50" id="txtSignboardDesc" class="MultilineTextBox full-width-boxes {{SignBoardDescription}}" placeholder="Property Description" >@Model.SignBoardDescription</textarea>
@@ -653,8 +655,8 @@
                 <div class="smartFormFirstChild">
 
                     <div class="controlParentDiv">
-                        <h5 class="detailSection">PRESS ADVERTS</h5>
-                        <div class="controlDiv controlParentDiv" style="width: 100%;">
+                        <h5 id="recdvpressadvhead" class="detailSection">PRESS ADVERTS</h5>
+                        <div id="recdvpressadvheadline" class="controlDiv controlParentDiv" style="width: 100%;">
                             <label>Main Headline</label>
                             @Html.TextBoxFor(model => model.AdvertsMainHeadLine, new { id = "txtPressMainHead", @class = "generalTextBox full-width-boxes {{AdvertsMainHeadLine}}", maxlength = 255, placeholder = "Main Headline" })
                             @*<input type="text" id="txtPressMainHead" class="generalTextBox full-width-boxes {{AdvertsMainHeadLine}}" placeholder="Main Headline" value="@Model.AdvertsDescription">*@
@@ -662,14 +664,14 @@
 
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                        <div id="recdvpressadvsumm" class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                             <label>Summary</label>
                             @Html.TextAreaFor(model => model.AdvertsSummary, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Summary" })
                             @*<textarea rows="4" cols="50" id="txtPressSummery" class="MultilineTextBox full-width-boxes {{AdvertsSummary}}" placeholder="Property summary" >@Model.AdvertsSummary</textarea>*@
                         </div>
                     </div>
                     <div>
-                        <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                        <div id="recdvpressadvdesc" class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                             <label>Description</label>
                             @*<textarea rows="4" cols="50" id="txtPressDescription" class="MultilineTextBox full-width-boxes {{AdvertsDescription}}" style="" placeholder="Property Description" >@Model.AdvertsDescription</textarea>*@
                             @Html.TextAreaFor(model => model.AdvertsDescription, 20, 10, new { @class = "generalTextBoxFoTextArea", placeholder = "Property Description" })
@@ -678,7 +680,7 @@
                     <div class="clearBoth"></div>
                 </div>
                 <div class="smartFormFirstChild">
-                    <div class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
+                    <div id="recdvinstins" class="controlDiv controlParentDiv marginForTextAreas" style="width: 100%;">
                         <label class="InstallationInstContainer">Installation Ins.</label>
                         <input type="hidden" id="ListingId" name="ListingId" value="@Model.ListingId" />
                         <input type="hidden" name="BulletList" id="BulletList" />

@@ -27,6 +27,7 @@ namespace MPC.Interfaces.MISServices
         void UpdateInvoiceFromZapier(ZapierInvoiceDetail zapInvoice, long organisationId);
 
         string ExportInvocie(long InvocieId);
+        string PostInvoiceToXero(string authToken, string verifier, string organisation);
     }
 
 

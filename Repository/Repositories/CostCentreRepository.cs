@@ -937,7 +937,7 @@ namespace MPC.Repository.Repositories
             var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
             var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
             var ccVariables = db.CostCentreVariables.OrderBy(v => v.Name).ToList();   //Where(c => c.SystemSiteId == this.OrganisationId)   Commented by Muzzammil on 12th may 2015 as this is not needed.
-            var carriers = db.DeliveryCarriers.ToList();
+            var carriers = db.DeliveryCarriers.Where(o => o.OrganisationId == OrganisationId).ToList();
             var markups = db.Markups.Where(m => m.OrganisationId == this.OrganisationId).ToList();
             return new CostCenterBaseResponse
             {

@@ -194,7 +194,7 @@ define("inventory/inventory.viewModel",
                                     }
 
                                     if (selectedInventory().IsImperical() == true) {
-                                        weightLabel("Basis Weight");
+                                        weightLabel("lb");
                                     }
                                     else {
                                         weightLabel("gsm");

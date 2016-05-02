@@ -77,7 +77,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
             var savedInvoice = invoiceService.SaveInvoice(request.CreateFrom()).CreateFrom();
-            invoiceService.PostDataToZapier(savedInvoice.InvoiceId);
+           // invoiceService.PostDataToZapier(savedInvoice.InvoiceId);
             return savedInvoice;
         }
 

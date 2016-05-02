@@ -8,7 +8,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once InconsistentNaming
      Item = function (specifiedItemId, specifiedEstimateId, specifiedCode, specifiedCompanyName, specifiedProductName, specifiedQty1, specifiedStatusId,
-         specifiedJobEstimatedCompletionDateTime, specifiedQty1NetTotal, specifiedJobEstimatedStartDateTime, specifiedCodeOrder, specifiedCount, specifiedFlagColor, specifiedFlagTitle) {
+         specifiedJobEstimatedCompletionDateTime, specifiedQty1NetTotal, specifiedJobEstimatedStartDateTime, specifiedCodeOrder, specifiedCount, specifiedFlagColor, specifiedFlagTitle, specifiedIsDirectSale) {
 
          var self,
              id = ko.observable(specifiedItemId),
@@ -24,6 +24,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              orderedItemsCount = ko.observable(specifiedCount),
              orderFlagColor = ko.observable(specifiedFlagColor),
              orderFlagTitle = ko.observable(specifiedFlagTitle),
+             isDirectSale = ko.observable(specifiedIsDirectSale),
               // Job Estimated Start Date Time
                 jobEstimatedStartDateTime = ko.observable(specifiedJobEstimatedStartDateTime ? moment(specifiedJobEstimatedStartDateTime).toDate() : undefined),
              //jobEstimatedCompletionDateTime = ko.observable((specifiedJobEstimatedCompletionDateTime !== null && specifiedJobEstimatedCompletionDateTime !== undefined) ? moment(specifiedJobEstimatedCompletionDateTime, ist.datePattern).toDate() : undefined),
@@ -53,14 +54,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              orderFlagTitle : orderFlagTitle,
              jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
              qty1NetTotal: qty1NetTotal,
-             convertToServerData:convertToServerData
+             convertToServerData: convertToServerData,
+             isDirectSale: isDirectSale
          };
          return self;
      };
 
     Item.Create = function (source) {
         return new Item(source.ItemId, source.EstimateId, source.ItemCode, source.CompanyName, source.ProductName, source.Qty1, source.StatusId, source.JobEstimatedCompletionDateTime,
-            source.Qty1NetTotal, source.JobEstimatedStartDateTime, source.OrderCode, source.OrderdItemsCount, source.OrderFlagColor, source.OrderFlagTitle);
+            source.Qty1NetTotal, source.JobEstimatedStartDateTime, source.OrderCode, source.OrderdItemsCount, source.OrderFlagColor, source.OrderFlagTitle, source.IsDirectSale);
 
     };
     // #endregion __________________  Item   ______________________

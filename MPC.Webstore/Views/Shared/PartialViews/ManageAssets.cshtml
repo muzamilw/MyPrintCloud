@@ -967,21 +967,20 @@
             $("#FolderName").css("border", "1px solid #c1c6cc");
 
 
-
-            if(UpdateStatusFolder==false)
+            if(FolderValidation()==true)
             {
-
-                if(FolderValidation()==true)
+                if(UpdateStatusFolder==false)
+                {
+                    SaveFolder();
+                
+                }
+                else
                 {
 
-                    SaveFolder();
-                }
+                    UpdateFolder(FolderIDD);
+                } 
             }
-            else
-            {
-
-                UpdateFolder(FolderIDD);
-            }
+            
 
 
         }

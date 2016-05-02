@@ -73,7 +73,8 @@ namespace MPC.Implementation.MISServices
                             Qty1NetTotal = item.Qty1NetTotal,
                             OrderdItemsCount = estimate.Items.Count(i => i.ItemType != 2),
                             OrderFlagColor = estimate.SectionFlag != null ? estimate.SectionFlag.FlagColor : string.Empty,
-                            OrderFlagTitle = estimate.SectionFlag != null ? estimate.SectionFlag.FlagName : string.Empty
+                            OrderFlagTitle = estimate.SectionFlag != null ? estimate.SectionFlag.FlagName : string.Empty,
+                            IsDirectSale = estimate.isDirectSale ?? false
                         };
                         itemForItemJobStatuses.Add(itemForItemJobStatus);
                     }

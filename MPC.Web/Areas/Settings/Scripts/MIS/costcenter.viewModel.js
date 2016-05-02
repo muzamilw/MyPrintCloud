@@ -183,6 +183,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                  });
                  confirmation.show();
              },
+                
                // Delete Company Permanently
                 deleteCostCentre = function (id) {
                     dataservice.deleteCostCentre({ CostCentreId: id }, {
@@ -1415,6 +1416,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 RowscolCountList: RowscolCountList,
                 getCostCenterByFilter: getCostCenterByFilter,
                 onDeletePermanent: onDeletePermanent
+                
 
             };
         })()

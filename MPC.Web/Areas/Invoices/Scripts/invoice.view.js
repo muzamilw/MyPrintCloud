@@ -63,7 +63,14 @@ define("invoice/invoice.view",
                 hideInvoiceDetailDialog = function () {
                     $("#invoiceDetailDialog").modal("hide");
                 },
-
+                // Show Shipping Charge dialog
+                showShippingChargeDialog = function () {
+                    $("#customShippingDialog").modal("show");
+                },
+               // Hide Shipping Charge dialog
+                hideShippingChargeDialog = function () {
+                    $("#customShippingDialog").modal("hide");
+                },
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
                     // ReSharper disable UnknownCssClass
@@ -92,7 +99,9 @@ define("invoice/invoice.view",
                 hideCostCentersQuantityDialog: hideCostCentersQuantityDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
                 showInvoiceDetailDialog: showInvoiceDetailDialog,
-                hideInvoiceDetailDialog: hideInvoiceDetailDialog
+                hideInvoiceDetailDialog: hideInvoiceDetailDialog,
+                showShippingChargeDialog: showShippingChargeDialog,
+                hideShippingChargeDialog: hideShippingChargeDialog
 
             };
         })(invoiceViewModel);

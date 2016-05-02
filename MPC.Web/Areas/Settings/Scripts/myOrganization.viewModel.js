@@ -86,6 +86,7 @@ define("myOrganization/myOrganization.viewModel",
                     isZapierlVisible = ko.observable(false),
                     ismailChimpVisible = ko.observable(false),
                     isNotesVisible = ko.observable(false),
+                    isXeroVisible = ko.observable(false),
                     // for specifice name of screan
                     HeadingName = ko.observable(),
                     // #region Utility Functions
@@ -138,6 +139,10 @@ define("myOrganization/myOrganization.viewModel",
                         else if (page == "notes") {
                             HeadingName("Head & Foot Notes");
                             isNotesVisible(true);
+                        }
+                        else if (page == "xero") {
+                            HeadingName("API Credentials for Xero ");
+                            isXeroVisible(true);
                         }
                         
                         getBase();
@@ -807,7 +812,7 @@ define("myOrganization/myOrganization.viewModel",
                     ismailChimpVisible: ismailChimpVisible,
                     isNotesVisible : isNotesVisible,
                     isLanguageEditorVisible: isLanguageEditorVisible,
-
+                    isXeroVisible : isXeroVisible,
                     HeadingName: HeadingName,
                     // Utility Methods
                     onSaveMyOrganization: onSaveMyOrganization,

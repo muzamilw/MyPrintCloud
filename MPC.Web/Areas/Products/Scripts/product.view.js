@@ -452,14 +452,14 @@ define("product/product.view",
                     var productstr = product.productName();
                     var productfinal = productstr.replace(/[^A-Z0-9]+/ig, "-");
                     var templateId = product.template() && product.template().id() ? product.template().id() : product.templateId();
-                    var uri = encodeURI("http://" + host + "/Designer/" + productfinal + "/0/" + templateId + "/" + product.id() +
+                    var uri = encodeURI("//" + host + "/Designer/" + productfinal + "/0/" + templateId + "/" + product.id() +
                         "/" + product.companyId() + "/" + 0 + "/2/" + product.organisationId() + "/" + product.printCropMarks() + "/" + product.drawWatermarkText()
                         + "/false/0/0");
                     openUrlInNewWindow(uri);
                 },
                 // Open url in new window
                 openUrlInNewWindow = function(url) {
-                    window.open(url, "_blank");
+                    window.open(window.location.protocol + url, "_blank");
                 },
                 // Product Category Selected
                 productCategorySelectedEventHandler = function (event) {
