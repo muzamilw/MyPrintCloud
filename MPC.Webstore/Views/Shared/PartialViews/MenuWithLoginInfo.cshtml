@@ -1,0 +1,96 @@
+﻿@model MPC.Models.DomainModels.Company
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
+<div class="top_header">
+    <div class="container content_area" id="all-topHEader-pg">
+        <div class="left_right_padding">
+            <div class="padding_top_bottom_topheader">
+                <div class="company_logo col-md-6 col-lg-6 col-xs-12 col-sm-12 col-xs-12">
+                    <a href='@ViewBag.DefaultUrl'>
+                        <img src="/@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
+                    </a>
+                </div>
+                <div class="company_logo col-md-6 col-lg-6 col-xs-12 col-sm-12 col-xs-12">
+                    <div class="phone_number_sec ">
+                        <div class="TeleImg" id="telephoneIcon">
+                        </div>
+                        <div id="lblPoneNumber" class="lblPhoneNo">
+                            @Model.PhoneNo
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth"></div>
+                <div class="menu_with_cart_cnt">
+                    <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 col-xs-12">
+
+                        <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
+                            @if (Model.IsCustomer != 3)
+                            {
+
+                                <a id="lnkAllProducts" href="/AllProducts" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId, "All Products"))</a><a id="A1" class="piplineClr">&nbsp;|&nbsp;</a>
+
+
+                            }
+                            @if (Model.IsAllowRequestaQuote == true)
+                            {
+                                if (Model.IsCustomer != 3)
+                                {
+                                    <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                                }
+                                else if (ViewBag.DefaultUrl != "/Login")
+                                {
+                                    <a id="lnkRequestQuote" href="/RequestQuote" style="cursor: pointer;" class="iconHover">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId, "Request A Quote"))</a><a id="rfqPipeline" class="piplineClr">&nbsp;|&nbsp;</a>
+                                }
+
+                            }
+                            @if (Model.IsCustomer != 3)
+                            {
+
+
+                                <a id="lnkContactUs" href="/ContactUs" class="iconHover" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId, "Contact Us"))</a>
+                            }
+
+
+
+                        </div>
+                    </div>
+                    <div id="loginbarCon" class="login_bar float_right col-sm-6 col-md-6 col-lg-6 col-xs-12" style="padding-right: 0px !important;">
+                        <ul id="menu-my-account" class="navM">
+                            <li style="margin-right: 0px !important;" class="classicthemeLoginMenu">
+                                <a onclick="ShowLoader();" href="/Login" class="usercolorSize">
+                                    <i class="fa fa-user"></i> @Html.Raw(Html.GetKeyValueFromResourceFile("SignInlbl", UserCookieManager.WBStoreId, "Sign In"))
+                                </a>
+                                <a onclick="ShowLoader();" href="/Signup" class="usercolorSize">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("SignUplbl", UserCookieManager.WBStoreId, "Sign Up"))
+                                </a>
+                            </li>
+                            <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
+                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId, "Login/Register"))</a>
+                            </li>
+                            <li class="ZeroRightMargin BlackBtnCS">
+                                <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
+                                    @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
+                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
+                                    <div class="lblCartCounter" id="lblCartCount">
+                                        @ViewBag.CartCount
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearBoth">
+                    </div>
+                </div>
+                
+                <div class="clearBoth">
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Scripts/jquery-1.10.1.min.js"></script>
+
+

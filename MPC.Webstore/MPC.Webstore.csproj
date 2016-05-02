@@ -428,6 +428,7 @@
     <Compile Include="Controllers\LoginBarWithPhoneInfoController.cs" />
     <Compile Include="Controllers\LoginEazyPrintController.cs" />
     <Compile Include="Controllers\ManageAssetsController.cs" />
+    <Compile Include="Controllers\MenuWithLoginInfoController.cs" />
     <Compile Include="Controllers\MetroProductCategoriesController.cs" />
     <Compile Include="Controllers\MetroTestimonialController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
@@ -1233,6 +1234,7 @@
     <Content Include="Views\Shared\PartialViews\BubbleSavePercent.cshtml" />
     <Content Include="Views\Shared\PartialViews\BubbleLoginBar.cshtml" />
     <Content Include="Views\Home\Confirmation.cshtml" />
+    <Content Include="Views\Shared\PartialViews\MenuWithLoginInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1265,6 +1267,7 @@
     <Folder Include="Views\LoginBarWithPhoneInfo\" />
     <Folder Include="Views\LoginEazyPrint\" />
     <Folder Include="Views\ManageAssets\" />
+    <Folder Include="Views\MenuWithLoginInfo\" />
     <Folder Include="Views\PayWay\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
     <Folder Include="Views\RealEstateListingGrid\" />
