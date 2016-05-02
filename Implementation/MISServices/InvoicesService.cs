@@ -1014,7 +1014,7 @@ namespace MPC.Implementation.MISServices
             List<ContactPerson> contactPersons = new List<ContactPerson>();
             ContactPerson person = new ContactPerson
             {
-                FirstName = mpcContact != null ? mpcContact.FirstName : string.Empty,
+                FirstName = mpcContact != null ? mpcContact.Company.Name : string.Empty,
                 LastName = mpcContact != null ? mpcContact.LastName : string.Empty,
                 EmailAddress = mpcContact != null ? mpcContact.Email : string.Empty
             };
@@ -1030,7 +1030,7 @@ namespace MPC.Implementation.MISServices
                 ? mpcContact.Mobile
                 : string.Empty;
             xeroContact.EmailAddress = mpcContact != null ? mpcContact.Email : string.Empty;
-            xeroContact.Name = mpcContact != null ? mpcContact.FirstName + " " + mpcContact.LastName : string.Empty;
+            xeroContact.Name = mpcContact != null ? mpcContact.Company.Name : string.Empty;
             xeroContact.ContactPersons = contactPersons;
 
             var mpcAddress = mpcContact.Company.Addresses.FirstOrDefault(a => a.AddressId == invoiceToPost.AddressId);

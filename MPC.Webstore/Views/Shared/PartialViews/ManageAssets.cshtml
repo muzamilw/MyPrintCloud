@@ -11,7 +11,7 @@
 
     var Admin = ViewBag.Admin;
     var Manager = ViewBag.Manager;
-
+    var DefaultFolderUrl = "/mpc_content/DigitalAssets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/imgPlc.png";
 
 }
 <div class="container" id="all-manageAssets-pg">
@@ -93,7 +93,7 @@
                                 else
                                 {
                                     <a>
-                                        <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')" src="/mpc_content/DigitalAssets/1/32857/imgPlc.png">
+                                        <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')" src="@DefaultFolderUrl">
                                     </a>
                                 }
                             </div>
