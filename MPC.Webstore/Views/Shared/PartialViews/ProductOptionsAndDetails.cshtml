@@ -1375,6 +1375,7 @@
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
     var isPrintProductFlag = "@ViewBag.IsPrintProduct";
+    var alreadyAddedCostCentreValue = 0;
     function SubmitForm(){
         $("#AddTOCart").click();
     }
@@ -2303,10 +2304,11 @@
                 }
             }
             if (Mode == 2) {// This condition will excute when quantity changed and user already selected some cost centres
+                console.log("Mode2");
                 var CostCentreCount = 0; // if count == ticked costcenter counts means all costcentres executed when quantity changed
                 ShowLoader();
                 countOfCostCentresTicked = 0;
-
+                alreadyAddedCostCentreValue = 0;
                 // var controlsArrayOnQtyChange = [];
 
                 $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
@@ -2324,7 +2326,7 @@
                     contentType: "application/json",
                     async: true,
                     success: function(response) {
-
+                        console.log("success");
                         if (response != "") {
                          
                             $("#ModifiedQueueItem").val($("#costCentreQueueItems").val());
@@ -2442,8 +2444,10 @@
 
 
                             }
-
-                            displayTotalPrice(TotalItemPrice, totalVal);
+                            
+                            alreadyAddedCostCentreValue = parseFloat(alreadyAddedCostCentreValue) + totalVal;
+                            console.log(TotalItemPrice + " " + alreadyAddedCostCentreValue);
+                            displayTotalPrice(TotalItemPrice, alreadyAddedCostCentreValue);
 
 
                             if(addModifyLinkToCCValue == 1){
