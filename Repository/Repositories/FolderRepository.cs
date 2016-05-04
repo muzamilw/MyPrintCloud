@@ -3,6 +3,7 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,17 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
             return db.Folders.Where(i => i.ParentFolderId == ParentFolderId ).ToList();
+        }
+
+        public List<Folder> GetChildFoldersByTerritory(long parentFolderId, long territoryId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var qry = from folder in DbSet
+                      join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                      where
+                          folderterritory.TerritoryId == territoryId && folder.ParentFolderId == parentFolderId
+                      select folder;
+            return qry.ToList();
         }
 
         public long AddFolder(Folder NewFolder)
@@ -149,28 +161,45 @@ namespace MPC.Repository.Repositories
                                              }).ToList();
             foreach (var i in rootNode)
             {
-                BuildChildNode(i);
+                BuildChildNode(i, territoryId);
 
             }
             return rootNode;
         }
-        public void BuildChildNode(TreeViewNodeVM rootNode)
+        public void BuildChildNode(TreeViewNodeVM rootNode, long territoryId = 0)
         {
             if (rootNode != null)
             {
-                List<TreeViewNodeVM> chidNode = (from e1 in db.Folders
-                                                 where e1.ParentFolderId == rootNode.FolderId
-                                                 select new TreeViewNodeVM()
-                                                 {
-                                                     FolderName = e1.FolderName,
-                                                     ParentFolderId = e1.ParentFolderId,
-                                                     FolderId=e1.FolderId
-                                                 }).ToList<TreeViewNodeVM>();
+                List<TreeViewNodeVM> chidNode = new List<TreeViewNodeVM>();
+                if (territoryId > 0)
+                {
+                    chidNode = (from e1 in db.Folders
+                                join folderTerritory in db.FolderTerritories on e1.FolderId equals folderTerritory.FolderId
+                                where folderTerritory.TerritoryId == territoryId && e1.ParentFolderId == rootNode.FolderId
+                                select new TreeViewNodeVM()
+                                {
+                                    FolderName = e1.FolderName,
+                                    ParentFolderId = e1.ParentFolderId,
+                                    FolderId = e1.FolderId
+                                }).ToList<TreeViewNodeVM>();
+                }
+                else
+                {
+                    chidNode = (from e1 in db.Folders
+                                where e1.ParentFolderId == rootNode.FolderId
+                                select new TreeViewNodeVM()
+                                {
+                                    FolderName = e1.FolderName,
+                                    ParentFolderId = e1.ParentFolderId,
+                                    FolderId = e1.FolderId
+                                }).ToList<TreeViewNodeVM>();
+                }
+                
                 if (chidNode.Count > 0)
                 {
                     foreach (var childRootNode in chidNode)
                     {
-                        BuildChildNode(childRootNode);
+                        BuildChildNode(childRootNode, territoryId > 0? territoryId : 0);
                         rootNode.ChildNode.Add(childRootNode);
                     }
                 }
@@ -232,6 +261,7 @@ namespace MPC.Repository.Repositories
         //}
         public void DeleteFolder(long folderID)
         {
+            List<long?> folderChilds = db.usp_GetChildFoldersById(folderID).ToList();
             List<Asset> Assets = db.Assets.Where(i => i.FolderId == folderID).ToList();
             foreach (var Asset in Assets)
             {
@@ -244,10 +274,10 @@ namespace MPC.Repository.Repositories
                 db.Assets.Remove(Asset);
             }
             //removingchildfolders
-            List<Folder> ChildFolders = db.Folders.Where(i => i.ParentFolderId == folderID).ToList();
+            //List<Folder> ChildFolders = db.Folders.Where(i => i.ParentFolderId == folderID).ToList();
+            List<Folder> ChildFolders = db.Folders.Where(i => folderChilds.Contains(i.FolderId)).ToList();
             foreach (var child in ChildFolders)
             {
-                
                 List<Asset> Assetss = db.Assets.Where(i => i.FolderId == child.FolderId).ToList();
                 foreach (var Asset in Assetss)
                 {
@@ -261,11 +291,17 @@ namespace MPC.Repository.Repositories
                 }
                 db.Folders.Remove(child);
             }
-            Folder folder = db.Folders.Where(i => i.FolderId == folderID).FirstOrDefault();
+            List<FolderTerritory> folderTerritories =
+                db.FolderTerritories.Where(t => folderChilds.Contains(t.FolderId)).ToList();
+            if(folderTerritories.Count > 0)
+                folderTerritories.ForEach(t => db.FolderTerritories.Remove(t));
+            //Folder folder = db.Folders.Where(i => i.FolderId == folderID).FirstOrDefault();
 
-            db.Folders.Remove(folder);
+            //db.Folders.Remove(folder);
             db.SaveChanges();
         }
+
+        
 
         
     }
