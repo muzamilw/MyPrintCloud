@@ -1322,6 +1322,14 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_ExportPurchaseOrder_Result>("usp_ExportPurchaseOrder", purchaseIdParameter);
 
         }
+        public ObjectResult<Nullable<long>> usp_GetChildFoldersById(Nullable<long> folderId)
+        {
+            var folderIdParameter = folderId.HasValue ?
+                new ObjectParameter("FolderId", folderId) :
+                new ObjectParameter("FolderId", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("usp_GetChildFoldersById", folderIdParameter);
+        }
         #endregion
     }
 }

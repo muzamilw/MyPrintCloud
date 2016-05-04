@@ -16,8 +16,8 @@ namespace MPC.Interfaces.Repository
         long AddAsset(Asset Asset);
         void UpdateAssetImage(Asset Asset);
         Asset GetAsset(long AssetId);
-       
+        List<Asset> GetAssetsByFolderIds(List<long> folderIds);
 
-        
+
     }
 }
