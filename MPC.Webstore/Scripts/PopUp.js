@@ -291,8 +291,7 @@ var GlobalQuestionQueueItemsList = null; // question queues of disfferent cost c
 var idsToValidate = ""; // This variable contain ids of text boxes and validate that each text box must have a correct value
 var GlobalInputQueueItemsList = null;
 function ShowCostCentrePopup(QuestionQueueItems, CostCentreId, ClonedItemId, SelectedCostCentreCheckBoxId, Mode, Currency, ItemPrice, InputQueueObject, CostCentreType, TaxRate, WorkInstructions) {
-    console.log("ShowCostCentrePopup function");
-    console.log(QuestionQueueItems);
+   
     GlobalQuestionQueueItemsList = QuestionQueueItems;
     GlobalInputQueueItemsList = InputQueueObject;
     var innerHtml = "";
@@ -697,8 +696,7 @@ function ValidateCostCentreControl(CostCentreId, ClonedItemId, SelectedCostCentr
                 desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + "= " + $(val).val() + ". --- ";
             }
         });
-        console.log("vlaidta efun");
-        console.log(GlobalQuestionQueueItemsList);
+      
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfCostCentre, ItemPrice, Currency, true, TaxRate);
 
         idsToValidate = "";
@@ -1192,13 +1190,12 @@ function ViewOrderPopUp(Type, panelHtml) {
     }
 
     function SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, CostCentreId, CostCentreType, ClonedItemId, SelectedCostCentreCheckBoxId, desriptionOfQuestion, ItemPrice, CurrencyCode, isPromptAQuestion, TaxRate) {
-        console.log("SetGlobalCostCentreQueue function");
-        debugger;
+      
         var jsonObjectsOfGlobalQueue = null;
 
 
         if ($("#costCentreQueueItems").val() == "" || $("#costCentreQueueItems").val() == "null" || $("#costCentreQueueItems").val() == null) {
-            console.log("if");
+       
             if (GlobalInputQueueItemsList == null) {
                 GlobalInputQueueItemsList = "";
             }
@@ -1211,7 +1208,7 @@ function ViewOrderPopUp(Type, panelHtml) {
             $("#costCentreQueueItems").val(jsonObjectsOfGlobalQueue);
 
         } else {
-            console.log("else");
+          
             var isUpdated = false;
             var InputAndQuestionQueues = JSON.parse($("#costCentreQueueItems").val());
 
@@ -1244,8 +1241,7 @@ function ViewOrderPopUp(Type, panelHtml) {
                
             }
 
-            console.log("GlobalQuestionQueueItemsList " + GlobalQuestionQueueItemsList);
-
+           
             for (var i = 0; i < GlobalQuestionQueueItemsList.length; i++) {
                 for (var j = 0; j < InputAndQuestionQueues.QuestionQueues.length; j++) {
                     if (InputAndQuestionQueues.QuestionQueues[j].CostCentreID == GlobalQuestionQueueItemsList[i].CostCentreID && InputAndQuestionQueues.QuestionQueues[j].ID == GlobalQuestionQueueItemsList[i].ID) {
@@ -1269,10 +1265,9 @@ function ViewOrderPopUp(Type, panelHtml) {
             $("#costCentreQueueItems").val(JSON.stringify(InputAndQuestionQueues, null, 2));
 
         }
-        console.log("UpdatedGlobalQueueArray");
-        
+       
         var UpdatedGlobalQueueArray = JSON.parse($("#costCentreQueueItems").val());
-        console.log(UpdatedGlobalQueueArray);
+       
         var CostCentreQueueObjectToSaveInDB = [];
 
         var to;
@@ -1329,8 +1324,7 @@ function ViewOrderPopUp(Type, panelHtml) {
                             QuestionQueueDBObject.push(UpdatedGlobalQueueArray.QuestionQueues[m]);
 
                         }
-                        console.log("QuestionQueueDBObject.length popup");
-                        console.log(QuestionQueueDBObject.length);
+                       
                         if (QuestionQueueDBObject.length > 0) {
                             $("#VMJsonAddOnsQuestionQueue").val(JSON.stringify(QuestionQueueDBObject, null, 2));
                         }
@@ -1368,8 +1362,7 @@ function ViewOrderPopUp(Type, panelHtml) {
                     TaxAppliedValue = response;
                     TaxAppliedValue = TaxAppliedValue + ((TaxAppliedValue * TaxRate) / 100);
 
-                    console.log(isPromptAQuestion + " isPromptAQuestion");
-
+                  
                     if (isPromptAQuestion == true) {
                         $("#" + SelectedCostCentreCheckBoxId).next().next().html('<label>' + CurrencyCode + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + SelectedCostCentreCheckBoxId + ',' + CostCentreType + ', 1);" >Modify</a> ');
                     } else {
