@@ -40,6 +40,11 @@ namespace MPC.Repository.Repositories
             return db.Assets.Where(i => i.CompanyId == CompanyID && i.FolderId == FolderId).ToList();
         
         }
+        public List<Asset> GetAssetsByFolderIds(List<long> folderIds)
+        {
+            return DbSet.Where(a => folderIds.Contains(a.FolderId??0)).ToList();
+
+        }
 
         public void  DeleteAsset(long AssetID)
         {

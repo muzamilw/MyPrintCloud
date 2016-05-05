@@ -896,6 +896,7 @@
     var countOfCostCentreOnwhichActionIsPerformed = 0;
     var controlsArrayOnQtyChange = [];
     var isPrintProductFlag = "0";
+    var alreadyAddedCostCentreValue = 0;
     function ConfirmCart() {
         var MaxstockQty = true;
         if (isPriceSelected == 0) {
@@ -1727,7 +1728,7 @@
                 var CostCentreCount = 0; // if count == ticked costcenter counts means all costcentres executed when quantity changed
                 ShowLoader();
                 countOfCostCentresTicked = 0;
-
+                alreadyAddedCostCentreValue = 0;
                 // var controlsArrayOnQtyChange = [];
 
                 $(".checkBoxAdOnPriceCheckBox").each(function(i, val) {
@@ -1867,8 +1868,9 @@
 
                             }
 
-                            displayTotalPrice(TotalItemPrice, totalVal);
-
+                            alreadyAddedCostCentreValue = parseFloat(alreadyAddedCostCentreValue) + totalVal;
+                            console.log(TotalItemPrice + " " + alreadyAddedCostCentreValue);
+                            displayTotalPrice(TotalItemPrice, alreadyAddedCostCentreValue);
 
                             if(addModifyLinkToCCValue == 1){
                                 // $("#extrapricing" + ControlId).html('<label>' + "@ViewBag.Currency" + (TaxAppliedValue).toFixed(2).toString() + '</label>' + '<a class="CCModifyLink" onclick="PromptQuestion(' + CostCentreId + ',' + ControlId + ',' + CostCentreType + ', 1);" >Modify</a> ');

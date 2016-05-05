@@ -524,6 +524,7 @@
     <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
     <Compile Include="ResponseModels\EmailsResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
+    <Compile Include="ResponseModels\FolderSearchResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
     <Compile Include="ResponseModels\GetInquiryResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />

@@ -17,13 +17,14 @@ namespace MPC.Interfaces.Repository
         List<Folder> GetFoldersByCompanyId(long CompanyID, long OrganisationID);
         Folder GetFolderByFolderId(long FolderID);
         bool UpdateImage(Folder folder);
-       
-        void BuildChildNode(TreeViewNodeVM rootNode);
+
+        void BuildChildNode(TreeViewNodeVM rootNode, long territoryId = 0);
         
         List<TreeViewNodeVM> GetTreeVeiwList(long CompanyId, long OrganisationId);
         List<Folder> GetAllFolders(long CompanyID, long OrganisationID);
         List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId);
         List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId);
+        List<Folder> GetChildFoldersByTerritory(long parentFolderId, long territoryId);
     }
     
 
