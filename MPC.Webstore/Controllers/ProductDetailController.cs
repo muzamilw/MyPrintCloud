@@ -723,6 +723,7 @@ namespace MPC.Webstore.Controllers
                     AppBasePath = image.ImageURL.Replace("\\","/");
                     AppBasePath = AppBasePath.Replace("\\", "/");
                     string imgurl = string.Format("{0}{1}", "/", AppBasePath);
+                    imgurl = imgurl.Replace(" ", "%20");
 
                     html += "<img class='sliderImgs' src=" + imgurl + "   />";// orignal for image slider // alt='" + image.ImageTitle + "'
 
