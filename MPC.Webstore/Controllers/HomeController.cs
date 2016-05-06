@@ -204,6 +204,7 @@ namespace MPC.Webstore.Controllers
                 if (Page.PageName == "ProductDetail" || Page.PageName == "Category" || Page.PageName == "ProductOptions")
                 {
                     ViewBag.MetaTitle = TempData["MetaTitle"];
+                    ViewBag.Title = TempData["MetaTitle"];
                     TempData.Keep("MetaTitle");
                     ViewBag.MetaKeywords = TempData["MetaKeywords"];
                     TempData.Keep("MetaKeywords");
