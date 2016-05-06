@@ -15,6 +15,7 @@ using WebSupergoo.ABCpdf8;
 using System.IO;
 using System.Configuration;
 using MPC.Webstore.Common;
+using Xero.Api.Core.Endpoints;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -1939,6 +1940,11 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.GetFoldersByCompanyTerritory(companyId, organisationId, territoryId);
         }
+
+        public List<Folder> GetChildFoldersByTerritory(long parentFolderId, long territoryId)
+        {
+            return _FolderRepository.GetChildFoldersByTerritory(parentFolderId, territoryId);
+        }
         public void DeleteAsset(long AssetID)
         {
             _AssestsRepository.DeleteAsset(AssetID);
@@ -2087,6 +2093,41 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _orderrepository.GetTemplateItemsByOrderID(orderId);
         }
-        
+
+        public FolderSearchResponse GetFolderSearchResponse(string searchText, long companyId, long organisationId, long territoryId)
+        {
+            bool isStringSpecified = !string.IsNullOrEmpty(searchText);
+            searchText = searchText.ToLower();
+            FolderSearchResponse response = new FolderSearchResponse();
+            if (isStringSpecified)
+            {
+                if (territoryId > 0)
+                {
+                    var folders = GetFoldersByCompanyTerritory(companyId, organisationId, territoryId).Where(f => f.FolderName.ToLower().Contains(searchText)).ToList();
+                    if (folders.Count > 0)
+                    {
+                        response.Folders = folders;
+                        response.Assets =
+                            _AssestsRepository.GetAssetsByFolderIds(folders.Select(a => a.FolderId).ToList());
+                    }
+                    var tree = GetTreeVeiwListByTerritory(companyId, organisationId, territoryId);
+                    response.TreeView = tree.Where(t => t.FolderName.Contains(searchText)).ToList();
+
+                }
+                else
+                {
+                    var folders = GetFoldersByCompanyId(companyId, organisationId).Where(f => f.FolderName.ToLower().Contains(searchText)).ToList();
+                    if (folders.Count > 0)
+                    {
+                        response.Folders = folders;
+                        response.Assets =
+                            _AssestsRepository.GetAssetsByFolderIds(folders.Select(a => a.FolderId).ToList());
+                    }
+                    var tree = GetTreeVeiwList(companyId, organisationId);
+                    response.TreeView = tree.Where(t => t.FolderName.ToLower().Contains(searchText)).ToList();
+                }
+            }
+            return response;
+        }
     }
 }

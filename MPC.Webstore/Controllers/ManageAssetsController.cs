@@ -1,6 +1,7 @@
 ﻿using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
@@ -38,29 +39,35 @@ namespace MPC.Webstore.Controllers
             {
                 Searchfolder = Searchfolder.Replace("___", " ");
 
-                Folder RequiredFolder;
-                List<Folder> FolderList;
+                //Folder RequiredFolder;
+                //List<Folder> FolderList;
 
-                FolderList = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
-                RequiredFolder = FolderList.Where(i => i.FolderName.Contains(Searchfolder)).FirstOrDefault();
-                if (RequiredFolder != null)
-                {
-                    if (RequiredFolder.FolderId > 0)
-                    {
+                //FolderList = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                //RequiredFolder = FolderList.Where(i => i.FolderName.Contains(Searchfolder)).FirstOrDefault();
+                //if (RequiredFolder != null)
+                //{
+                //    if (RequiredFolder.FolderId > 0)
+                //    {
 
-                        GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
-                        ViewBag.SelectedTreeID = RequiredFolder.FolderId;
-                    }
+                //        GetFolder = _myCompanyService.GetChildFolders(RequiredFolder.FolderId);
+                //        ViewBag.SelectedTreeID = RequiredFolder.FolderId;
+                //    }
 
-                    GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
-                }
-                else
-                {
-                     GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
-                     GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId,0);
-                }
+                //    GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId, RequiredFolder.FolderId);
+                //}
+                //else
+                //{
+                //     GetFolder = _myCompanyService.GetFoldersByCompanyId(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                //     GetAssets = _myCompanyService.GetAssetsByCompanyIDAndFolderID(UserCookieManager.WBStoreId,0);
+                //}
+                FolderSearchResponse response = _webclaims.loginContactRoleID() == Convert.ToInt64(Roles.User)
+                        ? _myCompanyService.GetFolderSearchResponse(Searchfolder, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, _webclaims.loginContactTerritoryID())
+                        : _myCompanyService.GetFolderSearchResponse(Searchfolder, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, 0);
+
+                GetFolder = response.Folders;
+                GetAssets = response.Assets;
                 ViewBag.Folders = GetFolder;
-                List<TreeViewNodeVM> TreeModel = _myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+                List<TreeViewNodeVM> TreeModel = response.TreeView; //_myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 ViewBag.TreeModel = TreeModel;
                 ViewBag.Assets = GetAssets;
                 ViewBag.Searchfolder = Searchfolder;
@@ -83,7 +90,9 @@ namespace MPC.Webstore.Controllers
                 if (FolderId > 0)
                 {
 
-                    GetFolder = _myCompanyService.GetChildFolders(FolderId);
+                    GetFolder = _webclaims.loginContactRoleID() == Convert.ToInt64(Roles.User)
+                        ? _myCompanyService.GetChildFoldersByTerritory(FolderId, _webclaims.loginContactTerritoryID())
+                        : _myCompanyService.GetChildFolders(FolderId);
 
                 }
                 else

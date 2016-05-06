@@ -316,5 +316,9 @@ namespace MPC.Interfaces.WebStoreServices
         long GetStoreIdByCustomerId(long CustomerId);
         List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId);
         List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId);
+        List<Folder> GetChildFoldersByTerritory(long parentFolderId, long territoryId);
+
+        FolderSearchResponse GetFolderSearchResponse(string searchText, long companyId, long organisationId,
+            long territoryId);
     }
 }

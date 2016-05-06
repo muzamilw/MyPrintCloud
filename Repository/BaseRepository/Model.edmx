@@ -6653,6 +6653,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrderID" Type="int" Mode="In" />
           <Parameter Name="CreatedBy" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="usp_GetChildFoldersById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FolderId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_GetLiveStores" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="usp_GetRealEstateProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
@@ -8863,6 +8866,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Folder" EntitySet="Folders" />
             <End Role="FolderTerritory" EntitySet="FolderTerritories" />
           </AssociationSet>
+          <FunctionImport Name="usp_GetChildFoldersById" ReturnType="Collection(Int64)">
+            <Parameter Name="FolderId" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -21675,6 +21681,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetChildFoldersById" FunctionName="DomainModels.Store.usp_GetChildFoldersById" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

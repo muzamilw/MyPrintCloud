@@ -46,10 +46,12 @@
                         if (ViewBag.Searchfolder != null && ViewBag.Searchfolder != string.Empty)
                         {
                             <input id="Searchfolder" value="@ViewBag.Searchfolder" placeholder="Search Folder" class="txtBoxLoginPage" name="Searchfolder">
+    <i class="fa fa-search" style="position:relative;margin-right:10px;bottom:47px;float:right;font-size:20px;cursor:pointer;"></i>
                         }
                         else
                         {
-                            <input id="Searchfolder" value="@ViewBag.Searchfolder" placeholder="Search Folder" class="txtBoxLoginPage" name="Searchfolder">
+                    <input id="Searchfolder" value="@ViewBag.Searchfolder" placeholder="Search Folder" class="txtBoxLoginPage" name="Searchfolder">
+    <i class="fa fa-search" style="position:relative;margin-right:10px;bottom:47px;float:right;font-size:20px;cursor:pointer;"></i>
                         }
                         <input type="hidden" id="SelectedTreeID" name="SelectedTreeID" />
                     }
@@ -695,7 +697,7 @@
         }
 
         function Toogle() {
-            debugger;
+            
             $('#file_added').css("display","none");
             if(SwitchtoFolder==true)
             {
@@ -815,7 +817,7 @@
 
         }
         $("#Searchfolder").keypress(function (event) {
-            debugger;
+            
             if (event.keyCode == 13) {
                 var val=$("#Searchfolder").val();
                 if (val == '') {
@@ -827,48 +829,48 @@
             }
 
         });
-        $("#Searchfolder").autocomplete({autoFocus: true,
-            source: function (request, response) {
-                // your ajax code
-                $.ajax({
-                    url: "/ManageAssets/GetFolderIntellisenseData",
-                    data: "{ 'prefixText': '" + request.term + "' }",
-                    dataType: "json",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        response(data.split(":"))
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+        //$("#Searchfolder").autocomplete({autoFocus: true,
+        //    source: function (request, response) {
+        //        // your ajax code
+        //        $.ajax({
+        //            url: "/ManageAssets/GetFolderIntellisenseData",
+        //            data: "{ 'prefixText': '" + request.term + "' }",
+        //            dataType: "json",
+        //            type: "POST",
+        //            contentType: "application/json; charset=utf-8",
+        //            success: function (data) {
+        //                response(data.split(":"))
+        //            },
+        //            error: function (XMLHttpRequest, textStatus, errorThrown) {
 
-                    }
-                });
-            },
-            select: function (event, ui) {
-            },
-            minLength: 1,
-            change: function (event, ui) {
-
-
-                var val=$("#Searchfolder").val();
-
-                while (val.indexOf(' ') != -1)
-                    val = val.replace(" ", "___");
+        //            }
+        //        });
+        //    },
+        //    select: function (event, ui) {
+        //    },
+        //    minLength: 1,
+        //    change: function (event, ui) {
 
 
-                if ($("#Searchfolder").val() == '') {
-                    RebindGrid();
-                }
-                else {
-                    window.location.href = "/ManageAssets?folderId="+FolderIDD+"&&Searchfolder="+val+"";
-                }
+        //        var val=$("#Searchfolder").val();
+
+        //        while (val.indexOf(' ') != -1)
+        //            val = val.replace(" ", "___");
 
 
-            }
+        //        if ($("#Searchfolder").val() == '') {
+        //            RebindGrid();
+        //        }
+        //        else {
+        //            window.location.href = "/ManageAssets?folderId="+FolderIDD+"&&Searchfolder="+val+"";
+        //        }
+
+
+        //    }
 
 
 
-        });
+        //});
 
         function RebindGrid() {
 
@@ -920,9 +922,7 @@
             return isValidAction;
         }
 
-        function ActionAssetForUpdateCase()
-        {
-
+        function ActionAssetForUpdateCase() {
             $("#FolderName").css("border", "1px solid #c1c6cc");
             $("#imgloader").css("border", "1px solid #c1c6cc");
             $("#Qty").css("border", "1px solid #c1c6cc");
@@ -941,10 +941,14 @@
             //}
             //else
             //{
-
-            UpdateAssset(AsssetsID,RemovedID);
+            if (AsssetsID > 0) {
+                UpdateAssset(AsssetsID,RemovedID);
+            } else {
+                SaveAsset();
+            }
+            
             //}
-            return AssetsValidation()
+            //return AssetsValidation()
         }
 
 
@@ -963,7 +967,7 @@
 
 
         function ActionFolder() {
-            debugger;
+            
             $("#FolderName").css("border", "1px solid #c1c6cc");
 
 
@@ -1011,7 +1015,6 @@
 
         }
         function AssetsValidation() {
-            debugger;
             var result=true;
             if($("#FolderName").val()=='')
             {
@@ -1159,7 +1162,7 @@
             });
         }
         function LoadTerritories() {
-            debugger;
+            
             $.ajax({
                 type: "GET",
                 url: "/ManageAssets/GetStoreTerritories",
@@ -1218,8 +1221,8 @@
             });
         }
 
-        function SetSelectedFolder(FolderID,flag, folderTerritories) {
-            debugger;
+        function SetSelectedFolder(FolderID,flag, folderTerritories, currentFolderId) {
+            
             var CountriesDD = $("#folderDropDown");
             CountriesDD.html('');
             $.ajax({
@@ -1236,8 +1239,10 @@
                         CountriesDD.append($('<option></option>').val(0).html('Set as parent'));
                     }
                     $.each(response.Folders, function (id, option) {
-
-                        CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                        if (option.FolderId != currentFolderId) {
+                            CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                        }
+                        
                     });
                     $.each(response.CompanyTerritories, function (id, option) {
                         territoryList.append($('<div></div>').html('<input style="margin:5px;" id =' + option.TerritoryId + ' type="checkbox" checked=' + option.IsSelectedInFolder +'><label for=' + option.TerritoryId + '>'+option.TerritoryName +'</label>'));
@@ -1268,7 +1273,6 @@
         });
         function HideMessagePopUpCustom() {
 
-            debugger;
             
             var fil = document.querySelector("#selectedFiles");
             var valid = AssetsValidation();
@@ -1379,6 +1383,7 @@
             $("#FilesUploader").css("display", "none");
             $("#DeleteFolder").css("display", "none");
             $("#DeleteAsset").css("display", "none");
+            $("#file_added").css("display", "none");
             //SaveAsset
             document.getElementById("layer").style.display = "block";
             document.getElementById("innerLayer").style.display = "block";
@@ -1506,7 +1511,7 @@
             document.getElementById("innerLayer").style.display = "none";
         }
         function SaveFolder() {
-            debugger;
+            
             var FolderName = $("#FolderName").val();
             var FolderDescription = $("#FoldDescription").val();
             var ParentFolderId = $("#folderDropDown").val();
@@ -1615,7 +1620,7 @@
 
 
         function UpdateAssset(AssetId,RemovedIDs) {
-            debugger;
+            
             if(AssetId>0)
             {
                 var FolderName = $("#FolderName").val();
@@ -1744,7 +1749,7 @@
                         $('#AddFoldImg').attr("src",'/Content/Images/imgPlc.png');
                     }
                     $("#ImageUploader").val('');
-                    //  $("#folderDropDown").val();
+                   // $("#folderDropDown").val(response.Asset.FolderId);
                     $("#FolderName").val(response.Asset.AssetName);
                     $("#keywords").val(response.Asset.Keywords);
                     $("#FoldDescription").val(response.Asset.Description);
@@ -1759,7 +1764,7 @@
         }
 
         function EditFolder(FolderID) {
-            debugger;
+            
             $("#modelTitle").text('Update Folder');
             document.getElementById("layer").style.display = "block";
             document.getElementById("innerLayer").style.display = "block";
@@ -1791,7 +1796,7 @@
                 async: true,
                 //data:Data,
                 success: function (response) {
-                    SetSelectedFolder(response.ParentFolderId,true, response.FolderTerritories);
+                    SetSelectedFolder(response.ParentFolderId,true, response.FolderTerritories, FolderID);
                     if(response.ImagePath!=null&&response.ImagePath!='')
                     {
                         $('#AddFoldImg').attr("src",response.ImagePath);
@@ -1876,7 +1881,7 @@
             });
         }
         function SetSelectedFolderrr(obj, FolderId,Index) {
-
+            
             var index = Index;
 
 
@@ -1891,13 +1896,13 @@
         }
 
         function SetSelectedFolderTerritories(territories, obj) {
-
-
             var isSelected = false;
-            $.each(territories, function (id,option) {
-                if (option.TerritoryId == obj.firstChild.id)
-                    isSelected = true;
-            });
+            if (territories != undefined) {
+                $.each(territories, function (id,option) {
+                    if (option.TerritoryId == obj.firstChild.id)
+                        isSelected = true;
+                });
+            }
             return isSelected;
         }
 
@@ -1947,7 +1952,7 @@
         }
 
         function BindFileItems(Items,isdownloadWindow) {
-            debugger;
+            
             var GridItems = Items;
             var InnerHtml = "";
 
@@ -2048,7 +2053,7 @@
             }
         }
         function DeleteItem(AssetID,btndel,AssestItemId) {
-            debugger;
+            
             if (typeof(btndel) == "object") {
                 $(btndel).closest("div").remove();
             } else {
@@ -2158,7 +2163,7 @@
             $("#popupoverlayForConfirmPopupForUpdateAsset").css("display", "none");
         }
         function ShowDownloadWindow(imagpath, Assetid) {
-            debugger;
+            
             AssetIdd=Assetid;
 
             var url= "/CloneItemForManageAsset/"+Assetid+"";
@@ -2247,7 +2252,7 @@
 
 
         function removeAtt(name, t) {
-            debugger;
+            
             removedFiles.push(name);
             storedFiles = $.grep(storedFiles, function (n, i) {
 
@@ -2262,8 +2267,7 @@
 
         var postedFiles = [];
         function doReCreate() {
-            debugger;
-
+            
             selDiv = document.querySelector("#selectedFiles");
 
 
@@ -2307,12 +2311,11 @@
                             // formData.append("file" + i, files[i]);
                             mbImagesFiles.append("UploadedFile" + i, files[i]);
                             var res= GetImageName(AssetItemsList,files[i].name);
-                            postedFiles.push({ fname: files[i].name, fObj: files[i] });
-
                             // if(IsvalidFile(postedFiles,files[i].name)==false)
                             // {
                             if(res==false)
                             {
+                                postedFiles.push({ fname: files[i].name, fObj: files[i] });
                                 selDiv.innerHTML += "<div style='font-size:10px;'><a onclick='removeAtt(&#34;" + files[i].name + "&#34; ,this )'  style='color:red !important; cursor:pointer;'> X </a>" + files[i].name + "</div>";
                                 FileName = files[i].name;
                                 while (files[i].name.indexOf('/') != -1)
@@ -2339,7 +2342,7 @@
         function IsvalidFile(postedFiles,file)
         {
             var result=false;
-            debugger;
+            
             //  if(postedFiles.length>1)
             //  {
             if(storedFiles!=null&&storedFiles!='')
