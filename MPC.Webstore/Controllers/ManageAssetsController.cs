@@ -64,12 +64,12 @@ namespace MPC.Webstore.Controllers
                         ? _myCompanyService.GetFolderSearchResponse(Searchfolder, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, _webclaims.loginContactTerritoryID())
                         : _myCompanyService.GetFolderSearchResponse(Searchfolder, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, 0);
 
-                GetFolder = response.Folders;
-                GetAssets = response.Assets;
-                ViewBag.Folders = GetFolder;
+               // GetFolder = response.Folders;
+                //GetAssets = response.Assets;
+                ViewBag.Folders = response.Folders?? GetFolder;
                 List<TreeViewNodeVM> TreeModel = response.TreeView; //_myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 ViewBag.TreeModel = TreeModel;
-                ViewBag.Assets = GetAssets;
+                ViewBag.Assets = response.Assets?? GetAssets;
                 ViewBag.Searchfolder = Searchfolder;
                 ViewBag.Admin = Roles.Adminstrator;
                 ViewBag.Manager = Roles.Manager;

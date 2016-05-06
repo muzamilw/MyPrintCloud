@@ -2386,9 +2386,15 @@ namespace MPC.Implementation.WebStoreServices
             // status = 3
 
             string ImagePath = GetAsset.ImagePath;
-            string[] path = ImagePath.Split('/');
+            string properPath = string.Empty;
+            
+            if (!string.IsNullOrEmpty(ImagePAth))
+            {
+                string[] path = ImagePath.Split('/');
 
-            string properPath = path[1] + "/" + path[2] + "/" + path[3] + "/" + path[4] + "/" + path[5] + "/" + path[6] + "/" + path[7];
+                properPath = path[1] + "/" + path[2] + "/" + path[3] + "/" + path[4] + "/" + path[5] + "/" + path[6] + "/" + path[7];
+            }
+           
             
             try
             {

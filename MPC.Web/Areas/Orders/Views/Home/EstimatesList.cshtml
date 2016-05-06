@@ -170,7 +170,10 @@
                                 </td>
                                 <!--/ko-->
                                 <!--ko if: $root.currentScreen() == 0 || $root.currentScreen() == 1 || $root.currentScreen() == undefined-->
-                                <td class="col-sm-2"><span style="margin-right: 0; float: right; font-weight: normal;" data-bind="text:$root.currencySymbol()+estimateTotal()"></span></td>
+                                <td class="col-sm-2" style="text-align: right">
+                                    <span data-bind="text:$root.currencySymbol">A$</span>
+                                    <span data-bind="numberInput:estimateTotal"></span>
+                                </td>
                                 <!--/ko-->
                                 
                             </tr>

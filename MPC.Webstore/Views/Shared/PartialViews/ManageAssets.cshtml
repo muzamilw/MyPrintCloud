@@ -31,7 +31,7 @@
             &nbsp;
         </div>
     </div>
-    @if (Tree.Count == 0 && countOfAllItems == 0)
+    @if (Tree.Count == null && countOfAllItems == null)
     {
         <div class="assetsNoFound">No folder(s) or asset(s) found.</div>
     }
@@ -46,12 +46,12 @@
                         if (ViewBag.Searchfolder != null && ViewBag.Searchfolder != string.Empty)
                         {
                             <input id="Searchfolder" value="@ViewBag.Searchfolder" placeholder="Search Folder" class="txtBoxLoginPage" name="Searchfolder">
-    <i class="fa fa-search" style="position:relative;margin-right:10px;bottom:47px;float:right;font-size:20px;cursor:pointer;"></i>
+    <i class="fa fa-search" style="position:relative;margin-right:10px;bottom:47px;float:right;font-size:20px;cursor:pointer;" onclick="SearchFoldersResult()"></i>
                         }
                         else
                         {
                     <input id="Searchfolder" value="@ViewBag.Searchfolder" placeholder="Search Folder" class="txtBoxLoginPage" name="Searchfolder">
-    <i class="fa fa-search" style="position:relative;margin-right:10px;bottom:47px;float:right;font-size:20px;cursor:pointer;"></i>
+    <i class="fa fa-search" style="position:relative;margin-right:10px;bottom:47px;float:right;font-size:20px;cursor:pointer;" onclick="SearchFoldersResult()"></i>
                         }
                         <input type="hidden" id="SelectedTreeID" name="SelectedTreeID" />
                     }
@@ -85,22 +85,30 @@
                 @foreach (var ParentFolder in Folder)
                 {
                     var RedirectUrl = "/ManageAssets/" + ParentFolder.FolderId;
+                    var desc = ParentFolder.Description;
+                    if (!String.IsNullOrEmpty(desc) && desc.Contains("'"))
+                    {
+                        desc = desc.Replace("'", "");
+                    }
                     <div class="assetCategory">
                         <div class="assetCategoryInnerCnt">
                             <div class="assetImgCnt">
                                 @if (ParentFolder.ImagePath != null && ParentFolder.ImagePath != string.Empty)
                                 {
-                                    <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')"><img src="@ParentFolder.ImagePath"></a>
+                                    <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@desc','@ParentFolder.ParentFolderId')"><img src="@ParentFolder.ImagePath"></a>
+                            
                                 }
                                 else
                                 {
                                     <a>
-                                        <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')" src="@DefaultFolderUrl">
+                                        <img onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@desc','@ParentFolder.ParentFolderId')" src="@DefaultFolderUrl">
+                                       
                                     </a>
                                 }
                             </div>
                             <div class="assetNameCnt">
-                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@ParentFolder.Description','@ParentFolder.ParentFolderId')" class="catAssetName">@ParentFolder.FolderName</a>
+                                <a onclick="ShowFolderPreview(@ParentFolder.FolderId,'@ParentFolder.ImagePath',this,'@ParentFolder.FolderName','@desc','@ParentFolder.ParentFolderId')" class="catAssetName">@ParentFolder.FolderName</a>
+                                
                             </div>
 
 
@@ -479,16 +487,17 @@
 
         });
         function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription,ParentFolderId)
-        {
+         {
+            debugger;
             ClearFields();
             var RoleId='@ContactRole';
-            if(ParentFolderId==0)
+            if(folderId==0)
             {
                 $("#assetCatNameUser_side").text('Parent');
             }
             else
             {
-                folderNAme= GetfolderName(ParentFolderId);
+                folderNAme= GetfolderName(folderId);
             }
             SwitchtoFolder=true;
             $("#btnPreview").text("Open");
@@ -819,15 +828,16 @@
         $("#Searchfolder").keypress(function (event) {
             
             if (event.keyCode == 13) {
-                var val=$("#Searchfolder").val();
-                if (val == '') {
-                    RebindGrid();
-                    event.preventDefault();
-                    return false;
+                //var val=$("#Searchfolder").val();
+                //if (val == '') {
+                //    RebindGrid();
+                //    event.preventDefault();
+                //    return false;
 
-                }
+                //}
+                SearchFoldersResult();
             }
-
+            
         });
         //$("#Searchfolder").autocomplete({autoFocus: true,
         //    source: function (request, response) {
@@ -871,7 +881,16 @@
 
 
         //});
-
+        function SearchFoldersResult() {
+            debugger;
+            var searchVal = $("#Searchfolder").val();
+            if (searchVal == '') {
+                window.location.href = "/ManageAssets";
+                    }
+                    else {
+                window.location.href = "/ManageAssets?folderId=0&Searchfolder="+searchVal+"";
+                    }
+        }
         function RebindGrid() {
 
             window.location.href = "/ManageAssets";
@@ -1240,7 +1259,7 @@
                     }
                     $.each(response.Folders, function (id, option) {
                         if (option.FolderId != currentFolderId) {
-                            CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
+                            CountriesDD.append($('<option id='+option.FolderId+'></option>').val(option.FolderId).html(option.FolderName));
                         }
                         
                     });
@@ -1764,7 +1783,7 @@
         }
 
         function EditFolder(FolderID) {
-            
+            debugger;
             $("#modelTitle").text('Update Folder');
             document.getElementById("layer").style.display = "block";
             document.getElementById("innerLayer").style.display = "block";
@@ -1881,18 +1900,25 @@
             });
         }
         function SetSelectedFolderrr(obj, FolderId,Index) {
-            
-            var index = Index;
-
-
-            $.each(obj, function (id, option) {
-
-                if (option.FolderId==FolderId) {
-
-                    $("#folderDropDown")[0].selectedIndex = index;
+            debugger;
+            var index = 1;
+            $.each($("#folderDropDown")[0].children, function(id2, option2) {
+                if (option2.id==FolderId) {
+                    $("#folderDropDown")[0].selectedIndex = option2.index;
                 }
-                index++;
             });
+
+            //$.each(obj, function (id, option) {
+
+                
+                
+            //    //if (option.FolderId==FolderId) {
+
+                    
+            //    //    $("#folderDropDown")[0].selectedIndex = index;
+            //    //}
+            //    //index++;
+            //});
         }
 
         function SetSelectedFolderTerritories(territories, obj) {

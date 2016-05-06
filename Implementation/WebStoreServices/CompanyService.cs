@@ -2116,7 +2116,7 @@ namespace MPC.Implementation.WebStoreServices
                 }
                 else
                 {
-                    var folders = GetFoldersByCompanyId(companyId, organisationId).Where(f => f.FolderName.ToLower().Contains(searchText)).ToList();
+                    var folders = GetAllFolders(companyId, organisationId).Where(f => f.FolderName.ToLower().Contains(searchText)).ToList();
                     if (folders.Count > 0)
                     {
                         response.Folders = folders;

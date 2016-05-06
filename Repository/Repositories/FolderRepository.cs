@@ -36,7 +36,7 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
 
-            return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && (i.ParentFolderId == null || i.ParentFolderId == 0)).ToList();
+            return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && (i.ParentFolderId == null || i.ParentFolderId == 0)).OrderBy(a => a.FolderName).ToList();
         }
 
         public List<Folder> GetFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId)
@@ -51,19 +51,19 @@ namespace MPC.Repository.Repositories
                 select folder;
 
 
-            return qry.ToList();
+            return qry.OrderBy(a => a.FolderName).ToList();
         }
 
         public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
         {
             db.Configuration.LazyLoadingEnabled = false;
 
-            return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID).ToList();
+            return db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID).OrderBy(a => a.FolderName).ToList();
         }
         public List<Folder> GetChildFolders(long ParentFolderId)
         {
             db.Configuration.LazyLoadingEnabled = false;
-            return db.Folders.Where(i => i.ParentFolderId == ParentFolderId ).ToList();
+            return db.Folders.Where(i => i.ParentFolderId == ParentFolderId ).OrderBy(i => i.FolderName).ToList();
         }
 
         public List<Folder> GetChildFoldersByTerritory(long parentFolderId, long territoryId)
@@ -74,7 +74,7 @@ namespace MPC.Repository.Repositories
                       where
                           folderterritory.TerritoryId == territoryId && folder.ParentFolderId == parentFolderId
                       select folder;
-            return qry.ToList();
+            return qry.OrderBy(a => a.FolderName).ToList();
         }
 
         public long AddFolder(Folder NewFolder)
@@ -140,7 +140,7 @@ namespace MPC.Repository.Repositories
                                            FolderName = e1.FolderName,
                                            ParentFolderId = e1.ParentFolderId,
                                            FolderId = e1.FolderId
-                                       }).ToList();
+                                       }).OrderBy(a => a.FolderName).ToList();
             foreach (var i in rootNode)
             {
                 BuildChildNode(i);
@@ -158,7 +158,7 @@ namespace MPC.Repository.Repositories
                                                  FolderName = e1.FolderName,
                                                  ParentFolderId = e1.ParentFolderId,
                                                  FolderId = e1.FolderId
-                                             }).ToList();
+                                             }).OrderBy(a => a.FolderName).ToList();
             foreach (var i in rootNode)
             {
                 BuildChildNode(i, territoryId);
@@ -181,7 +181,7 @@ namespace MPC.Repository.Repositories
                                     FolderName = e1.FolderName,
                                     ParentFolderId = e1.ParentFolderId,
                                     FolderId = e1.FolderId
-                                }).ToList<TreeViewNodeVM>();
+                                }).OrderBy(a => a.FolderName).ToList<TreeViewNodeVM>();
                 }
                 else
                 {
@@ -192,7 +192,7 @@ namespace MPC.Repository.Repositories
                                     FolderName = e1.FolderName,
                                     ParentFolderId = e1.ParentFolderId,
                                     FolderId = e1.FolderId
-                                }).ToList<TreeViewNodeVM>();
+                                }).OrderBy(a => a.FolderName).ToList<TreeViewNodeVM>();
                 }
                 
                 if (chidNode.Count > 0)
