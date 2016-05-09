@@ -39,7 +39,7 @@
     {
         <div style="    height: inherit;
     border: 1px solid #ebebeb;">
-            <div class="assetLeftPanelWithSearchBar float_left_simple" style=" min-height: 400px;">
+        <div class="assetLeftPanelWithSearchBar float_left_simple" style=" min-height: 400px !important;">
                 <div class="assetSearchPanel">
                     @using (Html.BeginForm())
                     {
@@ -450,9 +450,9 @@
             SetTreeState(SelectedTreeID);
             currentHeight = $('.assetRightPanelWithSubFolAsst').outerHeight();
             var Folders='@Folder.Count';
+            currentHeight = currentHeight + 20;
 
-
-            var height= 'height:'+currentHeight+'px!important';
+            var height= 'height:'+currentHeight +'px!important';
 
             $(".assetLeftPanelWithSearchBar").css("cssText",height);
             $(".assetRightPanelDescription").css("cssText",height);
@@ -491,13 +491,13 @@
             debugger;
             ClearFields();
             var RoleId='@ContactRole';
-            if(folderId==0)
+            if(ParentFolderId==0)
             {
                 $("#assetCatNameUser_side").text('Parent');
             }
             else
             {
-                folderNAme= GetfolderName(folderId);
+                folderNAme= GetfolderName(ParentFolderId);
             }
             SwitchtoFolder=true;
             $("#btnPreview").text("Open");

@@ -48,13 +48,13 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-
+            bool isStatusSpecified = request.Status == 0;
             Expression<Func<DeliveryNote, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) ||
                       item.CustomerOrderReff.Contains(request.SearchString) || (item.Company.Name.Contains(request.SearchString)) ||
                       (item.Code.Contains(request.SearchString)) || (item.OrderReff.Contains(request.SearchString))) 
-                      && item.IsStatus == request.Status && item.OrganisationId == OrganisationId);
+                      && (!isStatusSpecified && item.IsStatus == request.Status || isStatusSpecified) && item.OrganisationId == OrganisationId);
             IEnumerable<DeliveryNote> deliveryNotes = request.IsAsc
                 ? DbSet.Where(query)
                     .OrderBy(_deliveryNoteByClause[request.ItemOrderBy])

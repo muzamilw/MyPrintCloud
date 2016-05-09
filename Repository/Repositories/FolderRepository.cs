@@ -47,8 +47,22 @@ namespace MPC.Repository.Repositories
                 join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
                 where
                     folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
-                    folder.OrganisationId == organisationId
+                    folder.OrganisationId == organisationId && (folder.ParentFolderId == null || folder.ParentFolderId == 0)
                 select folder;
+
+
+            return qry.OrderBy(a => a.FolderName).ToList();
+        }
+        public List<Folder> GetAllFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+
+            var qry = from folder in DbSet
+                      join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                      where
+                          folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
+                          folder.OrganisationId == organisationId
+                      select folder;
 
 
             return qry.OrderBy(a => a.FolderName).ToList();

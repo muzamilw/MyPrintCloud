@@ -2103,7 +2103,7 @@ namespace MPC.Implementation.WebStoreServices
             {
                 if (territoryId > 0)
                 {
-                    var folders = GetFoldersByCompanyTerritory(companyId, organisationId, territoryId).Where(f => f.FolderName.ToLower().Contains(searchText)).ToList();
+                    var folders = _FolderRepository.GetAllFoldersByCompanyTerritory(companyId, organisationId, territoryId).Where(f => f.FolderName.ToLower().Contains(searchText)).ToList();
                     if (folders.Count > 0)
                     {
                         response.Folders = folders;

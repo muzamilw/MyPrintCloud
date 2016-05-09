@@ -81,12 +81,13 @@
             <div class="main-box clearfix">
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-DeliveryAwaiting" data-toggle="tab" data-bind="click: function(){$root.getDeliveryNotesOnTabChange(19);}">Awaiting</a></li>
+                        <li class="active"><a href="#tab-ShowAll" data-toggle="tab" data-bind="click: function(){$root.getDeliveryNotesOnTabChange(0);}">Show All</a></li>
+                        <li><a href="#tab-DeliveryAwaiting" data-toggle="tab" data-bind="click: function(){$root.getDeliveryNotesOnTabChange(19);}">Awaiting</a></li>
                         <li><a href="#tab-DeliveryPosted" data-toggle="tab" data-bind="click: function(){$root.getDeliveryNotesOnTabChange(20);}">Delivered</a></li>
                     </ul>
                 </div>
                 <div class="tab-content" style="padding-left:10px;">
-                    <div class="tab-pane fade in active" id="tab-DeliveryAwaiting">
+                    <div class="tab-pane fade in" id="tab-DeliveryAwaiting">
                         <div class="tabsdescriptions" style="margin-left:6px;">
                             <p class="group-header-description">View Orders that are awaiting dispatch, add contact information and print delivery dockets.</p>
                         </div>
@@ -138,6 +139,36 @@
 
                         </div>
                     </div>
+                    <div class="tab-pane active" id="tab-ShowAll">
+                        <div style="margin-top:15px;margin-left:0px;margin-bottom:10px;">
+                            <div class="tabsdescriptions" style="margin-left:6px;">
+                                <p class="group-header-description">View all Delivery Dockets with status.</p>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="padding-left:9px;padding-right:20px;">
+                            <table class="table user-list table-striped table-hover">
+                                <thead>
+                                    <tr>
+
+                                        <th>&nbsp;</th>
+                                        <th class="col-lg-3"><span>Customer</span></th>
+                                        <th class="col-lg-2"><span>Contact</span></th>
+                                        <th class="col-lg-2"><span>Delivery Code</span></th>
+                                        <th class="col-lg-2"><span>Delivery Date</span></th>
+                                        <th class="col-lg-2"><span>Flag</span></th>
+                                        <th class="col-lg-1">Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ko template: { name: 'deliveryNotesListViewTemplate', foreach: $root.deliverNoteListView } -->
+                                    <!-- /ko -->
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
                     <div id="pagerDiv" class="pull-right" style="padding-right:20px;">
                         <!-- ko with: pager -->
                         @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -192,9 +223,12 @@
         </td>
         <td>
             <span data-bind="dateString: creationDateTime, datePattern: 'DD/MM/YYYY'"></span>
-        </td>
+        </td>                
         <td>
             <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
+        </td>
+        <td data-bind="visible:$root.currentTab() == 0">
+            <span data-bind="text:status() == 19 ? 'Awaiting' : 'Delivered'"></span>
         </td>
        <td></td>
     </tr>

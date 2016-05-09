@@ -2485,10 +2485,11 @@ define("order/order.viewModel",
                                 var uniqueNotes = [];
                                 _.each(raisedList, function (item) {
                                     var uniqueNote = _.find(uniqueNotes, function (raisedItem) {
-                                        return (raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId() && raisedItem.deliveryDate() === item.deliveryDate());
+                                        return (raisedItem.consignmentNumber() === item.consignmentNumber() && raisedItem.addressId() === item.addressId() && raisedItem.carrierId() === item.carrierId() && raisedItem.deliveryDate() === moment(item.deliveryDate()).format(ist.customDatePattern));
                                     });
                                     if (uniqueNote == undefined) {
-                                        item.shippingDetails.push({Description: item.itemName()});
+                                        item.shippingDetails.push({ Description: item.itemName() });
+                                        item.deliveryDate(moment(item.deliveryDate()).format(ist.customDatePattern));
                                         uniqueNotes.push(item);
                                     } else {
                                         var duplicate = _.find(uniqueNotes, function (dup) {

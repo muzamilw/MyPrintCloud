@@ -37,7 +37,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     defaultHeadNote = ko.observable(),
                     defaultFootNote = ko.observable(),
                     deliveryNoteEditorHeader = ko.observable(),
-                    currentTab = ko.observable(19),
+                    currentTab = ko.observable(0),
                     // #region Observables
                     selectedDeliveryNote = ko.observable(model.DeliveryNote()),
                     // For List View

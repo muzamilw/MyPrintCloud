@@ -6,7 +6,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // #region __________________  Delivery Note List View   ______________________
         deliverNoteListView = function (specifieddeliveryNoteId, specifiedcode, specifieddeliveryDate, specifiedflagId, specifiedcontactCompany,
-            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor, specifiedCount, specifiedContactName) {
+            specifiedOrderReff, specifiedCreationDateTime, specifiedCompanyName, specifiedFlagColor, specifiedCount, specifiedContactName, specifiedStatus) {
 
             var self,
                 deliveryNoteId = ko.observable(specifieddeliveryNoteId),
@@ -19,6 +19,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 flagColor = ko.observable(specifiedFlagColor),
                 itemsCount = ko.observable(specifiedCount),
                 contactName = ko.observable(specifiedContactName),
+                status = ko.observable(specifiedStatus),
                 creationDateTime = ko.observable(specifiedCreationDateTime !== null ? moment(specifiedCreationDateTime).toDate() : undefined),
 
                 convertToServerData = function () {
@@ -39,7 +40,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemsCount : itemsCount,
                 creationDateTime: creationDateTime,
                 convertToServerData: convertToServerData,
-                contactName: contactName
+                contactName: contactName,
+                status: status
             };
             return self;
         },
@@ -288,7 +290,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Delivery Notes List View Factory
     deliverNoteListView.Create = function (source) {
         return new deliverNoteListView(source.DeliveryNoteId, source.Code, source.DeliveryDate, source.FlagId, source.ContactCompany, source.OrderReff,
-            source.CreationDateTime, source.CompanyName, source.FlagColor, source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.length : 0, source.ContactName);
+            source.CreationDateTime, source.CompanyName, source.FlagColor, source.DeliveryNoteDetails != null ? source.DeliveryNoteDetails.length : 0, source.ContactName, source.IsStatus);
     };
 
     // Delivery Notes Factory
