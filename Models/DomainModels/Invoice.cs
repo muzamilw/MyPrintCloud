@@ -47,6 +47,8 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string XeroPostUrl { get; set; }
 
+        public string RefOrderCode { get; set; }
+        
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual Company Company { get; set; }

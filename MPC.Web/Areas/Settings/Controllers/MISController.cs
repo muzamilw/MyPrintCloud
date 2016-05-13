@@ -56,5 +56,17 @@ namespace MPC.MIS.Areas.Settings.Controllers
             return View();
 
         }
+        public ActionResult UserRole()
+        {
+
+            return View();
+
+        }
+        public ActionResult SystemUsers()
+        {
+
+            return View();
+
+        }
     }
 }

@@ -356,6 +356,10 @@
         <AssociationConnector Association="DomainModels.FK_Assets_Folder" />
         <AssociationConnector Association="DomainModels.FK_Folder_Folder" />
         <AssociationConnector Association="DomainModels.FK_FolderTerritory_Folder" />
+        <EntityTypeShape EntityType="DomainModels.AccessRight" Width="1.5" PointX="44.375" PointY="8.5" />
+        <EntityTypeShape EntityType="DomainModels.Roleright" Width="1.5" PointX="46.625" PointY="9" />
+        <AssociationConnector Association="DomainModels.FK_tbl_rolerights_tbl_rights" />
+        <AssociationConnector Association="DomainModels.FK_tbl_rolerights_tbl_roles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

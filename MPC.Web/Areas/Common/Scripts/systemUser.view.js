@@ -11,6 +11,7 @@ define("common/systemUser.view",
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#systemUserDialog")[0],
+                userListBinding = $("#systemUsersBinding")[0],
                 // Show Activity the dialog
                 showSystemUserDialog = function () {
                     $("#systemUserDialog").modal("show");
@@ -22,6 +23,7 @@ define("common/systemUser.view",
            
             return {
                 bindingRoot: bindingRoot,
+                userListBinding : userListBinding,
                 viewModel: viewModel,
                 showSystemUserDialog: showSystemUserDialog,
                 hideSystemUserDialog: hideSystemUserDialog
@@ -31,6 +33,9 @@ define("common/systemUser.view",
 
         // Initialize the view model
         if (ist.systemUser.view.bindingRoot) {
+            ist.systemUser.viewModel.initialize(ist.systemUser.view);
+        }
+        if (ist.systemUser.view.userListBinding) {
             ist.systemUser.viewModel.initialize(ist.systemUser.view);
         }
     });

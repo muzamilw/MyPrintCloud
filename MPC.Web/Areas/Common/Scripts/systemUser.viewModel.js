@@ -10,7 +10,7 @@ define("common/systemUser.viewModel",
                 var // The view 
                     view,
                     selectedSystemUser = ko.observable(model.SystemUser()),
-                   
+                   usersList = ko.observableArray([]),
                     getSystemUserSignature = function () {
                         dataservice.getSystemUserSignature({
                             success: function (data) {
@@ -26,6 +26,22 @@ define("common/systemUser.viewModel",
                         });
                         
                     },
+                    getSystemUsers = function () {
+                        dataservice.getSystemUsers({
+                            success: function (data) {
+                                if (data != null) {
+                                    usersList.removeAll();
+                                    _.each(data.SystemUsers, function (user) {
+                                        usersList.push(model.SystemUser.Create(user));
+                                    });
+                                }
+                            },
+                            error: function () {
+                                toastr.error("Error: Failed To load system users ", "", ist.toastrOptions);
+                            }
+                        });
+
+                    },
                     saveSignature = function () {
                         var user = selectedSystemUser().convertToServerData();
                         dataservice.saveSystemUserSignature(selectedSystemUser().convertToServerData(), {
@@ -39,18 +55,31 @@ define("common/systemUser.viewModel",
                             }
                         });
                     },
-                    
+                    editUser = function() {
+                        
+                    },
                 // Initialize the view model
                  initialize = function (specifiedView) {
                      view = specifiedView;
-                     ko.applyBindings(view.viewModel, view.bindingRoot);
+                     if (view.bindingRoot)
+                         ko.applyBindings(view.viewModel, view.bindingRoot);
+                     if (view.userListBinding) {
+                         ko.cleanNode(view.userListBinding);
+                         ko.applyBindings(view.viewModel, view.userListBinding);
+                     }
+                     
+                     if (page != undefined && page == "all") {
+                         getSystemUsers();
+                     }
                  };
 
                 return {
                     getSystemUserSignature: getSystemUserSignature,
                     initialize: initialize,
                     saveSignature: saveSignature,
-                    selectedSystemUser: selectedSystemUser
+                    selectedSystemUser: selectedSystemUser,
+                    editUser: editUser,
+                    usersList: usersList
                 };
             })()
         };

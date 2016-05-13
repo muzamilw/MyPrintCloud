@@ -10504,3 +10504,40 @@ alter table Organisation add XeroCallbackUrl nvarchar(255)
 alter table Organisation add XeroUserName nvarchar(200)
 alter table Organisation add IsXeroActive bit
 alter table organisation add IsAutoCreatePurchaseOrder bit
+-----------------------executed except DM --------------
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec [usp_GetChildFoldersById] 30036
+create PROCEDURE [dbo].[usp_GetChildFoldersById]
+	@FolderId bigint
+AS
+BEGIN
+		
+		WITH CTE(FolderId, ParentFolderId,level)  
+			AS (SELECT   p2.FolderId, p2.ParentFolderId, 0 as level  
+		                             
+			from Folder p2
+			where 
+				p2.FolderId = @FolderId 
+			UNION ALL        
+			SELECT    PC.FolderId, pc.ParentFolderId, level - 1  
+			from Folder PC  
+			Inner join CTE on CTE.FolderId = PC.ParentFolderId
+		    
+			) 			 
+			
+			 SELECT     distinct FolderId
+			 FROM CTE AS CTE_1 
+return
+END
+alter table invoice add RefOrderCode varchar(100)
+update i set RefOrderCode = e.Order_code
+from invoice i, estimate e
+where i.estimateid = e.estimateid 
+alter table Role add OrganisationId bigint
+
+alter table company add RobotText text
+alter table company add SiteMap text

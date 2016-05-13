@@ -241,6 +241,7 @@
     <Compile Include="MISServices\PrefixService.cs" />
     <Compile Include="MISServices\PurchaseService.cs" />
     <Compile Include="MISServices\ReportService.cs" />
+    <Compile Include="MISServices\RoleService.cs" />
     <Compile Include="MISServices\TemplateFontService.cs" />
     <Compile Include="MISServices\WidgetService.cs" />
     <Compile Include="MISServices\SectionService.cs" />

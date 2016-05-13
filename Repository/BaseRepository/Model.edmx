@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DomainModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessRight">
+          <Key>
+            <PropertyRef Name="RightId" />
+          </Key>
+          <Property Name="RightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionId" Type="int" Nullable="false" />
+          <Property Name="RightName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Activity">
           <Key>
             <PropertyRef Name="ActivityId" />
@@ -1468,6 +1477,7 @@
           <Property Name="FootNotes" Type="nvarchar" MaxLength="2000" />
           <Property Name="XeroAccessCode" Type="varchar" MaxLength="50" />
           <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="RefOrderCode" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -3310,6 +3320,15 @@
           <Property Name="LockedBy" Type="int" />
           <Property Name="IsCompanyLevel" Type="smallint" Nullable="false" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Roleright">
+          <Key>
+            <PropertyRef Name="RRId" />
+          </Key>
+          <Property Name="RRId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="RightId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ScopeVariable">
           <Key>
@@ -6313,6 +6332,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_rolerights_tbl_rights">
+          <End Role="AccessRight" Type="Self.AccessRight" Multiplicity="1" />
+          <End Role="Roleright" Type="Self.Roleright" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessRight">
+              <PropertyRef Name="RightId" />
+            </Principal>
+            <Dependent Role="Roleright">
+              <PropertyRef Name="RightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_rolerights_tbl_roles">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Roleright" Type="Self.Roleright" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Roleright">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_section_costcentre_detail_tbl_stockitems">
           <End Role="StockItem" Type="Self.StockItem" Multiplicity="0..1" />
           <End Role="SectionCostCentreDetail" Type="Self.SectionCostCentreDetail" Multiplicity="*" />
@@ -6694,6 +6737,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="Organisationid" Type="bigint" Mode="In" />
         </Function>
         <EntityContainer Name="DomainModelsStoreContainer">
+          <EntitySet Name="AccessRight" EntityType="Self.AccessRight" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ActivityType" EntityType="Self.ActivityType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
@@ -6836,6 +6880,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ReportNote" EntityType="Self.ReportNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reportparam" EntityType="Self.Reportparam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roleright" EntityType="Self.Roleright" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeVariable" EntityType="Self.ScopeVariable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostcentre" EntityType="Self.SectionCostcentre" Schema="dbo" store:Type="Tables" />
@@ -7771,6 +7816,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_reports_tbl_reportcategory" Association="Self.FK_tbl_reports_tbl_reportcategory">
             <End Role="ReportCategory" EntitySet="ReportCategory" />
             <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_rolerights_tbl_rights" Association="Self.FK_tbl_rolerights_tbl_rights">
+            <End Role="AccessRight" EntitySet="AccessRight" />
+            <End Role="Roleright" EntitySet="Roleright" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_rolerights_tbl_roles" Association="Self.FK_tbl_rolerights_tbl_roles">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Roleright" EntitySet="Roleright" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_stockitems" Association="Self.FK_tbl_section_costcentre_detail_tbl_stockitems">
             <End Role="StockItem" EntitySet="StockItem" />
@@ -8867,8 +8920,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="FolderTerritory" EntitySet="FolderTerritories" />
           </AssociationSet>
           <FunctionImport Name="usp_GetChildFoldersById" ReturnType="Collection(Int64)">
-            <Parameter Name="FolderId" Mode="In" Type="Int64" />
+          <Parameter Name="FolderId" Mode="In" Type="Int64" />
           </FunctionImport>
+          <EntitySet Name="AccessRights" EntityType="DomainModels.AccessRight" />
+          <EntitySet Name="Rolerights" EntityType="DomainModels.Roleright" />
+          <AssociationSet Name="FK_tbl_rolerights_tbl_rights" Association="DomainModels.FK_tbl_rolerights_tbl_rights">
+            <End Role="AccessRight" EntitySet="AccessRights" />
+            <End Role="Roleright" EntitySet="Rolerights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_rolerights_tbl_roles" Association="DomainModels.FK_tbl_rolerights_tbl_roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Roleright" EntitySet="Rolerights" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -11191,6 +11254,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Invoice_Company" FromRole="Invoice" ToRole="Company" />
           <NavigationProperty Name="CompanyContact" Relationship="DomainModels.FK_Invoice_CompanyContact" FromRole="Invoice" ToRole="CompanyContact" />
           <NavigationProperty Name="Status" Relationship="DomainModels.FK_Invoice_Status" FromRole="Invoice" ToRole="Status" />
+          <Property Name="RefOrderCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="InvoiceDetail">
           <Key>
@@ -12379,6 +12443,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="LockedBy" Type="Int32" />
           <Property Name="IsCompanyLevel" Type="Int16" Nullable="false" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rolerights" Relationship="DomainModels.FK_tbl_rolerights_tbl_roles" FromRole="Role" ToRole="Roleright" />
+          <Property Name="OrganisationId" Type="Int64" />
         </EntityType>
         <EntityType Name="ProductCategoryItem">
           <Key>
@@ -16326,6 +16392,50 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AccessRight">
+          <Key>
+            <PropertyRef Name="RightId" />
+          </Key>
+          <Property Name="RightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionId" Type="Int32" Nullable="false" />
+          <Property Name="RightName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rolerights" Relationship="DomainModels.FK_tbl_rolerights_tbl_rights" FromRole="AccessRight" ToRole="Roleright" />
+        </EntityType>
+        <EntityType Name="Roleright">
+          <Key>
+            <PropertyRef Name="RRId" />
+          </Key>
+          <Property Name="RRId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RightId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccessRight" Relationship="DomainModels.FK_tbl_rolerights_tbl_rights" FromRole="Roleright" ToRole="AccessRight" />
+          <NavigationProperty Name="Role" Relationship="DomainModels.FK_tbl_rolerights_tbl_roles" FromRole="Roleright" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_tbl_rolerights_tbl_rights">
+          <End Type="DomainModels.AccessRight" Role="AccessRight" Multiplicity="1" />
+          <End Type="DomainModels.Roleright" Role="Roleright" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccessRight">
+              <PropertyRef Name="RightId" />
+            </Principal>
+            <Dependent Role="Roleright">
+              <PropertyRef Name="RightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_rolerights_tbl_roles">
+          <End Type="DomainModels.Role" Role="Role" Multiplicity="1" />
+          <End Type="DomainModels.Roleright" Role="Roleright" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Roleright">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -18072,6 +18182,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="DomainModels.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="RefOrderCode" ColumnName="RefOrderCode" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="XeroAccessCode" ColumnName="XeroAccessCode" />
@@ -18905,6 +19016,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="DomainModels.Role">
               <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="IsCompanyLevel" ColumnName="IsCompanyLevel" />
                 <ScalarProperty Name="LockedBy" ColumnName="LockedBy" />
@@ -21682,6 +21794,25 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="usp_GetChildFoldersById" FunctionName="DomainModels.Store.usp_GetChildFoldersById" />
+          <EntitySetMapping Name="AccessRights">
+            <EntityTypeMapping TypeName="DomainModels.AccessRight">
+              <MappingFragment StoreEntitySet="AccessRight">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RightName" ColumnName="RightName" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="RightId" ColumnName="RightId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rolerights">
+            <EntityTypeMapping TypeName="DomainModels.Roleright">
+              <MappingFragment StoreEntitySet="Roleright">
+                <ScalarProperty Name="RightId" ColumnName="RightId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RRId" ColumnName="RRId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

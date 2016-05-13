@@ -1400,9 +1400,20 @@ define("invoice/invoice.viewModel",
                             toastr.error("Please add items in invoice to export.");
                             return;
                         }
+                        confirmation.messageText("Do you want to POST the invoice? ");
+                        confirmation.afterProceed(function () {
+                            selectedInvoice().invoiceStatus(20); //Posted Invoice                              
+                            selectedInvoice().invoicePostedBy(loggedInUserId); //Current user Id   
+                            setInvoiceExported();
+                        });
+                        confirmation.afterCancel(function () {
+                            setInvoiceExported();
+                        });
+                        confirmation.show();
+                    },
+                    setInvoiceExported = function() {
                         removeItemSectionWithAddFlagTrue();
                         if (selectedInvoice().hasChanges()) {
-                            
                             if (!doBeforeSave()) {
                                 return;
                             }
@@ -1411,7 +1422,6 @@ define("invoice/invoice.viewModel",
                         } else {
                             getExportedInvoice();
                         }
-                        
                     },
 
                     getExportedInvoice = function() {

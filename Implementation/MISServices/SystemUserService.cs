@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -44,5 +46,10 @@ namespace MPC.Implementation.MISServices
             systemUserRepository.UpdateEmailSignature(signature);
         }
 
+        public List<SystemUser> GetAllUserByOrganisation()
+        {
+            return systemUserRepository.GetAll().ToList();
+        }
+        
     }
 }

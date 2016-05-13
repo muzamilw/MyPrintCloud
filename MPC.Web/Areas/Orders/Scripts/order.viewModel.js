@@ -3196,6 +3196,22 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    estimateProgressToOrder = function () {
+                        if (orderHasChanges()) {
+                            if (currentScreen() == 8) {
+
+                            }
+                            removeItemSectionWithAddFlagTrue();
+                            if (!doBeforeSave()) {
+                                return;
+                            }
+                            _.each(selectedOrder().prePayments(), function (item) {
+                                item.customerId(selectedOrder().companyId());
+                            });
+                            saveOrder(progressToOrderHandler);
+                        }
+                        
+                    },
                     //#endregion
                     //#region Progress To Order
                     progressToOrderHandler = function () {
@@ -3396,8 +3412,8 @@ define("order/order.viewModel",
                     createNewShippingCharge = function () {
                         var item = selectedShippingItem();
                         item.qty1(1);
-                        item.qty2(1);
-                        item.qty3(1);
+                        item.qty2(0);
+                        item.qty3(0);
                         
                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
                         item.productType(2);
@@ -3408,8 +3424,8 @@ define("order/order.viewModel",
                         itemSection.name("Text Sheet");
                         //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
                         itemSection.qty1(1);
-                        itemSection.qty2(1);
-                        itemSection.qty3(1);
+                        itemSection.qty2(0);
+                        itemSection.qty3(0);
                         //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
                         itemSection.productType(2);
                         itemSection.baseCharge1(item.qty1NetTotal());//To Set
@@ -3424,8 +3440,8 @@ define("order/order.viewModel",
                         sectionCostCenter.qty1Charge(item.qty1NetTotal());//To Set
                         //Req. Setting Quantities as 1 after not closing quantity dialog in shipping case
                         sectionCostCenter.qty1(1);
-                        sectionCostCenter.qty2(1);
-                        sectionCostCenter.qty3(1);
+                        sectionCostCenter.qty2(0);
+                        sectionCostCenter.qty3(0);
                         selectedSectionCostCenter(sectionCostCenter);
                         selectedQty(1);
                         itemSection.sectionCostCentres.push(sectionCostCenter);
@@ -3784,7 +3800,8 @@ define("order/order.viewModel",
                     onCloseShippingDetail: onCloseShippingDetail,
                     onSaveShippingDetail: onSaveShippingDetail,
                     editShippingItem: editShippingItem,
-                    onclickOrdersList: onclickOrdersList
+                    onclickOrdersList: onclickOrdersList,
+                    estimateProgressToOrder: estimateProgressToOrder
                     //#endregion
                 };
             })()

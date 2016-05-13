@@ -136,7 +136,7 @@
                 <form data-bind="submit: $root.getStoresByFilter">
                     <div class="filter-block pull-right" style="margin-right: -10px">
                         <div class="form-group pull-left">
-                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter, hasfocus:true">
                             <i class="fa fa-search search-icon" data-bind="click: $root.getStoresByFilter"></i>
                         </div>
                     </div>

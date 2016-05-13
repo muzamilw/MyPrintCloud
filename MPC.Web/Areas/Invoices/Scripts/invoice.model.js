@@ -8,7 +8,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             specifiedStatus, specifiedTotal, specifiedInvoiceDate, specifiedAccountNo, specifiedTerms, specifiedAddressId, specifiedIsArchive,
             specifiedTaxValue, specifiedGrandTotal, specifiedFlagId, specifiedNotes, specifiedEstimateId,
             specifiedIsProforma, specifiedIsPrinted, specifiedSignedBy, specifiedHeadNotes, specifiedFootNotes, specifiedPostingDate, specifiedXeroAccessCode,
-            specifiedStatusName, specifiedInvoicePostedBy, specifiedContactName) {
+            specifiedStatusName, specifiedInvoicePostedBy, specifiedContactName, specifiedRefOrdercode) {
           // ReSharper restore InconsistentNaming
           var // Unique key
               id = ko.observable(specifiedId || 0),
@@ -74,6 +74,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               headNotes = ko.observable(specifiedHeadNotes),
               footNotes = ko.observable(specifiedFootNotes),
               xeroAccessCode = ko.observable(specifiedXeroAccessCode),
+              refOrderCode = ko.observable(specifiedRefOrdercode),
               isDirectSale = ko.observable(invoiceStatus() === 19 ? true : false),
 
               isPostedInvoice = ko.observable(invoiceStatus() === 20 ? true : false),
@@ -263,7 +264,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
               isPostedInvoice: isPostedInvoice,
               taxRate: taxRate,
               items: items,
-              contactName: contactName
+              contactName: contactName,
+              refOrderCode: refOrderCode
 
           };
       };
@@ -416,7 +418,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             source.Terms, source.AddressId, source.IsArchive,
             source.TaxValue, source.GrandTotal, source.FlagId, source.UserNotes, source.EstimateId,
             source.IsProformaInvoice, source.IsPrinted, source.ReportSignedBy, source.HeadNotes, source.FootNotes,
-            source.InvoicePostingDate, source.XeroAccessCode, source.Status, source.InvoicePostedBy, source.ContactName);
+            source.InvoicePostingDate, source.XeroAccessCode, source.Status, source.InvoicePostedBy, source.ContactName, source.RefOrderCode);
         invoice.origintalStatus(source.InvoiceStatus);
         var items = [];
         // Map invoice items if Any

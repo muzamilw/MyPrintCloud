@@ -302,6 +302,8 @@ namespace MPC.Repository.BaseRepository
         /// Role DbSet
         /// </summary>
         public DbSet<Role> Roles { get; set; }
+        public DbSet<AccessRight> AccessRights { get; set; }
+        public DbSet<Roleright> Rolerights { get; set; }
 
         /// <summary>
         /// Product Category Item DbSet

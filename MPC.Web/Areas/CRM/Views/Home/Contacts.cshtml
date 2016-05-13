@@ -145,7 +145,7 @@
         <form data-bind="submit: $root.searchButtonHandler">
             <div class="filter-block pull-right">
                 <div class="form-group pull-left" style="margin-right: 2px;">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter, hasfocus:true">
                     <i class="fa fa-search search-icon" data-bind="click: searchButtonHandler"></i>
                 </div>
             </div>

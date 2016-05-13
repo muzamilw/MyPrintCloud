@@ -154,6 +154,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IFolderRepository,FolderRepository>();
             unityContainer.RegisterType<IAssetItemsRepository, AssetItemsRepository>();
             unityContainer.RegisterType<IStagingImportProductsRepository, StagingImportProductsRepository>();
+            unityContainer.RegisterType<IRoleRepository, RoleRepository>();
         }
     }
 }

@@ -338,8 +338,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Api\Controllers\SystemUserListController.cs" />
+    <Compile Include="Areas\Api\Controllers\UserRoleController.cs" />
     <Compile Include="Areas\Api\Controllers\XeroInvoiceController.cs" />
+    <Compile Include="Areas\Api\ModelMappers\AccessRighMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\RoleMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SystemUserMapper.cs" />
+    <Compile Include="Areas\Api\Models\AccessRight.cs" />
     <Compile Include="Areas\Api\Models\EmailsResponse.cs" />
+    <Compile Include="Areas\Api\Models\Role.cs" />
+    <Compile Include="Areas\Api\Models\RoleRight.cs" />
+    <Compile Include="Areas\Api\Models\SystemUsersResponse.cs" />
+    <Compile Include="Areas\Api\Models\UserRoleResponse.cs" />
     <Compile Include="Properties\App_Start\BundleConfig.cs" />
     <Compile Include="Properties\App_Start\CustomRazorViewEngine.cs" />
     <Compile Include="Properties\App_Start\FilterConfig.cs" />
@@ -1144,6 +1154,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\emails.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\emails.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\emails.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\userRole.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\userRole.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\userRole.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\userRole.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -2340,6 +2354,9 @@
     <Content Include="Areas\Settings\Views\Home\NotificationEmails.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddEditCustomShipping.cshtml" />
     <Content Include="Areas\Settings\Views\Home\Xero.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\UserRole.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_RoleRightsDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\SystemUsers.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

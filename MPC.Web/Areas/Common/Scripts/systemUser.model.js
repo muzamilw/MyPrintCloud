@@ -2,12 +2,19 @@
     var
 
     //Section view Entity
-    SystemUser = function (specifiedSignature, specifiedId) {
+    SystemUser = function (specifiedSignature, specifiedId, specifiedFullName, specifiedEmail, specifiedRole, specifiedRoleName) {
         var self,
-            signature = ko.observable(specifiedSignature),
             userId = ko.observable(specifiedId),
+            signature = ko.observable(specifiedSignature),
+            fullName = ko.observable(specifiedFullName),
+            email = ko.observable(specifiedEmail),
+            roleId = ko.observable(specifiedRole),
+            roleName = ko.observable(specifiedRoleName),
+           
             dirtyFlag = new ko.dirtyFlag({
-                signature: signature
+                signature: signature,
+                fullName: fullName,
+                roleId: roleId
             }),
             // True If Has Changes
             hasChanges = ko.computed(function () {
@@ -21,7 +28,9 @@
             convertToServerData = function () {
                 return {
                     SystemUserId: userId(),
-                    EmailSignature: signature()
+                    EmailSignature: signature(),
+                    FullName: fullName(),
+                    RoleId : roleId()
                 };
             };
 
@@ -31,12 +40,23 @@
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            email: email,
+            fullName: fullName,
+            roleId: roleId,
+            roleName: roleName
 
         };
         return self;
     };
-    
+    SystemUser.Create = function(source) {
+        var user = new SystemUser(source.EmailSignature, source.SystemUserId,source.FullName, source.RoleId, source.RoleName);
+        
+        // Reset State to Un-Modified
+        user.reset();
+
+        return user;
+    };
 
     return {
         SystemUser: SystemUser,

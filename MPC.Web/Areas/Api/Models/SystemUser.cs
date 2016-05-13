@@ -37,7 +37,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string UserAuthToken { get; set; }
         public bool? canDesignTemplate { get; set; }
         public bool? canApproveTemplate { get; set; }
-
+        public string RoleName { get; set; }  
         //public virtual Organisation Organisation { get; set; }
     }
 }

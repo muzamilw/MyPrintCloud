@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Role Domain Model
@@ -11,6 +13,8 @@
         public short IsSystemRole { get; set; }
         public int? LockedBy { get; set; }
         public short IsCompanyLevel { get; set; }
+        public long OrganisationId { get; set; }
         public int CompanyId { get; set; }
+        public virtual ICollection<Roleright> Rolerights { get; set; }
     }
 }

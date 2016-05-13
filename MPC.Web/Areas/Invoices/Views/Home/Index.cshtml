@@ -106,7 +106,7 @@
                                             <select class="form-control" style="width:220px;" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select Flag...', value: $root.selectedFilterFlag, event:{change:$root.getInvoicesOfCurrentScreen}"></select>
                                         </div>
                                         <div class="form-group pull-left" style="margin-right:0px;">
-                                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
+                                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText, hasfocus:true">
                                             <i class="fa fa-search search-icon" data-bind="click: $root.getInvoicesOfCurrentScreen"></i>
                                         </div>
 
