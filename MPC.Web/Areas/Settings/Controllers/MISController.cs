@@ -62,9 +62,9 @@ namespace MPC.MIS.Areas.Settings.Controllers
             return View();
 
         }
-        public ActionResult SystemUsers()
+        public ActionResult SystemUsers(string user)
         {
-
+            ViewBag.User = user;
             return View();
 
         }

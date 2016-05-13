@@ -50,7 +50,7 @@
         return self;
     };
     SystemUser.Create = function(source) {
-        var user = new SystemUser(source.EmailSignature, source.SystemUserId,source.FullName, source.RoleId, source.RoleName);
+        var user = new SystemUser(source.EmailSignature, source.SystemUserId, source.FullName, source.Email, source.RoleId, source.RoleName);
         
         // Reset State to Un-Modified
         user.reset();

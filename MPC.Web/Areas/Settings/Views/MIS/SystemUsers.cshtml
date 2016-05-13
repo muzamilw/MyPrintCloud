@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-
+    <input type="hidden" name="userList" id="userList" value="@ViewBag.User" />
     <script id="usersListTemplate" type="text/html">
         <tr data-bind=" click: $root.editUser" style="cursor: pointer">
             <td>
@@ -82,11 +82,7 @@
 
     <script>
         require(["common/systemUser.view", "common/confirmation.view"]);
-        var page = "";
-        $(document).ready(function () {
-            page = Request.QueryString("user").toString();
-
-        });
+        
     </script>
 }
 

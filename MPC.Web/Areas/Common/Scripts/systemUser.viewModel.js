@@ -67,8 +67,8 @@ define("common/systemUser.viewModel",
                          ko.cleanNode(view.userListBinding);
                          ko.applyBindings(view.viewModel, view.userListBinding);
                      }
-                     
-                     if (page != undefined && page == "all") {
+                     var userList = $('#userList').val();
+                     if (userList != undefined && userList == "all") {
                          getSystemUsers();
                      }
                  };
