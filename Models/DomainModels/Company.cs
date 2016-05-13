@@ -120,6 +120,8 @@ namespace MPC.Models.DomainModels
         public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
         public bool? IsAllowRequestaQuote { get; set; }
         public bool? IsEnableDataAsset { get; set; }
+        public string RobotText { get; set; }
+        public string SiteMap { get; set; }
         /// <summary>
         /// Map Image Url
         /// </summary>
