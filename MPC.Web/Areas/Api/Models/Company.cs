@@ -158,7 +158,8 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsRegisterPlaceDirectOrder { get; set; }
         public bool? IsRegisterPlaceOrderWithoutApproval { get; set; }
         public bool? IsAllowRequestaQuote { get; set; }
-
+        public string RobotText { get; set; }
+        public string SiteMap { get; set; }
         #endregion
 
         #region Public List Properties
