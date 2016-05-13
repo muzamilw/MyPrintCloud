@@ -41,6 +41,22 @@ namespace MPC.Webstore
                      StoreId = UrlParameter.Optional
                  });
 
+            routes.MapRoute("Robot"
+               , "robots.txt"
+               , new
+               {
+                   controller = "Home",
+                   action = "RobotsText"
+               });
+
+            routes.MapRoute("SiteMap"
+               , "sitemap.xml"
+               , new
+               {
+                   controller = "Home",
+                   action = "SitemapXml"
+               });
+
 
             routes.MapRoute(
                 "Orderhistory"
