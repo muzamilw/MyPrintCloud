@@ -165,32 +165,39 @@ var lastSel = "";
 var isImageUploaded = false;
 var userTerritoryId = 0;
 var userColorTerritoryId = 0;
+var damEnabled = 0;
+var damFolders = [];
 function buildParams() {
     // locVars.push(0); // handle null terriotry
     console.log(window.location.protocol);
     if (window.location.protocol == "https:")
         V2Url = "https://designerv2.saleflow.com/";
-    userColorTerritoryId = locVars[locVars.length - 1];
-    userTerritoryId = locVars[locVars.length - 2];
 
-	printCropMarks = locVars[locVars.length - 5];
-	printWaterMarks = locVars[locVars.length - 4];
-	CustomerName =parseInt(  locVars[locVars.length - 9]);
-	tID = parseInt(locVars[locVars.length - 11]);
-	IsCalledFrom =parseInt(  locVars[locVars.length - 7]);
-	IsEmbedded = locVars[locVars.length - 3];
-	CustomerID = parseInt( locVars[locVars.length - 9]);
-	ContactID =parseInt(  locVars[locVars.length - 8]);
-	organisationId = parseInt( locVars[locVars.length - 6]);
-	cIDv2 =parseInt( locVars[locVars.length - 12]);
+    damEnabled = locVars[locVars.length - 1];
+
+    userColorTerritoryId = locVars[locVars.length - 2];
+    userTerritoryId = locVars[locVars.length - 3];
+
+	printCropMarks = locVars[locVars.length - 6];
+	printWaterMarks = locVars[locVars.length - 5];
+	CustomerName =parseInt(  locVars[locVars.length - 10]);
+	tID = parseInt(locVars[locVars.length - 12]);
+	IsCalledFrom =parseInt(  locVars[locVars.length - 8]);
+	IsEmbedded = locVars[locVars.length - 4];
+	CustomerID = parseInt( locVars[locVars.length - 10]);
+	ContactID =parseInt(  locVars[locVars.length - 9]);
+	organisationId = parseInt( locVars[locVars.length - 7]);
+	cIDv2 =parseInt( locVars[locVars.length - 13]);
 	productionFolderPath = "Organisation" + organisationId + "/Templates/";
-	ItemId = parseInt(locVars[locVars.length - 10]);
+	ItemId = parseInt(locVars[locVars.length - 11]);
     //alert(ItemId);
 	LoadBasicTemplateSettings();
-	var tempName = locVars[locVars.length - 13];
+	var tempName = locVars[locVars.length - 14];
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);
+
+	
 	//if(IsCalledFrom == 3)
 	//{
 	//    panelMode = 2;

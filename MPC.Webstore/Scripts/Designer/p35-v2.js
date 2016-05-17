@@ -895,6 +895,27 @@ $(".btnPropertyImages").click(function (event) {
     fu13(2, 1, 2, 1);
     pcL29_pcMove(6); spPanel = ".btnBackMyProperty , .btnBackFromImgs";
 });
+$(".btndamImages").click(function (event) {
+    fu13(2, 1, 9, 1);
+    pcL29_pcMove(6); spPanel = ".btnBackDAM , .btnBackFromImgsd";
+});
+$(".btnBackDAM").click(function (event) {
+    //   fu13(2, 1, 1, 1);
+    //$(".damContainer").addClass("disappearing"); selCat = "00";
+    //pcL29_pcRestore(4); spPanel = "";
+    if (damFolders.length === 1) {//reached top level of DAM, now go to main panel
+        //fu13(2, 1, 1, 2);
+        //pcL29_pcRestore(4); spPanel = ".btnBackFromImgs ";
+
+        $(".damContainer").addClass("disappearing"); selCat = "00";
+        pcL29_pcRestore(4); spPanel = "";
+    }
+    else {
+        damFolders.pop();
+        var FolderId = damFolders[damFolders.length - 1];
+        fudm('0', FolderId, false);
+    }
+});
 $(".btnBackMyProperty").click(function (event) {
     //   fu13(2, 1, 1, 1);
     $(".realEstateContainer").addClass("disappearing"); selCat = "00";
@@ -1280,6 +1301,29 @@ $('#inputSearchTImg').bind('keyup', function (e) {
             $(".btnFreeImgs").click();
         }
         return false;
+    }
+});
+$('#inputSearchDamImg').bind('keyup', function (e) {
+    if (e.keyCode === 13) {
+        //k22();
+        //k25Ills();
+        //k25Frames();
+        //k25Banners();
+        //k22Sh();
+        //k22Log();
+        //k19();
+        //if (!isImgPaCl) {
+        //    $(".btnFreeImgs").click();
+        //}
+        //return false;
+        var dkeywords = $('#inputSearchDamImg').val();
+        dkeywords = $.trim(dkeywords);
+
+       
+        if (dkeywords.length > 2 )
+            fudm(dkeywords, 0, true);
+        else
+            fudm('0', 0, true);
     }
 });
 $('#inputSearchTBkg').bind('keyup', function (e) {

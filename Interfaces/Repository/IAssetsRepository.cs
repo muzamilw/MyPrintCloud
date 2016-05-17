@@ -18,6 +18,8 @@ namespace MPC.Interfaces.Repository
         Asset GetAsset(long AssetId);
         List<Asset> GetAssetsByFolderIds(List<long> folderIds);
 
+        List<Asset> SearchAssetsByFolderId(long ParentFolderId, string searchText);
+
 
     }
 }

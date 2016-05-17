@@ -277,6 +277,7 @@ function fu04_01() {
               var obj = fabric.util.object.clone(IT);
               TORestore.push(obj);
           });
+
           if (Template.realEstateId != null && Template.realEstateId > 0) {
               $.getJSON("/designerapi/TemplateBackgroundImage/getPropertyImages/" + Template.realEstateId,
               function (xdata) {
@@ -351,6 +352,21 @@ function fu04_01() {
                   });
               });
           }
+
+          //dam loader
+
+         
+          if (damEnabled == 'True' || damEnabled == 'True#')
+          {
+             
+              $(".damImgDV").css("display", "block");
+              damFolders.push(0);
+              fudm('0',0,true);
+          }
+          else
+          {
+
+            }
       });
     k0();
 
@@ -365,6 +381,114 @@ function fu05_Clload() {
            fu05_svcCall(DT);
        });
 }
+
+
+function fudm(searchText,ParentFolderId,pload)
+{
+    $("#divDAMImagesContainer").empty();
+    $.getJSON("/designerapi/DamImage/GetDAMImages/" + searchText + "/" + CustomerID + "/" + organisationId + "/" + userTerritoryId + "/" + ParentFolderId,
+                  function (xdata) {
+                      damImages = xdata;
+
+                      $.each(damImages.Folders, function (j, IT) {
+                          var url = IT.ImagePath;
+                         
+                          var title = IT.FolderName;
+                          var draggable = '';
+                          var urlThumbnail = url;
+                          var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                                           '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" data-FolderId="' + IT.FolderId + '" id = "f' + IT.FolderId + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
+
+                         
+
+                          $("#divDAMImagesContainer").append(ahtml);
+                          $("#f" + IT.FolderId).click(function (event) {
+                              //var n = url;
+                              //while (n.indexOf('/') != -1)
+                              //    n = n.replace("/", "___");
+                              //while (n.indexOf(':') != -1)
+                              //    n = n.replace(":", "@@");
+                              //while (n.indexOf('%20') != -1)
+                              //    n = n.replace("%20", " ");
+                              //while (n.indexOf('./') != -1)
+                              //    n = n.replace("./", "");
+                            
+                              var FolderId = this.getAttribute("data-FolderId");
+                              StartLoader("Loading");
+                              //alert(FolderId);
+                              damFolders.push(FolderId);
+                             
+                              fudm('0', FolderId, false);
+                              StopLoader();
+                             // var imgtype = 2;
+                             // if (isBKpnl) {
+                             //     imgtype = 4;
+                             // }
+                             // $.getJSON("/designerapi/TemplateBackgroundImage/DownloadImageLocally/" + n + "/" + tID + "/" + imgtype + "/" + organisationId,
+                             //function (DT) {
+                             //    StopLoader();
+                             //    k27();
+                             //    parts = DT.split("MPC_Content/");
+                             //    var imgName = parts[parts.length - 1];
+                             //    while (imgName.indexOf('%20') != -1)
+                             //        imgName = imgName.replace("%20", " ");
+
+                             //    var path = imgName;
+                             //    j9(event, path, title);
+                             //});
+                          });
+                      });
+                      $.each(damImages.Assets, function (j, IT) {
+                          var url = IT.ImagePath;
+
+                          var title = IT.AssetName;
+                          var draggable = '';
+                          var urlThumbnail = url;
+                          var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                                           '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "as' + IT.AssetId + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
+
+                          $("#divDAMImagesContainer").append(ahtml);
+                          $("#as" + IT.AssetId).click(function (event) {
+
+                              //alert(this);
+                              var n = url;
+                              while (n.indexOf('/') != -1)
+                                  n = n.replace("/", "___");
+                              while (n.indexOf(':') != -1)
+                                  n = n.replace(":", "@@");
+                              while (n.indexOf('%20') != -1)
+                                  n = n.replace("%20", " ");
+                              while (n.indexOf('./') != -1)
+                                  n = n.replace("./", "");
+                              StartLoader("Placing image on canvas");
+                              var imgtype = 2;
+                              if (isBKpnl) {
+                                  imgtype = 4;
+                              }
+                            
+                                 StopLoader();
+                                 k27();
+                                 parts = IT.ImagePath.split("/mpc_content/");
+                                 var imgName = parts[parts.length - 1];
+                                 while (imgName.indexOf('%20') != -1)
+                                     imgName = imgName.replace("%20", " ");
+
+                                 var path = imgName;
+                                 j9(event, path, "as" + IT.AssetId);
+                             
+                          });
+                      });
+
+                      if ( damImages.Assets.length == 0 &&  damImages.Folders.length == 0)
+                      {
+                          $(".divDAMImagesContainer").append("<p class='allImgsLoadedMessage'>No assets matches your search criteria. </p>");
+                       }
+
+                     
+                  });
+}
+
+
 function fu05() {
 
     //$(".QuickTextFields").html("");

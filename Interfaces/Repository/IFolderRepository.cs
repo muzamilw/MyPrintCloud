@@ -26,6 +26,10 @@ namespace MPC.Interfaces.Repository
         List<TreeViewNodeVM> GetTreeVeiwListByTerritory(long companyId, long organisationId, long territoryId);
         List<Folder> GetChildFoldersByTerritory(long parentFolderId, long territoryId);
         List<Folder> GetAllFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId);
+
+        List<Folder> GetFoldersBySearchTextCompanyTerritoryParentFolder(string searchText, long companyId, long organisationId, long territoryId, Nullable<long> ParentFolderId);
+
+        List<Folder> GetFoldersBySearchTextCompanyTerritoryParentFolder(string searchText, long companyId, long organisationId, Nullable<long> ParentFolderId);
     }
     
 

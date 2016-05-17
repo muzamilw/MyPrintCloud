@@ -53,6 +53,7 @@ namespace MPC.Repository.Repositories
 
             return qry.OrderBy(a => a.FolderName).ToList();
         }
+
         public List<Folder> GetAllFoldersByCompanyTerritory(long companyId, long organisationId, long territoryId)
         {
             db.Configuration.LazyLoadingEnabled = false;
@@ -67,6 +68,156 @@ namespace MPC.Repository.Repositories
 
             return qry.OrderBy(a => a.FolderName).ToList();
         }
+
+        /// <summary>
+        /// used for DAM Designer to search and show the items by levels.
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="companyId"></param>
+        /// <param name="organisationId"></param>
+        /// <param name="territoryId"></param>
+        /// <param name="ParentFolderId"></param>
+        /// <returns></returns>
+        public List<Folder> GetFoldersBySearchTextCompanyTerritoryParentFolder(string searchText,long companyId, long organisationId, long territoryId, Nullable<long> ParentFolderId )
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+
+            IQueryable<Folder> result = null;
+
+            if (ParentFolderId.HasValue)
+            {
+                // search
+                if (!string.IsNullOrEmpty(searchText))
+                {
+
+                    result = from folder in DbSet
+                             join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                             where
+                                 folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+                                 && folder.ParentFolderId == ParentFolderId.Value
+                                 && folder.FolderName.Contains(searchText)
+                             select folder;
+                }
+                else //no search
+                {
+                    result = from folder in DbSet
+                             join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                             where
+                                 folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+                                 && folder.ParentFolderId == ParentFolderId.Value
+                             select folder;
+                }
+
+            }
+            else
+            {
+                
+                // search
+                if (!string.IsNullOrEmpty(searchText))
+                {
+
+                    result = from folder in DbSet
+                             join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                             where
+                                 folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+                                  && folder.FolderName.Contains(searchText)
+                             select folder;
+                }
+                else // no search
+                {
+                    result = from folder in DbSet
+                             join folderterritory in db.FolderTerritories on folder.FolderId equals folderterritory.FolderId
+                             where
+                                 folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+
+                             select folder;
+                }
+
+                
+            }
+
+            return result.OrderBy(a => a.FolderName).ToList();
+        }
+
+
+        /// <summary>
+        /// used for DAM Designer to search and show the items by levels.
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="companyId"></param>
+        /// <param name="organisationId"></param>
+        
+        /// <param name="ParentFolderId"></param>
+        /// <returns></returns>
+        public List<Folder> GetFoldersBySearchTextCompanyTerritoryParentFolder(string searchText, long companyId, long organisationId, Nullable<long> ParentFolderId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+
+            IQueryable<Folder> result = null;
+
+            if (ParentFolderId.HasValue)
+            {
+                // search
+                if (!string.IsNullOrEmpty(searchText))
+                {
+
+                    result = from folder in DbSet
+                           
+                             where
+                               folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+                                 && folder.ParentFolderId == ParentFolderId.Value
+                                 && folder.FolderName.Contains(searchText)
+                             select folder;
+                }
+                else //no search
+                {
+                    result = from folder in DbSet
+                            
+                             where
+                                folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+                                 && folder.ParentFolderId == ParentFolderId.Value
+                             select folder;
+                }
+
+            }
+            else
+            {
+
+                // search
+                if (!string.IsNullOrEmpty(searchText))
+                {
+
+                    result = from folder in DbSet
+                             
+                             where
+                                folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+                                  && folder.FolderName.Contains(searchText)
+                             select folder;
+                }
+                else // no search
+                {
+                    result = from folder in DbSet
+                            
+                             where
+                                folder.CompanyId == companyId &&
+                                 folder.OrganisationId == organisationId
+
+                             select folder;
+                }
+
+
+            }
+
+            return result.OrderBy(a => a.FolderName).ToList();
+        }
+
 
         public List<Folder> GetAllFolders(long CompanyID, long OrganisationID)
         {
