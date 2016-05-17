@@ -16,7 +16,12 @@ define("common/systemUser.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+                    //Get system users list
+                    amplify.request.define('getSystemUsers', 'ajax', {
+                        url: ist.siteUrl + '/Api/SystemUserList',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to save Signature
                     amplify.request.define('saveSystemUserSignature', 'ajax', {
                         url: ist.siteUrl + '/Api/SystemUserForMis',
@@ -39,7 +44,15 @@ define("common/systemUser.dataservice", function () {
                 });
 
             },
-            
+            getSystemUsers = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getSystemUsers',
+                    success: callbacks.success,
+                    error: callbacks.error
+
+                });
+            },
              // save Store
             saveSystemUserSignature = function (param, callbacks) {
                 initialize();
@@ -52,7 +65,8 @@ define("common/systemUser.dataservice", function () {
             };
         return {
             getSystemUserSignature: getSystemUserSignature,
-            saveSystemUserSignature: saveSystemUserSignature
+            saveSystemUserSignature: saveSystemUserSignature,
+            getSystemUsers: getSystemUsers
         };
     })();
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -12,5 +14,6 @@ namespace MPC.Interfaces.MISServices
         bool Add(System.Guid Id, string Email, string FullName, int OrganizationId);
         void UpdateEmailSignature(string signature);
         string GetEmailSignature();
+        List<SystemUser> GetAllUserByOrganisation();
     }
 }

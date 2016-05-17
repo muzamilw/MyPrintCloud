@@ -39,7 +39,8 @@
             "reportBanner": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
             "deliveryNotes": ist.siteUrl + "/Areas/DeliveryNotes/Scripts",
             "purchaseOrders": ist.siteUrl + "/Areas/Orders/Scripts",
-        }
+            "userRole": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
+}
     });
 
     function defineThirdPartyModules() {

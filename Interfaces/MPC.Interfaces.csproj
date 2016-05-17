@@ -105,6 +105,7 @@
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\IPurchaseService.cs" />
     <Compile Include="MISServices\IReportService.cs" />
+    <Compile Include="MISServices\IRoleService.cs" />
     <Compile Include="MISServices\ITemplateFontService.cs" />
     <Compile Include="MISServices\IWidgetService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Repository\IStateRepository.cs" />
     <Compile Include="Repository\ICostCenterTypeRepository.cs" />
     <Compile Include="Repository\IStatusRepository.cs" />
+    <Compile Include="Repository\IRoleRepository.cs" />
     <Compile Include="Repository\ITemplateBackgroundImagesRepository.cs" />
     <Compile Include="Repository\ITemplateColorStylesRepository.cs" />
     <Compile Include="Repository\ITemplateFontsRepository.cs" />

@@ -149,7 +149,7 @@
                                 <select style="margin-right: 70px; height: 36px;" class="form-control" data-bind="options:['All','Prospects', 'Customer'], value:$root.companyDdSelector, event:{ change: $root.onChangeCompany}"></select>
                             </div>
                             <div class="form-group pull-left">
-                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter, hasfocus:true">
                                 <i class="fa fa-search search-icon" data-bind="click: $root.filterHandler"></i>
                             </div>
                             <div class="pull-left">

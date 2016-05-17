@@ -40,6 +40,8 @@ namespace MPC.MIS.Areas.Api.Models
         public long? StoreId { get; set; }
         public short IsCustomer { get; set; }
         public string XeroPostUrl { get; set; }
+        public string RefOrderCode { get; set; }
+        
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public ICollection<OrderItem> Items { get; set; }
 

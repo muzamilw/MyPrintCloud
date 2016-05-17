@@ -190,6 +190,7 @@
     <Compile Include="Common\ZapierInvoiceItem.cs" />
     <Compile Include="Common\ZapierInvoiceItemSupplier.cs" />
     <Compile Include="Common\ZapierPostResponse.cs" />
+    <Compile Include="DomainModels\AccessRight.cs" />
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="DomainModels\PurchaseDetail.cs" />
     <Compile Include="DomainModels\ReportCategory.cs" />
     <Compile Include="DomainModels\Reportparam.cs" />
+    <Compile Include="DomainModels\Roleright.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />

@@ -870,6 +870,7 @@ namespace MPC.Implementation.MISServices
             itemTarget.FootNotes = org != null ? org.InvoiceFootNote : order.FootNotes;
             itemTarget.ReportSignedBy = order.ReportSignedBy;
             itemTarget.OrderNo = order.CustomerPO;
+            itemTarget.RefOrderCode = order.Order_Code;
             itemTarget.CreationDate = DateTime.Now;
             order.AddInvoice(itemTarget);
         }

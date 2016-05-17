@@ -56,6 +56,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 HeadNotes = source.HeadNotes,
                 FootNotes = source.FootNotes,
                 XeroPostUrl = source.XeroPostUrl,
+                RefOrderCode = source.RefOrderCode,
+                EstimateId = source.EstimateId,
                 InvoiceDetails = source.InvoiceDetails != null ? source.InvoiceDetails.Select(i => i.CreateFrom()).ToList() : new List<InvoiceDetail>(),
                 Items = source.Items != null ? source.Items.Select(i => i.CreateFromForOrder()).ToList() : new List<OrderItem>()
             };

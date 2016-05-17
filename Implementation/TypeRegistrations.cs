@@ -100,7 +100,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IListingBulletPointsService, ListingBulletPointsService>();
             unityContainer.RegisterType<IWidgetService, WidgetService>();
             unityContainer.RegisterType<ITemplateFontService, TemplateFontService>();
-
+            unityContainer.RegisterType<IRoleService, RoleService>();
         }
     }
 }

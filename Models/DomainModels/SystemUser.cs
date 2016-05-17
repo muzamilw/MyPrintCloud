@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -22,6 +23,8 @@ namespace MPC.Models.DomainModels
         public string EmailSignature { get; set; }
         public string EstimateHeadNotes { get; set; }
         public string EstimateFootNotes { get; set; }
+        [NotMapped]
+        public string RoleName { get; set; }            
 
         public virtual ICollection<ItemStockUpdateHistory> ItemStockUpdateHistories { get; set; } 
     }

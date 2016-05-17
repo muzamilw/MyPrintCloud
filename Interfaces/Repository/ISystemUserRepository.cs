@@ -14,6 +14,6 @@ namespace MPC.Interfaces.Repository
 
         SystemUser GetFirstSystemUser();
         void UpdateEmailSignature(string signature);
-
+        
     }
 }
