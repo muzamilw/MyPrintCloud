@@ -439,6 +439,7 @@
     <Compile Include="Controllers\OxfordAboutUsController.cs" />
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
+    <Compile Include="Controllers\SliderGalleryController.cs" />
     <Compile Include="Controllers\SocialAnSavedDesignInfoController.cs" />
     <Compile Include="Controllers\WorldPayGatewayController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -1084,6 +1085,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js-image-slider-detail.js" />
     <Content Include="Scripts\js-image-slider.js" />
+    <Content Include="Scripts\jssor.slider.min.js" />
     <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\owl.carousel.js" />
@@ -1257,6 +1259,7 @@
     <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
     <Content Include="Views\Payment\WorldpayGateway.cshtml" />
     <Content Include="Views\Shared\PartialViews\SocialAnSavedDesignInfo.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SliderGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1293,6 +1296,7 @@
     <Folder Include="Views\PayWay\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
     <Folder Include="Views\RealEstateListingGrid\" />
+    <Folder Include="Views\SliderGallery\" />
     <Folder Include="Views\SocialAnSavedDesignInfo\" />
     <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
