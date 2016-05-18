@@ -27,7 +27,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             this._roleService = roleService;
         }
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         [CompressFilter]
         public UserRoleResponse Get()
         {
@@ -49,7 +49,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
         }
 
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         [CompressFilter]
         public string Get(int id)
         {
@@ -57,7 +57,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiException]
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         [CompressFilter]
         public void Post(Role value)
         {

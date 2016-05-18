@@ -35,6 +35,7 @@ namespace MPC.Implementation.MISServices
             var dbRole = _roleRepository.GetRoleById(role.RoleId)?? CreateNewRole();
             dbRole.RoleName = role.RoleName;
             dbRole.RoleDescription = role.RoleDescription;
+            dbRole.IsCompanyLevel = role.IsCompanyLevel;
             _roleRepository.DeleteRoleRights(dbRole);
             
             if(role.Rolerights != null)
@@ -51,6 +52,10 @@ namespace MPC.Implementation.MISServices
             _roleRepository.Add(newRole);
             return newRole;
         }
-        
+
+        public Role GetRoleByUserId(Guid userId)
+        {
+            return _roleRepository.GetRoleByUserId(userId);
+        }
     }
 }

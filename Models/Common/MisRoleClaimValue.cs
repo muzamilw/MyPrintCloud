@@ -9,5 +9,6 @@
         /// Role
         /// </summary>
         public string Role { get; set; }
+        public long RoleId { get; set; }
     }
 }

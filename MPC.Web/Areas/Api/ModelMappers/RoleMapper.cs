@@ -21,6 +21,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                RoleId = source.RoleId,
                RoleName = source.RoleName,
                RoleDescription = source.RoleDescription,
+               IsCompanyLevel = source.IsCompanyLevel,
                Rolerights = source.Rolerights != null? source.Rolerights.Select(a => new RoleRight{RoleId = a.RoleId, RightId = a.RightId, RoleName = a.Role.RoleName, RightName = a.AccessRight.RightName}).ToList() : null
 
             };
@@ -32,6 +33,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RoleId = source.RoleId,
                 RoleName = source.RoleName,
                 RoleDescription = source.RoleDescription,
+                IsCompanyLevel = source.IsCompanyLevel,
                 Rolerights = source.Rolerights != null ? source.Rolerights.Select(a => new DomainModels.Roleright { RoleId = a.RoleId, RightId = a.RightId}).ToList() : null
             };
         }

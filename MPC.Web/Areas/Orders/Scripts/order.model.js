@@ -867,7 +867,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
             var items = [];
 
             _.each(source.Items, function (item) {
-                items.push(itemModel.Item.Create(item));
+                if (item.StatusId != 3)
+                    items.push(itemModel.Item.Create(item));
             });
 
             // Push to Original Item

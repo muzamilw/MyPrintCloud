@@ -45,6 +45,17 @@ namespace MPC.Implementation.MISServices
         {
             systemUserRepository.UpdateEmailSignature(signature);
         }
+        public SystemUser UpdateSystemUser(SystemUser user)
+        {
+            var dbUser = systemUserRepository.GetSystemUserById(user.SystemUserId);
+            if (dbUser != null)
+            {
+                dbUser.FullName = user.FullName;
+                dbUser.RoleId = user.RoleId;
+                systemUserRepository.SaveChanges();
+            }
+            return dbUser;
+        }
 
         public List<SystemUser> GetAllUserByOrganisation()
         {

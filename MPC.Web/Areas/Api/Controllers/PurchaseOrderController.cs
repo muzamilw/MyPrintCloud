@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -37,6 +38,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPurchaseOrders })]
+        [CompressFilterAttribute]
         public PurchaseResponseModel Get([FromUri] PurchaseOrderSearchRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
@@ -52,13 +55,16 @@ namespace MPC.MIS.Areas.Api.Controllers
             return purchaseService.GetGoodsReceivedNotes(request).CreateFromGRN();
 
         }
-
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPurchaseOrders })]
+        [CompressFilterAttribute]
         public Purchase Get(int purchaseId)
         {
             return purchaseService.GetPurchaseById(purchaseId).CreateFrom();
 
         }
 
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPurchaseOrders })]
+        [CompressFilterAttribute]
         [ApiException]
         public PurchaseListView Post(Purchase purchase)
         {
@@ -69,6 +75,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             return purchaseService.SavePurchase(purchase.CreateFrom()).CreateFromForListView();
         }
 
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPurchaseOrders })]
+        [CompressFilterAttribute]
         [ApiException]
         [HttpDelete]
         public int Delete(Purchase purchase)

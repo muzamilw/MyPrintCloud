@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
@@ -9,6 +10,7 @@ namespace MPC.Interfaces.Repository
         List<AccessRight> GetUserAccessRights();
         Role GetRoleById(int roleId);
         void DeleteRoleRights(Role role);
-        
+        Role GetRoleByUserId(Guid userId);
+
     }
 }
