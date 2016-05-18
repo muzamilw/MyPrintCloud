@@ -67,7 +67,15 @@
                                 </a>
                             </li>
                             <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
-                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId, "Login/Register"))</a>
+                                @if (!ViewBag.isUserLoggedIn)
+                                {
+                                    <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId, "Login/Register"))</a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="lnkSignInCs">Hi, @ViewBag.LoginUserName</a>
+                                }
+                                
                             </li>
                             <li class="ZeroRightMargin BlackBtnCS">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
@@ -78,6 +86,12 @@
                                     </div>
                                 </a>
                             </li>
+                            @if (ViewBag.isUserLoggedIn)
+                            {
+                                <li>
+                                    @Html.ActionLink(Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign out")).ToString(), "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "usercolorSize" })
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="clearBoth">

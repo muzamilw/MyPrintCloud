@@ -1446,7 +1446,7 @@ namespace MPC.Repository.Repositories
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
-                    // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, null);
+                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, null);
                     db.SaveChanges();
                     result = true;
                 }
@@ -1509,21 +1509,6 @@ namespace MPC.Repository.Repositories
                         {
                             item.EstimateId = UnOrderItemsEstimate.EstimateId;
                         }
-
-                        //Delete the non included items
-                        //bool result = false;
-                        //List<ArtWorkAttatchment> itemAttatchments = null;
-                        //Template clonedTempldateFiles = null;
-
-                        //result = RemoveCloneItem(item.ItemId, out itemAttatchments, out clonedTempldateFiles);
-                        //if (result)
-                        //{
-
-
-                        //    RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
-                        //    if (clonedTempldateFiles != null)
-                        //        DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
-                        //}
                     }
                 }
             });
