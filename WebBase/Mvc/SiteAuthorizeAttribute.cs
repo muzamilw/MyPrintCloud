@@ -18,7 +18,7 @@ namespace MPC.WebBase.Mvc
         #region Private
 
         private SecurityAccessRight[] accessRights = new SecurityAccessRight[0];
-        private string[] misRoles = { };
+        private string[] misRoles = { "Admin", "Manager", "User" };
 
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.Practices.Unity;
@@ -122,7 +123,10 @@ namespace MPC.Repository.Repositories
                 SaveChanges();
             }
         }
-
+        public SystemUser GetSystemUserById(Guid userId)
+        {
+            return DbSet.FirstOrDefault(u => u.SystemUserId == userId);
+        }
        
         #endregion
     }

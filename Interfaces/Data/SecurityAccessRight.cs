@@ -80,6 +80,13 @@
         /// <summary>
         /// Can View Store
         /// </summary>
-        CanViewStore = 15
+        CanViewStore = 15,
+        CanViewEstimating = 16,
+        CanViewProductionBoard = 17,
+        CanViewInvoicing = 18,
+        CanViewShipping = 19,
+        CanViewPurchaseOrders = 20,
+        CanViewSettings = 21
+
     }
 }

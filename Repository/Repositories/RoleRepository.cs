@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Microsoft.Practices.Unity;
@@ -58,6 +59,19 @@ namespace MPC.Repository.Repositories
         public void DeleteRoleRights(Role role)
         {
             role.Rolerights.ToList().ForEach(a => db.Rolerights.Remove(a));
+        }
+
+        public Role GetRoleByUserId(Guid userId)
+        {
+            var user = db.SystemUsers.FirstOrDefault(a => a.SystemUserId == userId);
+            if (user != null)
+            {
+                return DbSet.FirstOrDefault(a => a.RoleId == user.RoleId);
+            }
+            else
+            {
+                return null;
+            }
         }
         
         #endregion

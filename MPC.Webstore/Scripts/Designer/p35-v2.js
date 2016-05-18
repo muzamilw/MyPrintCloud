@@ -2428,3 +2428,17 @@ $(".textPropertyPanel1 button").click(function (event) {
     if (!D1AO) return;
     pcf26_upPanl(D1AO)
 });
+
+
+
+$(".hasclear").keyup(function () {
+    var t = $(this);
+    t.next('span').toggle(Boolean(t.val()));
+});
+
+$(".clearer").hide($(this).prev('input').val());
+
+$(".clearer").click(function () {
+    $(this).prev('input').val('').focus();
+    $(this).hide();
+});

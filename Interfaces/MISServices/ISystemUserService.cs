@@ -15,5 +15,6 @@ namespace MPC.Interfaces.MISServices
         void UpdateEmailSignature(string signature);
         string GetEmailSignature();
         List<SystemUser> GetAllUserByOrganisation();
+        SystemUser UpdateSystemUser(SystemUser user);
     }
 }

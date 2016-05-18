@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace MPC.MIS.Controllers
 {
-    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.User, SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
     public class DashboardController : Controller
     {
 

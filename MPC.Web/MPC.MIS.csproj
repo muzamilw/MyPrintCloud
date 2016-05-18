@@ -2357,6 +2357,7 @@
     <Content Include="Areas\Settings\Views\MIS\UserRole.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_RoleRightsDialog.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\SystemUsers.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_SystemUserDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

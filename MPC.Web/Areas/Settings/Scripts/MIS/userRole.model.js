@@ -2,11 +2,12 @@
     var
 
     //Section view Entity
-    Role = function (specifiedId, specifiedRoleName, specifiedRoleDescription) {
+    Role = function (specifiedId, specifiedRoleName, specifiedRoleDescription, specifiedCompanyLevel) {
         var self,
-            roleName = ko.observable(specifiedRoleName),
+            roleName = ko.observable(specifiedRoleName || undefined).extend({ required: true, message: 'Name is required'}),
             roleId = ko.observable(specifiedId),
             roleDescription = ko.observable(specifiedRoleDescription),
+            isCompanyLevel = ko.observable(specifiedCompanyLevel),
             roleRights = ko.observableArray([]),
             isCheckChange = ko.observable(),
             roleRightsUi = ko.computed(function () {
@@ -29,7 +30,8 @@
                 roleName: roleName,
                 roleDescription: roleDescription,
                 roleRights: roleRights,
-                isCheckChange: isCheckChange
+                isCheckChange: isCheckChange,
+                isCompanyLevel: isCompanyLevel
             }),
             // True If Has Changes
             hasChanges = ko.computed(function () {
@@ -39,13 +41,19 @@
             reset = function () {
                 dirtyFlag.reset();
             },
-
+             errors = ko.validation.group({
+                 roleName: roleName
+             }),
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
             convertToServerData = function () {
                 return {
                     RoleId: roleId(),
                     RoleName: roleName(),
                     RoleDescription: roleDescription(),
-                    Rolerights : roleRights()
+                    Rolerights: roleRights(),
+                    IsCompanyLevel: isCompanyLevel()
                 };
             };
 
@@ -59,13 +67,15 @@
             reset: reset,
             convertToServerData: convertToServerData,
             roleRightsUi: roleRightsUi,
-            isCheckChange: isCheckChange
+            isCheckChange: isCheckChange,
+            isCompanyLevel: isCompanyLevel,
+            isValid: isValid
 
         };
         return self;
     };
     Role.Create = function (source) {
-        var role = new Role(source.RoleId, source.RoleName, source.RoleDescription);
+        var role = new Role(source.RoleId, source.RoleName, source.RoleDescription, source.IsCompanyLevel);
 
         if (source.Rolerights && source.Rolerights.length > 0) {
             var rolerights = [];

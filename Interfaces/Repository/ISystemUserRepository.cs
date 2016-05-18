@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
@@ -14,6 +15,7 @@ namespace MPC.Interfaces.Repository
 
         SystemUser GetFirstSystemUser();
         void UpdateEmailSignature(string signature);
-        
+        SystemUser GetSystemUserById(Guid userId);
+
     }
 }

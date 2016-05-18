@@ -71,7 +71,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
         [CompressFilter]
-        public void Post(SystemUser value)
+        public SystemUser Post(SystemUser value)
         {
             if (value == null || !ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             try
             {
-                _systemUserService.UpdateEmailSignature(value.EmailSignature);
+               return _systemUserService.UpdateSystemUser(value.CreateFromList()).CreateFromList();
 
             }
             catch (Exception ex)
