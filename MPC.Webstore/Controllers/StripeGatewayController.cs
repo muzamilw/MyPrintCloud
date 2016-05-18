@@ -61,7 +61,7 @@ namespace MPC.Webstore.Controllers
                     PaymentGateway oGateWay = null;
                     if (Store.isPaymentRequired == true)
                     {
-                        oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(Store.CompanyId);
+                        oGateWay = _PaymentGatewayService.GetPaymentByMethodId(Store.CompanyId, (int)PaymentMethods.Stripe);
                     }
 
                     StripeViewModel model = new StripeViewModel();
@@ -102,7 +102,7 @@ namespace MPC.Webstore.Controllers
                 PaymentGateway oGateWay = null;
                 if (Store.isPaymentRequired == true)
                 {
-                    oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(Store.CompanyId);
+                    oGateWay = _PaymentGatewayService.GetPaymentByMethodId(Store.CompanyId, (int)PaymentMethods.Stripe);
                 }
 
 
@@ -204,7 +204,7 @@ namespace MPC.Webstore.Controllers
                                 if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                                 {
                                     _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)CustomerOrder.ContactId, (int)CustomerOrder.CompanyId, model.OrderId, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, (int)CustomerOrder.ContactId, (int)CustomerOrder.CompanyId, model.OrderId, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                                 }
                                 else
                                 {

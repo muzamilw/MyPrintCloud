@@ -46,6 +46,20 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public List<Asset> SearchAssetsByFolderId(long ParentFolderId, string searchText)
+        {
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                return DbSet.Where(a => a.FolderId == ParentFolderId && ( a.AssetName.Contains(searchText) == true || a.Description.Contains(searchText) == true)).ToList();
+            }
+            else
+            {
+                return DbSet.Where(a => a.FolderId == ParentFolderId).ToList();
+            }
+
+        }
+
         public void  DeleteAsset(long AssetID)
         {
             try

@@ -1253,7 +1253,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        #endregion
+    
 
         public bool UpdateCompanyName(Company Instance)
         {
@@ -2127,6 +2127,40 @@ namespace MPC.Implementation.WebStoreServices
                     response.TreeView = tree.Where(t => t.FolderName.ToLower().Contains(searchText)).ToList();
                 }
             }
+            return response;
+        }
+ 
+        #endregion
+
+
+        public FolderSearchResponse GetDamFoldersAssets(string searchText, long companyId, long organisationId, long territoryId, int parentFolderId)
+        {
+        
+            searchText = searchText.ToLower();
+            FolderSearchResponse response = new FolderSearchResponse();
+          
+                if (territoryId > 0)
+                {
+                    var folders = _FolderRepository.GetFoldersBySearchTextCompanyTerritoryParentFolder(searchText, companyId, organisationId, territoryId, parentFolderId);
+                   
+                        response.Folders = folders;
+                        response.Assets =
+                            _AssestsRepository.SearchAssetsByFolderId(parentFolderId,searchText).ToList();
+                   
+                   
+
+                }
+                else
+                {
+                    var folders = _FolderRepository.GetFoldersBySearchTextCompanyTerritoryParentFolder(searchText, companyId, organisationId, parentFolderId);
+                  
+                        response.Folders = folders;
+                        response.Assets =
+                          _AssestsRepository.SearchAssetsByFolderId(parentFolderId, searchText).ToList();
+                  
+                   
+                }
+            
             return response;
         }
     }

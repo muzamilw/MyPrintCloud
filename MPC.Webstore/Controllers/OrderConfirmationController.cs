@@ -28,9 +28,11 @@ namespace MPC.Webstore.Controllers
         private readonly IUserManagerService _userManagerService;
         private readonly ICampaignService _campaignService;
         private readonly ITemplateService _templateService;
+        private readonly IPaymentGatewayService _paymentGatewayService;
         public OrderConfirmationController(IOrderService OrderService, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, IItemService ItemService
             , ICampaignService myCampaignService, IUserManagerService userManagerService, ICampaignService campaignService
-            , ITemplateService templateService)
+            , ITemplateService templateService
+            , IPaymentGatewayService paymentGatewayService)
         {
             if (OrderService == null)
             {
@@ -44,6 +46,7 @@ namespace MPC.Webstore.Controllers
             this._userManagerService = userManagerService;
             this._campaignService = campaignService;
             this._templateService = templateService;
+            this._paymentGatewayService = paymentGatewayService;
         }
         // GET: OrderConfirmation
         public ActionResult Index(string OrderId)
@@ -72,25 +75,26 @@ namespace MPC.Webstore.Controllers
         /// <param name="btnPlaceOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(string buttonType, string OrderId)
+        public ActionResult Index(string buttonType, string OrderId, string selectedPaymentGatewayId)
         {
+
             try
             {
                 ShoppingCart shopCart = null;
                 if (buttonType == "1")
                 {
-                    shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
+                    shopCart = PlaceOrder(1, Convert.ToInt64(OrderId), Convert.ToInt64(selectedPaymentGatewayId));
 
                 }
                 else
                 {
                     if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
                     {
-                        shopCart = PlaceOrder(3, Convert.ToInt64(OrderId));
+                        shopCart = PlaceOrder(3, Convert.ToInt64(OrderId), Convert.ToInt64(selectedPaymentGatewayId));
                     }
                     else
                     {
-                        shopCart = PlaceOrder(2, Convert.ToInt64(OrderId));
+                        shopCart = PlaceOrder(2, Convert.ToInt64(OrderId), Convert.ToInt64(selectedPaymentGatewayId));
                     }
                 }
                 if (shopCart != null)
@@ -102,7 +106,7 @@ namespace MPC.Webstore.Controllers
                     return null;
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
                 return null;
@@ -111,14 +115,14 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private ShoppingCart PlaceOrder(int modOverride, long OrderId)
+        private ShoppingCart PlaceOrder(int modOverride, long OrderId, long PaymentGatewayId)
         {
             string ItemTypeFourHtml = string.Empty;
             string URl = HttpContext.Request.Url.Scheme + "://" + HttpContext.Request.Url.Authority;
             List<Item> GetAllItems = _ItemService.GetItemsByOrderID(OrderId);
             GetAllItems = GetAllItems.Where(i => i.IsOrderedItem == true && i.ProductType == 4).ToList();
             CampaignEmailParams cep = new CampaignEmailParams();
-            if (GetAllItems != null)
+            if (GetAllItems != null && GetAllItems.Count > 0)
             {
                 cep.AssetId = 1;
               
@@ -210,7 +214,7 @@ namespace MPC.Webstore.Controllers
 
             bool result = false;
 
-            PaymentGateway oPaymentGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
+            PaymentGateway oPaymentGateWay = _paymentGatewayService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId, PaymentGatewayId);// _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
 
             CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID()); //LoginUser;
 
@@ -240,7 +244,7 @@ namespace MPC.Webstore.Controllers
                 {
                     cep.StoreId = UserCookieManager.WBStoreId;
                     cep.AddressId = UserCookieManager.WBStoreId;
-                    if (baseResponse.Company.isPaymentRequired == false || baseResponse.Company.isPaymentRequired == null)
+                    if (baseResponse.Company.isPaymentRequired != true || (baseResponse.Company.isPaymentRequired == true && PaymentGatewayId == 0))
                     {
                         try
                         {
@@ -256,7 +260,7 @@ namespace MPC.Webstore.Controllers
                                 CustomerId = Convert.ToInt32(_myClaimHelper.loginContactCompanyID()),
                                 OrderId = OrderId,
                                 PaymentDate = DateTime.Now,
-                                PaymentMethodId = 99, //(int)PaymentMethod.Cash,
+                                PaymentMethodId = (int)PaymentMethods.Cash,
                                 ReferenceCode = updatedOrder.CustomerPO
                             };
 
@@ -565,6 +569,8 @@ namespace MPC.Webstore.Controllers
 
                     ViewBag.Currency = StoreBaseResopnse.Currency;
                     ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
+                    ViewBag.isPaymentRequired = StoreBaseResopnse.Company.isPaymentRequired;
+                    ViewData["ActivePaymentGateways"] = _paymentGatewayService.GetAllActivePaymentGateways(StoreBaseResopnse.Company.CompanyId);
                     StoreBaseResopnse = null;
                     return shopCart;
                 }

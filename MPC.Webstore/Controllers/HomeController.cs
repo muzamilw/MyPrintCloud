@@ -25,6 +25,7 @@ using MPC.Models.ResponseModels;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Facebook;
+using System.Net.Mime;
 //using DotNetOpenAuth.ApplicationBlock;
 
 
@@ -1069,6 +1070,39 @@ namespace MPC.Webstore.Controllers
         {
             _myCompanyService.UpdateSubscriber(SubscriptionCode, SubscriberStatus.Pending);
               return View("Confirmation");
+        }
+
+        public ContentResult RobotsText()
+        {
+              MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+
+              if (StoreBaseResopnse != null)
+              {
+                  return this.Content(StoreBaseResopnse.Company.RobotText, "text/plain", Encoding.UTF8);
+              }
+              else 
+              {
+
+                  return this.Content("", "text/plain", Encoding.UTF8);
+              }
+       
+            
+        }
+
+        public ContentResult SitemapXml()
+        {
+            MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+
+            if (StoreBaseResopnse != null)
+            {
+                return this.Content(StoreBaseResopnse.Company.SiteMap, "text/xml", Encoding.UTF8);
+            }
+            else
+            {
+                return this.Content("", "text/xml", Encoding.UTF8);
+            }
         }
 
     }

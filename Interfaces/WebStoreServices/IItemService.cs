@@ -125,7 +125,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
         bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath, string itemID);
         Item GetClonedItemById(long ItemId);
-        PaymentGateway GetPaymentGatewayRecord(long CompanyId);
+        //PaymentGateway GetPaymentGatewayRecord(long CompanyId);
         long GetFirstItemIdByOrderId(long orderId);
         long AddPrePayment(PrePayment prePayment);
 

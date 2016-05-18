@@ -9,6 +9,7 @@
     <link href="~/Content/Designer/toastr.min.css" rel="stylesheet" />
     @*<link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />*@
 
+
 }
 @using MPC.Webstore.Common;
 
@@ -254,6 +255,11 @@
                                                         </a>
                                                         <a class=" SampleBtn btntxt " id="btnImagePlaceHolderUser" style="font-size:11px !important;display:none !important;">Image Placeholder</a>
                                                     </li>
+                                                    <li class="damImgDV" style="display:none;">
+                                                        <a title="DAM Images" id="btnDamImages" class=" SampleBtn btntxt btndamImages" style="font-size:11px !important;">
+                                                            DAM Images
+                                                        </a>
+                                                    </li>
                                                     <li class=" realEstateImgBtn" style="display:none;">
                                                         <a title="Upload Images" id="btnPropertyImages" class=" SampleBtn btntxt btnPropertyImages" style="font-size:11px !important;">
                                                             Property Images
@@ -328,6 +334,15 @@
                                                         </span>
 
                                                         <ul class="gallery infoPanelGallery photoGallery listDamImages divRealEstateImagesContainer" id="divRealEstateImagesContainer"></ul>
+                                                    </div>
+                                                </section>
+                                                <section class="damContainer ImgPanels disappearing Imr9c1">
+                                                    <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
+                                                        <button class="btnBackDAM bkbtnIphone">Images</button><span style="cursor:pointer;" class="btnBackDAM">
+    Back to Images
+</span>
+                                                        <input type="text" placeholder="Search DAM" autocomplete="off" id="inputSearchDamImg" class="searchBtn" />
+                                                        <ul class="gallery infoPanelGallery photoGallery listDamImages divDAMImagesContainer" id="divDAMImagesContainer"></ul>
                                                     </div>
                                                 </section>
                                             </section>
