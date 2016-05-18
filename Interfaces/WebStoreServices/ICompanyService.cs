@@ -320,5 +320,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         FolderSearchResponse GetFolderSearchResponse(string searchText, long companyId, long organisationId,
             long territoryId);
+
+        FolderSearchResponse GetDamFoldersAssets(string searchText, long companyId, long organisationId, long territoryId, int parentFolderId);
     }
 }

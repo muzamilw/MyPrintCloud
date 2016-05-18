@@ -2333,13 +2333,20 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
 
+            bool damEnabled = false;
+            var Store = _CompanyRepository.GetCompanyById(StoreId);
+            if ( Store != null)
+            {
+                damEnabled =  Store.Company.IsEnableDataAsset.HasValue == true ? Store.Company.IsEnableDataAsset.Value : false;
+            }
+
             if (item != null && item.TemplateType == 3)
             {
-                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor;
+                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor + "/" + damEnabled;
             }
             else
             {
-                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor;
+                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor + "/" + damEnabled;
             }
             return itemCloneObj;
         }

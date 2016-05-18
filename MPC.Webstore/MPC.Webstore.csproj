@@ -354,6 +354,7 @@
     <Compile Include="Areas\DesignerApi\Controllers\ImagePermissionController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\ItemController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\SmartFormController.cs" />
+    <Compile Include="Areas\DesignerApi\Controllers\DamImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateBackgroundImageController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateColorStylesController.cs" />
     <Compile Include="Areas\DesignerApi\Controllers\TemplateController.cs" />
