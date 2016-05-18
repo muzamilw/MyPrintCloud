@@ -98,6 +98,28 @@ namespace MPC.Implementation.WebStoreServices
         {
             _CampaignRepository.EmailsToCorpUser(orderID, contactID, ModeOfStore, loggedinTerritoryId, serverSettings, StoreId, SalesManagerEmail);
         }
+
+        public void RemoveAllDeAttachedItems(HttpContext context)
+        {
+            try
+            {
+                _OrderRepository.RemoveAllDeAttachedItem();
+            }
+            catch (Exception ex)
+            {
+                string virtualFolderPth = context.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Function: RemoveAllDeAttachedItems , Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
+
+            }
+
+        }
+
     }
 
     

@@ -438,6 +438,7 @@
     <Compile Include="Controllers\OxfordAboutUsController.cs" />
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
+    <Compile Include="Controllers\SocialAnSavedDesignInfoController.cs" />
     <Compile Include="Controllers\WorldPayGatewayController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\StripeGatewayController.cs" />
@@ -654,6 +655,7 @@
     <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\bonhamsBakground.png" />
     <Content Include="Content\Images\bugzy.PNG" />
+    <Content Include="Content\Images\ccards2.gif" />
     <Content Include="Content\Images\Clock-Icon-Blue.png" />
     <Content Include="Content\Images\costcentreLoader.gif" />
     <Content Include="Content\Images\DAM_folder_ico.png" />
@@ -824,6 +826,8 @@
     <Content Include="Content\Images\no-image.png" />
     <Content Include="Content\Images\notFound.svg" />
     <Content Include="Content\Images\olsonReviewImg.PNG" />
+    <Content Include="Content\Images\pop-Products.jpg" />
+    <Content Include="Content\Images\SaveOrdering.jpg" />
     <Content Include="Content\Images\stripeoutline.png" />
     <Content Include="Content\Images\Page_pdf.png" />
     <Content Include="Content\Images\PDF.png" />
@@ -848,11 +852,13 @@
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\stripesolid.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\Images\SubscribeBoxBackground.jpg" />
     <Content Include="Content\Images\Telephone-Icon-Blue.png" />
     <Content Include="Content\Images\text.gif" />
     <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\topnav_bg.jpg" />
     <Content Include="Content\Images\TwitterNew.png" />
+    <Content Include="Content\Images\United-Kingdom-icon.png" />
     <Content Include="Content\Images\Van-Icon-Blue.png" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa.gif" />
@@ -1239,6 +1245,7 @@
     <Content Include="Views\Shared\PartialViews\MenuWithLoginInfo.cshtml" />
     <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
     <Content Include="Views\Payment\WorldpayGateway.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SocialAnSavedDesignInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1275,6 +1282,7 @@
     <Folder Include="Views\PayWay\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
     <Folder Include="Views\RealEstateListingGrid\" />
+    <Folder Include="Views\SocialAnSavedDesignInfo\" />
     <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
     <Folder Include="Views\WhyShopUs\" />

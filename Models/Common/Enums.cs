@@ -135,7 +135,8 @@ namespace MPC.Models.Common
         OrderMovedToShipping = 39,
         OrderInvoiced = 40,
         OrderCancelled = 41,
-        OrderStatusReverted = 42
+        OrderStatusReverted = 42,
+        UnOrderedItems = -1
     }
     public enum ScheduledStatus
     {
@@ -201,7 +202,9 @@ namespace MPC.Models.Common
         ANZ = 3,
         StGeorge = 5,
         NAB = 6,
-        PayWay = 8
+        PayWay = 8,
+        Stripe = 9,
+        WorldPay = 10
     }
     public enum ItemStatuses
     {

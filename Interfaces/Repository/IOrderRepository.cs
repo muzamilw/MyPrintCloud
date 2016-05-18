@@ -151,6 +151,7 @@ namespace MPC.Interfaces.Repository
         bool IsExtradOrderForBillingCycle(DateTime billingDate, bool isDirectOrder, int licensedCount, long orderId, long organisationId);
 
         void DeleteOrderById(long OrderId);
+        void RemoveAllDeAttachedItem();
 
     }
 }

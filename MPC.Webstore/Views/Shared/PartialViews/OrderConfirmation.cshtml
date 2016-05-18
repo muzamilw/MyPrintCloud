@@ -17,6 +17,9 @@
     var ThumnbString = "Thumb.png";
 
     double _DiscountAmountTotal = 0;
+    var lblPayBy = "Pay by ";
+
+    var activePaymentGatewayList = ViewData["ActivePaymentGateways"] as List<MPC.Models.DomainModels.PaymentGateway>;
 }
 @{
     Layout = null;
@@ -171,10 +174,6 @@
                         <div class="confirm_order_detail_div">
                             <div style="min-height: 290px">
                                 <div id="pnlConfirmOrder">
-                                    @*<div class="mainHeadingAveniorCheckout" style="clear: both;">
-                                            <label id="ltrlconfirmurorderdetails">Confirm your order details...</label>
-                                        </div>
-                                        <br />*@
                                     <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                         <tbody>
                                             <tr class="gridViewHeaderStyle">
@@ -439,6 +438,7 @@
                             @using (Html.BeginForm())
                             {
                                 <input type="hidden" id="buttonType" name="buttonType" />
+                                <input type="hidden" id="selectedPaymentGatewayId" name="selectedPaymentGatewayId" />
                                 <input type="submit" id="submitFormUsingPopUp" name="submitFormUsingPopUp" style="display:none;" />
                                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                 {
@@ -448,7 +448,7 @@
                                         {
                                             <div class="pad10" id="myyyyy" style="padding-right: 0px !important;">
                                                 <div class="float_right marginLeft directDepositcs">
-                                                    <input id="btnPayByDirectDeposit" type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("payviadeeposit", UserCookieManager.WBStoreId, "Pay Via Direct Deposit"))' class="start_creating_btn_SApp rounded_corners5" onclick="return setButtonType('2'); " />
+                                                    <input id="btnPayByDirectDeposit" type="submit" value='@Html.Raw(Html.GetKeyValueFromResourceFile("payviadeeposit", UserCookieManager.WBStoreId, "Pay Via Direct Deposit"))' class="start_creating_btn_SApp rounded_corners5" onclick="return setButtonType('2', '0'); " />
                                                 </div>
                                             </div>
                                             <div class="clearBoth">
@@ -456,13 +456,33 @@
                                         }
                                         <div class="pad10" id="kkkkk" style="padding-right: 0px !important;">
                                             <div class="float_right marginLeft">
-                                                <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviaccarddd", UserCookieManager.WBStoreId, "Pay by Credit Card"))" onclick="return setButtonType('1'); ShowLoader();" />
-                                            </div>
-                                            <div class="float_right">
                                                 <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
                                                        onclick="BackToShopping('@UserCookieManager.WEBOrderId'); ShowLoader();" />
-                                                @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                                @if (activePaymentGatewayList != null)
+                                                {
+                                                    foreach (MPC.Models.DomainModels.PaymentGateway item in activePaymentGatewayList)
+                                                    {
+                                                        if (item.PaymentMethodId == 99)
+                                                        {
+
+                                                            <input id="@item.PaymentGatewayId" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@lblPayBy@item.PaymentMethod.MethodName" onclick="return setButtonType('2', '0');" style="margin-bottom:10px;" />
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <input id="@item.PaymentGatewayId" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@lblPayBy@item.PaymentMethod.MethodName" onclick="return setButtonType('1', '@item.PaymentGatewayId');" style="margin-bottom:10px;" />
+                                                        }
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <input id="btnPlaceOrderUsingCreditCard" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("payviaccarddd", UserCookieManager.WBStoreId, "Pay by Credit Card"))" onclick="return setButtonType('1', '0'); ShowLoader();" />
+                                                }
+
+
                                             </div>
+                                          
                                             <div class="clearBoth">
                                                 &nbsp;
                                             </div>
@@ -473,7 +493,7 @@
                                     {
                                         <div class="pad10" id="oo" style="padding-right: 0px !important;">
                                             <div class="float_right marginLeft">
-                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
+                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1', '0');" />
                                             </div>
                                             <div class="float_right">
                                                 <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -489,7 +509,7 @@
                                     {
                                         <div class="pad10" id="mine" style="padding-right: 0px !important;">
                                             <div class="float_right marginLeft">
-                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitforappr", UserCookieManager.WBStoreId, "Submit for Approval"))" onclick="return setButtonType('1');" />
+                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubmitforappr", UserCookieManager.WBStoreId, "Submit for Approval"))" onclick="return setButtonType('1', '0');" />
                                             </div>
                                             <div class="float_right">
                                                 <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
@@ -504,14 +524,38 @@
                                 }
                                 else
                                 {
-                                    <div class="pad10" style="padding-right: 0px !important;">
+                                    <div class="pad10" style="padding-right: 0px !important;    text-align: right;">
                                         <div class="float_right marginLeft">
-                                            <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1');" />
-                                        </div>
-                                        <div class="float_right">
                                             <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("backtoshipppp", UserCookieManager.WBStoreId, "BACK TO SHOPPING"))" id="btnShopCart" class="btn_brown rounded_corners5"
-                                                   onclick="BackToShopping('@UserCookieManager.WEBOrderId'); ShowLoader();" />
+                                                   onclick="BackToShopping('@UserCookieManager.WEBOrderId'); ShowLoader();" style="margin-bottom:10px;" />
+                                            @if (ViewBag.isPaymentRequired == true)
+                                            {
+                                                foreach (MPC.Models.DomainModels.PaymentGateway item in activePaymentGatewayList)
+                                                {
+                                                    if (item.PaymentMethodId == 99)
+                                                    {
+
+                                                        <input id="@item.PaymentGatewayId" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@lblPayBy@item.PaymentMethod.MethodName" onclick="return setButtonType('1', '0');" style="margin-bottom:10px;"/>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="@item.PaymentGatewayId" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@lblPayBy@item.PaymentMethod.MethodName" onclick="return setButtonType('1', '@item.PaymentGatewayId');" style="margin-bottom:10px;" />
+                                                    }
+
+                                                }
+                                            }
+                                            @if (ViewBag.isPaymentRequired == false)
+                                            {
+
+                                                <input id="btnPlaceOrder" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlplacordr", UserCookieManager.WBStoreId, "Place Order"))" onclick="return setButtonType('1', '0');" style="margin-bottom:10px;" />
+
+                                            }
+
+                                            @*<div class="float_right">*@
+                                           
                                             @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                            @*</div>*@
                                         </div>
                                         <div class="clearBoth">
                                             &nbsp;
@@ -531,9 +575,10 @@
 <script src="/Scripts/jquery-1.10.1.min.js"></script>
 <script>
 
-    function setButtonType(Type) {
+    function setButtonType(Type, GatewayId) {
         ShowReceiptLoader();
         $("#buttonType").val(Type);
+        $("#selectedPaymentGatewayId").val(GatewayId);
         return true;
     }
     function BackToShopping(OrderId) {

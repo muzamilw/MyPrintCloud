@@ -47,7 +47,7 @@ namespace MPC.Repository.Repositories
         private readonly ITemplateRepository _TemplateRepository;
         private readonly ITemplatePageRepository _TemplatePageRepository;
         private readonly ICampaignRepository _campaignRepository;
-        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, 
+        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository,
             IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository,
             IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService,
             ITemplateRepository _TemplateRepository, ITemplatePageRepository _TemplatePageRepository
@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               // Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
+                // Prefix prefix = db.Prefixes.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
 
                 Estimate orderObject = new Estimate();
 
@@ -428,19 +428,19 @@ namespace MPC.Repository.Repositories
                             if (StockOptionID > 0)
                             {
                                 ItemStockOption stockOption = db.ItemStockOptions.Where(i => i.ItemStockOptionId == StockOptionID && i.ItemId == item.RefItemId).FirstOrDefault();
-                                if(stockOption != null)
+                                if (stockOption != null)
                                 {
-                                     StockName = stockOption.StockLabel;
+                                    StockName = stockOption.StockLabel;
                                 }
                             }
-                            
+
                             prodItem = CreateProductItem(item, StockName);
                             prodItem.Attatchment = this.ExtractAttachment(item);
                             if (item.ItemAttachments != null)
                             {
                                 prodItem.OtherItemAttatchments = item.ItemAttachments.Where(attatchment => attatchment.ItemId == item.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
                             }
-                            else 
+                            else
                             {
                                 prodItem.OtherItemAttatchments = null;
                             }
@@ -449,7 +449,7 @@ namespace MPC.Repository.Repositories
                             {
                                 prodItem.OtherItemTemplateAttatchments = GetTemplatePagesWithURL(Convert.ToInt64(item.TemplateId), OrganisationId);
                             }
-                            else 
+                            else
                             {
                                 prodItem.OtherItemTemplateAttatchments = null;
                             }
@@ -464,7 +464,7 @@ namespace MPC.Repository.Repositories
             return productItemsList;
         }
 
-        private List<ItemTemplatePage> GetTemplatePagesWithURL(long TemplateId, long OrganisationId) 
+        private List<ItemTemplatePage> GetTemplatePagesWithURL(long TemplateId, long OrganisationId)
         {
             bool allFileExist = true;
             if (TemplateId > 0)
@@ -481,7 +481,8 @@ namespace MPC.Repository.Repositories
                 foreach (ItemTemplatePage itm in temPages)
                 {
                     itm.FilePath = itm.FilePath + "p" + count + ".jpg";
-                    if (!File.Exists(System.Web.HttpContext.Current.Server.MapPath(itm.FilePath))) {
+                    if (!File.Exists(System.Web.HttpContext.Current.Server.MapPath(itm.FilePath)))
+                    {
                         allFileExist = false;
                     }
                     count++;
@@ -491,13 +492,13 @@ namespace MPC.Repository.Repositories
                 {
                     return null;
                 }
-                else 
+                else
                 {
                     return temPages;
                 }
-              
+
             }
-            else 
+            else
             {
                 return null;
             }
@@ -582,7 +583,7 @@ namespace MPC.Repository.Repositories
 
                 List<ItemAttachment> newlistAttach = tblItem.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).Take(2).ToList();
                 tblItemAttchment = newlistAttach[0];
-                
+
                 if (tblItemAttchment != null)
                 {
                     if (tblItemAttchment.FileName.Contains("overlay"))
@@ -1003,7 +1004,7 @@ namespace MPC.Repository.Repositories
         /// <param name="isCorpFlow"></param>
         /// <returns></returns>
         /// UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal,deliveryCompletionTime, deliveryCost, UserCookieManager.StoreMode)
-        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow,CompanyContact Contact)
+        public bool UpdateOrderWithDetails(long orderID, long loggedInContactID, double? orderTotal, int deliveryEstimatedCompletionTime, StoreMode isCorpFlow, CompanyContact Contact)
         {
             bool result = false;
             Estimate tblOrder = null;
@@ -1028,15 +1029,15 @@ namespace MPC.Repository.Repositories
                         // if null then not update address detail
                         if (Contact != null)
                         {
-                            tblOrder.AddressId =Convert.ToInt32(Contact.AddressId);
-                            tblOrder.BillingAddressId =Convert.ToInt32(Contact.ShippingAddressId);
+                            tblOrder.AddressId = Convert.ToInt32(Contact.AddressId);
+                            tblOrder.BillingAddressId = Convert.ToInt32(Contact.ShippingAddressId);
                         }
 
-                         UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
-                       
-                           
-                        
-                        
+                        UpdateNewOrderData(tblOrder, deliveryEstimatedCompletionTime, loggedInContactID); // sets end and start delivery data                    
+
+
+
+
                         if (db.SaveChanges() > 0)
                         {
                             result = true;
@@ -1165,13 +1166,13 @@ namespace MPC.Repository.Repositories
                         //InvoiceDate
                         YourRef = Order.CustomerPO,
                         SpecialInstNotes = Order.UserNotes,
-                        
+
                     };
                     //order details or shopping details
                     ShoppingCart shopCart = this.ExtractShoppingCart(Order);
                     if (shopCart != null)
                     {
-                       
+
                         userOrder.ProductsList = shopCart.CartItemsList;
                         userOrder.DeliveryCost = shopCart.DeliveryCost;
                         userOrder.DeliveryCostTaxValue = shopCart.DeliveryTaxValue;
@@ -1396,7 +1397,7 @@ namespace MPC.Repository.Repositories
                     tblOrder.PaperByDate = DateTime.Now.AddDays(2);
                     tblOrder.TargetPrintDate = DateTime.Now.AddDays(2);
                     tblOrder.TargetBindDate = DateTime.Now.AddDays(2);
-                 
+
                     //List<Guid> StockManagerIds = new List<Guid>();
                     //if (mode == StoreMode.Retail)
                     //{
@@ -1445,7 +1446,7 @@ namespace MPC.Repository.Repositories
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
-                   // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, null);
+                    // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, null);
                     db.SaveChanges();
                     result = true;
                 }
@@ -1468,8 +1469,9 @@ namespace MPC.Repository.Repositories
         private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode, Organisation org, List<Guid> MgrIds)
         {
             long NewOrderIdForUnOrderedItems = 0;
-            long countOfUnordereditems = tblOrder.Items.Where(i => i.IsOrderedItem == false && i.TemplateId != null && i.TemplateId != 0 && i.ProductType == (int)ProductType.PrintProduct).ToList().Count;
-            if (countOfUnordereditems > 0) 
+            long countOfUnordereditems = tblOrder.Items.Where(i => i.IsOrderedItem == false && i.IsSavedDesign == true && i.TemplateId != null && i.TemplateId != 0 && i.ProductType == (int)ProductType.PrintProduct).ToList().Count;
+            Estimate UnOrderItemsEstimate = db.Estimates.Where(i => i.StatusId == (int)Events.UnOrderedItems).FirstOrDefault();
+            if (countOfUnordereditems > 0)
             {
                 NewOrderIdForUnOrderedItems = CreateNewOrder(tblOrder.CompanyId, tblOrder.ContactId ?? 0, org.OrganisationId, "");
 
@@ -1497,26 +1499,31 @@ namespace MPC.Repository.Repositories
                 }
                 else
                 {
-                    if (item.ProductType == (int)ProductType.PrintProduct && item.TemplateId != null && item.TemplateId > 0)
+                    if (item.ProductType == (int)ProductType.PrintProduct && item.TemplateId != null && item.TemplateId > 0 && item.IsSavedDesign == true)
                     {
                         item.EstimateId = NewOrderIdForUnOrderedItems;
                     }
-                    else 
+                    else
                     {
-                        //Delete the non included items
-                        bool result = false;
-                        List<ArtWorkAttatchment> itemAttatchments = null;
-                        Template clonedTempldateFiles = null;
-
-                        result = RemoveCloneItem(item.ItemId, out itemAttatchments, out clonedTempldateFiles);
-                        if (result)
+                        if (UnOrderItemsEstimate != null)
                         {
-
-
-                            RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
-                            if (clonedTempldateFiles != null)
-                                DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
+                            item.EstimateId = UnOrderItemsEstimate.EstimateId;
                         }
+
+                        //Delete the non included items
+                        //bool result = false;
+                        //List<ArtWorkAttatchment> itemAttatchments = null;
+                        //Template clonedTempldateFiles = null;
+
+                        //result = RemoveCloneItem(item.ItemId, out itemAttatchments, out clonedTempldateFiles);
+                        //if (result)
+                        //{
+
+
+                        //    RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+                        //    if (clonedTempldateFiles != null)
+                        //        DeleteTemplateFiles(clonedTempldateFiles.ProductId, org.OrganisationId); // file removing
+                        //}
                     }
                 }
             });
@@ -1923,7 +1930,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-       
+
 
         public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
         {
@@ -2718,7 +2725,7 @@ namespace MPC.Repository.Repositories
                         && tblStatuses.StatusType == 2 //The status type should be 2 only for orders
                         && tblOrd.StatusId != (int)OrderStatus.ShoppingCart // Not Shopping Cart
                         && tblOrd.StatusId != (int)OrderStatus.ArchivedOrder // Not Archived
-                        
+
                         select new Order()
                         {
                             OrderID = tblOrd.EstimateId,
@@ -2735,7 +2742,7 @@ namespace MPC.Repository.Repositories
                             CustomerName = tblContacts.FirstName,
                             TerritoryId = tblContacts.TerritoryId ?? 0,
                             CompanyName = tblcompany.Name,
-                            RejectionReason=tblOrd.RejectionReason
+                            RejectionReason = tblOrd.RejectionReason
                         };
 
             // filter list by status
@@ -2754,12 +2761,12 @@ namespace MPC.Repository.Repositories
 
             if (actualFromDate != null && actualToDate != null)
             {
-             //   DateTime actualFrommDate =Convert.ToDateTime(actualFromDate).AddHours(11).AddMinutes(59);
+                //   DateTime actualFrommDate =Convert.ToDateTime(actualFromDate).AddHours(11).AddMinutes(59);
 
                 DateTime actualtooDate = Convert.ToDateTime(actualToDate).AddHours(23).AddMinutes(59);
 
                 resultData = resultData.Where(date => date.OrderDate >= actualFromDate && date.OrderDate <= actualtooDate).ToList();
-               
+
             }
             else if (actualFromDate != null)
             {
@@ -2771,7 +2778,7 @@ namespace MPC.Repository.Repositories
                 resultData = resultData.Where(todate => todate.OrderDate <= actualtooDate).ToList();
             }
 
-        
+
             resultData.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             resultData.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
             if (IsManager == true)
@@ -2863,7 +2870,7 @@ namespace MPC.Repository.Repositories
             return ordersList;
         }
 
-        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID,string RejectionReason, string BrokerPO = "")
+        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string RejectionReason, string BrokerPO = "")
         {
             long result = 0;
             Estimate tblOrder = null;
@@ -7141,8 +7148,8 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 return (from r in db.Items
-                        where r.EstimateId == OrderId && r.IsOrderedItem == true 
-                        
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true
+
                         select r).ToList();
             }
             catch (Exception ex)
@@ -7168,7 +7175,7 @@ namespace MPC.Repository.Repositories
                     o =>
                         o.isEstimate == false && o.isDirectSale == isDirectOrder && o.StatusId != 3 &&
                         o.CreationDate >= billingDate.AddMonths(-1) && o.CreationDate <= billingDate).OrderByDescending(o => o.CreationDate).Select(o => o.EstimateId).ToList();
-            
+
             return ordersList;
         }
 
@@ -7200,7 +7207,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-            
+
         }
 
         public void UpdateOrderForDel(Estimate Order)
@@ -7225,9 +7232,9 @@ namespace MPC.Repository.Repositories
                 db.Database.CommandTimeout = 1080;
                 db.usp_DeleteOrderByID(OrderId);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                 throw ex;
+                throw ex;
             }
         }
 
@@ -7258,7 +7265,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public bool UpdateOrderAndItemsForRejectOrder(long OrderId,long CartOrderId)
+        public bool UpdateOrderAndItemsForRejectOrder(long OrderId, long CartOrderId)
         {
             try
             {
@@ -7303,8 +7310,53 @@ namespace MPC.Repository.Repositories
                 throw Ex;
             }
         }
+        public void RemoveAllDeAttachedItem()
+        {
+            long OrganisationId = 0;
+            long Companyid = 0;
+            Estimate oEstimate = db.Estimates.Where(i => i.StatusId == (int)Events.UnOrderedItems).FirstOrDefault();
+            if (oEstimate != null)
+            {
+                List<Item> AllUnOrderItems = db.Items.Where(i => i.EstimateId == oEstimate.EstimateId).ToList();
+                foreach (Item itm in AllUnOrderItems)
+                {
+                    try
+                    {
+                        Companyid = itm.CompanyId ?? 0;
+                        OrganisationId = 0;
+                        //Delete the non included items
+                        if (Companyid > 0)
+                        {
+                            Company oCmp = db.Companies.Where(i => i.CompanyId == Companyid).FirstOrDefault();
+                            if (oCmp != null)
+                            {
+                                OrganisationId = oCmp.OrganisationId ?? 0;
+                            }
+                            if (OrganisationId > 0)
+                            {
+                                bool result = false;
+                                List<ArtWorkAttatchment> itemAttatchments = null;
+                                Template clonedTempldateFiles = null;
 
-        
+                                result = RemoveCloneItem(itm.ItemId, out itemAttatchments, out clonedTempldateFiles);
+                                if (result)
+                                {
+                                    RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
+                                    if (clonedTempldateFiles != null)
+                                        DeleteTemplateFiles(clonedTempldateFiles.ProductId, OrganisationId); // file removing
+
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
+                }
+            }
+        }
+
     }
 }
 

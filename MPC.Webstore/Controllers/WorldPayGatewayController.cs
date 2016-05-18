@@ -32,9 +32,11 @@ namespace MPC.Webstore.Controllers
         private readonly IPrePaymentService _IPrePaymentService;
         private readonly IPayPalResponseService _PayPalResponseService;
         private readonly ITemplateService _templateService;
+        private readonly IPaymentGatewayService _PaymentGatewayService;
 
         public WorldPayGatewayController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
-           , ITemplateService templateService)
+           , ITemplateService templateService
+            , IPaymentGatewayService PaymentGatewayService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
@@ -45,707 +47,708 @@ namespace MPC.Webstore.Controllers
             this._IPrePaymentService = IPrePaymentService;
             this._PayPalResponseService = _PayPalResponseService;
             this._templateService = templateService;
+            this._PaymentGatewayService = PaymentGatewayService;
         }
 
         // GET: Payment
-        public ActionResult Index(long OrderId)
-        {
-            PaypalViewModel opaypal = new PaypalViewModel();
-            try
-            {
+//        public ActionResult Index(long OrderId)
+//        {
+//            PaypalViewModel opaypal = new PaypalViewModel();
+//            try
+//            {
 
-                if (OrderId > 0)
-                {
-                    //string CacheKeyName = "CompanyBaseResponse";
-                    //ObjectCache cache = MemoryCache.Default;
-                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+//                if (OrderId > 0)
+//                {
+//                    //string CacheKeyName = "CompanyBaseResponse";
+//                    //ObjectCache cache = MemoryCache.Default;
+//                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+//                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
-                    if (oGateWay != null)
-                    {
-                        opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
-                        opaypal.notify_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/PaypalIPN";
-                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart?OrderId=" + OrderId + "&Error=UserCancelled";
+//                    PaymentGateway oGateWay = _PaymentGatewayService.GetPaymentByMethodId(StoreBaseResopnse.Company.CompanyId, (int)PaymentMethods.WorldPay);
+//                    if (oGateWay != null)
+//                    {
+//                        opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
+//                        opaypal.notify_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/PaypalIPN";
+//                        opaypal.cancel_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ShopCart?OrderId=" + OrderId + "&Error=UserCancelled";
 
-                       // opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/" + OrderId;//oGateWay.ReturnUrl;
-                       // opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
-                       // opaypal.cancel_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ShopCart/" + OrderId; //oGateWay.CancelPurchaseUrl;
-                        opaypal.discount_amount_cart = "0";
-                        opaypal.upload = "1";
-                        opaypal.business = oGateWay.BusinessEmail;
-                        opaypal.cmd = "_cart";
-                        opaypal.currency_code = _myCompanyService.GetCurrencyCodeById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
-                        opaypal.no_shipping = "1";
-                        opaypal.handling_cart = "0";
-                        opaypal.custom = OrderId.ToString();
+//                       // opaypal.return_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt/" + OrderId;//oGateWay.ReturnUrl;
+//                       // opaypal.notify_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/PaypalIPN"; //oGateWay.NotifyUrl;
+//                       // opaypal.cancel_url = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ShopCart/" + OrderId; //oGateWay.CancelPurchaseUrl;
+//                        opaypal.discount_amount_cart = "0";
+//                        opaypal.upload = "1";
+//                        opaypal.business = oGateWay.BusinessEmail;
+//                        opaypal.cmd = "_cart";
+//                        opaypal.currency_code = _myCompanyService.GetCurrencyCodeById(Convert.ToInt64(StoreBaseResopnse.Organisation.CurrencyId));
+//                        opaypal.no_shipping = "1";
+//                        opaypal.handling_cart = "0";
+//                        opaypal.custom = OrderId.ToString();
 
-                        //opaypal.pageOrderID = OrderId.ToString();
-                        // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
-                        if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
-                            opaypal.URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"; //oGateWay.TestApiUrl;//
-                        else
-                            opaypal.URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveTestUrl;
+//                        //opaypal.pageOrderID = OrderId.ToString();
+//                        // determining the URL to work with depending on whether sandbox or a real PayPal account should be used
+//                        if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
+//                            opaypal.URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"; //oGateWay.TestApiUrl;//
+//                        else
+//                            opaypal.URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveTestUrl;
 
-                        if (true)//oGateWay.SendToReturnURL.HasValue && oGateWay.SendToReturnURL.Value
-                            opaypal.rm = "2";
-                        else
-                            opaypal.rm = "1";
-
-
-                        Estimate order = _OrderService.GetOrderByID(OrderId);
+//                        if (true)//oGateWay.SendToReturnURL.HasValue && oGateWay.SendToReturnURL.Value
+//                            opaypal.rm = "2";
+//                        else
+//                            opaypal.rm = "1";
 
 
-                        List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
-                        Item DeliveryItem = CartItemsList.Where(c => c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
-                        double VATTotal = 0;
-                        if (CartItemsList != null)
-                        {
-                            List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
+//                        Estimate order = _OrderService.GetOrderByID(OrderId);
 
-                            foreach (Item item in CartItemsList)
-                            {
-                                if (item.ItemType != (int)ItemTypes.Delivery)
-                                {
-                                    PaypalOrderParameter prodItem = new PaypalOrderParameter
-                                    {
-                                        ProductName = item.ProductName,
-                                        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1),
-                                        TotalQuantity = 1
-                                    };
-                                    VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
-                                    itemsList.Add(prodItem);
-                                }
-                            }
 
-                            if(DeliveryItem != null)
-                            {
-                                PaypalOrderParameter prodItem = new PaypalOrderParameter
-                                {
-                                    ProductName = "Shipping: " + DeliveryItem.ProductName,
-                                    UnitPrice = Utils.FormatDecimalValueToTwoDecimal(DeliveryItem.Qty1BaseCharge1),
-                                    TotalQuantity = 1
-                                };
-                                VATTotal = VATTotal + DeliveryItem.Qty1Tax1Value ?? 0;
-                                itemsList.Add(prodItem);
-                            }
+//                        List<Item> CartItemsList = _OrderService.GetOrderItemsIncludingDelivery(OrderId, (int)OrderStatus.ShoppingCart);
+//                        Item DeliveryItem = CartItemsList.Where(c => c.ItemType == (int)ItemTypes.Delivery).FirstOrDefault();
+//                        double VATTotal = 0;
+//                        if (CartItemsList != null)
+//                        {
+//                            List<PaypalOrderParameter> itemsList = new List<PaypalOrderParameter>();
 
-                            if (VATTotal == 0)
-                            {
-                                opaypal.tax_cart = "0.00";
-                            }
-                            else 
-                            {
-                                opaypal.tax_cart = VATTotal.ToString("#.##");
-                            }
+//                            foreach (Item item in CartItemsList)
+//                            {
+//                                if (item.ItemType != (int)ItemTypes.Delivery)
+//                                {
+//                                    PaypalOrderParameter prodItem = new PaypalOrderParameter
+//                                    {
+//                                        ProductName = item.ProductName,
+//                                        UnitPrice = Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1),
+//                                        TotalQuantity = 1
+//                                    };
+//                                    VATTotal = VATTotal + item.Qty1Tax1Value ?? 0;
+//                                    itemsList.Add(prodItem);
+//                                }
+//                            }
+
+//                            if(DeliveryItem != null)
+//                            {
+//                                PaypalOrderParameter prodItem = new PaypalOrderParameter
+//                                {
+//                                    ProductName = "Shipping: " + DeliveryItem.ProductName,
+//                                    UnitPrice = Utils.FormatDecimalValueToTwoDecimal(DeliveryItem.Qty1BaseCharge1),
+//                                    TotalQuantity = 1
+//                                };
+//                                VATTotal = VATTotal + DeliveryItem.Qty1Tax1Value ?? 0;
+//                                itemsList.Add(prodItem);
+//                            }
+
+//                            if (VATTotal == 0)
+//                            {
+//                                opaypal.tax_cart = "0.00";
+//                            }
+//                            else 
+//                            {
+//                                opaypal.tax_cart = VATTotal.ToString("#.##");
+//                            }
                            
-                            opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
+//                            opaypal.txtJason = Newtonsoft.Json.JsonConvert.SerializeObject(itemsList);
 
-                        }
+//                        }
 
-                    }
+//                    }
 
-                }
-            }
-            catch (Exception ex)
-            {
+//                }
+//            }
+//            catch (Exception ex)
+//            {
 
-            }
-            return View( "payment/WorldPayGateway", opaypal);
-        }
+//            }
+//            return View( "payment/WorldPayGateway", opaypal);
+//        }
 
-        [HttpPost]
-        public ActionResult PaypalIPN()
-        {
-            try
-            {
-                int outCustomRequestID = 0;
+//        [HttpPost]
+//        public ActionResult PaypalIPN()
+//        {
+//            try
+//            {
+//                int outCustomRequestID = 0;
 
-                int.TryParse(Request["custom"], out  outCustomRequestID);
-                int orderID = outCustomRequestID;// GetRequestOrderID(outCustomRequestID);
-                Estimate modelOrder = null;
-                string strFormValues = Encoding.ASCII.GetString(Request.BinaryRead(Request.ContentLength));
-                string strNewValue;
+//                int.TryParse(Request["custom"], out  outCustomRequestID);
+//                int orderID = outCustomRequestID;// GetRequestOrderID(outCustomRequestID);
+//                Estimate modelOrder = null;
+//                string strFormValues = Encoding.ASCII.GetString(Request.BinaryRead(Request.ContentLength));
+//                string strNewValue;
 
-                long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
+//                long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
 
-                if (StoreId > 0)
-                {
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
-                    // getting the URL to work with
-                    string URL;
-                    if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
-                        URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";//oGateWay.TestApiUrl;
-                    else
-                        URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveApiUrl;
+//                if (StoreId > 0)
+//                {
+//                    PaymentGateway oGateWay = _PaymentGatewayService.GetPaymentByMethodId(StoreId, (int)PaymentMethods.WorldPay);
+//                    // getting the URL to work with
+//                    string URL;
+//                    if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
+//                        URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";//oGateWay.TestApiUrl;
+//                    else
+//                        URL = "https://www.paypal.com/cgi-bin/webscr"; //oGateWay.LiveApiUrl;
 
-                    // Create the request back
-                    HttpWebRequest req = (HttpWebRequest)(WebRequest.Create(URL));
+//                    // Create the request back
+//                    HttpWebRequest req = (HttpWebRequest)(WebRequest.Create(URL));
 
-                    // Set values for the request back
-                    req.Method = "POST";
-                    req.ContentType = "application/x-www-form-urlencoded";
-                    strNewValue = strFormValues + "&cmd=_notify-validate";
-                    req.ContentLength = strNewValue.Length;
+//                    // Set values for the request back
+//                    req.Method = "POST";
+//                    req.ContentType = "application/x-www-form-urlencoded";
+//                    strNewValue = strFormValues + "&cmd=_notify-validate";
+//                    req.ContentLength = strNewValue.Length;
 
-                    // Write the request back IPN strings
-                    StreamWriter stOut = new StreamWriter(req.GetRequestStream(), Encoding.ASCII);
-                    stOut.Write(strNewValue);
-                    stOut.Close();
+//                    // Write the request back IPN strings
+//                    StreamWriter stOut = new StreamWriter(req.GetRequestStream(), Encoding.ASCII);
+//                    stOut.Write(strNewValue);
+//                    stOut.Close();
 
-                    // send the request, read the response
-                    HttpWebResponse strResponse = (HttpWebResponse)(req.GetResponse());
-                    Stream IPNResponseStream = strResponse.GetResponseStream();
-                    Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                    StreamReader readStream = new StreamReader(IPNResponseStream, encode);
-                    string strResponseString = readStream.ReadToEnd();
-                    readStream.Close();
-                    strResponse.Close();
+//                    // send the request, read the response
+//                    HttpWebResponse strResponse = (HttpWebResponse)(req.GetResponse());
+//                    Stream IPNResponseStream = strResponse.GetResponseStream();
+//                    Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+//                    StreamReader readStream = new StreamReader(IPNResponseStream, encode);
+//                    string strResponseString = readStream.ReadToEnd();
+//                    readStream.Close();
+//                    strResponse.Close();
 
-                    double outGrossTotal = 0;
+//                    double outGrossTotal = 0;
 
-                    double.TryParse(Request["mc_gross"], out outGrossTotal);
-
-
-
-                    //string amount = GetRequestPrice(this.Request["custom"].ToString());
-
-                    // if the request is verified
-                    if (String.Compare(strResponseString, "VERIFIED", false) == 0)
-                    {
-
-                        string pendingReasion = string.IsNullOrWhiteSpace(this.Request["pending_reason"]) ? string.Empty : this.Request["pending_reason"];
-
-                        // write a response from PayPal
-                        long payPalResponseID = this.CreatePaymentResponses(orderID, this.Request["txn_id"],
-                             outGrossTotal,
-                             this.Request["payer_email"],
-                             this.Request["first_name"],
-                             this.Request["last_name"],
-                             this.Request["address_street"],
-                             this.Request["address_city"],
-                             this.Request["address_state"],
-                             this.Request["address_zip"],
-                             this.Request["address_country"],
-                             outCustomRequestID, false, pendingReasion);
-                        //Carts.WriteFile("Success in IPNHandler: PaymentResponses created");
-                        ///////////////////////////////////////////////////
-                        // Here we notify the person responsible for goods delivery that the payment was performed and 
-                        // providing him with all needed information about the payment. Some flags informing that user paid 
-                        // for a services can be also set here. For example, if user paid for registration on the site, 
-                        // then the flag should be set allowing the user who paid to access the site
-                        //////////////////////////////////////////////////
-
-                        long? customerID = null;
-                        if (payPalResponseID > 0)
-                        {
-                            //CompanySiteManager CSM = new CompanySiteManager();
-                            //   company_sites Serversettingss = CompanySiteManager.GetCompanySite();
-                            string paymentStatus = this.Request["payment_status"];
-                            StoreMode ModeOfStore = StoreMode.Retail;
-                            if (string.Compare(paymentStatus, "pending", true) == 0 || string.Compare(paymentStatus, "completed", true) == 0)
-                            {
-                                modelOrder = _OrderService.GetOrderByID(orderID);
-
-                                if (modelOrder != null)
-                                    customerID = modelOrder.CompanyId;
-
-                                // order code and order creation date
-                                CampaignEmailParams cep = new CampaignEmailParams();
-
-                                string AttachmentPath = null;
-                                cep.ContactId = modelOrder.ContactId ?? 0;
-                                cep.CompanyId = modelOrder.CompanyId;
-                                cep.EstimateId = orderID; //PageParameters.OrderID;
-                                Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
-                                Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
-                                CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
-                                _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
-                                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
-
-                                if (Store.IsCustomer == (int)CustomerTypes.Corporate)
-                                {
-                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
-                                    ModeOfStore = StoreMode.Corp;
-                                }
-                                else
-                                {
-                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
-                                }
-                                List<string> AttachmentList = new List<string>();
-                                AttachmentList.Add(AttachmentPath);
-                                cep.OrganisationId = Store.OrganisationId ?? 0;
-                                Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
-                                cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                                cep.StoreId = Store.CompanyId;
-                                cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
-                                long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
-                                cep.CorporateManagerID = ManagerID;
-                                if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
-                                {
-                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
-                                }
-                                else
-                                {
-                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
-
-                                }
-
-                                //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-                                // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
+//                    double.TryParse(Request["mc_gross"], out outGrossTotal);
 
 
 
+//                    //string amount = GetRequestPrice(this.Request["custom"].ToString());
 
-                                _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
-                            }
-                            else
-                            {
-                                throw new Exception("Invalid Payment Status");
-                            }
-                        }
-                        else
-                        {
-                            throw new Exception("Invalid paypal responseid.");
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
-                    }
-                }
-                else
-                {
-                    throw new Exception("No Paymnet Gatway Set.");
-                }
+//                    // if the request is verified
+//                    if (String.Compare(strResponseString, "VERIFIED", false) == 0)
+//                    {
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return View();
-        }
+//                        string pendingReasion = string.IsNullOrWhiteSpace(this.Request["pending_reason"]) ? string.Empty : this.Request["pending_reason"];
 
-        // GET: Payment
-        public ActionResult ANZSubmit(long OrderId)
-        {
+//                        // write a response from PayPal
+//                        long payPalResponseID = this.CreatePaymentResponses(orderID, this.Request["txn_id"],
+//                             outGrossTotal,
+//                             this.Request["payer_email"],
+//                             this.Request["first_name"],
+//                             this.Request["last_name"],
+//                             this.Request["address_street"],
+//                             this.Request["address_city"],
+//                             this.Request["address_state"],
+//                             this.Request["address_zip"],
+//                             this.Request["address_country"],
+//                             outCustomRequestID, false, pendingReasion);
+//                        //Carts.WriteFile("Success in IPNHandler: PaymentResponses created");
+//                        ///////////////////////////////////////////////////
+//                        // Here we notify the person responsible for goods delivery that the payment was performed and 
+//                        // providing him with all needed information about the payment. Some flags informing that user paid 
+//                        // for a services can be also set here. For example, if user paid for registration on the site, 
+//                        // then the flag should be set allowing the user who paid to access the site
+//                        //////////////////////////////////////////////////
 
-            string queryString = "https://migs.mastercard.com.au/vpcpay";
-            string seperator = "?";
-            try
-            {
+//                        long? customerID = null;
+//                        if (payPalResponseID > 0)
+//                        {
+//                            //CompanySiteManager CSM = new CompanySiteManager();
+//                            //   company_sites Serversettingss = CompanySiteManager.GetCompanySite();
+//                            string paymentStatus = this.Request["payment_status"];
+//                            StoreMode ModeOfStore = StoreMode.Retail;
+//                            if (string.Compare(paymentStatus, "pending", true) == 0 || string.Compare(paymentStatus, "completed", true) == 0)
+//                            {
+//                                modelOrder = _OrderService.GetOrderByID(orderID);
 
-                if (OrderId > 0)
-                {
-                    //string CacheKeyName = "CompanyBaseResponse";
-                    //ObjectCache cache = MemoryCache.Default;
-                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+//                                if (modelOrder != null)
+//                                    customerID = modelOrder.CompanyId;
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
-                    if (oGateWay != null)
-                    {
-                        System.Collections.SortedList transactionData = new System.Collections.SortedList(new VPCStringComparer());
+//                                // order code and order creation date
+//                                CampaignEmailParams cep = new CampaignEmailParams();
 
-                        transactionData.Add("vpc_Version", 1);
-                        transactionData.Add("vpc_Command", "pay");
-                        transactionData.Add("vpc_AccessCode", oGateWay.IdentityToken);
-                        transactionData.Add("vpc_MerchTxnRef", OrderId.ToString());
-                        transactionData.Add("vpc_Merchant", oGateWay.BusinessEmail);
-                        string SECURE_SECRET = oGateWay.SecureHash;
-                        string rawHashData = oGateWay.SecureHash;
+//                                string AttachmentPath = null;
+//                                cep.ContactId = modelOrder.ContactId ?? 0;
+//                                cep.CompanyId = modelOrder.CompanyId;
+//                                cep.EstimateId = orderID; //PageParameters.OrderID;
+//                                Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
+//                                Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
+//                                CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
+//                                _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
+//                                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
 
-                        Estimate order = _OrderService.GetOrderByID(OrderId);
+//                                if (Store.IsCustomer == (int)CustomerTypes.Corporate)
+//                                {
+//                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
+//                                    ModeOfStore = StoreMode.Corp;
+//                                }
+//                                else
+//                                {
+//                                    AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId);
+//                                }
+//                                List<string> AttachmentList = new List<string>();
+//                                AttachmentList.Add(AttachmentPath);
+//                                cep.OrganisationId = Store.OrganisationId ?? 0;
+//                                Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
+//                                cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
+//                                cep.StoreId = Store.CompanyId;
+//                                cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
+//                                long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
+//                                cep.CorporateManagerID = ManagerID;
+//                                if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
+//                                {
+//                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
+//                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+//                                }
+//                                else
+//                                {
+//                                    _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
+//                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
+
+//                                }
+
+//                                //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
+//                                // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
+
+
+
+
+//                                _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
+//                            }
+//                            else
+//                            {
+//                                throw new Exception("Invalid Payment Status");
+//                            }
+//                        }
+//                        else
+//                        {
+//                            throw new Exception("Invalid paypal responseid.");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        throw new Exception("INVALID HandShake_against_RequestID =  " + outCustomRequestID.ToString() + " " + DateTime.Now.ToString());
+//                    }
+//                }
+//                else
+//                {
+//                    throw new Exception("No Paymnet Gatway Set.");
+//                }
+
+//            }
+//            catch (Exception ex)
+//            {
+//                throw ex;
+//            }
+//            return View();
+//        }
+
+//        // GET: Payment
+//        public ActionResult ANZSubmit(long OrderId)
+//        {
+
+//            string queryString = "https://migs.mastercard.com.au/vpcpay";
+//            string seperator = "?";
+//            try
+//            {
+
+//                if (OrderId > 0)
+//                {
+//                    //string CacheKeyName = "CompanyBaseResponse";
+//                    //ObjectCache cache = MemoryCache.Default;
+//                    //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+//                    MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+//                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
+//                    if (oGateWay != null)
+//                    {
+//                        System.Collections.SortedList transactionData = new System.Collections.SortedList(new VPCStringComparer());
+
+//                        transactionData.Add("vpc_Version", 1);
+//                        transactionData.Add("vpc_Command", "pay");
+//                        transactionData.Add("vpc_AccessCode", oGateWay.IdentityToken);
+//                        transactionData.Add("vpc_MerchTxnRef", OrderId.ToString());
+//                        transactionData.Add("vpc_Merchant", oGateWay.BusinessEmail);
+//                        string SECURE_SECRET = oGateWay.SecureHash;
+//                        string rawHashData = oGateWay.SecureHash;
+
+//                        Estimate order = _OrderService.GetOrderByID(OrderId);
                        
 
-                        transactionData.Add("vpc_OrderInfo", order.EstimateId.ToString());
-                        transactionData.Add("vpc_Amount", Convert.ToInt32(order.Estimate_Total * 100));
-                        transactionData.Add("vpc_ReturnURL", Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ANZResponse");
-                        transactionData.Add("vpc_TicketNo", "");
-                        transactionData.Add("vpc_Locale", "en");
+//                        transactionData.Add("vpc_OrderInfo", order.EstimateId.ToString());
+//                        transactionData.Add("vpc_Amount", Convert.ToInt32(order.Estimate_Total * 100));
+//                        transactionData.Add("vpc_ReturnURL", Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/ANZResponse");
+//                        transactionData.Add("vpc_TicketNo", "");
+//                        transactionData.Add("vpc_Locale", "en");
 
-                        transactionData.Add("AgainLink", Request.ServerVariables["HTTP_REFERER"]);
+//                        transactionData.Add("AgainLink", Request.ServerVariables["HTTP_REFERER"]);
 
 
-                        // Loop through all the data in the SortedList transaction data
-                        foreach (System.Collections.DictionaryEntry item in transactionData)
-                        {
+//                        // Loop through all the data in the SortedList transaction data
+//                        foreach (System.Collections.DictionaryEntry item in transactionData)
+//                        {
 
-                            // build the query string, URL Encoding all keys and their values
-                            queryString += seperator + System.Web.HttpUtility.UrlEncode(item.Key.ToString()) + "=" + System.Web.HttpUtility.UrlEncode(item.Value.ToString());
-                            seperator = "&";
+//                            // build the query string, URL Encoding all keys and their values
+//                            queryString += seperator + System.Web.HttpUtility.UrlEncode(item.Key.ToString()) + "=" + System.Web.HttpUtility.UrlEncode(item.Value.ToString());
+//                            seperator = "&";
 
-                            // Collect the data required for the MD5 sugnature if required
-                            if (SECURE_SECRET.Length > 0)
-                            {
-                                rawHashData += item.Value.ToString();
-                            }
-                        }
-                        //transactionData.Add("Title", Request.Form["Title"]);
+//                            // Collect the data required for the MD5 sugnature if required
+//                            if (SECURE_SECRET.Length > 0)
+//                            {
+//                                rawHashData += item.Value.ToString();
+//                            }
+//                        }
+//                        //transactionData.Add("Title", Request.Form["Title"]);
 
-                        // Create the MD5 signature if required
-                        string signature = "";
-                        if (SECURE_SECRET.Length > 0)
-                        {
-                            // create the signature and add it to the query string
-                            signature = CreateMD5Signature(rawHashData);
-                            queryString += seperator + "vpc_SecureHash=" + signature;
+//                        // Create the MD5 signature if required
+//                        string signature = "";
+//                        if (SECURE_SECRET.Length > 0)
+//                        {
+//                            // create the signature and add it to the query string
+//                            signature = CreateMD5Signature(rawHashData);
+//                            queryString += seperator + "vpc_SecureHash=" + signature;
 
-                        }
+//                        }
 
                     
-                    }
+//                    }
 
-                }
-            }
-            catch (Exception ex)
-            {
+//                }
+//            }
+//            catch (Exception ex)
+//            {
 
-            }
-            return Redirect(queryString);
-        }
+//            }
+//            return Redirect(queryString);
+//        }
 
    
 
        
-        public ActionResult ANZResponse()
-        {
-            try
-            {
+//        public ActionResult ANZResponse()
+//        {
+//            try
+//            {
 
-                /*
-            <summary>Checks a VPC 3-Party transaction response from an incoming HTTP GET</summary>
-            <remarks>
-            <para>
-            This program loops through the QueryString data and calcultaes an MD5 hash 
-            signature can be calculated to check if the data has changed in
-            transmission. Remember the data is returned back to the merchant via a 
-            cardholder's browser redirect so the data has the potential to be changed. 
-            </para>
+//                /*
+//            <summary>Checks a VPC 3-Party transaction response from an incoming HTTP GET</summary>
+//            <remarks>
+//            <para>
+//            This program loops through the QueryString data and calcultaes an MD5 hash 
+//            signature can be calculated to check if the data has changed in
+//            transmission. Remember the data is returned back to the merchant via a 
+//            cardholder's browser redirect so the data has the potential to be changed. 
+//            </para>
 
-            <para>
-            If the MD5 hash signature is not the same value as the incoming signature
-            that was calculated by the Payment Server then the receipt data has changed 
-            in transit and should be checked.
-            </para>
+//            <para>
+//            If the MD5 hash signature is not the same value as the incoming signature
+//            that was calculated by the Payment Server then the receipt data has changed 
+//            in transit and should be checked.
+//            </para>
 
-            <para>
-            To find out what is included in your queryString data you can enable DEBUG 
-            and run a test transaction. The postData string will then be output to the 
-            screen. This debug code allows the user to see all the data associated with 
-            the transaction. DEBUG should be disabled or removed entirely in production 
-            code.
-            </para>
+//            <para>
+//            To find out what is included in your queryString data you can enable DEBUG 
+//            and run a test transaction. The postData string will then be output to the 
+//            screen. This debug code allows the user to see all the data associated with 
+//            the transaction. DEBUG should be disabled or removed entirely in production 
+//            code.
+//            </para>
 
-            <para>
-            To enable DEBUG, change the ASP directive at the top of this file.
-            <para>
+//            <para>
+//            To enable DEBUG, change the ASP directive at the top of this file.
+//            <para>
 
-            <code>   <%@ Page Language="C#" DEBUG=false %>   </code>
-            <para>                    to                     </para>
-            <code>   <%@ Page Language="C#" DEBUG=true %>    </code>
+//            <code>   <%@ Page Language="C#" DEBUG=false %>   </code>
+//            <para>                    to                     </para>
+//            <code>   <%@ Page Language="C#" DEBUG=true %>    </code>
 
-            </remarks>
-            */
+//            </remarks>
+//            */
 
-                /*********************************************
-                 * Define Variables
-                 *********************************************/
+//                /*********************************************
+//                 * Define Variables
+//                 *********************************************/
 
-                int orderID = Convert.ToInt32(Request.QueryString["vpc_MerchTxnRef"]);
+//                int orderID = Convert.ToInt32(Request.QueryString["vpc_MerchTxnRef"]);
 
-                if (orderID > 0)
-                {
-                    long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
+//                if (orderID > 0)
+//                {
+//                    long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
+//                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
 
-                    string output = "";
+//                    string output = "";
 
 
-                    // This is secret for encoding the MD5 hash
-                    // This secret will vary from merchant to merchant
-                    // To not create a secure hash, let SECURE_SECRET be an empty string - ""
-                    // SECURE_SECRET can be found in Merchant Administration/Setup page
-                    string SECURE_SECRET = oGateWay != null ? oGateWay.SecureHash : "";
+//                    // This is secret for encoding the MD5 hash
+//                    // This secret will vary from merchant to merchant
+//                    // To not create a secure hash, let SECURE_SECRET be an empty string - ""
+//                    // SECURE_SECRET can be found in Merchant Administration/Setup page
+//                    string SECURE_SECRET = oGateWay != null ? oGateWay.SecureHash : "";
 
                 
-                    // define message string for errors
-                    string message = "";
+//                    // define message string for errors
+//                    string message = "";
 
-                    // error exists flag
-                    bool errorExists = false;
+//                    // error exists flag
+//                    bool errorExists = false;
 
-                    // transaction response code
-                    string txnResponseCode = "";
+//                    // transaction response code
+//                    string txnResponseCode = "";
 
-                    string rawHashData = SECURE_SECRET;
+//                    string rawHashData = SECURE_SECRET;
 
-                    // Initialise the Local Variables
-                    output = "<font color='orange'><b>NOT CALCULATED</b></font>";
-                    bool hashValidated = true;
+//                    // Initialise the Local Variables
+//                    output = "<font color='orange'><b>NOT CALCULATED</b></font>";
+//                    bool hashValidated = true;
 
-                    try
-                    {
-                        /*
-                         *************************
-                         * START OF MAIN PROGRAM *
-                         *************************
-                         */
+//                    try
+//                    {
+//                        /*
+//                         *************************
+//                         * START OF MAIN PROGRAM *
+//                         *************************
+//                         */
 
-                        // collect debug information
-# if DEBUG
-                        debugData += "<br/><u>Start of Debug Data</u><br/><br/>";
-# endif
+//                        // collect debug information
+//# if DEBUG
+//                        debugData += "<br/><u>Start of Debug Data</u><br/><br/>";
+//# endif
 
-                        // If we have a SECURE_SECRET then validate the incoming data using the MD5 hash
-                        //included in the incoming data
-                        if (Request.QueryString["vpc_SecureHash"] != null && Request.QueryString["vpc_SecureHash"].Length > 0)
-                        {
+//                        // If we have a SECURE_SECRET then validate the incoming data using the MD5 hash
+//                        //included in the incoming data
+//                        if (Request.QueryString["vpc_SecureHash"] != null && Request.QueryString["vpc_SecureHash"].Length > 0)
+//                        {
 
-                            // collect debug information
-# if DEBUG
-                            debugData += "<u>Data from Payment Server</u><br/>";
-# endif
+//                            // collect debug information
+//# if DEBUG
+//                            debugData += "<u>Data from Payment Server</u><br/>";
+//# endif
 
-                            // loop through all the data in the Request.Form
-                            foreach (string item in Request.QueryString)
-                            {
+//                            // loop through all the data in the Request.Form
+//                            foreach (string item in Request.QueryString)
+//                            {
 
-                                // collect debug information
-# if DEBUG
-                                debugData += item + "=" + Request.QueryString[item] + "<br/>";
-# endif
+//                                // collect debug information
+//# if DEBUG
+//                                debugData += item + "=" + Request.QueryString[item] + "<br/>";
+//# endif
 
-                                // Collect the data required for the MD5 sugnature if required
-                                if (SECURE_SECRET.Length > 0 && !item.Equals("vpc_SecureHash"))
-                                {
-                                    rawHashData += Request.QueryString[item];
-                                }
-                            }
-                        }
+//                                // Collect the data required for the MD5 sugnature if required
+//                                if (SECURE_SECRET.Length > 0 && !item.Equals("vpc_SecureHash"))
+//                                {
+//                                    rawHashData += Request.QueryString[item];
+//                                }
+//                            }
+//                        }
 
-                        // Create the MD5 signature if required
-                        string signature = "";
-                        if (SECURE_SECRET.Length > 0)
-                        {
-                            // create the signature and add it to the query string
-                            signature = CreateMD5Signature(rawHashData);
+//                        // Create the MD5 signature if required
+//                        string signature = "";
+//                        if (SECURE_SECRET.Length > 0)
+//                        {
+//                            // create the signature and add it to the query string
+//                            signature = CreateMD5Signature(rawHashData);
 
-                            // Collect debug information
-# if DEBUG
-                            debugData += "<br/><u>Hash Data Input</u>: " + rawHashData + "<br/><br/><u>Signature Created</u>: " + signature + "<br/>";
-# endif
+//                            // Collect debug information
+//# if DEBUG
+//                            debugData += "<br/><u>Hash Data Input</u>: " + rawHashData + "<br/><br/><u>Signature Created</u>: " + signature + "<br/>";
+//# endif
 
-                            // Validate the Secure Hash (remember MD5 hashes are not case sensitive)
-                            if (Request.QueryString["vpc_SecureHash"] != null && Request.QueryString["vpc_SecureHash"].Equals(signature))
-                            {
-                                // Secure Hash validation succeeded,
-                                // add a data field to be displayed later.
-                                output += "<font color='#00AA00'><b>CORRECT</b></font>";
-                            }
-                            else
-                            {
-                                // Secure Hash validation failed, add a data field to be displayed
-                                // later.
-                                output += "<font color='#FF0066'><b>INVALID HASH</b></font>";
-                                hashValidated = false;
-                            }
-                        }
+//                            // Validate the Secure Hash (remember MD5 hashes are not case sensitive)
+//                            if (Request.QueryString["vpc_SecureHash"] != null && Request.QueryString["vpc_SecureHash"].Equals(signature))
+//                            {
+//                                // Secure Hash validation succeeded,
+//                                // add a data field to be displayed later.
+//                                output += "<font color='#00AA00'><b>CORRECT</b></font>";
+//                            }
+//                            else
+//                            {
+//                                // Secure Hash validation failed, add a data field to be displayed
+//                                // later.
+//                                output += "<font color='#FF0066'><b>INVALID HASH</b></font>";
+//                                hashValidated = false;
+//                            }
+//                        }
 
 
-                        // Get the standard receipt data from the parsed response
-                        txnResponseCode = Request.QueryString["vpc_TxnResponseCode"].Length > 0 ? Request.QueryString["vpc_TxnResponseCode"] : "Unknown";
+//                        // Get the standard receipt data from the parsed response
+//                        txnResponseCode = Request.QueryString["vpc_TxnResponseCode"].Length > 0 ? Request.QueryString["vpc_TxnResponseCode"] : "Unknown";
 
-                        if (!hashValidated)
-                        {
-                            Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=ANZ Hash validation failed, Query string is tempered. Contact support");
-                        }
-                        else if (txnResponseCode == "C")
-                        {
-                            Response.Redirect("/ShopCart?Error=UserCancelled");
-                        }
-                        else if (!txnResponseCode.Equals("0"))
-                        {
-                            Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=" + getANZResponseDescription(txnResponseCode));
-                        }
+//                        if (!hashValidated)
+//                        {
+//                            Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=ANZ Hash validation failed, Query string is tempered. Contact support");
+//                        }
+//                        else if (txnResponseCode == "C")
+//                        {
+//                            Response.Redirect("/ShopCart?Error=UserCancelled");
+//                        }
+//                        else if (!txnResponseCode.Equals("0"))
+//                        {
+//                            Response.Redirect("/ShopCart?Error=Failed&ErrorMessage=" + getANZResponseDescription(txnResponseCode));
+//                        }
 
-                        output += "Response Code : " + txnResponseCode;
-                        output += "Response Code desc : " + getANZResponseDescription(txnResponseCode);
+//                        output += "Response Code : " + txnResponseCode;
+//                        output += "Response Code desc : " + getANZResponseDescription(txnResponseCode);
 
-                        output += "amount : " + (Request.QueryString["vpc_Amount"].Length > 0 ? Request.QueryString["vpc_Amount"] : "Unknown");
-                        output += "command  : " + (Request.QueryString["vpc_Command"].Length > 0 ? Request.QueryString["vpc_Command"] : "Unknown");
-                        output += "version  : " + ( Request.QueryString["vpc_Version"].Length > 0 ? Request.QueryString["vpc_Version"] : "Unknown");
-                        output += "order ibnfo  : " + ( Request.QueryString["vpc_OrderInfo"].Length > 0 ? Request.QueryString["vpc_OrderInfo"] : "Unknown");
-                        output += "merchant id  : " + ( Request.QueryString["vpc_Merchant"].Length > 0 ? Request.QueryString["vpc_Merchant"] : "Unknown");
+//                        output += "amount : " + (Request.QueryString["vpc_Amount"].Length > 0 ? Request.QueryString["vpc_Amount"] : "Unknown");
+//                        output += "command  : " + (Request.QueryString["vpc_Command"].Length > 0 ? Request.QueryString["vpc_Command"] : "Unknown");
+//                        output += "version  : " + ( Request.QueryString["vpc_Version"].Length > 0 ? Request.QueryString["vpc_Version"] : "Unknown");
+//                        output += "order ibnfo  : " + ( Request.QueryString["vpc_OrderInfo"].Length > 0 ? Request.QueryString["vpc_OrderInfo"] : "Unknown");
+//                        output += "merchant id  : " + ( Request.QueryString["vpc_Merchant"].Length > 0 ? Request.QueryString["vpc_Merchant"] : "Unknown");
 
-                        // only display this data if not an error condition
-                        if (!errorExists && txnResponseCode.Equals("0"))
-                        {
-                            output += "batch no  : " + ( Request.QueryString["vpc_BatchNo"].Length > 0 ? Request.QueryString["vpc_BatchNo"] : "Unknown");
-                            output += "card type  : " + ( Request.QueryString["vpc_Card"].Length > 0 ? Request.QueryString["vpc_Card"] : "Unknown");
-                            output += "receipt no  : " + ( Request.QueryString["vpc_ReceiptNo"].Length > 0 ? Request.QueryString["vpc_ReceiptNo"] : "Unknown");
-                            output += "authorize id  : " + (Request.QueryString["vpc_AuthorizeId"].Length > 0 ? Request.QueryString["vpc_AuthorizeId"] : "Unknown");
-                            output += "merch txn ref  : " + ( Request.QueryString["vpc_MerchTxnRef"].Length > 0 ? Request.QueryString["vpc_MerchTxnRef"] : "Unknown");
-                            output += "acq resp code  : " + ( Request.QueryString["vpc_AcqResponseCode"].Length > 0 ? Request.QueryString["vpc_AcqResponseCode"] : "Unknown");
-                            output += "txn no  : " + ( Request.QueryString["vpc_TransactionNo"].Length > 0 ? Request.QueryString["vpc_TransactionNo"] : "Unknown");
+//                        // only display this data if not an error condition
+//                        if (!errorExists && txnResponseCode.Equals("0"))
+//                        {
+//                            output += "batch no  : " + ( Request.QueryString["vpc_BatchNo"].Length > 0 ? Request.QueryString["vpc_BatchNo"] : "Unknown");
+//                            output += "card type  : " + ( Request.QueryString["vpc_Card"].Length > 0 ? Request.QueryString["vpc_Card"] : "Unknown");
+//                            output += "receipt no  : " + ( Request.QueryString["vpc_ReceiptNo"].Length > 0 ? Request.QueryString["vpc_ReceiptNo"] : "Unknown");
+//                            output += "authorize id  : " + (Request.QueryString["vpc_AuthorizeId"].Length > 0 ? Request.QueryString["vpc_AuthorizeId"] : "Unknown");
+//                            output += "merch txn ref  : " + ( Request.QueryString["vpc_MerchTxnRef"].Length > 0 ? Request.QueryString["vpc_MerchTxnRef"] : "Unknown");
+//                            output += "acq resp code  : " + ( Request.QueryString["vpc_AcqResponseCode"].Length > 0 ? Request.QueryString["vpc_AcqResponseCode"] : "Unknown");
+//                            output += "txn no  : " + ( Request.QueryString["vpc_TransactionNo"].Length > 0 ? Request.QueryString["vpc_TransactionNo"] : "Unknown");
                             
 
 
 
 
-                            ////////////////////////////////processing the payment information
-                            long? customerID = null;
-                            Estimate modelOrder = _OrderService.GetOrderByID(orderID);
-                            StoreMode ModeOfStore = StoreMode.Retail;
-                            if (modelOrder != null)
-                                customerID = modelOrder.CompanyId;
+//                            ////////////////////////////////processing the payment information
+//                            long? customerID = null;
+//                            Estimate modelOrder = _OrderService.GetOrderByID(orderID);
+//                            StoreMode ModeOfStore = StoreMode.Retail;
+//                            if (modelOrder != null)
+//                                customerID = modelOrder.CompanyId;
 
-                            // order code and order creation date
-                            CampaignEmailParams cep = new CampaignEmailParams();
+//                            // order code and order creation date
+//                            CampaignEmailParams cep = new CampaignEmailParams();
 
-                            string AttachmentPath = null;
-                            cep.ContactId = modelOrder.ContactId ?? 0;
-                            cep.CompanyId = modelOrder.CompanyId;
-                            cep.EstimateId = orderID; //PageParameters.OrderID;
-                            Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
-                            Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
-                            CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
-                            _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
-                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
+//                            string AttachmentPath = null;
+//                            cep.ContactId = modelOrder.ContactId ?? 0;
+//                            cep.CompanyId = modelOrder.CompanyId;
+//                            cep.EstimateId = orderID; //PageParameters.OrderID;
+//                            Company Store = _myCompanyService.GetCompanyByCompanyID(StoreId);
+//                            Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
+//                            CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
+//                            _OrderService.SetOrderCreationDateAndCode(orderID, UserCookieManager.WEBOrganisationID);
+//                            SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(Store.SalesAndOrderManagerId1.Value);
 
-                            if (Store.IsCustomer == (int)CustomerTypes.Corporate)
-                            {
-                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // corp
-                                ModeOfStore = StoreMode.Corp;
-                            }
-                            else
-                            {
-                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // retail
-                            }
-                            List<string> AttachmentList = new List<string>();
-                            AttachmentList.Add(AttachmentPath);
-                            cep.OrganisationId = Store.OrganisationId ?? 0;
-                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
-                            cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                            cep.StoreId = Store.CompanyId;
-                            cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
-                            long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
-                            cep.CorporateManagerID = ManagerID;
-                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
-                            {
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
-                            }
-                            else
-                            {
-                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
+//                            if (Store.IsCustomer == (int)CustomerTypes.Corporate)
+//                            {
+//                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // corp
+//                                ModeOfStore = StoreMode.Corp;
+//                            }
+//                            else
+//                            {
+//                                AttachmentPath = _templateService.OrderConfirmationPDF(orderID, StoreId); // retail
+//                            }
+//                            List<string> AttachmentList = new List<string>();
+//                            AttachmentList.Add(AttachmentPath);
+//                            cep.OrganisationId = Store.OrganisationId ?? 0;
+//                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
+//                            cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
+//                            cep.StoreId = Store.CompanyId;
+//                            cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
+//                            long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
+//                            cep.CorporateManagerID = ManagerID;
+//                            if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
+//                            {
+//                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
+//                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+//                            }
+//                            else
+//                            {
+//                                _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Corp, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
+//                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, Store.OrganisationId ?? 0, Convert.ToInt32(ManagerID), StoreMode.Corp, Store.CompanyId, EmailOFSM);
 
-                            }
+//                            }
 
-                            //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
-                            // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
-
-
+//                            //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
+//                            // thats why after getting the sales manager records ew are sending his email as a parameter in email body genetor
 
 
-                            _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), 0, Request.QueryString["vpc_TransactionNo"], Convert.ToDouble(modelOrder.Estimate_Total), ModeOfStore);
 
 
-                            Response.Redirect("/Receipt/" + orderID.ToString());
+//                            _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), 0, Request.QueryString["vpc_TransactionNo"], Convert.ToDouble(modelOrder.Estimate_Total), ModeOfStore);
 
-                        }
 
-                        // if message was not provided locally then obtain value from server
-                        if (message.Length == 0)
-                        {
-                            message = Request.QueryString["vpc_Message"].Length > 0 ? Request.QueryString["vpc_Message"] : "Unknown";
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        message = "(51) Exception encountered. " + ex.Message;
-                        if (ex.StackTrace.Length > 0)
-                        {
-                            output  += ex.ToString();
+//                            Response.Redirect("/Receipt/" + orderID.ToString());
+
+//                        }
+
+//                        // if message was not provided locally then obtain value from server
+//                        if (message.Length == 0)
+//                        {
+//                            message = Request.QueryString["vpc_Message"].Length > 0 ? Request.QueryString["vpc_Message"] : "Unknown";
+//                        }
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        message = "(51) Exception encountered. " + ex.Message;
+//                        if (ex.StackTrace.Length > 0)
+//                        {
+//                            output  += ex.ToString();
                            
-                        }
-                        errorExists = true;
-                    }
+//                        }
+//                        errorExists = true;
+//                    }
 
-                    // output the message field
-                    output += message;
+//                    // output the message field
+//                    output += message;
 
-                    /* The URL AgainLink and Title are only used for display purposes.
-                     * Note: This is ONLY used for this example and is not required for 
-                     * production code.  */
+//                    /* The URL AgainLink and Title are only used for display purposes.
+//                     * Note: This is ONLY used for this example and is not required for 
+//                     * production code.  */
 
-                    // Create a link to the example's HTML order page
-                    //Label_AgainLink.Text = "<a href=\"" + Request.QueryString["AgainLink"] + "\">Another Transaction</a>";
+//                    // Create a link to the example's HTML order page
+//                    //Label_AgainLink.Text = "<a href=\"" + Request.QueryString["AgainLink"] + "\">Another Transaction</a>";
 
-                    // Determine the appropriate title for the receipt page
-                   output += (errorExists || txnResponseCode.Equals("7") || txnResponseCode.Equals("Unknown") || hashValidated == false) ? Request.QueryString["Title"] + " Error Page" : Request.QueryString["Title"] + " Receipt Page";
+//                    // Determine the appropriate title for the receipt page
+//                   output += (errorExists || txnResponseCode.Equals("7") || txnResponseCode.Equals("Unknown") || hashValidated == false) ? Request.QueryString["Title"] + " Error Page" : Request.QueryString["Title"] + " Receipt Page";
 
-                    // output debug data to the screen
-# if DEBUG
-                    debugData += "<br/><u>End of debug information</u><br/>";
-                    output += debugData;
+//                    // output debug data to the screen
+//# if DEBUG
+//                    debugData += "<br/><u>End of debug information</u><br/>";
+//                    output += debugData;
                    
-# endif
+//# endif
 
-                }
-
-
+//                }
 
 
 
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return View();
-        }
+
+
+//            }
+//            catch (Exception ex)
+//            {
+//                throw ex;
+//            }
+//            return View();
+//        }
        
 
 
 
-        public long CreatePaymentResponses(int orderID, string txn_id, double payment_price, string payerEmail, string first_name, string last_name, string street, string city, string state, string zip,
-                                      string country, int request_id, bool is_success, string reason_fault)
-        {
+//        public long CreatePaymentResponses(int orderID, string txn_id, double payment_price, string payerEmail, string first_name, string last_name, string street, string city, string state, string zip,
+//                                      string country, int request_id, bool is_success, string reason_fault)
+//        {
 
            
-            long pkey = 0;
-            try
-            {
-                CultureInfo ci = new CultureInfo("en-us");
+//            long pkey = 0;
+//            try
+//            {
+//                CultureInfo ci = new CultureInfo("en-us");
             
-                pkey = _PayPalResponseService.WritePayPalResponse(request_id,
-                     Convert.ToInt32(orderID),
-                     txn_id,
-                     this.Request["txn_type"],
-                     payment_price,
-                     this.Request["receiver_email"],
-                     this.Request["payment_status"],
-                     this.Request["payment_type"],
-                     payerEmail,
-                     this.Request["payer_status"],
-                     first_name, last_name, street, city, state, zip, country, is_success, reason_fault, ci);
-            }
-            catch (Exception ex)
-            {
-               // LogError(ex);
-                //KBSoft.Carts.WriteFile("Error in IPNHandler.CreatePaymentResponses(): " + ex.Message)
-            }
+//                pkey = _PayPalResponseService.WritePayPalResponse(request_id,
+//                     Convert.ToInt32(orderID),
+//                     txn_id,
+//                     this.Request["txn_type"],
+//                     payment_price,
+//                     this.Request["receiver_email"],
+//                     this.Request["payment_status"],
+//                     this.Request["payment_type"],
+//                     payerEmail,
+//                     this.Request["payer_status"],
+//                     first_name, last_name, street, city, state, zip, country, is_success, reason_fault, ci);
+//            }
+//            catch (Exception ex)
+//            {
+//               // LogError(ex);
+//                //KBSoft.Carts.WriteFile("Error in IPNHandler.CreatePaymentResponses(): " + ex.Message)
+//            }
 
          
 
-            return pkey;
-        }
+//            return pkey;
+//        }
 
 
 
@@ -859,117 +862,117 @@ namespace MPC.Webstore.Controllers
         // _____________________________________________________________________________
 
         // Declare the global variables
-        private string debugData = "";
+        //private string debugData = "";
 
         //______________________________________________________________________________
 
-        private class VPCStringComparer : IComparer
-        {
-            /*
-             <summary>Customised Compare Class</summary>
-             <remarks>
-             <para>
-             The Virtual Payment Client need to use an Ordinal comparison to Sort on 
-             the field names to create the MD5 Signature for validation of the message. 
-             This class provides a Compare method that is used to allow the sorted list 
-             to be ordered using an Ordinal comparison.
-             </para>
-             </remarks>
-             */
+        //private class VPCStringComparer : IComparer
+        //{
+        //    /*
+        //     <summary>Customised Compare Class</summary>
+        //     <remarks>
+        //     <para>
+        //     The Virtual Payment Client need to use an Ordinal comparison to Sort on 
+        //     the field names to create the MD5 Signature for validation of the message. 
+        //     This class provides a Compare method that is used to allow the sorted list 
+        //     to be ordered using an Ordinal comparison.
+        //     </para>
+        //     </remarks>
+        //     */
 
-            public int Compare(Object a, Object b)
-            {
-                /*
-                 <summary>Compare method using Ordinal comparison</summary>
-                 <param name="a">The first string in the comparison.</param>
-                 <param name="b">The second string in the comparison.</param>
-                 <returns>An int containing the result of the comparison.</returns>
-                 */
+        //    public int Compare(Object a, Object b)
+        //    {
+        //        /*
+        //         <summary>Compare method using Ordinal comparison</summary>
+        //         <param name="a">The first string in the comparison.</param>
+        //         <param name="b">The second string in the comparison.</param>
+        //         <returns>An int containing the result of the comparison.</returns>
+        //         */
 
-                // Return if we are comparing the same object or one of the 
-                // objects is null, since we don't need to go any further.
-                if (a == b) return 0;
-                if (a == null) return -1;
-                if (b == null) return 1;
+        //        // Return if we are comparing the same object or one of the 
+        //        // objects is null, since we don't need to go any further.
+        //        if (a == b) return 0;
+        //        if (a == null) return -1;
+        //        if (b == null) return 1;
 
-                // Ensure we have string to compare
-                string sa = a as string;
-                string sb = b as string;
+        //        // Ensure we have string to compare
+        //        string sa = a as string;
+        //        string sb = b as string;
 
-                // Get the CompareInfo object to use for comparing
-                System.Globalization.CompareInfo myComparer = System.Globalization.CompareInfo.GetCompareInfo("en-US");
-                if (sa != null && sb != null)
-                {
-                    // Compare using an Ordinal Comparison.
-                    return myComparer.Compare(sa, sb, System.Globalization.CompareOptions.Ordinal);
-                }
-                throw new ArgumentException("a and b should be strings.");
-            }
-        }
+        //        // Get the CompareInfo object to use for comparing
+        //        System.Globalization.CompareInfo myComparer = System.Globalization.CompareInfo.GetCompareInfo("en-US");
+        //        if (sa != null && sb != null)
+        //        {
+        //            // Compare using an Ordinal Comparison.
+        //            return myComparer.Compare(sa, sb, System.Globalization.CompareOptions.Ordinal);
+        //        }
+        //        throw new ArgumentException("a and b should be strings.");
+        //    }
+        //}
 
-        //______________________________________________________________________________
+        ////______________________________________________________________________________
 
-        private string CreateMD5Signature(string RawData)
-        {
-            /*
-             <summary>Creates a MD5 Signature</summary>
-             <param name="RawData">The string used to create the MD5 signautre.</param>
-             <returns>A string containing the MD5 signature.</returns>
-             */
+        //private string CreateMD5Signature(string RawData)
+        //{
+        //    /*
+        //     <summary>Creates a MD5 Signature</summary>
+        //     <param name="RawData">The string used to create the MD5 signautre.</param>
+        //     <returns>A string containing the MD5 signature.</returns>
+        //     */
 
-            System.Security.Cryptography.MD5 hasher = System.Security.Cryptography.MD5CryptoServiceProvider.Create();
-            byte[] HashValue = hasher.ComputeHash(Encoding.ASCII.GetBytes(RawData));
+        //    System.Security.Cryptography.MD5 hasher = System.Security.Cryptography.MD5CryptoServiceProvider.Create();
+        //    byte[] HashValue = hasher.ComputeHash(Encoding.ASCII.GetBytes(RawData));
 
-            string strHex = "";
-            foreach (byte b in HashValue)
-            {
-                strHex += b.ToString("x2");
-            }
-            return strHex.ToUpper();
-        }
+        //    string strHex = "";
+        //    foreach (byte b in HashValue)
+        //    {
+        //        strHex += b.ToString("x2");
+        //    }
+        //    return strHex.ToUpper();
+        //}
 
 
-        private string getANZResponseDescription(string vResponseCode)
-        {
-            /* 
-             <summary>Maps the vpc_TxnResponseCode to a relevant description</summary>
-             <param name="vResponseCode">The vpc_TxnResponseCode returned by the transaction.</param>
-             <returns>The corresponding description for the vpc_TxnResponseCode.</returns>
-             */
-            string result = "Unknown";
+        //private string getANZResponseDescription(string vResponseCode)
+        //{
+        //    /* 
+        //     <summary>Maps the vpc_TxnResponseCode to a relevant description</summary>
+        //     <param name="vResponseCode">The vpc_TxnResponseCode returned by the transaction.</param>
+        //     <returns>The corresponding description for the vpc_TxnResponseCode.</returns>
+        //     */
+        //    string result = "Unknown";
 
-            if (vResponseCode.Length > 0)
-            {
-                switch (vResponseCode)
-                {
-                    case "0": result = "Transaction Successful"; break;
-                    case "1": result = "Transaction Declined"; break;
-                    case "2": result = "Bank Declined Transaction"; break;
-                    case "3": result = "No Reply from Bank"; break;
-                    case "4": result = "Expired Card"; break;
-                    case "5": result = "Insufficient Funds"; break;
-                    case "6": result = "Error Communicating with Bank"; break;
-                    case "7": result = "Payment Server detected an error"; break;
-                    case "8": result = "Transaction Type Not Supported"; break;
-                    case "9": result = "Bank declined transaction (Do not contact Bank)"; break;
-                    case "A": result = "Transaction Aborted"; break;
-                    case "B": result = "Transaction Declined - Contact the Bank"; break;
-                    case "C": result = "Transaction Cancelled"; break;
-                    case "D": result = "Deferred transaction has been received and is awaiting processing"; break;
-                    case "F": result = "3-D Secure Authentication failed"; break;
-                    case "I": result = "Card Security Code verification failed"; break;
-                    case "L": result = "Shopping Transaction Locked (Please try the transaction again later)"; break;
-                    case "N": result = "Cardholder is not enrolled in Authentication scheme"; break;
-                    case "P": result = "Transaction has been received by the Payment Adaptor and is being processed"; break;
-                    case "R": result = "Transaction was not processed - Reached limit of retry attempts allowed"; break;
-                    case "S": result = "Duplicate SessionID"; break;
-                    case "T": result = "Address Verification Failed"; break;
-                    case "U": result = "Card Security Code Failed"; break;
-                    case "V": result = "Address Verification and Card Security Code Failed"; break;
-                    default: result = "Unable to be determined"; break;
-                }
-            }
-            return result;
-        }
+        //    if (vResponseCode.Length > 0)
+        //    {
+        //        switch (vResponseCode)
+        //        {
+        //            case "0": result = "Transaction Successful"; break;
+        //            case "1": result = "Transaction Declined"; break;
+        //            case "2": result = "Bank Declined Transaction"; break;
+        //            case "3": result = "No Reply from Bank"; break;
+        //            case "4": result = "Expired Card"; break;
+        //            case "5": result = "Insufficient Funds"; break;
+        //            case "6": result = "Error Communicating with Bank"; break;
+        //            case "7": result = "Payment Server detected an error"; break;
+        //            case "8": result = "Transaction Type Not Supported"; break;
+        //            case "9": result = "Bank declined transaction (Do not contact Bank)"; break;
+        //            case "A": result = "Transaction Aborted"; break;
+        //            case "B": result = "Transaction Declined - Contact the Bank"; break;
+        //            case "C": result = "Transaction Cancelled"; break;
+        //            case "D": result = "Deferred transaction has been received and is awaiting processing"; break;
+        //            case "F": result = "3-D Secure Authentication failed"; break;
+        //            case "I": result = "Card Security Code verification failed"; break;
+        //            case "L": result = "Shopping Transaction Locked (Please try the transaction again later)"; break;
+        //            case "N": result = "Cardholder is not enrolled in Authentication scheme"; break;
+        //            case "P": result = "Transaction has been received by the Payment Adaptor and is being processed"; break;
+        //            case "R": result = "Transaction was not processed - Reached limit of retry attempts allowed"; break;
+        //            case "S": result = "Duplicate SessionID"; break;
+        //            case "T": result = "Address Verification Failed"; break;
+        //            case "U": result = "Card Security Code Failed"; break;
+        //            case "V": result = "Address Verification and Card Security Code Failed"; break;
+        //            default: result = "Unable to be determined"; break;
+        //        }
+        //    }
+        //    return result;
+        //}
     }
 }

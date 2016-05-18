@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Interfaces.WebStoreServices
 {
@@ -20,12 +21,12 @@ namespace MPC.Interfaces.WebStoreServices
         string GetPinkCardsShopReceiptPage(int OrderId, long CorpID);
         void SendPendingCorporateUserRegistrationEmailToAdmins(int contactID, int Companyid,int OrganisationId);
 
-        void SendEmailFromQueue(System.Web.HttpContext hcontext);
+        void SendEmailFromQueue(HttpContext hcontext);
 
         void MonitorScheduledEmails();
 
         bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID);
         void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail);
-   
+        void RemoveAllDeAttachedItems(HttpContext context);
     }
 }

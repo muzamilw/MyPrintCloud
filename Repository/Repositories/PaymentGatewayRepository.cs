@@ -65,11 +65,11 @@ namespace MPC.Repository.Repositories
         /// returns the active payment gateway
         /// </summary>
         /// <returns></returns>
-        public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
+        public PaymentGateway GetPaymentGatewayRecord(long CompanyId, long PaymenthodGateWayId)
         {
             
                 return (from res in db.PaymentGateways
-                        where res.isActive == true && res.CompanyId == CompanyId
+                        where res.isActive == true && res.CompanyId == CompanyId && res.PaymentGatewayId == PaymenthodGateWayId
                         select res).FirstOrDefault();
           
 
@@ -104,6 +104,33 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+
+        /// <summary>
+        /// returns all active payment gateway
+        /// </summary>
+        /// <returns></returns>
+        public List<PaymentGateway> GetAllActivePaymentGateways(long CompanyId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return (from res in db.PaymentGateways.Include("PaymentMethod")
+                    where res.isActive == true && res.CompanyId == CompanyId
+                    select res).ToList();
+
+
+        }
+        /// <summary>
+        /// returns the active payment gateway by method
+        /// </summary>
+        /// <returns></returns>
+        public PaymentGateway GetPaymentByMethodId(long CompanyId, long PaymenthodMethodId)
+        {
+
+            return (from res in db.PaymentGateways
+                    where res.isActive == true && res.CompanyId == CompanyId && res.PaymentMethodId == PaymenthodMethodId
+                    select res).FirstOrDefault();
+
+
         }
     }
 }
