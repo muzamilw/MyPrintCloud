@@ -10,6 +10,8 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IPaymentGatewayService
     {
         PaymentGateway GetPaymentGatewayRecord();
-        PaymentGateway GetPaymentGatewayRecord(long CompanyId);
+        PaymentGateway GetPaymentGatewayRecord(long CompanyId, long PaymentGateWayid);
+        List<PaymentGateway> GetAllActivePaymentGateways(long CompanyId);
+        PaymentGateway GetPaymentByMethodId(long CompanyId, long PaymenthodMethodId);
     }
 }

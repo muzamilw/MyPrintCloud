@@ -32,9 +32,11 @@ namespace MPC.Webstore.Controllers
         private readonly IPrePaymentService _IPrePaymentService;
         private readonly IPayPalResponseService _PayPalResponseService;
         private readonly ITemplateService _templateService;
+        private readonly IPaymentGatewayService _paymentGatewayService;
 
         public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
-           , ITemplateService templateService)
+           , ITemplateService templateService
+            , IPaymentGatewayService paymentGatewayService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
@@ -45,6 +47,7 @@ namespace MPC.Webstore.Controllers
             this._IPrePaymentService = IPrePaymentService;
             this._PayPalResponseService = _PayPalResponseService;
             this._templateService = templateService;
+            this._paymentGatewayService = paymentGatewayService;
         }
 
         // GET: Payment
@@ -61,7 +64,7 @@ namespace MPC.Webstore.Controllers
                     //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
                     MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
+                    PaymentGateway oGateWay = _paymentGatewayService.GetPaymentByMethodId(StoreBaseResopnse.Company.CompanyId, (int)PaymentMethods.PayPal);
                     if (oGateWay != null)
                     {
                         opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
@@ -171,7 +174,7 @@ namespace MPC.Webstore.Controllers
 
                 if (StoreId > 0)
                 {
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
+                    PaymentGateway oGateWay = _paymentGatewayService.GetPaymentByMethodId(StoreId, (int)PaymentMethods.PayPal);
                     // getting the URL to work with
                     string URL;
                     if (oGateWay.UseSandbox.HasValue && oGateWay.UseSandbox.Value)
@@ -284,7 +287,7 @@ namespace MPC.Webstore.Controllers
                                 if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                                 {
                                     _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+                                    _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                                 }
                                 else
                                 {
@@ -345,7 +348,7 @@ namespace MPC.Webstore.Controllers
                     //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
                     MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
+                    PaymentGateway oGateWay = _paymentGatewayService.GetPaymentByMethodId(StoreBaseResopnse.Company.CompanyId, (int)PaymentMethods.ANZ);
                     if (oGateWay != null)
                     {
                         System.Collections.SortedList transactionData = new System.Collections.SortedList(new VPCStringComparer());
@@ -422,7 +425,7 @@ namespace MPC.Webstore.Controllers
                     //MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
                     MyCompanyDomainBaseReponse StoreBaseResopnse = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
+                    PaymentGateway oGateWay = _paymentGatewayService.GetPaymentByMethodId(StoreBaseResopnse.Company.CompanyId, (int)PaymentMethods.WorldPay);
                     if (oGateWay != null)
                     {
                         opaypal.return_url = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port) + "/Receipt/" + OrderId;
@@ -539,7 +542,7 @@ namespace MPC.Webstore.Controllers
                 {
                     long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
+                    PaymentGateway oGateWay = _paymentGatewayService.GetPaymentByMethodId(StoreId, (int)PaymentMethods.WorldPay);
 
                     string output = "";
 
@@ -633,7 +636,7 @@ namespace MPC.Webstore.Controllers
                             if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                             {
                                 _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                             }
                             else
                             {
@@ -729,7 +732,7 @@ namespace MPC.Webstore.Controllers
                 {
                     long StoreId = _OrderService.GetStoreIdByOrderId(orderID);
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(StoreId);
+                    PaymentGateway oGateWay = _paymentGatewayService.GetPaymentByMethodId(StoreId, (int)PaymentMethods.ANZ);
 
                     string output = "";
 
@@ -906,7 +909,7 @@ namespace MPC.Webstore.Controllers
                             if (CustomerCompany.IsCustomer == (int)CustomerTypes.Customers) ///Retail Mode
                             {
                                 _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(Store.OrganisationId), "", "", "", EmailOFSM.Email, "", "", AttachmentList);
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID, Store.OrganisationId ?? 0, 0, StoreMode.Retail, Store.CompanyId, EmailOFSM);
                             }
                             else
                             {

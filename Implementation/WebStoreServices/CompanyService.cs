@@ -1253,7 +1253,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        #endregion
+    
 
         public bool UpdateCompanyName(Company Instance)
         {
@@ -2129,8 +2129,8 @@ namespace MPC.Implementation.WebStoreServices
             }
             return response;
         }
-
-
+ 
+        #endregion
 
 
         public FolderSearchResponse GetDamFoldersAssets(string searchText, long companyId, long organisationId, long territoryId, int parentFolderId)

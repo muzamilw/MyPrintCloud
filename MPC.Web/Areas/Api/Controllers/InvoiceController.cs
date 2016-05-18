@@ -41,6 +41,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Orders
         /// </summary>
+        /// [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInvoicing })]
         [CompressFilter]
         public InvoiceRequestResponseModel Get([FromUri] GetInvoicesRequestModel request)
         {
@@ -52,7 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiException]
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInvoicing })]
         [CompressFilterAttribute]
         public Invoice Get(long id)
         {
@@ -68,7 +70,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Post
         /// </summary>
         [ApiException]
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInvoicing })]
         [CompressFilterAttribute]
         public Invoice Post(Invoice request)
         {

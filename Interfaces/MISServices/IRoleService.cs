@@ -13,5 +13,6 @@ namespace MPC.Interfaces.MISServices
         List<Role> GetUserRoles();
         List<AccessRight> GetUserAccessRights();
         Role SaveUserRole(Role role);
+        Role GetRoleByUserId(Guid userId);
     }
 }

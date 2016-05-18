@@ -1269,13 +1269,13 @@ namespace MPC.Implementation.WebStoreServices
         /// returns the active payment gateway
         /// </summary>
         /// <returns></returns>
-        public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
-        {
+        //public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
+        //{
 
-            return _paymentRepository.GetPaymentGatewayRecord(CompanyId);
+        //    return _paymentRepository.GetPaymentGatewayRecord(CompanyId);
 
 
-        }
+        //}
         public long GetFirstItemIdByOrderId(long orderId)
         {
 

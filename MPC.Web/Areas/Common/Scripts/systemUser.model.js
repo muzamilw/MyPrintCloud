@@ -6,7 +6,7 @@
         var self,
             userId = ko.observable(specifiedId),
             signature = ko.observable(specifiedSignature),
-            fullName = ko.observable(specifiedFullName),
+            fullName = ko.observable(specifiedFullName || undefined).extend({ required: true, message: 'Name is required'}),
             email = ko.observable(specifiedEmail),
             roleId = ko.observable(specifiedRole),
             roleName = ko.observable(specifiedRoleName),
@@ -24,7 +24,12 @@
             reset = function () {
                 dirtyFlag.reset();
             },
-
+             errors = ko.validation.group({
+                 fullName: fullName
+             }),
+            isValid = ko.computed(function () {
+                    return errors().length === 0;
+                }),
             convertToServerData = function () {
                 return {
                     SystemUserId: userId(),
@@ -44,7 +49,9 @@
             email: email,
             fullName: fullName,
             roleId: roleId,
-            roleName: roleName
+            roleName: roleName,
+            errors: errors,
+            isValid: isValid
 
         };
         return self;
@@ -57,7 +64,7 @@
 
         return user;
     };
-
+   
     return {
         SystemUser: SystemUser,
         

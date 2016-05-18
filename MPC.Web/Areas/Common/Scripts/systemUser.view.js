@@ -19,15 +19,23 @@ define("common/systemUser.view",
                 // Hide Activity the dialog
                 hideSystemUserDialog = function () {
                     $("#systemUserDialog").modal("hide");
+                },
+                showEditSystemUserDialog = function () {
+                    $("#editSystemUserDialog").modal("show");
+                },
+            // Hide Activity the dialog
+                hideEditSystemUserDialog = function () {
+                    $("#editSystemUserDialog").modal("hide");
                 };
-           
+            
             return {
                 bindingRoot: bindingRoot,
                 userListBinding : userListBinding,
                 viewModel: viewModel,
                 showSystemUserDialog: showSystemUserDialog,
-                hideSystemUserDialog: hideSystemUserDialog
-               
+                hideSystemUserDialog: hideSystemUserDialog,
+                showEditSystemUserDialog: showEditSystemUserDialog,
+                hideEditSystemUserDialog: hideEditSystemUserDialog
             };
         })(ist.systemUser.viewModel);
 

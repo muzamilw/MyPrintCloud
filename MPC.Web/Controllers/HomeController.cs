@@ -15,12 +15,15 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using MPC.Models.DomainModels;
 using Newtonsoft.Json;
 using System.Configuration;
 using GrapeCity.ActiveReports;
 using MPC.Web.Reports;
 using MPC.MIS.Models;
 using FluentScheduler;
+using AccessRight = MPC.Models.Common.AccessRight;
+using Section = MPC.Models.Common.Section;
 
 namespace MPC.MIS.Controllers
 {
@@ -32,6 +35,7 @@ namespace MPC.MIS.Controllers
         //    return View();
         //}
         private readonly IReportService IReportService;
+        private readonly IRoleService _roleService;
         private IAuthenticationManager AuthenticationManager
         {
             get { return HttpContext.GetOwinContext().Authentication; }
@@ -39,11 +43,12 @@ namespace MPC.MIS.Controllers
         private IOrderService orderService{ get; set; }
         private readonly MPC.Interfaces.MISServices.IListingService _listingService;
 
-        public HomeController(IOrderService orderService, IReportService reportService, IListingService listingService)
+        public HomeController(IOrderService orderService, IReportService reportService, IListingService listingService, IRoleService roleService)
         {
             this.orderService = orderService;
             this.IReportService = reportService;
             this._listingService = listingService;
+            this._roleService = roleService;
         }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
@@ -119,10 +124,14 @@ namespace MPC.MIS.Controllers
             string email = "";
             Boolean isTrial = false;
             int trialCount = 0;
+            Role userRole = null;
 
             if (validationInfo != null)
             {
                 organisationId = Convert.ToInt64(validationInfo.CustomerID);
+                Guid newGuid = Guid.Parse(validationInfo.userId);
+                userRole = _roleService.GetRoleByUserId(newGuid);
+
                 userId = validationInfo.userId;
                 fullName = validationInfo.FullName;
                 Plan = validationInfo.Plan;
@@ -157,8 +166,8 @@ namespace MPC.MIS.Controllers
                     UserName = fullName,
                     Email = email,
                     SecurityStamp = "123",
-                    Role = "Admin",
-                    RoleId = 1,
+                    Role = userRole != null? userRole.RoleName : "",
+                    RoleId = userRole.RoleId,
                     IsTrial = isTrial,
                     TrialCount = trialCount,
                     OrganisationId = organisationId,
@@ -171,93 +180,94 @@ namespace MPC.MIS.Controllers
                             Section = new Section
                             {
                                 SectionName = "Security",
-                                AccessRights = new List<AccessRight>
-                                {
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewSecurity",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewOrganisation",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewPaperSheet",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewInventory",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewInventoryCategory",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewProduct",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewOrder",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewDashboard",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewCRM",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewProspect",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewSupplier",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewCalendar",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewContact",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    },
-                                    new AccessRight
-                                    {
-                                        RightName = "CanViewStore",
-                                        RightId = 1,
-                                        SectionId = 1
-                                    }
-                                }
+                                AccessRights = SetAccessRights(userRole)
+                                //AccessRights = new List<AccessRight>
+                                //{
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewSecurity",
+                                //        RightId = 1,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewOrganisation",
+                                //        RightId = 2,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewPaperSheet",
+                                //        RightId = 4,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewInventory",
+                                //        RightId = 5,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewInventoryCategory",
+                                //        RightId = 6,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewProduct",
+                                //        RightId = 7,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewOrder",
+                                //        RightId = 8,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewDashboard",
+                                //        RightId = 9,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewCRM",
+                                //        RightId = 10,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewProspect",
+                                //        RightId = 11,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewSupplier",
+                                //        RightId = 12,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewCalendar",
+                                //        RightId = 13,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewContact",
+                                //        RightId = 14,
+                                //        SectionId = 1
+                                //    },
+                                //    new AccessRight
+                                //    {
+                                //        RightName = "CanViewStore",
+                                //        RightId = 15,
+                                //        SectionId = 1
+                                //    }
+                                //}
                         
                             }
                         }
@@ -331,6 +341,16 @@ namespace MPC.MIS.Controllers
 
             return PartialView("WebViewer");
 
+        }
+
+        private List<AccessRight> SetAccessRights(Role role)
+        {
+            List<AccessRight> rightsList = new List<AccessRight>();
+            if (role != null)
+            {
+                role.Rolerights.ToList().ForEach(a => rightsList.Add(new AccessRight{RightId = a.RightId, RightName = a.AccessRight.RightName, SectionId = 1}));
+            }
+            return  rightsList;
         }
     }
 }

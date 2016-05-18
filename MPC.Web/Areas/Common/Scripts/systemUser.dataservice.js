@@ -29,6 +29,12 @@ define("common/systemUser.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    amplify.request.define('saveSystemUser', 'ajax', {
+                        url: ist.siteUrl + '/Api/SystemUserList',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     
                     isInitialized = true;
                 }
@@ -62,11 +68,21 @@ define("common/systemUser.dataservice", function () {
                     error: callbacks.error,
                     data: param
                 });
+            },
+            saveSystemUser = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveSystemUser',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
             };
         return {
             getSystemUserSignature: getSystemUserSignature,
             saveSystemUserSignature: saveSystemUserSignature,
-            getSystemUsers: getSystemUsers
+            getSystemUsers: getSystemUsers,
+            saveSystemUser: saveSystemUser
         };
     })();
 

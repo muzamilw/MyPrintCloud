@@ -46,10 +46,22 @@ define("userRole/userRole.viewModel",
                         accessRights.subscribe(function () {
                             checkeChanged();
                         });
+                        if (selectedRole().isCompanyLevel() == 1)
+                            isApplyToAll(true);
                         view.showRolesDialog();
                     },
                     createNewUserRole = function() {
-                        
+                        var role = model.Role.Create({});
+                        selectedRole(role);
+                        isApplyToAll.subscribe(function () {
+                            selectAllRights();
+                        });
+                        accessRights.subscribe(function () {
+                            checkeChanged();
+                        });
+                        if (selectedRole().isCompanyLevel() == 1)
+                            isApplyToAll(true);
+                        view.showRolesDialog();
                     },
                     updateRoleRights = function() {
                         selectedRights.removeAll();
@@ -87,25 +99,31 @@ define("userRole/userRole.viewModel",
                     },
                     checkeChanged = function () {
                         var isChange = selectedRole().isCheckChange();
-                        selectedRole().isCheckChange(isChange? false : true);
+                        selectedRole().isCheckChange(isChange ? false : true);
+                        selectedRole().isCompanyLevel(isChange ? 1 : 0);
                     },
                     saveRole = function () {
                         var role = selectedRole().convertToServerData();
-                        dataservice.saveUserRole(selectedRole().convertToServerData(), {
-                            success: function () {
-                                selectedRole(undefined);
-                                view.hideRolesDialog();
-                                toastr.success("Role saved successfully.");
-                            },
-                            error: function (response) {
-                                toastr.error("Error: Failed To save role." + response, "", ist.toastrOptions);
-                            }
-                        });
+                        if (selectedRole().isValid()) {
+                            dataservice.saveUserRole(selectedRole().convertToServerData(), {
+                                success: function () {
+                                    selectedRole(undefined);
+                                    view.hideRolesDialog();
+                                    toastr.success("Role saved successfully.");
+                                },
+                                error: function (response) {
+                                    toastr.error("Error: Failed To save role." + response, "", ist.toastrOptions);
+                                }
+                            });
+                        }
+                        
                     },
                     selectAllRights = function () {
                         var tempRights = [];
-                        selectedRole().isCheckChange(true);
+                        //selectedRole().isCheckChange(true);
+                        
                         if (isApplyToAll() == true) {
+                            selectedRole().isCompanyLevel(1);
                             _.each(accessRights(), function (access) {
                                 access.IsSelected = true;
                                 tempRights.push(access);
@@ -114,6 +132,7 @@ define("userRole/userRole.viewModel",
                             ko.utils.arrayPushAll(accessRights(), tempRights);
                             accessRights.valueHasMutated();
                         } else {
+                            selectedRole().isCompanyLevel(0);
                             _.each(accessRights(), function (access) {
                                 access.IsSelected = false;
                                 tempRights.push(access);

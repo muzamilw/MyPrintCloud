@@ -88,7 +88,7 @@ namespace MPC.Implementation.MISServices
             Claim claim = new Claim(MpcClaimTypes.MisRole,
 // ReSharper restore SuggestUseVarKeywordEvident
                                         ClaimHelper.Serialize(
-                                            new MisRoleClaimValue { Role = user.Role }),
+                                            new MisRoleClaimValue { Role = user.Role, RoleId = user.RoleId}),
                                         typeof(MisRoleClaimValue).AssemblyQualifiedName);
             claimsIdentity.AddClaim(claim);
         }

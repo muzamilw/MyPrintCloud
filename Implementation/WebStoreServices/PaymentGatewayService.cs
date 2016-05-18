@@ -24,10 +24,26 @@ namespace MPC.Implementation.WebStoreServices
 
 
         }
-        public PaymentGateway GetPaymentGatewayRecord(long CompanyId)
+        public PaymentGateway GetPaymentGatewayRecord(long CompanyId, long PaymentGateWayid)
         {
 
-            return _paymentRepository.GetPaymentGatewayRecord(CompanyId);
+            return _paymentRepository.GetPaymentGatewayRecord(CompanyId, PaymentGateWayid);
+
+
+        }
+
+        public List<PaymentGateway> GetAllActivePaymentGateways(long CompanyId)
+        {
+
+            return _paymentRepository.GetAllActivePaymentGateways(CompanyId);
+
+
+        }
+
+        public PaymentGateway GetPaymentByMethodId(long CompanyId, long PaymenthodMethodId)
+        {
+
+            return _paymentRepository.GetPaymentByMethodId(CompanyId, PaymenthodMethodId);
 
 
         }

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Web;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -21,10 +22,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Constructor
-
+       
         /// <summary>
         /// Constructor
         /// </summary>
+        
         public DeliveryNotesController(IDeliveryNotesService deliveryNotesService)
         {
             _deliveryNotesService = deliveryNotesService;
@@ -35,19 +37,22 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
 
 
-
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewShipping })]
+        [CompressFilterAttribute]
         public DeliverNotesResposne Get([FromUri]DeliveryNotesRequest request)
         {
             return _deliveryNotesService.GetDeliveryNotes(request).CreateFrom();
         }
 
-
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewShipping })]
+        [CompressFilterAttribute]
         public DeliveryNote Get(int deliverNoteId)
         {
             return _deliveryNotesService.GetDetailDeliveryNote(deliverNoteId).CreateFrom();
         }
 
-
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewShipping })]
+        [CompressFilterAttribute]
         [ApiException]
         public DeliveryNote Post(DeliveryNote deliveryNote)
         {
@@ -58,6 +63,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _deliveryNotesService.SaveDeliveryNote(deliveryNote.CreateFrom()).CreateFromListView();
         }
 
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewShipping })]
+        [CompressFilterAttribute]
         [ApiException]
         [HttpDelete]
         public void Delete(DeliveryNote deliveryNote)

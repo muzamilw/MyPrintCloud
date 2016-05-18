@@ -169,7 +169,7 @@ namespace MPC.Webstore.Controllers
                 PaymentGateway oGateWay = null;
                 if (StoreBaseResopnse.Company.isPaymentRequired == true)
                 {
-                    oGateWay = _PaymentGatewayService.GetPaymentGatewayRecord(StoreBaseResopnse.Company.CompanyId);
+                    oGateWay = _PaymentGatewayService.GetPaymentByMethodId(StoreBaseResopnse.Company.CompanyId, (int)PaymentMethods.NAB);
                 }
 
 
@@ -341,7 +341,7 @@ namespace MPC.Webstore.Controllers
                                         else
                                         {
 
-                                            _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, model.OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, model.OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                                         }
 
                                         //in case of retail <<SalesManagerEmail>> variable should be resolved by organization's sales manager
