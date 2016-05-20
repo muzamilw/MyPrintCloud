@@ -152,26 +152,28 @@
 </style>
 
 
-<div id="jssor_1" class="container" style="position:relative;margin:0 auto;top:0px;left:0px;height:400px;overflow:hidden;visibility:hidden;background:url('img/main_bg.jpg') 50% 50% no-repeat;">
+<div id="jssor_1" class="container" style="position:relative;margin:0 auto;top:0px;left:15px;height:350px;overflow:hidden;visibility:hidden;    margin: 0px !important;    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 1000px !important;">
     <!-- Loading Screen -->
     <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
         <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
         <div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
     </div>
-    <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 980px; height: 400px; overflow: hidden;">
+    <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 980px; height: 350px; overflow: hidden;">
         @foreach (var banner in Model)
         {
             <div data-p="172.50" style="display: none;">
                 
-                <img src="/@banner.ImageURL" style="position: absolute; top: 23px; left: 480px; width: 500px; height: 300px;" />
-                <img data-u="thumb" src="/@banner.ImageURL" />
+                <img src="@banner.ImageURL" style="position: absolute; top: 23px; left: 0px; width: 100%; height: 300px;" />
+                <img data-u="thumb" src="@banner.ImageURL" />
             </div>
         }
         
       
     </div>
     <!-- Thumbnail Navigator -->
-    <div data-u="thumbnavigator" class="jssort04" style="position:absolute;left:0px;bottom:0px;width:980px;height:60px;" data-autocenter="1">
+    <div data-u="thumbnavigator" class="jssort04" style="position:absolute;left:0px;bottom:0px;width:980px;height:60px;top:270px;" data-autocenter="1">
         <!-- Thumbnail Item Skin Begin -->
         <div data-u="slides" style="cursor: default;">
             <div data-u="prototype" class="p">

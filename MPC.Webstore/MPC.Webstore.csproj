@@ -868,6 +868,7 @@
     <Content Include="Content\Images\visa.gif" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\Images\winrar-icon.png" />
+    <Content Include="Content\InsideOutPrint.css" />
     <Content Include="Content\jquery-1.8.2.min.js" />
     <Content Include="Content\Images\word.png" />
     <Content Include="Content\jquery-ui.min.css" />

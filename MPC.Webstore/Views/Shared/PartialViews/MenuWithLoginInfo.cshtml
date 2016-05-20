@@ -77,7 +77,13 @@
                                 }
                                 
                             </li>
-                            <li class="ZeroRightMargin BlackBtnCS">
+                            @if (ViewBag.isUserLoggedIn)
+                            {
+                                <li class="ZeroRightMargin BlackBtnCS">
+                                    @Html.ActionLink(Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign out")).ToString(), "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "logOutHeaderLink" })
+                                </li>
+                            }
+                            <li class="ZeroRightMargin BlackBtnCS" style="margin-right: -2px !important;">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
                                     @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
                                     <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
@@ -86,12 +92,7 @@
                                     </div>
                                 </a>
                             </li>
-                            @if (ViewBag.isUserLoggedIn)
-                            {
-                                <li>
-                                    @Html.ActionLink(Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign out")).ToString(), "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "usercolorSize" })
-                                </li>
-                            }
+                           
                         </ul>
                     </div>
                     <div class="clearBoth">

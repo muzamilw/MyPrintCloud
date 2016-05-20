@@ -42,9 +42,25 @@
                 <div class="countryImgCntContainer">
                     <img src="~/Content/Images/United-Kingdom-icon.png" />
                 </div>
-                <div class="savedDesignCntContainer">
-                    <span>10</span>
-                </div>
+                @if (ViewBag.isUserLoggedIn)
+                {
+                    <a href="/SavedDesigns">
+                        <div class="savedDesignCntContainer">
+                            <span>@ViewBag.CountOfSavedDesign</span>
+                        </div>
+                    </a>
+
+
+                }
+                else
+                {
+
+                        <div class="savedDesignCntContainer">
+                            <span>0</span>
+                        </div>
+                   
+                }
+               
                 <span class="float_right spantxtSD">Saved designs</span>
 
                 <div class="clearBoth">&nbsp;</div>

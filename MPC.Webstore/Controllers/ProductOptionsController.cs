@@ -151,7 +151,15 @@ namespace MPC.Webstore.Controllers
                         }
 
                     }
-                    ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                    if (clonedItem != null)
+                    {
+                        ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? new List<MPC.Models.DomainModels.ItemAttachment>() : clonedItem.ItemAttachments.ToList();
+                    }
+                    else 
+                    {
+                        ViewData["ArtworkAttachments"] = null;
+                    }
+                    
                     referenceItemId = Convert.ToInt64(ItemId);
                     ViewData["Templates"] = null;
                 }

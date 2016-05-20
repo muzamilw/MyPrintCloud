@@ -1507,7 +1507,9 @@ namespace MPC.Repository.Repositories
                     {
                         if (UnOrderItemsEstimate != null)
                         {
+                            item.DepartmentId = Convert.ToInt32(tblOrder.EstimateId);
                             item.EstimateId = UnOrderItemsEstimate.EstimateId;
+                         
                         }
                     }
                 }
