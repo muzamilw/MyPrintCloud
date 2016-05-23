@@ -2438,7 +2438,8 @@ $(".hasclear").keyup(function () {
 
 $(".clearer").hide($(this).prev('input').val());
 
-$(".clearer").click(function () {
+$('.clearer').click(function () {
+ 
     $(this).prev('input').val('').focus();
     $(this).hide();
 });

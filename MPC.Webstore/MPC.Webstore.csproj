@@ -439,6 +439,7 @@
     <Compile Include="Controllers\OxfordAboutUsController.cs" />
     <Compile Include="Controllers\OxfordHeaderController.cs" />
     <Compile Include="Controllers\OxfordTopLevelCategoriesController.cs" />
+    <Compile Include="Controllers\SliderGalleryController.cs" />
     <Compile Include="Controllers\SocialAnSavedDesignInfoController.cs" />
     <Compile Include="Controllers\WorldPayGatewayController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -535,6 +536,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\BannerMart.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\BubbleFiles\Bubble.js" />
@@ -865,6 +868,7 @@
     <Content Include="Content\Images\visa.gif" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\Images\winrar-icon.png" />
+    <Content Include="Content\InsideOutPrint.css" />
     <Content Include="Content\jquery-1.8.2.min.js" />
     <Content Include="Content\Images\word.png" />
     <Content Include="Content\jquery-ui.min.css" />
@@ -925,6 +929,7 @@
     <Content Include="fancybox\js\fancybox\jquery.fancybox.js" />
     <Content Include="fancybox\js\fancybox\jquery.fancybox.pack.js" />
     <Content Include="fancybox\js\fancybox\jquery.mousewheel-3.0.6.pack.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="HtmlJsonPage\Login.html" />
     <Content Include="HtmlJsonPage\RealEstateJsonPage.html" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
@@ -941,6 +946,8 @@
     <Content Include="LightBox\Js\jquery.fancybox-thumbs.js" />
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\BubbleBanner.js" />
     <Content Include="Scripts\cbpHorizontalSlideOutMenu.min.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
@@ -992,12 +999,9 @@
     <Content Include="Content\RealEstate_StyleSheet.css" />
     <Content Include="Content\SamrtFormCarousel.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\DesignerApi\Views\web.config" />
     <Content Include="Areas\Designer\Views\web.config" />
     <Content Include="Content\Designer\assets-v2\fonts\icomoon.eot" />
@@ -1011,6 +1015,14 @@
     <Content Include="Areas\OrderReceipt\Views\_ViewStart.cshtml" />
     <Content Include="Areas\OrderReceipt\Views\OrderReceipt\Index.cshtml" />
     <Content Include="Areas\OrderReceipt\Views\Shared\_Layout.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\MPC.Webstore  MZ.pubxml" />
     <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1074,6 +1086,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js-image-slider-detail.js" />
     <Content Include="Scripts\js-image-slider.js" />
+    <Content Include="Scripts\jssor.slider.min.js" />
     <Content Include="Scripts\modalEffects.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\owl.carousel.js" />
@@ -1247,6 +1260,7 @@
     <Content Include="Views\Shared\PartialViews\StripeGateway.cshtml" />
     <Content Include="Views\Payment\WorldpayGateway.cshtml" />
     <Content Include="Views\Shared\PartialViews\SocialAnSavedDesignInfo.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SliderGallery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1283,15 +1297,13 @@
     <Folder Include="Views\PayWay\" />
     <Folder Include="Views\ProductOptionsAndDetails\" />
     <Folder Include="Views\RealEstateListingGrid\" />
+    <Folder Include="Views\SliderGallery\" />
     <Folder Include="Views\SocialAnSavedDesignInfo\" />
     <Folder Include="Views\SystemPageBanner\" />
     <Folder Include="Views\UserManager\" />
     <Folder Include="Views\WhyShopUs\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
