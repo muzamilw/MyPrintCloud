@@ -33,7 +33,7 @@ namespace MPC.Models.Common
         private double? _qty1GrossTotal;
         private double? _grossTotalBroker;
         private int? _refItemID;
-        private int? _templateID;
+        private long? _templateID;
         public int? TopCategoryID;
         public int? _ProductionTime;
         public string _StockName;
@@ -61,7 +61,7 @@ namespace MPC.Models.Common
             set;
         }
 
-        public int? TemplateID
+        public long? TemplateID
         {
             get { return _templateID; }
             set { _templateID = value; }
