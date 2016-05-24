@@ -17,14 +17,16 @@ namespace MPC.Webstore.Controllers
         private readonly ICompanyService _myCompanyService;
 
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
-
+        private readonly IItemService _itemService;
+        
         #endregion
 
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
-        public MenuWithLoginInfoController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper)
+        public MenuWithLoginInfoController(ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper
+            , IItemService itemService)
         {
             if (myCompanyService == null)
             {
@@ -32,6 +34,7 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._myClaimHelper = myClaimHelper;
+            this._itemService = itemService;
         }
 
         #endregion
@@ -57,7 +60,19 @@ namespace MPC.Webstore.Controllers
                 ViewBag.DefaultUrl = "/";
             }
 
+            if (_myClaimHelper.loginContactID() > 0)
+            {
+                ViewBag.isUserLoggedIn = true;
+                ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;//Response.Cookies["WEBFirstName"].Value; 
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_myClaimHelper.loginContactID(), 0, _myClaimHelper.loginContactCompanyID()).ToString());
 
+            }
+            else
+            {
+                ViewBag.isUserLoggedIn = false;
+                ViewBag.LoginUserName = "";
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId, 0).ToString());
+            }
 
             return PartialView("PartialViews/MenuWithLoginInfo", model);
         }

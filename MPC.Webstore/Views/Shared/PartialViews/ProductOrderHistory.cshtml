@@ -121,12 +121,12 @@
     columns: new[] {
 
     grid.Column("OrderCode",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOrderCode", UserCookieManager.WBStoreId, "Order Code")).ToString()),
-    grid.Column("YourRef",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlYourPoReference", UserCookieManager.WBStoreId, "Your PO reference")).ToString(),style:"hidden-xs"),
-    grid.Column("SOrderDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")).ToString(),style:"hidden-xs "),
+    grid.Column("YourRef",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlYourPoReference", UserCookieManager.WBStoreId, "Your PO reference")).ToString(),style:"hidden-xs visible-lg"),
+    grid.Column("SOrderDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")).ToString(),style:"hidden-xs  visible-lg"),
 
-    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs "),
+    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs  visible-lg"),
 
-    grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs "),
+    grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs  visible-lg"),
 
         grid.Column("View Reason", format:@<text>@if (item.StatusID == 35)
         {

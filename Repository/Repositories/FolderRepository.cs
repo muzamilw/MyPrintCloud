@@ -95,7 +95,7 @@ namespace MPC.Repository.Repositories
                              where
                                  folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
                                  folder.OrganisationId == organisationId
-                                 && folder.ParentFolderId == ParentFolderId.Value
+                                 //&& folder.ParentFolderId == ParentFolderId.Value
                                  && folder.FolderName.Contains(searchText)
                              select folder;
                 }

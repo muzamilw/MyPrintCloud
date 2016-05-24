@@ -4490,29 +4490,12 @@ namespace MPC.Repository.Repositories
 
                         select new ProductItem
                         {
-                            //OfferID = JTble.OfferID,
-                            //OfferType = JTble.OfferType,
+                           
                             ItemID = productsList.ItemId,
-                            //EstimateID = productsList.EstimateID,
                             ProductName = productsList.ProductName,
-                            //ProductCategoryName = productsList.ca,
-                            //ProductCategoryID = productsList.productC,
-                            //ParentCategoryID = productsList.ParentCategoryID,
+                            TemplateID = productsList.TemplateId ?? 0,
+                            ProductType = productsList.ProductType,
                             MinPrice = productsList.MinPrice,
-                            //ImagePath = productsList.ImagePath,
-                            //ThumbnailPath = productsList.ThumbnailPath,
-                            //IconPath = productsList.IconPath,
-                            //IsEnabled = productsList.IsEnabled,
-                            //IsSpecialItem = productsList.IsSpecialItem,
-                            //IsPopular = productsList.IsPopular,
-                            //IsFeatured = productsList.IsFeatured,
-                            //IsPromotional = productsList.IsPromotional,
-                            // IsFinishedGoods = (productsList.IsFinishedGoods== 1 || productsList.IsFinishedGoods == 4) ? true : false,
-                            //IsPublished = prod-uctsList.IsPublished,
-                            //ProductSpecification = productsList.ProductSpecification,
-                            //CompleteSpecification = productsList.CompleteSpecification,
-                            //TipsAndHints = productsList.TipsAndHints,
-                            //TopCategoryID = productsList.TopCategoryID,
                             IsQtyRanged = productsList.isQtyRanged,
                         };
 

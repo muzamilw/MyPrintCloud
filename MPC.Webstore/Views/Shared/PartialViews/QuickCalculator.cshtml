@@ -1,9 +1,8 @@
-﻿
-@using MPC.Webstore.WebGridExtension;
+﻿@using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
-   Layout = null; 
- }
+    Layout = null;
+}
 @using MPC.Webstore.Common;
 
 
@@ -11,19 +10,19 @@
     <div id="QuickCalcFrame" class=" QuickCalcFrame">
         <div id="QuickCalcFrameLoader" class="QuickCalcFrameLoader">
             <br />
-           
+
             <img src="/Content/images/asdf.gif" alt="" /><br />
             @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlloading", UserCookieManager.WBStoreId, "Loading..."))
         </div>
         <h1 id="lblQuickCalcHead" class="QuickCalcHead">
-            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlQuickcal", UserCookieManager.WBStoreId,"Quick Calculator"))
+            @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlQuickcal", UserCookieManager.WBStoreId, "Quick Calculator"))
         </h1>
         <div class="QuickCalcBar">
             @*<asp:DropDownList ID="ddlProducts" Class="QuickCalcProducts">
-            </asp:DropDownList>*@
+                </asp:DropDownList>*@
             <select id="DDProduct" class="QuickCalcProducts"></select>
             <span id="lblQuickCalcQty" class="lblQuickCalcQty">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllqtyyy", UserCookieManager.WBStoreId,"Qty"))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrllllqtyyy", UserCookieManager.WBStoreId, "Qty"))
             </span>
             <select id="ddlQuantity" class="QuickCalcQty"></select>
             <div class="clear">
@@ -39,8 +38,8 @@
                 @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOnlinePrice", UserCookieManager.WBStoreId, "Online price"))
             </div>
             <div id="QuickCalcFrom" class="QuickCalcPriceLbl" style="display:none;">
-                &nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblQtyFrom", UserCookieManager.WBStoreId,"From"))
-               &nbsp;
+                &nbsp;@Html.Raw(Html.GetKeyValueFromResourceFile("lblQtyFrom", UserCookieManager.WBStoreId, "From"))
+                &nbsp;
             </div>
             <div id="QuickPrice" class="QuickCalcPrice">
             </div>
@@ -49,15 +48,15 @@
                 <label id="lblVat">@ViewBag.VAT</label>
             </div>
         </div>
-        <input type="button" id="AddtoBastkBtn" class="QuickPriceBtn" onclick="return GotoDetails()" value="Add to Basket"/>
-            
+        <input type="button" id="AddtoBastkBtn" class="QuickPriceBtn" onclick="return GotoDetails()" value="Add to Basket" />
+
         @*<asp:HiddenField ID="hlProductData" runat="server" ClientIDMode="Static" />
-        <asp:HiddenField ID="hlPriceData" runat="server" ClientIDMode="Static" />*@
+            <asp:HiddenField ID="hlPriceData" runat="server" ClientIDMode="Static" />*@
         <input type="hidden" id="hlProductData" />
         <input type="hidden" id="hlPriceData" />
     </div>
     <div class="float_right Need_aPrice_CS">
-        <a href="../RequestQuote.aspx" id="hfReqQ" >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkNeedaprice", UserCookieManager.WBStoreId, "Need a price?"))</a>
+        <a href="../RequestQuote.aspx" id="hfReqQ">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkNeedaprice", UserCookieManager.WBStoreId, "Need a price?"))</a>
     </div>
     <div class="clearBoth">
         &nbsp;
@@ -84,19 +83,19 @@
     var SelectedMatrixID;
     var SelectedPriceMatrix;
     //$(document).ready(function () {
-        $.getJSON("/QuickCalculator/GetAllProducts?cID=" + cID + "&mode=" + smode,
-		        function (xdata) {
-		            ProductData = xdata;
+    $.getJSON("/QuickCalculator/GetAllProducts?cID=" + cID + "&mode=" + smode,
+            function (xdata) {
+                ProductData = xdata;
 
-		            $.getJSON("/QuickCalculator/GetQuantityPrises?cID=" + cID + "&mode=" + smode,
-		                function (xdata) {
-		                    PriceData = xdata;
-		                    ShowProductDatafor();
-		                    makeInitSelection();
-		                    ShowProductDatafor();
-		                    $('#QuickCalcFrameLoader').hide();
-		                });
-		        });
+                $.getJSON("/QuickCalculator/GetQuantityPrises?cID=" + cID + "&mode=" + smode,
+                    function (xdata) {
+                        PriceData = xdata;
+                        ShowProductDatafor();
+                        makeInitSelection();
+                        ShowProductDatafor();
+                        $('#QuickCalcFrameLoader').hide();
+                    });
+            });
     //});
 
 
@@ -106,9 +105,9 @@
         $.each(ProductData, function (i, p) {
             if(tm==0)
             {
-               SelectedProduct=p;
+                SelectedProduct=p;
             }
-                $("#DDProduct").append($('<option></option>').val(p.ItemID).html(p.ProductName));
+            $("#DDProduct").append($('<option></option>').val(p.ItemID).html(p.ProductName));
             tm++;
         });
 
@@ -125,11 +124,11 @@
             {
                 SelectedPriceMatrix=p;
             }
-           $("#ddlQuantity").append($('<option></option>').val(p.PriceMatrixId).html(p.Quantity));
-           counter++;
+            $("#ddlQuantity").append($('<option></option>').val(p.PriceMatrixId).html(p.Quantity));
+            counter++;
         });
 
-        }
+    }
     function ShowSelectedQtyPrice() {
 
         var SelectedMatrixID = $("#ddlQuantity").val();
@@ -144,14 +143,25 @@
         });
     }
 
-    //function GotoDetails() {
+    function GotoDetails() {
 
-    //    window.location.href = SelectedProduct.NavPath.substring(1, SelectedProduct.NavPath.length);
-    //    //alert(SelectedProduct.NavPath.substring(1, SelectedProduct.NavPath.length));
+        console.log(SelectedProduct);
+        ShowLoader();
+        if (SelectedProduct.ProductType == 1)
+        {
+            window.location.href = "/CloneFeatureItem/" + SelectedProduct.ItemID;
+        }
+        else if (SelectedProduct.ProductType == 3) // for non print product
+        {
+            window.location.href = "/ProductOptions/" + 0 + "/" + SelectedProduct.ItemID + "/UploadDesign";
+        }
+        else if (SelectedProduct.ProductType == 2)
+        {
 
+            window.location.href = "/MarketingBrief/" + SelectedProduct.ProductName + "/" + SelectedProduct.ItemID;
 
-    //    return false;
-    //}
+        }
+    }
 
     //$('#ddlProducts').change(function (sender) {
     //    $('select[id$=ddlQuantity] > option').remove();
@@ -162,9 +172,9 @@
 
     $("#ddlQuantity").change(function (sender) {
 
-      ShowSelectedQtyPrice();
+        ShowSelectedQtyPrice();
 
-   });
+    });
 
     $("#DDProduct").change(function (sender) {
 
@@ -206,7 +216,7 @@
         }
 
         $("#QuickPrice").html(currencySymbol + '' + BasePrice.toFixed(2));
-        
+
     }
 
     function ShowProductData() {

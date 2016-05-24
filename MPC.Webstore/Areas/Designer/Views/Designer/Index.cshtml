@@ -10,6 +10,7 @@
     @*<link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />*@
 
 
+
 }
 @using MPC.Webstore.Common;
 
@@ -341,7 +342,16 @@
                                                         <button class="btnBackDAM bkbtnIphone">Images</button><span style="cursor:pointer;" class="btnBackDAM">
     Back to Images
 </span>
-                                                        <input type="text" placeholder="Search DAM" autocomplete="off" id="inputSearchDamImg" class="searchBtn" />
+                                                        @*<input type="search" placeholder="Search DAM" autocomplete="off" id="inputSearchDamImg" class="searchBtn" />*@
+
+
+                                                        <div class="form-group has-feedback">
+                                                           
+                                                                <input type="search" placeholder="Search DAM" autocomplete="off" id="inputSearchDamImg" class="form-control hasclear" style="position:relative; z-index:9999;">
+                                                                <span class="clearer glyphicon glyphicon-remove-circle form-control-feedback" style="cursor:pointer;z-index:999999"></span>
+                                                           
+                                                        </div>
+
                                                         <ul class="gallery infoPanelGallery photoGallery listDamImages divDAMImagesContainer" id="divDAMImagesContainer"></ul>
                                                     </div>
                                                 </section>
@@ -1664,4 +1674,5 @@
     <script src="~/Scripts/Designer/jquery.maskedinput.min.js"></script>
     <script src="~/Scripts/PopUp.js"></script>
 <script src="~/Scripts/Designer/toastr.min.js"></script>
+
 }

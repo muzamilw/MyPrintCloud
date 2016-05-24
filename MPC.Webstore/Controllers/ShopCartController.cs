@@ -146,7 +146,7 @@ namespace MPC.Webstore.Controllers
                 shopCart = LoadShoppingCart(OrderId);
 
 
-                if (shopCart.CartItemsList.Where(i => i.ProductType == 1 && i.TemplateID > 0).ToList().Count > 0)
+                if (shopCart.CartItemsList != null && shopCart.CartItemsList.Where(i => i.ProductType == 1 && i.TemplateID > 0).ToList().Count > 0)
                 {
                     ViewBag.EmailProofButtonVisible = true;
                 }

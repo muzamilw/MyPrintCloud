@@ -261,6 +261,7 @@ namespace MPC.Webstore.Models
         public int isTemplateDesignMode { get; set; }
         public long TerritoryId { get; set; }
         public long ColorTerritoryId { get; set; }
+        public bool DAMEnabedFlag { get; set; }
     }
 
     public class ItemViewModel

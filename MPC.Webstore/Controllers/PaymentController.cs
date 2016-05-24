@@ -162,6 +162,8 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
+                
+              
                 int outCustomRequestID = 0;
 
                 int.TryParse(Request["custom"], out  outCustomRequestID);
@@ -303,6 +305,8 @@ namespace MPC.Webstore.Controllers
 
 
                                 _IPrePaymentService.CreatePrePayment(PaymentMethods.PayPal, orderID, Convert.ToInt32(customerID), payPalResponseID, this.Request["txn_id"], outGrossTotal, ModeOfStore);
+
+                               
                             }
                             else
                             {
@@ -327,7 +331,13 @@ namespace MPC.Webstore.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("From PayPal IPN Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
             }
             return View();
         }
