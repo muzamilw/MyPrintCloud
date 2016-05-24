@@ -1231,16 +1231,47 @@ $("#btnUpdateImgProp").click(function (event) {
 	        });
 	        //if (Territories != "") {
 	        StartLoader();
-	        $.getJSON("/designerApi/TemplateBackgroundImage/updateImgTerritories/" + imgSelected + "/" + Territories,
-            function (DT) {
-                if (!$("#chkBoxCopyInSharedImages").is(':checked')) {
-                    b8_svc(imgSelected, tID)
-                } else {
-                    StopLoader();
-                }
+	        //$.getJSON("/designerApi/TemplateBackgroundImage/updateImgTerritories/" + imgSelected + "/" + Territories,
+            //function (DT) {
+            //    if (!$("#chkBoxCopyInSharedImages").is(':checked')) {
+            //        b8_svc(imgSelected, tID)
+            //    } else {
+            //        StopLoader();
+            //    }
              
-                pcL36('show', '#divImageDAM');
-            });
+            //    pcL36('show', '#divImageDAM');
+            //});
+
+
+
+	        //post the territories instead of get
+            //modified by mz
+
+
+	        
+	        $.post('/designerApi/TemplateBackgroundImage/updateImgTerritories/', imgSelected + "-" + Territories,
+             function (returnedData) {
+                 if (!$("#chkBoxCopyInSharedImages").is(':checked')) {
+                     b8_svc(imgSelected, tID)
+                 } else {
+                     StopLoader();
+                 }
+
+                 pcL36('show', '#divImageDAM');
+             });
+
+            /////////
+
+
+
+
+
+
+
+
+
+
+
 	        // }
 	    }
         
