@@ -430,7 +430,7 @@ namespace MPC.Implementation.WebStoreServices
                                     if (oFont != null)
                                     {
                                         if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
-                                            inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf");
+                                            inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf", LanguageType.Unicode, false, true, true);
                                         // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";
                                     }
                                         pid = "pid ='" + inlineFontId.ToString() + "' ";
