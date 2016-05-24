@@ -28,5 +28,7 @@ namespace MPC.Interfaces.MISServices
         /// Get Currency Symbol
         /// </summary>
         string GetCurrencySymbol();
+
+        Dictionary<int, string> GetProductionBoardLabels();
     }
 }

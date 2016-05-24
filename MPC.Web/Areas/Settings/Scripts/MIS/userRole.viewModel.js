@@ -98,9 +98,9 @@ define("userRole/userRole.viewModel",
                         accessRights.valueHasMutated();
                     },
                     checkeChanged = function () {
-                        var isChange = selectedRole().isCheckChange();
-                        selectedRole().isCheckChange(isChange ? false : true);
-                        selectedRole().isCompanyLevel(isChange ? 1 : 0);
+                       // var isChange = selectedRole().isCheckChange();
+                        selectedRole().isCheckChange(true);
+                       // selectedRole().isCompanyLevel(isChange ? 1 : 0);
                     },
                     saveRole = function () {
                         var role = selectedRole().convertToServerData();

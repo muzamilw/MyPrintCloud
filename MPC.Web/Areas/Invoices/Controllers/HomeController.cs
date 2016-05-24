@@ -5,6 +5,7 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Invoices.Controllers
 {
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewInvoicing })]
     public class HomeController : Controller
     {
         // GET: Invoices/Home

@@ -252,6 +252,12 @@ namespace MPC.Models.DomainModels
         public string XeroUserName { get; set; }
         public bool? IsXeroActive { get; set; }
         public bool? IsAutoCreatePurchaseOrder { get; set; }
+        public string ProductionBoardLabel1 { get; set; }
+        public string ProductionBoardLabel2 { get; set; }
+        public string ProductionBoardLabel3 { get; set; }
+        public string ProductionBoardLabel4 { get; set; }
+        public string ProductionBoardLabel5 { get; set; }
+        public string ProductionBoardLabel6 { get; set; }
         #endregion
         
         #region Reference Properties

@@ -11,6 +11,7 @@ namespace MPC.Interfaces.Repository
         Role GetRoleById(int roleId);
         void DeleteRoleRights(Role role);
         Role GetRoleByUserId(Guid userId);
+        Role GetSystemAdminRole();
 
     }
 }

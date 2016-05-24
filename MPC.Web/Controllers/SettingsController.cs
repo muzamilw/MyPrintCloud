@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Interfaces.Data;
+using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Controllers
 {
+     [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSettings })]
     public class SettingsController : Controller
     {
         //

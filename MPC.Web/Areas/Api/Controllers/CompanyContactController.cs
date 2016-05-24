@@ -45,7 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Addresses / Compnay Contacts
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         [CompressFilterAttribute]
         public CompanyContactResponse Get([FromUri] CompanyContactRequestModel request)
         {
@@ -60,7 +60,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Save Contact
         /// </summary>
         [ApiException]
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         [CompressFilterAttribute]
         public CompanyContact Post(CompanyContact companyContact)
         {
@@ -80,7 +80,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Delete Contact
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         [CompressFilterAttribute]
         public CompanyContact Delete(CompanyContactDeleteModel request)
         {

@@ -138,6 +138,19 @@ namespace MPC.Implementation.MISServices
             }
             return string.Empty;
         }
+        public Dictionary<int,string> GetProductionBoardLabels()
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            Dictionary<int, string> boardLabels = new Dictionary<int, string>();
+            boardLabels.Add(1, organisation.ProductionBoardLabel1);
+            boardLabels.Add(2, organisation.ProductionBoardLabel2);
+            boardLabels.Add(3, organisation.ProductionBoardLabel3);
+            boardLabels.Add(4, organisation.ProductionBoardLabel4);
+            boardLabels.Add(5, organisation.ProductionBoardLabel5);
+            boardLabels.Add(6, organisation.ProductionBoardLabel6);
+
+            return boardLabels;
+        }
 
         /// <summary>
         /// Update Item Status

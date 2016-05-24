@@ -11,6 +11,12 @@ define("itemJobStatus/itemJobStatus.viewModel",
                     view,
                     //Currency Symbol
                     currencySymbol = ko.observable(),
+                    columnlable1 = ko.observable(),
+                    columnlable2 = ko.observable(),
+                    columnlable3 = ko.observable(),
+                    columnlable4 = ko.observable(),
+                    columnlable5 = ko.observable(),
+                    columnlable6 = ko.observable(),
                     // #region Arrays
                     //Items
                     items = ko.observableArray([]),
@@ -171,6 +177,12 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         success: function (data) {
                             if (data !== null && data !== undefined) {
                                 currencySymbol(data.CurrencySymbol);
+                                columnlable1(data.ProductionBoardLabel1);
+                                columnlable2(data.ProductionBoardLabel2);
+                                columnlable3(data.ProductionBoardLabel3);
+                                columnlable4(data.ProductionBoardLabel4);
+                                columnlable5(data.ProductionBoardLabel5);
+                                columnlable6(data.ProductionBoardLabel6);
                                 var itemList = [];
                                 _.each(data.Items, function (item) {
                                     itemList.push(model.Item.Create(item));

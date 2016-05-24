@@ -73,6 +73,11 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
+
+        public Role GetSystemAdminRole()
+        {
+            return DbSet.FirstOrDefault(a => a.IsCompanyLevel == 1);
+        }
         
         #endregion
     }

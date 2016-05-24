@@ -9,7 +9,7 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Settings.Controllers
 {
-    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSecurity })]
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewSettings })]
     public class HomeController : Controller
     {
 

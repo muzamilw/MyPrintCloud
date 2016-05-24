@@ -1008,7 +1008,7 @@ namespace MPC.Implementation.MISServices
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 return savePath;
             }
-            return null;
+            return costcenter.ThumbnailImageURL;
         }
         public IEnumerable<CostCentreVariable> GetVariableList()
         {

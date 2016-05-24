@@ -459,6 +459,7 @@
                         JobDescription5: jobDescription5(),
                         JobDescription6: jobDescription6(),
                         JobDescription7: jobDescription7(),
+                        JobCode: jobCode(),
                         IsQtyRanged: isQtyRanged() === 2 ? false : true,
                         DefaultItemTax: defaultItemTax(),
                         ItemNotes: itemNotes(),

@@ -38,7 +38,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Invoices
         /// </summary>
-        [CompressFilter]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInvoicing })]
+        [CompressFilterAttribute]
         public InvoiceListResponseModel GetInvoiceResponse([FromUri] InvoicesRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
