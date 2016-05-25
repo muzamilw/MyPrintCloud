@@ -165,12 +165,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         //contactCompanyID
-        public HttpResponseMessage updateImgTerritories(long parameter1,string parameter2)
+        public HttpResponseMessage updateImgTerritories(HttpRequestMessage parameter1)
         {
-            var result = templateBackgroundImages.UpdateImgTerritories(parameter1, parameter2);
+
+            var sParams = parameter1.Content.ReadAsStringAsync().Result.Split('-');
+            long ImgID = Convert.ToInt64( sParams[0]);
+
+
+
+            var result = templateBackgroundImages.UpdateImgTerritories(ImgID, sParams[1]);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

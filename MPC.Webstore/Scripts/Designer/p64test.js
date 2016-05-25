@@ -24224,7 +24224,10 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
         this._removeExtraneousStyles();
         if ((this.maxHeight - this.formattedLines) > this.fontSize) {
             if (e.keyCode == 8 && IsCalledFrom == 4 && this.AutoShrinkText == true) {
-                this.fontSize = this.fontSize + 0.667;
+                
+                console.log(this.maxHeight + '    ' + this.formattedLines);
+                //changes by MZ
+                this.fontSize = this.fontSize + (this.maxHeight * 1/100);// 0.667;
             }
         }
         if (this.canvas) {
