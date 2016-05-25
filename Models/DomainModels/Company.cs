@@ -122,6 +122,7 @@ namespace MPC.Models.DomainModels
         public bool? IsEnableDataAsset { get; set; }
         public string RobotText { get; set; }
         public string SiteMap { get; set; }
+        public bool? IsForceSsl { get; set; }
         /// <summary>
         /// Map Image Url
         /// </summary>

@@ -85,5 +85,6 @@ namespace MPC.Models.DomainModels
         public string DeliveryMethod { get; set; }
         public string CurrencySymbol { get; set; }
         public string StateTaxLabel { get; set; }
+        public string VoucherCode { get; set; }
     }
 }

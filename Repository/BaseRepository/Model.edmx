@@ -538,6 +538,7 @@
           <Property Name="IsEnableDataAsset" Type="bit" />
           <Property Name="RobotText" Type="text" />
           <Property Name="SiteMap" Type="text" />
+          <Property Name="IsForceSsl" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -9090,6 +9091,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Folders" Relationship="DomainModels.FK_Folder_Folder" FromRole="Company" ToRole="Folder" />
           <Property Name="RobotText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="SiteMap" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsForceSsl" Type="Boolean" />
         </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -15189,7 +15191,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Int64" Name="EstimateID" Nullable="false" />
           <Property Type="Int64" Name="ItemID" Nullable="false" />
           <Property Type="String" Name="UserNotes" Nullable="true" MaxLength="Max" />
-          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ItemCode" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="JobDescription1" Nullable="true" MaxLength="Max" />
@@ -15209,9 +15211,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="ContactFullName" Nullable="false" MaxLength="101" />
           <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Address1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Address1" Nullable="true" MaxLength="797" />
           <Property Type="String" Name="AddressName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Address2" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Address3" Nullable="true" MaxLength="255" />
@@ -15220,16 +15222,16 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="Country" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="PostCode" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Fax" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="URL" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Tel1" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="URL" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Tel1" Nullable="true" MaxLength="108" />
           <Property Type="Int32" Name="Qty1" Nullable="true" />
           <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="WebDescription" Nullable="true" />
           <Property Type="String" Name="JobDescription" Nullable="true" MaxLength="Max" />
           <Property Type="String" Name="SectionName" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="SectionNo" Nullable="true" />
-          <Property Type="String" Name="BAddress1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="BAddress1" Nullable="true" MaxLength="797" />
           <Property Type="String" Name="BAddress2" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="BCity" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="BState" Nullable="true" MaxLength="100" />
@@ -15264,6 +15266,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="DeliveryMethod" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="StateTaxLabel" Nullable="true" MaxLength="31" />
+          <Property Type="String" Name="VoucherCode" Nullable="true" MaxLength="278" />
         </ComplexType>
         <EntityType Name="DiscountVoucher">
           <Key>
@@ -16461,6 +16464,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="IsForceSsl" ColumnName="IsForceSsl" />
                 <ScalarProperty Name="SiteMap" ColumnName="SiteMap" />
                 <ScalarProperty Name="RobotText" ColumnName="RobotText" />
                 <ScalarProperty Name="IsEnableDataAsset" ColumnName="IsEnableDataAsset" />
@@ -20812,6 +20816,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="DeliveryMethod" ColumnName="DeliveryMethod" />
                 <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
                 <ScalarProperty Name="StateTaxLabel" ColumnName="StateTaxLabel" />
+                <ScalarProperty Name="VoucherCode" ColumnName="VoucherCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

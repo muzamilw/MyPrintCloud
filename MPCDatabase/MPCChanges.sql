@@ -10541,3 +10541,7 @@ alter table Role add OrganisationId bigint
 
 alter table company add RobotText text
 alter table company add SiteMap text
+------------------------------Deployed------------------
+alter table company add IsForceSsl bit
+-----Execute alter of JobCardReport stored procedure
+
