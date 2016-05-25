@@ -671,9 +671,18 @@ function k28() {
                 k29("dropDownTerritories", "ter_" + item.TerritoryId, item.TerritoryName, "territroyContainer");
             });
             $("#ter_all").click(function (event) {
-                $('#dropDownTerritories  div :input').each(function (i) {
-                    $(this).prop('checked', true);
-                });
+
+                if ($(this).is(":checked")) {
+                    $('#dropDownTerritories  div :input').each(function (i) {
+                        $(this).prop('checked', true);
+                    });
+                }
+                else
+                {
+                    $('#dropDownTerritories  div :input').each(function (i) {
+                        $(this).prop('checked', false);
+                    });
+                }
             });
         });
 }
