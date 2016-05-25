@@ -30,7 +30,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Addresses and Territories Of "Company Contact's company"
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] {SecurityAccessRight.CanViewContact})]
+        [ApiAuthorize(AccessRights = new[] {SecurityAccessRight.CanViewCrm})]
         [CompressFilterAttribute]
         public CrmContactResponse Get([FromUri] CompanyContactRequestModel request)
         {

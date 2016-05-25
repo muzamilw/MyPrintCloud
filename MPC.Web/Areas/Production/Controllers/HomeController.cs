@@ -4,7 +4,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using Castle.Core.Internal;
 using GrapeCity.ActiveReports.PageReportModel;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Production.Controllers
 {
@@ -12,6 +15,7 @@ namespace MPC.MIS.Areas.Production.Controllers
     /// <summary>
     /// Production Board Controller
     /// </summary>
+    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewProductionBoard })]
     public class HomeController : Controller
     {
         private readonly ILiveJobsService liveJobsService;

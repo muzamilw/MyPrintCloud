@@ -10,5 +10,11 @@ namespace MPC.MIS.Areas.Api.Models
     {
         public IEnumerable<ItemForItemJobStatus> Items { get; set; }
         public string CurrencySymbol { get; set; }
+        public string ProductionBoardLabel1 { get; set; }
+        public string ProductionBoardLabel2 { get; set; }
+        public string ProductionBoardLabel3 { get; set; }
+        public string ProductionBoardLabel4 { get; set; }
+        public string ProductionBoardLabel5 { get; set; }
+        public string ProductionBoardLabel6 { get; set; }
     }
 }

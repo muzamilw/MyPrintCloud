@@ -85,7 +85,9 @@ namespace MPC.Implementation.MISServices
             }
             
             IEnumerable<AccessRightClaimValue> userAccessRights = ClaimHelper.GetClaimsByType<AccessRightClaimValue>(MpcClaimTypes.AccessRight);
+
             return requiredAccessRights.All(accessRight => userAccessRights.Any(arc => arc.RightId == (long)accessRight));
+            
         }
 
         /// <summary>

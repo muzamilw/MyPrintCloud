@@ -12,7 +12,7 @@ namespace MPC.MIS.Areas.Orders.Controllers
     /// <summary>
     /// Orders Home Controller
     /// </summary>
-    [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+    
     public class HomeController : Controller
     {
         #region Private
@@ -35,7 +35,8 @@ namespace MPC.MIS.Areas.Orders.Controllers
         #endregion
 
         // GET: Orders/Home
-        [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewOrder})]
+       // [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public ActionResult Index(int? id, int? itemId, string callScreen)
         {
             ViewBag.CallingMethod = (string)TempData["CallingMethod"] != "" ? TempData["CallingMethod"] : "0";
@@ -45,6 +46,7 @@ namespace MPC.MIS.Areas.Orders.Controllers
             return View();
         }
 
+        [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewPurchaseOrders })]
         public ActionResult PurchaseOrders()
         {
 
@@ -57,6 +59,7 @@ namespace MPC.MIS.Areas.Orders.Controllers
             return View();
 
         }
+        [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewEstimating })]
         public ActionResult EstimatesList(int? id)
         {
             ViewBag.OrderId = id ?? 0;

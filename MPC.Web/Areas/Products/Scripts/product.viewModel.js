@@ -693,6 +693,24 @@ define("product/product.viewModel",
                             selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
                         }
                     },
+                    //Function used to set confirmation message earlier this function with the name "onSelectFile" was being used from Model. Naveed 20160519
+                     onSelectTemplateFile = function (file, data) {
+                         if (selectedProduct().templateType() == 2) {
+                             confirmation.messageText("Do you want to keep existing Template Objects?");
+                             confirmation.afterProceed(function () {
+                                 selectedProduct().templateTypeMode(2);
+                                 selectedProduct().template().fileSource(data);
+                                 selectedProduct().template().fileName(file.name);
+                             });
+                             confirmation.afterCancel(function () {
+                                 selectedProduct().templateTypeMode(1);
+                                 selectedProduct().template().fileSource(data);
+                                 selectedProduct().template().fileName(file.name);
+                             });
+                             confirmation.show();
+                         }
+                         
+                     },
                     // ON Pre-Build Template Option Selected 
                     selectPreBuiltTemplate = function () {
                         confirmation.messageText("Do you want to keep existing Template Objects?");
@@ -2264,7 +2282,8 @@ define("product/product.viewModel",
                     editSubCategory: editSubCategory,
                     exportProduct: exportProduct,
                     selectedCsvFileForProduct: selectedCsvFileForProduct,
-                    onSectionInkCoverageSave: onSectionInkCoverageSave
+                    onSectionInkCoverageSave: onSectionInkCoverageSave,
+                    onSelectTemplateFile: onSelectTemplateFile
                     // For Store
                     // Utility Methods
                 };

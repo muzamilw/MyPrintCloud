@@ -33,7 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
        #region Public
 
          
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInvoicing })]
         [CompressFilterAttribute]
         public InvoiceBaseResponse Get()
         {

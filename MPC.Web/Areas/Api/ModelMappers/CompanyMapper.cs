@@ -161,6 +161,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsClickReached = source.IsClickReached,
                MarketingBriefRecipient = source.MarketingBriefRecipient,
                IsEnableDataAsset = source.IsEnableDataAsset,
+               IsForceSsl = source.IsForceSsl,
+               RobotText = source.RobotText,
+               SiteMap = source.SiteMap,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 TemplateColorStyles =
@@ -447,7 +450,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRegisterPlaceDirectOrder = source.IsRegisterPlaceDirectOrder == true ? true : false,
                 IsRegisterPlaceOrderWithoutApproval = source.IsRegisterPlaceOrderWithoutApproval == true ? true : false,
                 IsAllowRequestaQuote = source.IsAllowRequestaQuote == true ? true : false,
-                IsEnableDataAsset = source.IsEnableDataAsset == true ? true : false
+                IsEnableDataAsset = source.IsEnableDataAsset == true ? true : false,
+                IsForceSsl = source.IsForceSsl,
+                RobotText = source.RobotText,
+                SiteMap = source.SiteMap,
             };
 
             return company;

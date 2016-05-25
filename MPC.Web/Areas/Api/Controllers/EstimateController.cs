@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Orders
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewEstimating })]
         [CompressFilterAttribute]
         public GetOrdersResponse Get([FromUri] GetOrdersRequest request)
         {

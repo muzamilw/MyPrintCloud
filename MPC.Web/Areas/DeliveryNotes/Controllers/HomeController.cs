@@ -10,9 +10,11 @@ using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.DeliveryNotes.Controllers
 {
+      [SiteAuthorize(MisRoles = new[] { SecurityRoles.Admin }, AccessRights = new[] { SecurityAccessRight.CanViewShipping })]
     public class HomeController : Controller
     {
         // GET: DeliveryNotes/Home
+       
         public ActionResult Index()
         {
             

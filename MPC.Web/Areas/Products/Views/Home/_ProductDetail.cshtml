@@ -2112,8 +2112,9 @@
                                                 <div class="profile-message-btn center-block">
                                                     <div class="fileUpload btn btn-primary" data-bind="validationOnElement: fileSource">
                                                         <i class="fa fa-file-pdf-o"></i>
-                                                        Select PDF
-                                                        <input type="file" class="upload" id="templateDesigner_file" data-bind="files: { onLoaded: onSelectFile }" />
+                                                        Select PDF 
+                                                        @*<input type="file" class="upload" id="templateDesigner_file" data-bind="files: { onLoaded: onSelectFile }" />*@
+                                                        <input type="file" class="upload" id="templateDesigner_file" data-bind="files: { onLoaded: $root.onSelectTemplateFile }" />
                                                     </div>
                                                     <label class="control-label" data-bind="text:fileName"></label>
                                                 </div>

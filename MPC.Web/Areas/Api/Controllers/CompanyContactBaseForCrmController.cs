@@ -33,7 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Addresses / Compnay Contacts
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
         [CompressFilterAttribute]
         public CompanyBaseResponse Get()
         {

@@ -232,6 +232,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             mapImageUrlBinary = ko.observable(),
             //company type
             companyType = ko.observable(),
+            robotText = ko.observable(),
+            siteMapText = ko.observable(),
+            isForceSsl = ko.observable(),
             //type = ko.observable(),
             isDisplayBanners = ko.observable(specifiedisDisplayBanners),
             raveReviews = ko.observableArray([]),
@@ -406,7 +409,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isWidgetItemsChange: isWidgetItemsChange,
             marketingBriefRecipientEmail:marketingBriefRecipientEmail,
             isNewThemeApplied: isNewThemeApplied,
-            isEmailChange: isEmailChange
+            isEmailChange: isEmailChange,
+            robotText: robotText,
+            siteMapText: siteMapText,
+            isForceSsl : isForceSsl
            
             //#endregion
         }),
@@ -491,6 +497,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             result.isStoreLive = source.isStoreSetLive();
             result.CanUserUpdateAddress = source.canUserUpdateAddress();
             result.MarketingBriefRecipient = source.marketingBriefRecipientEmail();
+            result.RobotText = source.robotText();
+            result.SiteMap = source.siteMapText();
+            result.IsForceSsl = source.isForceSsl();
            
             result.RaveReviews = [];
             result.PaymentGateways = [];
@@ -673,7 +682,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             taxRate: taxRate,
             scopeVariables: scopeVariables,
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
-
+            robotText: robotText,
+            siteMapText: siteMapText,
             // Is Regiter Settings Flag 
             isRegisterAccessWebStore: isRegisterAccessWebStore,
             isRegisterPlaceOrder: isRegisterPlaceOrder,
@@ -868,6 +878,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         store.isRegisterPlaceOrderWithoutApproval(source.IsRegisterPlaceOrderWithoutApproval);
         store.isAllowRequestaQuote(source.IsAllowRequestaQuote);
         store.isEnableDataAsset(source.IsEnableDataAsset);
+        
+        store.robotText(source.RobotText);
+        store.siteMapText(source.SiteMap);
+        store.isForceSsl(source.IsForceSsl);
         
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");

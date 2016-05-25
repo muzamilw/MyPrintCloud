@@ -2591,7 +2591,6 @@ define("order/order.viewModel",
                             confirmation.messageText("Important ! Please note that the artwork you are downloading is not high res and production ready. In order to download high res and production ready artwork first progress the order to In Production status, save and then download.");
                             confirmation.afterProceed(function () {
                                 isLoadingOrders(true);
-
                                 dataservice.downloadOrderArtwork({
                                     OrderId: selectedOrder().id(),
                                     OrganisationId:0 // This value does't matters as this parameters is just to get value from WebStore into Controller.

@@ -160,6 +160,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsAllowRequestaQuote { get; set; }
         public string RobotText { get; set; }
         public string SiteMap { get; set; }
+        public bool? IsForceSsl { get; set; }
         #endregion
 
         #region Public List Properties
