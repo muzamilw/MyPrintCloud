@@ -427,8 +427,24 @@ namespace MPC.Implementation.WebStoreServices
                                 {
                                     int inlineFontId = 0;
                                     var oFont = oFonts.Where(g => g.FontName == objStyle.fontName).FirstOrDefault();
+
+
+
+
                                     if (oFont != null)
                                     {
+
+                                        if (oFont.FontPath == null)
+                                        {
+                                            // mpc designers fonts or system fonts 
+                                            path = "Organisation" + organisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
+                                        }
+                                        else
+                                        {  // customer fonts 
+                                            path = oFont.FontPath;
+                                        }
+
+
                                         if (System.IO.File.Exists(Font + path + oFont.FontFile + ".ttf"))
                                             inlineFontId = oPdf.EmbedFont(Font + path + oFont.FontFile + ".ttf", LanguageType.Unicode, false, true, true);
                                         // fontTag += " face='" + objStyle.fontName + "' embed= "+ FontID+" ";

@@ -31,6 +31,8 @@ using System.Net.Mime;
 
 namespace MPC.Webstore.Controllers
 {
+
+    [RequireSsl]
     public class HomeController : Controller
     {
         #region Private
