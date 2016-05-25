@@ -27,13 +27,14 @@ namespace MPC.Webstore.Common
         /// </summary>
         public RequireSslAttribute()
         {
-
             container = UnityWebActivator.Container;
             _myCompanyService = container.Resolve<ICompanyService>();
             var store = _myCompanyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
-           
 
-            RequireSsl = true;
+            if (store.Company.IsForceSsl.HasValue && store.Company.IsForceSsl.Value == true)
+                RequireSsl = true;
+            else
+                RequireSsl = false;
         }
 
         /// <summary>
