@@ -684,6 +684,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
             robotText: robotText,
             siteMapText: siteMapText,
+            isForceSsl : isForceSsl,
             // Is Regiter Settings Flag 
             isRegisterAccessWebStore: isRegisterAccessWebStore,
             isRegisterPlaceOrder: isRegisterPlaceOrder,
@@ -881,7 +882,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         
         store.robotText(source.RobotText);
         store.siteMapText(source.SiteMap);
-        store.isForceSsl(source.IsForceSsl);
+        store.isForceSsl(source.IsForceSsl == null || source.IsForceSsl == false ? false : true);
         
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");

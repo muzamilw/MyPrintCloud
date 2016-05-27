@@ -40,7 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Sections
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewSettings })]
+        [ApiAuthorize(AccessRights = new[] {SecurityAccessRight.CanViewSettings })]
         [CompressFilterAttribute]
         public IEnumerable<SectionForPhraseLibrary> Get()
         {
@@ -53,7 +53,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Phrases By Phrase Field Id
         /// </summary>
         /// <returns></returns>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewSettings })]
+        [ApiAuthorize(AccessRights = new[] {SecurityAccessRight.CanViewSettings })]
         [CompressFilterAttribute]
         public IEnumerable<Phrase> Get([FromUri]int fieldId)
         {
@@ -62,7 +62,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [HttpPost]
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewSettings })]
+        [ApiAuthorize(AccessRights = new[] {SecurityAccessRight.CanViewSettings })]
         [CompressFilterAttribute]
         public int Post(PhraseLibrarySaveModel Sections)
         {
