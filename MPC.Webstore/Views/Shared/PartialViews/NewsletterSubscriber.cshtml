@@ -16,8 +16,8 @@
                           <input id="txtEmailbox" name="txtEmailbox" value="Enter email address..."
                                  class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />
 
-                          <input type="button" id="btnSendNews" onclick="Send()" 
-                                 class="btnSubscribe rounded_corners" value="Send" /><br />
+                          <input type="button" id="btnSendNews" onclick="Send()"
+                                 class="btnSubscribe rounded_corners" value="@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterSubscribe", UserCookieManager.WBStoreId, "Subscribe"))" /><br />
                       </div>
                       <div class="NewsLtrErrDesCS">
                           <div class="NewsErrMesgCS"></div>
