@@ -579,6 +579,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 string sNewLineNormalized = Regex.Replace(StyledHtml, @"\r(?!\n)|(?<!\r)\n", "<BR>");
                 sNewLineNormalized = sNewLineNormalized.Replace("  ", "&nbsp;&nbsp;");
+                sNewLineNormalized = sNewLineNormalized.Replace("> <", ">&nbsp;<");
 
                 if (ooBject.isBulletPoint.HasValue && ooBject.isBulletPoint.Value == true)
                 {
