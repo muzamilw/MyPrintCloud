@@ -465,6 +465,15 @@
                                                         }
 
                                                     }
+                                                    else
+                                                    {
+                                                        if (ViewBag.isPinkTheme == 1)
+                                                        {
+                                                            <a href="/ProductOptions/@Model.ProductCategoryId/@item.ItemId/DesignOrUpload" onclick="ShowLoader();">
+                                                                <input type="button" value="@Html.Raw(Html.GetKeyValueFromResourceFile("lnkUploadfilesprices", UserCookieManager.WBStoreId, "Upload your design"))" class="create-design-button rounded_corners" />
+                                                            </a>
+                                                        }
+                                                    }
 
 
 
