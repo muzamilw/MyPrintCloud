@@ -5,6 +5,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Stock Cost And Price Domain Model
     /// </summary>
+     [Serializable]
     public class StockCostAndPrice
     {
         #region Persisted Properties

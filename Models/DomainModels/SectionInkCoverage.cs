@@ -5,6 +5,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Section Ink Coverage Domain Model
     /// </summary>
+   [Serializable]
     public class SectionInkCoverage
     {
         public int Id { get; set; }

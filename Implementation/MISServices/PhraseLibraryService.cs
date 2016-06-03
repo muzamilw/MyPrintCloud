@@ -84,7 +84,7 @@ namespace MPC.Implementation.MISServices
                                     if (phraseFieldItem != null)
                                     {
                                         phraseFieldDbItem.FieldName = phraseFieldItem.FieldName;
-                                        phraseFieldDbItem.OrganisationId = sectionRepository.OrganisationId;
+                                        //phraseFieldDbItem.OrganisationId = sectionRepository.OrganisationId;
                                     }
                                 }
                             }

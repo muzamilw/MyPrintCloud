@@ -338,6 +338,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Api\Controllers\CostCenterExecutionMisController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserListController.cs" />
     <Compile Include="Areas\Api\Controllers\UserRoleController.cs" />
     <Compile Include="Areas\Api\Controllers\XeroInvoiceController.cs" />

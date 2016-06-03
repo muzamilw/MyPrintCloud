@@ -3263,7 +3263,7 @@ namespace MPC.Implementation.MISServices
             smartFormRequest.CompanyId = storeId;
             discountVoucherRequestModelRequest.CompanyId = storeId;
             Organisation org = organisationRepository.GetOrganizatiobByID();
-            
+            var user = systemUserRepository.GetSystemUserById(systemUserRepository.LoggedInUserId);
 
             return new CompanyBaseResponse
             {
@@ -3284,7 +3284,12 @@ namespace MPC.Implementation.MISServices
                 FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
                 CmsPages = cmsPageRepository.GetCmsPagesForOrders(storeId),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix),
-                DefaultCountryId = org != null ? org.CountryId : null
+                DefaultCountryId = org != null ? org.CountryId : null,
+                OrganisationId =  fieldVariableRepository.OrganisationId,
+                OrganisationName = org != null ? org.OrganisationName : string.Empty,
+                LoginUserId = systemUserRepository.LoggedInUserId,
+                LoginUserFullName = user != null ? user.FullName : string.Empty,
+                LoginUserName = user != null ? user.UserName : string.Empty
             };
         }
 
@@ -3298,6 +3303,7 @@ namespace MPC.Implementation.MISServices
         public CompanyBaseResponse GetBaseDataForNewCompany()
         {
             var organisation = organisationRepository.Find(fieldVariableRepository.OrganisationId);
+            var user = systemUserRepository.GetSystemUserById(systemUserRepository.LoggedInUserId);
             return new CompanyBaseResponse
             {
                 SystemUsers = systemUserRepository.GetAll(),
@@ -3316,7 +3322,11 @@ namespace MPC.Implementation.MISServices
                 OrganisationId = fieldVariableRepository.OrganisationId,
                 Currency = (organisation != null && organisation.Currency != null) ? organisation.Currency.CurrencySymbol :
                 string.Empty,
-                DefaultCountryId = organisation != null ? organisation.CountryId : null
+                DefaultCountryId = organisation != null ? organisation.CountryId : null,
+                OrganisationName = organisation != null ? organisation.OrganisationName : string.Empty,
+                LoginUserId = systemUserRepository.LoggedInUserId,
+                LoginUserFullName = user!= null ? user.FullName : string.Empty,
+                LoginUserName = user != null ? user.UserName : string.Empty
             };
 
         }

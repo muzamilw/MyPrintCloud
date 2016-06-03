@@ -1034,7 +1034,7 @@ var selectedCostCentreCheckBoxElement = null;
 var selectedStockOptionItemAddOns = null;
 var globalSelectedCostCenter = null;
 var globalAfterCostCenterExecution = null;
-
+var itemSection = null;
 function getBrowserHeight() {
     var intH = 0;
     var intW = 0;
@@ -1182,7 +1182,7 @@ function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPri
 
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
             selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns,
-            globalSelectedCostCenter, null, true, qty2, qty3, itemSectionId);
+            globalSelectedCostCenter, null, true, qty2, qty3, itemSectionId, '', itemSection);
 
         idsToValidate = "";
     }
@@ -1190,7 +1190,7 @@ function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPri
 
 // Show Cost Center Popup
 function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, selectedCostCentreCheckBoxId, mode, currency, itemPrice,
-    inputQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution, qty2, qty3, itemSectionId) {
+    inputQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution, qty2, qty3, itemSectionId, currentSection) {
 
     GlobalQuestionQueueItemsList = questionQueueItems;
     GlobalInputQueueItemsList = inputQueueObject;
@@ -1349,13 +1349,13 @@ function ShowCostCentrePopup(questionQueueItems, costCentreId, clonedItemId, sel
         var desriptionOfCostCentre = "";
         SetGlobalCostCentreQueue(GlobalQuestionQueueItemsList, GlobalInputQueueItemsList, costCentreId, costCentreType, clonedItemId,
          selectedCostCentreCheckBoxElement, desriptionOfCostCentre, itemPrice, currency, true, taxRate, orderedQty, selectedStockOptionItemAddOns,
-         globalSelectedCostCenter, null, true, qty2, qty3, itemSectionId);
+         globalSelectedCostCenter, null, true, qty2, qty3, itemSectionId, '', currentSection);
     }
 }
 
 // Show Input Cost Center Popup
 function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, selectedCostCentreCheckBoxId, mode, currency,
-    itemPrice, questionQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution, qty2, qty3, itemSectionId) {
+    itemPrice, questionQueueObject, costCentreType, taxRate, workInstructions, orderedQty, itemAddOns, costCenter, afterCostCenterExecution, qty2, qty3, itemSectionId, currentSection) {
 
     GlobalInputQueueItemsList = inputQueueItems;
     GlobalQuestionQueueItemsList = questionQueueObject;
@@ -1674,9 +1674,24 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
         //}
     }
     //Section added by Naveed to pass one object containing queue and current section
+    if (itemSectionId == undefined)
+        itemSectionId = 0;
+    if (qty2 == undefined)
+        qty2 = 0;
+    if (qty3 == undefined)
+        qty3 = 0;
+    if (callMode == undefined || callMode == "")
+        callMode = "New";
+    else {
+        callMode = "UpdateAllCostCentreOnQuantityChange";
+    }
     paramRequest = {
         CurrentItemSection: currentSection,
-        Queues: costCentreQueueItems
+        Queues: costCentreQueueItems,
+        CostCentreId: costCentreId,
+        ClonedItemId: clonedItemId,
+        OrderedQuantity: orderedQty,
+        CallMode: callMode
     };
     if (paramRequest) {
         paramRequest = JSON.stringify(paramRequest, null, 2);
@@ -1692,20 +1707,11 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
     
     
 
-    if (itemSectionId == undefined)
-        itemSectionId = 0;
-    if (qty2 == undefined)
-        qty2 = 0;
-    if (qty3 == undefined)
-        qty3 = 0;
-    if (callMode == undefined || callMode == "")
-        callMode = "New";
-    else {
-        callMode = "UpdateAllCostCentreOnQuantityChange";
-    }
+    
     var to;
     //to = "/webstoreapi/costCenter/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=New";
-    to = "/mis/Api/CostCenterExecution/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=" + callMode + "&qty2=" + qty2 + "&qty3=" + qty3 + "&itemSectionId=" + itemSectionId;
+    //to = "/mis/Api/CostCenterExecution/ExecuteCostCentre?CostCentreId=" + costCentreId + "&ClonedItemId=" + clonedItemId + "&OrderedQuantity=" + orderedQty + "&CallMode=" + callMode + "&qty2=" + qty2 + "&qty3=" + qty3 + "&itemSectionId=" + itemSectionId;
+    to = "/mis/Api/CostCenterExecutionMis";
     var options = {
         type: "POST",
         url: to,

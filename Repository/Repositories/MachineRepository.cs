@@ -334,6 +334,7 @@ namespace MPC.Repository.Repositories
                 omachine.IsSpotColor = machine.IsSpotColor;
                 omachine.IsDigitalPress = machine.IsDigitalPress;
                 omachine.IsPressUseInks = machine.IsDigitalPress ?? true ? machine.IsPressUseInks : true;
+                omachine.IsSetupCostForDoubleSided = machine.IsSetupCostForDoubleSided;
                
                 if (machine.MachineInkCoverages != null && machine.MachineInkCoverages.Count > 0)
                 {
@@ -631,6 +632,7 @@ namespace MPC.Repository.Repositories
                 omachine.IsSpotColor = machine.IsSpotColor;
                 omachine.IsDigitalPress = machine.IsDigitalPress;
                 omachine.IsPressUseInks = machine.IsDigitalPress?? true ? machine.IsPressUseInks : true;
+                omachine.IsSetupCostForDoubleSided = machine.IsSetupCostForDoubleSided;
                // omachine.LookupMethod.MachineClickChargeZones.ToList().ForEach(a => a = ClickCharge);
 
                 if (type == 0)

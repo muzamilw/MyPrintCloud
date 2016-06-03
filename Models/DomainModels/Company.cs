@@ -7,6 +7,7 @@ namespace MPC.Models.DomainModels
     /// <summary>
     /// Company Domain Model
     /// </summary>
+    [Serializable]
     public class Company
     {
         public long CompanyId { get; set; }

@@ -2484,6 +2484,7 @@
           <Property Name="IsSpotColor" Type="bit" />
           <Property Name="IsDigitalPress" Type="bit" />
           <Property Name="IsPressUseInks" Type="bit" />
+          <Property Name="IsSetupCostForDoubleSided" Type="bit" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -13230,6 +13231,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="ItemSectionsSide2" Relationship="DomainModels.FK_ItemSection_Machine2" FromRole="Machine" ToRole="ItemSection" />
           <Property Name="IsDigitalPress" Type="Boolean" />
           <Property Name="IsPressUseInks" Type="Boolean" />
+          <Property Name="IsSetupCostForDoubleSided" Type="Boolean" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -19474,6 +19476,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="IsSetupCostForDoubleSided" ColumnName="IsSetupCostForDoubleSided" />
                 <ScalarProperty Name="IsPressUseInks" ColumnName="IsPressUseInks" />
                 <ScalarProperty Name="IsDigitalPress" ColumnName="IsDigitalPress" />
                 <ScalarProperty Name="IsSpotColor" ColumnName="IsSpotColor" />

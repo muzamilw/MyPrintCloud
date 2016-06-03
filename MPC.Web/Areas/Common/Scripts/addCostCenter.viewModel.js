@@ -154,6 +154,7 @@ define("common/addCostCenter.viewModel",
                                 workInstructions = data[3][0].WorkInstructions;
                                 var costCenterExecutedCallback = isOpenedFromSectionDetail() ? addCostCenter : afterCostCenterExecution;
                                 var selectedElement = $(selectedCostCentre().isSelected.domElement).find("td")[0];
+                                itemSection = currentSection();
                                 if (selectedCostCentre().calculationMethodType() === 4) { // cost centres of calculation methode type 4 are formula based
                                     if (questionQueueObject != null) { // process the question queue and prompt for values
                                         //if (questionQueueObject.length > 0) {
@@ -161,7 +162,7 @@ define("common/addCostCenter.viewModel",
                                             
                                             ShowCostCentrePopup(questionQueueObject, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                                 0, inputQueueObject.Items, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
+                                                selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), currentSection());
                                         //}
                                         if (inputQueueObject.Items && inputQueueObject.Items.length === 3) { // do not process the queue for prompting values
                                             isQueueExist = true;
@@ -177,7 +178,7 @@ define("common/addCostCenter.viewModel",
                                         isQueueExist = true;
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0, selectedElement, "New", currencySmb(),
                                             0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), currentSection());
                                     }
                                 } else if (selectedCostCentre().calculationMethodType() === 2) { // if method type is not 4 then it will be 3 : per quantity or 4: per hour
 
@@ -192,7 +193,7 @@ define("common/addCostCenter.viewModel",
                                         ShowInputCostCentrePopup(inputQueueObject.Items, selectedCostCentre().id(), 0,
                                             selectedElement, "New", currencySmb(),
                                             0, questionQueueObject, selectedCostCentre().calculationMethodType(), companyTaxRate, workInstructions,
-                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId());
+                                            selectedCostCentre().quantity1(), addOnCostCenters, selectedCostCentre, costCenterExecutedCallback, selectedCostCentre().quantity2(), selectedCostCentre().quantity3(), selectedCostCentre().sectionId(), currentSection());
                                     }
                                 }
                                 //if (isQueueExist === false) {// queue is not populating

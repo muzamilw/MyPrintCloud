@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Interfaces.Common;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using System.Web;
@@ -15,10 +17,13 @@ using System.Linq;
 using Ionic.Zip;
 using System.Text;
 using System.Xml;
+using MPC.Models.ModelMappers;
 using MPC.Models.ResponseModels;
 using MPC.Models.RequestModels;
 using lengthunit = MPC.Models.Common.LengthUnit;
 using MPC.ExceptionHandling;
+using System.Reflection;
+using Newtonsoft.Json;
 
 namespace MPC.Implementation.MISServices
 {
@@ -29,10 +34,11 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organisationRepository;
         private readonly IItemSectionRepository itemsectionRepository;
         private readonly IMachineRepository machineRepository;
+        private readonly ICostCentreRepository _costcenterRepository;
         #endregion
 
         #region Constructor
-        public ItemSectionService(IOrganisationRepository _organisationRepository, IItemSectionRepository _itemsectionRepository, IMachineRepository _machineRepository)
+        public ItemSectionService(IOrganisationRepository _organisationRepository, IItemSectionRepository _itemsectionRepository, IMachineRepository _machineRepository, ICostCentreRepository costcenterRepository)
         {
             if (_organisationRepository == null)
             {
@@ -46,9 +52,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("machineRepository");
             }
+            if (costcenterRepository == null)
+            {
+                throw new ArgumentNullException("costcenterRepository");
+            }
             this.organisationRepository = _organisationRepository;
             this.itemsectionRepository = _itemsectionRepository;
             this.machineRepository = _machineRepository;
+            this._costcenterRepository = costcenterRepository;
         }
         #endregion
         #region Print View Plan Code
@@ -161,9 +172,9 @@ namespace MPC.Implementation.MISServices
 
                 //This variable array is to hold the Working Sheet Qty For each multiple qty
                 double[] intWorkSheetQty = new double[5];
-                intWorkSheetQty[0] = Convert.ToInt32(oItemSection.Qty1 / SheetPTV) + SetupSpoilage + Convert.ToInt32(Convert.ToInt32(oItemSection.Qty1 / SheetPTV) * RunningSpoilagePercentage / 100);
-                intWorkSheetQty[1] = Convert.ToInt32(oItemSection.Qty2 / SheetPTV) + SetupSpoilage + Convert.ToInt32(Convert.ToInt32(oItemSection.Qty2 / SheetPTV) * RunningSpoilagePercentage / 100);
-                intWorkSheetQty[2] = Convert.ToInt32(oItemSection.Qty3 / SheetPTV) + SetupSpoilage + Convert.ToInt32(Convert.ToInt32(oItemSection.Qty3 / SheetPTV) * RunningSpoilagePercentage / 100);
+                intWorkSheetQty[0] = (Convert.ToDouble(oItemSection.Qty1) / (double)SheetPTV) + SetupSpoilage + Convert.ToDouble((Convert.ToDouble(oItemSection.Qty1) / (double)SheetPTV) * RunningSpoilagePercentage / 100);
+                intWorkSheetQty[1] = (Convert.ToDouble(oItemSection.Qty2) / (double)SheetPTV) + SetupSpoilage + Convert.ToDouble((Convert.ToDouble(oItemSection.Qty2) / (double)SheetPTV) * RunningSpoilagePercentage / 100);
+                intWorkSheetQty[2] = (Convert.ToDouble(oItemSection.Qty3) / (double)SheetPTV) + SetupSpoilage + Convert.ToDouble((Convert.ToDouble(oItemSection.Qty3) / (double)SheetPTV) * RunningSpoilagePercentage / 100);
 
                 //Model.LookupMethods.MethodDTO oModelLookUpMethod = BLL.LookupMethods.Method.GetMachineLookUpMethod(GlobalData, oItemSection.SelectedPressCalculationMethodID);
                 LookupMethod oModelLookUpMethod = new LookupMethod();
@@ -184,6 +195,14 @@ namespace MPC.Implementation.MISServices
                 {
                     temp = PressReRunQuantityIndex - 1;
                     temp2 = PressReRunQuantityIndex - 1;
+                }
+                double setupCharge = oPressDTO.SetupCharge ?? 0;
+                if (isPressSide2)
+                {
+                    setupCharge = oItemSection.PressId == PressID &&
+                                     (oPressDTO.IsSetupCostForDoubleSided ?? true) == false
+                    ? 0
+                    : oPressDTO.SetupCharge ?? 0;
                 }
 
                 switch (oModelLookUpMethod.Type)
@@ -418,9 +437,11 @@ namespace MPC.Implementation.MISServices
                             //}
 
                             //Checing Whether Print is Double sided and Press can't perform perfecting
-                            dblPrintCost[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) * dblCoverageMultiple) + oPressDTO.SetupCharge);
+
+
+                            dblPrintCost[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost) * dblCoverageMultiple) + setupCharge);
                             dblPrintRun[i] = (dblPressPass * intWorkSheetQty[i]);
-                            dblPrintPrice[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice) * dblCoverageMultiple )+ oPressDTO.SetupCharge);
+                            dblPrintPrice[i] = Convert.ToDouble((dblPressPass * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyPrice) * dblCoverageMultiple) + setupCharge);
                         }
                         oItemSection.PressSpeed1 = Convert.ToInt32(dblPrintRun[0]);
                         oItemSection.PressSpeed2 = Convert.ToInt32(dblPrintRun[1]);
@@ -752,8 +773,8 @@ namespace MPC.Implementation.MISServices
                             //dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) + oPressDTO.SetupCharge));
                             //dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) + oPressDTO.SetupCharge));
                             //dblPrintRun[i] = Convert.ToInt32(dblPressPass * intWorkSheetQty[i] / intPrintChgeCZ[i]);
-                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
-                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) * dblCoverageMultiple)) + oPressDTO.SetupCharge));
+                            dblPrintCost[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCostCZ[i]) * dblCoverageMultiple)) + setupCharge));
+                            dblPrintPrice[i] = Convert.ToDouble(((dblPressPass * (((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblPriceCZ[i]) * dblCoverageMultiple)) + setupCharge));
                             dblPrintRun[i] = Convert.ToInt32(dblPressPass * ((intWorkSheetQty[i] / intPrintChgeCZ[i]) * dblCoverageMultiple));
                         }
 
@@ -4498,7 +4519,7 @@ namespace MPC.Implementation.MISServices
                     TempQuantity = Convert.ToInt32(oItemSection.Qty3);
                 }
 
-                PrintSheetQuantity[i] = TempQuantity / PrintSheetPTV;
+                PrintSheetQuantity[i] = (double)TempQuantity / (double)PrintSheetPTV;
                 //Rounding to the Next Whole Number
                 PrintSheetQuantity[i] = PrintSheetQuantity[i];
 
@@ -6839,10 +6860,19 @@ namespace MPC.Implementation.MISServices
             }
             if (updatedSection.StockItem == null)
                 updatedSection.StockItem = itemsectionRepository.GetStockById(Convert.ToInt64(updatedSection.StockItemID1));
+            int Qty1 = updatedSection.Qty1??0;
+            int Qty2 = updatedSection.Qty2 ?? 0;
+            int Qty3 = updatedSection.Qty3 ?? 0;
 
+            updatedSection = CalculateAdditionalCostCenters(updatedSection);
+            updatedSection.Qty1 = Qty1;
+            updatedSection.Qty2 = Qty2;
+            updatedSection.Qty3 = Qty3;
             return updatedSection;
 
         }
+
+        
         #endregion
 
         private Organisation CompanyGeneralSettings()
@@ -7919,6 +7949,332 @@ namespace MPC.Implementation.MISServices
             return oItemSection;
         }
 
+
+        private ItemSection CalculateAdditionalCostCenters(ItemSection section)
+        {
+            var additionalCostCenterList =
+                section.SectionCostcentres.Where(a => a.SystemCostCentreType == 9)
+                    .ToList();
+            if (additionalCostCenterList.Count > 0)
+            {
+                string scont = section.QuestionQueue;
+                string sinputcont = section.InputQueue;
+                object[] _CostCentreParamsArray = new object[12];
+                List<QuestionQueueItem> ccQueue = null;
+                List<InputQueueItem> inputQueue = null;
+                if (!string.IsNullOrEmpty(scont))
+                    ccQueue = JsonConvert.DeserializeObject<List<QuestionQueueItem>>(scont);
+                if (!string.IsNullOrEmpty(sinputcont))
+                    inputQueue = JsonConvert.DeserializeObject<List<InputQueueItem>>(sinputcont);
+
+                QuestionAndInputQueues queues = null;
+                if (ccQueue != null || inputQueue != null)
+                {
+                    queues = new QuestionAndInputQueues
+                    {
+                        InputQueues = inputQueue,
+                        QuestionQueues = ccQueue
+                    };
+                }
+                ItemSection newSection = new ItemSection();
+                newSection.UpdateTo(section);
+
+                foreach (var cc in additionalCostCenterList)
+                {
+                    if (Convert.ToInt32(section.Qty1) > 0)
+                    {
+                        double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty1), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
+                        cc.Qty1Charge = dblResult;
+                        cc.Qty1NetTotal = dblResult;
+                    }
+                    if (Convert.ToInt32(section.Qty2) > 0)
+                    {
+                        double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty2), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
+                        cc.Qty2Charge = dblResult;
+                        cc.Qty2NetTotal = dblResult;
+                    }
+                    if (Convert.ToInt32(section.Qty3) > 0)
+                    {
+                        double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty3), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
+                        cc.Qty3Charge = dblResult;
+                        cc.Qty3NetTotal = dblResult;
+                    }
+                }
+            }
+            
+            return section;
+        }
+        private double GetCostCenterPrice(string CostCentreId, string OrderedQuantity, string CallMode, QuestionAndInputQueues Queues, ref object[] _CostCentreParamsArray, ItemSection section)
+        {
+            double dblPrice = 0;
+            
+            if ((CallMode == "UpdateAllCostCentreOnQuantityChange" && Queues != null) || CallMode != "UpdateAllCostCentreOnQuantityChange")
+            {
+                AppDomain _AppDomain = null;
+
+                try
+                {
+                    Organisation organisation = organisationRepository.GetOrganizatiobByID();
+                    
+                    string orgName = string.Empty;
+                    if (organisation != null)
+                    {
+                        orgName = organisation.OrganisationName;
+                    }
+
+                    string OrganizationName = orgName;
+                    OrganizationName = specialCharactersEncoderCostCentre(OrganizationName);
+
+                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
+
+
+                    object _oLocalObject;
+                    ICostCentreLoader _oRemoteObject;
+
+                    // object[] _CostCentreParamsArray = new object[12];
+
+                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+
+
+                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+                    //Me._AppDomain.InitializeLifetimeService()
+
+                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+
+
+
+
+                    //Me._CostCentreLaoderFactory = CType(Me._AppDomain.CreateInstance(Common.g_GlobalData.AppSettings.ApplicationStartupPath + "\Infinity.Model.dll", "Infinity.Model.CostCentres.CostCentreLoaderFactory").Unwrap(), Model.CostCentres.CostCentreLoaderFactory)
+                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+                    _CostCentreLaoderFactory.InitializeLifetimeService();
+
+                    CostCentre oCostCentre = _costcenterRepository.GetCostCentreByID(Convert.ToInt64(CostCentreId));
+
+                    List<CostcentreInstruction> oInstList = new List<CostcentreInstruction>();
+                    List<CostcentreWorkInstructionsChoice> oInsChoicesList = null;
+                    foreach (CostcentreInstruction obj in oCostCentre.CostcentreInstructions)
+                    {
+                        CostcentreInstruction oObject = new CostcentreInstruction();
+                        oObject.CostCentreId = obj.CostCentreId;
+                        oObject.Instruction = obj.Instruction;
+                        oObject.InstructionId = obj.InstructionId;
+                        oInsChoicesList = new List<CostcentreWorkInstructionsChoice>();
+                        foreach (CostcentreWorkInstructionsChoice wI in obj.CostcentreWorkInstructionsChoices)
+                        {
+                            CostcentreWorkInstructionsChoice oChoicObject = new CostcentreWorkInstructionsChoice();
+                            oChoicObject.Choice = wI.Choice;
+                            oChoicObject.Id = wI.Id;
+                            oChoicObject.InstructionId = wI.InstructionId;
+                            oInsChoicesList.Add(oChoicObject);
+                        }
+                        oObject.CostcentreWorkInstructionsChoices = oInsChoicesList;
+                        oInstList.Add(oObject);// = oCostCentre.CostcentreInstructions.ToArray();
+                    }
+                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, oInstList.ToArray(), oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
+
+
+                    if (CallMode == "New")
+                    {
+                        if (Queues != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            // if queue contains item of other cost centre then this condition will filter the items of current cost centre
+
+                            if (Queues.QuestionQueues != null)
+                            {
+                                _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList(); ;
+                            }
+                            else
+                            {
+                                _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                            }
+
+
+                            if (Queues.InputQueues != null)
+                            {
+                                _CostCentreParamsArray[7] = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            }
+                            else // else assign null
+                            {
+                                _CostCentreParamsArray[7] = Queues.InputQueues;
+                            }
+
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                            _CostCentreParamsArray[7] = new InputQueue();
+                        }
+                    }
+
+                    if (CallMode == "addAnother")
+                    {
+
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = Queues.QuestionQueues;
+                        if (Queues.InputQueues != null)
+                        {
+                            InputQueue inputQueueObj = new InputQueue();
+                            List<InputQueueItem> Items = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            foreach (InputQueueItem obj in Items)
+                            {
+                                inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                            }
+                            _CostCentreParamsArray[7] = inputQueueObj;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[7] = new InputQueue();
+                        }
+                    }
+
+
+                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
+                    //GlobalData
+
+                    //this mode will load the questionqueue
+
+                    //QuestionQueue / Execution Queue
+                    _CostCentreParamsArray[3] = CostCentreQueue;
+                    // check if cc has wk ins
+
+
+                    //CostCentreQueue
+                    _CostCentreParamsArray[4] = 1;
+
+                    // _CostCentreParamsArray[5] = 1;
+                    //MultipleQuantities
+
+
+                    _CostCentreParamsArray[11] = OrderedQuantity;
+
+                    //CurrentQuantity
+                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
+                    //StockQueue
+
+                    //InputQueue
+                    if (section != null)
+                    {
+                        section.Qty1 = Convert.ToInt32(OrderedQuantity);
+                        section.SectionInkCoverages = null;
+                        _CostCentreParamsArray[8] = section;
+                    }
+
+                    _CostCentreParamsArray[9] = 1;
+
+                    // connection string
+                    _CostCentreParamsArray[10] = "Persist Security Info=False;Integrated Security=false;Initial Catalog=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringDBName"] + ";server=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringServerName"] + "; user id=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringUserName"] + "; password=" + System.Configuration.ConfigurationManager.AppSettings["CostCentreConnectionStringPasswordName"] + ";";
+
+                    _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+
+                    CostCentrePriceResult oResult = null;
+
+                    if (CallMode == "Modify")
+                    {
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        if (Queues.QuestionQueues != null)
+                        {
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                        }
+
+                        if (Queues.InputQueues != null)
+                        {
+                            InputQueue inputQueueObj = new InputQueue();
+                            List<InputQueueItem> Items = Queues.InputQueues.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                            foreach (InputQueueItem obj in Items)
+                            {
+                                inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                            }
+                            _CostCentreParamsArray[7] = inputQueueObj;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[7] = new InputQueue();
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (CallMode == "UpdateAllCostCentreOnQuantityChange")
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = Queues.QuestionQueues.ToList();
+                            if (Queues.InputQueues != null)
+                            {
+                                InputQueue inputQueueObj = new InputQueue();
+                                List<InputQueueItem> Items = Queues.InputQueues.ToList();
+                                foreach (InputQueueItem obj in Items)
+                                {
+                                    inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                                }
+                                _CostCentreParamsArray[7] = inputQueueObj.Items;
+                            }
+                            else
+                            {
+                                _CostCentreParamsArray[7] = new InputQueue();
+                            }
+                        }
+
+                        oResult = _oRemoteObject.returnPrice(ref _CostCentreParamsArray);
+
+                    }
+
+                    if ((Queues != null && CallMode != "Modify" && CallMode != "addAnother" && oResult != null) || (Queues != null && CallMode == "Update"))
+                    {
+
+
+                        //JsonSerializerSettings jSettings = new JsonSerializerSettings();
+                        //GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = jSettings;
+
+                        double actualPrice = oResult.TotalPrice;
+
+                        if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
+                        {
+                            actualPrice = oCostCentre.MinimumCost ?? 0;
+                        }
+
+                        dblPrice = actualPrice;
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    AppDomain.Unload(_AppDomain);
+                }
+
+            }
+
+            return dblPrice;
+        }
+
+        private string specialCharactersEncoderCostCentre(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                value = value.Replace("/", "");
+                value = value.Replace(" ", "");
+                value = value.Replace(";", "");
+                value = value.Replace("&#34;", "");
+                value = value.Replace("&", "");
+                value = value.Replace("+", "");
+            }
+
+            return value;
+        }
 
     }
 }
