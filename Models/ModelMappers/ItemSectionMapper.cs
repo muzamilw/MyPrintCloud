@@ -115,6 +115,9 @@ namespace MPC.Models.ModelMappers
             target.isWorknTurn = source.isWorknTurn;
             target.ItemGutterHorizontal = source.ItemGutterHorizontal;
             target.ItemGutterVertical = source.ItemGutterHorizontal;
+            target.CostCentreQueue = source.CostCentreQueue;
+            target.InputQueue = source.InputQueue;
+            target.StockQueue = source.StockQueue;
         }
 
         #endregion

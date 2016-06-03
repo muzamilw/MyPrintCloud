@@ -7,12 +7,12 @@
     <div class="container content_area" id="all-topHEader-pg">
         <div class="left_right_padding">
             <div class="padding_top_bottom_topheader">
-                <div class="company_logo col-md-6 col-lg-6 col-xs-12 col-sm-12 col-xs-12">
+                <div class="company_logo col-md-6 col-lg-6 col-xs-6 col-sm-6 col-xs-12">
                     <a href='@ViewBag.DefaultUrl'>
                         <img src="/@Model.Image" class="pink_company_top_logo LOgo_ImgeP" />
                     </a>
                 </div>
-                <div class="company_logo col-md-6 col-lg-6 col-xs-12 col-sm-12 col-xs-12">
+                <div class="company_logo col-md-6 col-lg-6 col-xs-6 col-sm-6 col-xs-12">
                     <div class="phone_number_sec ">
                         <div class="TeleImg" id="telephoneIcon">
                         </div>
@@ -26,6 +26,8 @@
                     <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12 col-xs-12">
 
                         <div id="divTopHeaderMenu" class="TopHeaderMenu float_left_simple">
+                            <a  href="/" class="iconHover" onclick="ShowLoader();">Home</a>
+
                             @if (Model.IsCustomer != 3)
                             {
 
@@ -79,8 +81,8 @@
                             </li>
                             @if (ViewBag.isUserLoggedIn)
                             {
-                                <li class="ZeroRightMargin BlackBtnCS">
-                                    @Html.ActionLink(Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign out")).ToString(), "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "logOutHeaderLink" })
+                                <li class="ZeroRightMargin" style="    float: right;">
+                                    @Html.ActionLink(Html.Raw(Html.GetKeyValueFromResourceFile("SignOutlbl", UserCookieManager.WBStoreId, "Sign out")).ToString(), "LogOut", "LoginBar", null, new { @onclick = "ShowLoader();", @class = "logOutHeaderLink", @style="    color: #cccccc;    font-size: 15px;   font-weight: 400;" })
                                 </li>
                             }
                             <li class="ZeroRightMargin BlackBtnCS" style="margin-right: -2px !important;">
