@@ -11,5 +11,9 @@ namespace MPC.MIS.Areas.Api.Models
     {
         public ItemSection CurrentItemSection { get; set; }
         public QuestionAndInputQueues Queues { get; set; }
+        public string CostCentreId { get; set; }
+        public string ClonedItemId { get; set; }
+        public string OrderedQuantity { get; set; }
+        public string CallMode { get; set; }
     }
 }

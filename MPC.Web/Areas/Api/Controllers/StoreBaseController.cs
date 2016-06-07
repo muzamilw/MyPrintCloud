@@ -99,7 +99,12 @@ namespace MPC.MIS.Areas.Api.Controllers
                        CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
                        Themes = themes ?? new List<SkinForTheme>(),
                        PriceFlags = result.PriceFlags != null ? result.PriceFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
-                       DefaultCountryId = result.DefaultCountryId
+                       DefaultCountryId = result.DefaultCountryId,
+                       OrganisationName = result.OrganisationName,
+                       LoginUserFullName = result.LoginUserFullName,
+                       OrganisationId = result.OrganisationId,
+                       LoginUserId = result.LoginUserId,
+                       LoginUserName = result.LoginUserName
                    };
         }
 
@@ -151,7 +156,12 @@ namespace MPC.MIS.Areas.Api.Controllers
                 CorporateStoreNameWebConfigValue = corporateStoreName,
                 RetailStoreNameWebConfigValue = retailStoreName,
                 CurrencySymbol = result.Currency,
-                DefaultCountryId = result.DefaultCountryId
+                DefaultCountryId = result.DefaultCountryId,
+                OrganisationName = result.OrganisationName,
+                LoginUserFullName = result.LoginUserFullName,
+                LoginUserId = result.LoginUserId,
+                LoginUserName = result.LoginUserName
+
             };
         }
         #endregion

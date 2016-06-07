@@ -39,7 +39,10 @@ namespace MPC.Models.ResponseModels
 
         public string  Currency { get; set; }
         public long? DefaultCountryId { get; set; }
-
+        public string OrganisationName { get; set; }
+        public Guid LoginUserId { get; set; }
+        public string LoginUserFullName { get; set; }
+        public string LoginUserName { get; set; }
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }

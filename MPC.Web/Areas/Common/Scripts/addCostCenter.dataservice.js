@@ -30,6 +30,14 @@ define("common/addCostCenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    //amplify.request.define('executeCostCenterForCostCenter', 'ajax', {
+                    //    url: ist.siteUrl + '/Api/CostCenterExecutionMis',
+                    //    dataType: 'json',
+                    //    dataMap: JSON.stringify,
+                    //    contentType: "application/json; charset=utf-8",
+                    //    decoder: amplify.request.decoders.istStatusDecoder,
+                    //    type: 'POST'
+                    //});
 
                     isInitialized = true;
                 }

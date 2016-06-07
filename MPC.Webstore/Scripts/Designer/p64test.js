@@ -11464,6 +11464,13 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
     hasInlineFontStyle: false,
     hasInlineFontFamily: false,
       /**
+  * TotalLinesCount // added by mz
+  * @property
+  * @type int
+  */
+    totalLinesCount: 0,
+      /**
+
   * IsOverlayObject  // added by saqib
   * @property
   * @type boolean
@@ -20444,6 +20451,7 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
 
                 CalcWidthChars = chars + testLine;
                 var demoLines = CalcWidthChars.split(/\r\n|\r|\n/);
+                this.totalLinesCount = demoLines.length;
                 var maxHeightLastLine = this._getHeightOfLine(context, demoLines.length - 1, demoLines);
                 MaxHeight += maxHeightLastLine;
                 if (MaxHeight == 0 || (MaxHeight) < BoxHeight) {
@@ -20476,7 +20484,8 @@ fabric.Image.filters.BaseFilter = fabric.util.createClass(/** @lends fabric.Imag
             if (this.AutoShrinkText && txtOverflow == true && IsCalledFrom != 2) {
 
                 if (this != undefined && this.fontSize > 4) {
-                    this.fontSize = this.fontSize - 0.667;
+                    //this.fontSize = this.fontSize - 0.667;
+                    this.fontSize =   this.fontSize - (this.maxHeight * 1 / 100);// 0.667;
                     return this.wrapText(context, text, x, y, maxWidth, this.lineHeight * this.fontSize, BoxHeight, charSpacing, textAlign, this.fontSize, appliedStyles, this);
                 }
             } //else {
@@ -24225,9 +24234,10 @@ fabric.util.object.extend(fabric.IText.prototype, /** @lends fabric.IText.protot
         if ((this.maxHeight - this.formattedLines) > this.fontSize) {
             if (e.keyCode == 8 && IsCalledFrom == 4 && this.AutoShrinkText == true) {
                 
-                console.log(this.maxHeight + '    ' + this.formattedLines);
+                //console.log(this.maxHeight + '    ' + this.formattedLines);
                 //changes by MZ
-                this.fontSize = this.fontSize + (this.maxHeight * 1/100);// 0.667;
+                this.fontSize = this.fontSize + (this.maxHeight / this.totalLinesCount) * 1/100  ;//;this.fontSize + (this.maxHeight * 2 / 100);// 0.667;
+                //alert('')
             }
         }
         if (this.canvas) {

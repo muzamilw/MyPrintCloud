@@ -108,6 +108,11 @@ define("stores/stores.viewModel",
                     editedWidgetId = ko.observable(),
                     isCustomWidgetLoad = ko.observable(false),
                     defaultCountryId = ko.observable(),
+                    loginUserName = ko.observable(),
+                    organisationId = ko.observable(),
+                    organisationName = ko.observable(),
+                    loginUserId = ko.observable(),
+                    loginUserFullName = ko.observable(),
                     CompanyVariableIconBinary = ko.observable(),
                      CompanyVariableIconName = ko.observable(),
                       CompanyVariableId = ko.observable(),
@@ -5556,7 +5561,11 @@ define("stores/stores.viewModel",
                                         priceFlags.valueHasMutated();
                                     }
                                     defaultCountryId(data.DefaultCountryId);
-
+                                    loginUserFullName(data.LoginUserFullName);
+                                    organisationId(data.OrganisationId);
+                                    organisationName(data.OrganisationName);
+                                    loginUserId(data.LoginUserId);
+                                    loginUserName(data.LoginUserName);
                                     ////Countries 
                                     //countries.removeAll();
                                     //ko.utils.arrayPushAll(countries(), data.Countries);
@@ -7994,13 +8003,12 @@ define("stores/stores.viewModel",
             
 
                 // Show Widget Css Dialog Method
-                openStoreLayoutWidgetsCssDialog = function () {
-                    
+                openStoreLayoutWidgetsCssDialog = function() {
+
                     view.showStoreLayoutWidgetCss();
                 },
-
-                // Get Widget Css Details
-                getStoreLayoutWidgetsCss = function (item) {
+                    // Get Widget Css Details
+                getStoreLayoutWidgetsCss = function(item) {
                     var widgetcssvariable = item.widgetCss();
                     widgetCss(widgetcssvariable);
                     openStoreLayoutWidgetsCssDialog();
@@ -8020,11 +8028,11 @@ define("stores/stores.viewModel",
                     widget.widgetControlName("default Custom Widget");
                     editCustomWidget(widget);
                 },
-                deleteCustomWidget = function (widget) {
+                deleteCustomWidget = function(widget) {
                     confirmation.messageText("WARNING - Are you sure you want to delete this widget?");
-                    confirmation.afterProceed(function () {
+                    confirmation.afterProceed(function() {
                         dataservice.deleteCustomWidget(widget.convertToServerData(), {
-                            success: function (data) {
+                            success: function(data) {
                                 if (data != null) {
                                     if (data == true) {
                                         selectedCustomWidget(undefined);
@@ -8033,120 +8041,142 @@ define("stores/stores.viewModel",
                                     }
                                 }
                             },
-                            error: function (response) {
+                            error: function(response) {
                                 toastr.error("Error: Widget cannot be deleted as it is in use.", "", ist.toastrOptions);
                             }
                         });
                     });
                     confirmation.show();
                 },
-                saveCustomWidget = function () {
+                saveCustomWidget = function() {
                     var updatedWidget = selectedCustomWidget().convertToServerData();
                     dataservice.saveCustomWidget(updatedWidget, {
-                        success: function (data) {
+                        success: function(data) {
                             if (data != null) {
                                 isCustomWidgetLoad(false);
                                 if (selectedCustomWidget().widgetId() == 0 || selectedCustomWidget().widgetId() == undefined) {
                                     var widget = model.Widget.Create(data);
                                     organisationWidgets.push(widget);
                                 }
-                                    
+
                                 selectedCustomWidget(undefined);
                                 view.hideCkEditorDialogDialog();
                                 toastr.success("Widget saved successfully.");
                             }
                         },
-                        error: function (response) {
+                        error: function(response) {
                             toastr.error("Error: Failed To save custom widget " + response, "", ist.toastrOptions);
                         }
                     });
                 },
                 getOrganisationWidgets = function() {
                     dataservice.getOrganisationWidgets({
-                        success: function (data) {
+                        success: function(data) {
                             if (data != null) {
                                 organisationWidgets.removeAll();
-                                _.each(data.OrganisationWidgets, function (item) {
+                                _.each(data.OrganisationWidgets, function(item) {
                                     var widget = model.Widget.Create(item);
                                     organisationWidgets.push(widget);
                                 });
-                               
+
                             }
                         },
-                        error: function (response) {
+                        error: function(response) {
                             toastr.error("Error: Failed To load custom widgets " + response, "", ist.toastrOptions);
                         }
                     });
                 },
-                // GET company VariableIcon
-                getCompanyVariableIcons = function () {
+                    // GET company VariableIcon
+                getCompanyVariableIcons = function() {
                     dataservice.getCompanyVariableIcons({
-                        CompanyId: selectedStore().companyId(),
-                    }, {
-                        success: function (data) {
-                            companyVariableIcons.removeAll();
-                            if (data != null) {
-                                CompanyVariableRowCount(data.RowCount);
-                                mapCompanyVariableIcons(data);
+                            CompanyId: selectedStore().companyId(),
+                        }, {
+                            success: function(data) {
+                                companyVariableIcons.removeAll();
+                                if (data != null) {
+                                    CompanyVariableRowCount(data.RowCount);
+                                    mapCompanyVariableIcons(data);
+                                }
+                                isLoadingStores(false);
+                                if (isIconLoading()) {
+                                    view.showVariableIconDialog();
+                                }
+
+                            },
+                            error: function(response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed to load company variable icons" + response, "", ist.toastrOptions);
                             }
-                            isLoadingStores(false);
-                            if (isIconLoading())
-                            {
-                                view.showVariableIconDialog();
-                            }
-                                
-                        },
-                        error: function (response) {
-                            isLoadingStores(false);
-                            toastr.error("Error: Failed to load company variable icons" + response, "", ist.toastrOptions);
-                        }
-                    });
+                        });
 
                 },
+                openGlobalDesigner = function () {
+                    //var uri = "http://designerv2.myprintcloud.com/nav/AutoLogin.aspx";
+                   
+                    var uri = encodeURI("http://designerv2.myprintcloud.com/nav/AutoLogin.aspx?username=" + loginUserName() + "&userid=" + organisationId() + "&fullname=" + loginUserFullName() + "&organisationid=" + organisationId() + "&customername=" + organisationName());
+                    
+                    window.open(uri, "_blank");
+                    //var paramRequest = {
+                    //    userid: "EA8D4A6B-E88C-41B0-A003-49827D447074",
+                    //    fullname: "Naveed",
+                    //    organisationid: "1",
+                    //    customername: "MPC"
+                    //};
+                    //var options = {
+                    //    type: "POST",
+                    //    url: uri,
+                    //    data: paramRequest,
+                    //    contentType: "application/json",
+                    //    async: true,
+                    //    success: function (response) {
+                    //        window.open(uri, "_blank");
+                    //    },
+                    //    error: function (msg) { toastr.error("Error occured "); console.log(msg); }
+                    //};
+                    //var returnText = $.ajax(options).responseText;
+                },
+                mapCompanyVariableIcons = function(data) {
 
-                mapCompanyVariableIcons = function (data) {
-
-                    _.each(data.RealEstatesVariableIcons, function (variableIcon) {
+                    _.each(data.RealEstatesVariableIcons, function(variableIcon) {
 
 
                         var module = model.companyVariableIcons.Create(variableIcon);
-                       
+
                         module.icon(module.icon() + "?" + Date());
 
                         companyVariableIcons.push(module);
                     });
                     // discountVoucherpager().totalCount(data.RowCount);
                 },
+                    //Delete company variable icon
+                onDeleteCompanyVariableIcon = function(variableIcon) {
+                    confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                    confirmation.afterProceed(function() {
 
-                //Delete company variable icon
-                    onDeleteCompanyVariableIcon = function(variableIcon) {
-                        confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
-                        confirmation.afterProceed(function() {
-                           
-                            dataservice.deleteCompanyVariableIcons({ VariableIconeId: variableIcon.iconId }, {
-                                success: function (data) {
-                                    //companyVariableIcons.remove(variableIcon);
-                                    isIconLoading(false);
-                                    getCompanyVariableIcons();
-                                    isIconLoading(true);
-                                    toastr.success("Successfully deleted.");
-                                },
-                                error: function (exceptionMessage, exceptionType) {
+                        dataservice.deleteCompanyVariableIcons({ VariableIconeId: variableIcon.iconId }, {
+                            success: function(data) {
+                                //companyVariableIcons.remove(variableIcon);
+                                isIconLoading(false);
+                                getCompanyVariableIcons();
+                                isIconLoading(true);
+                                toastr.success("Successfully deleted.");
+                            },
+                            error: function(exceptionMessage, exceptionType) {
 
-                                    if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
-                                        toastr.error(exceptionMessage, "", ist.toastrOptions);
+                                    toastr.error(exceptionMessage, "", ist.toastrOptions);
 
-                                    } else {
+                                } else {
 
-                                        toastr.error("Failed to delete.", "", ist.toastrOptions);
-                                    }
+                                    toastr.error("Failed to delete.", "", ist.toastrOptions);
                                 }
-                            });
-                            
+                            }
                         });
-                        confirmation.show();
-                    }
+
+                    });
+                    confirmation.show();
+                }
 
                 return {
                     //storeProduct: storeProduct,
@@ -8604,7 +8634,8 @@ define("stores/stores.viewModel",
                     onAddTerritoryTemplateFont: onAddTerritoryTemplateFont,
                     onEditTerritoryTemplateFont: onEditTerritoryTemplateFont,
                     isMisEmail: isMisEmail,
-                    onCloseCampaignEditor: onCloseCampaignEditor
+                    onCloseCampaignEditor: onCloseCampaignEditor,
+                    openGlobalDesigner: openGlobalDesigner
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

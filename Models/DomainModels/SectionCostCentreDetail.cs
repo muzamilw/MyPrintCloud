@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MPC.Models.DomainModels
 {
+     [Serializable]
     public class SectionCostCentreDetail
     {
         public int SectionCostCentreDetailId { get; set; }

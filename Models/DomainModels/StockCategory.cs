@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable]
     public class StockCategory
     {
         public long CategoryId { get; set; }

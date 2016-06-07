@@ -287,7 +287,10 @@ namespace MPC.Repository.Repositories
                         CompanyContacts = c.CompanyContacts.Take(1).ToList(),
                         c.Image,
                         c.ActiveBannerSetId,
-                        c.OrganisationId
+                        c.OrganisationId,
+                        c.IsForceSsl,
+                        c.SiteMap,
+                        c.RobotText
                     }).ToList().Select(c => new Company
                     {
                         CompanyId = c.CompanyId,
@@ -425,7 +428,10 @@ namespace MPC.Repository.Repositories
                         OrganisationId = c.OrganisationId,
                         CompanyTerritories = c.CompanyTerritories.ToList(),
                         Addresses = c.Addresses.ToList(),
-                        CompanyContacts = c.CompanyContacts.ToList()
+                        CompanyContacts = c.CompanyContacts.ToList(),
+                        IsForceSsl = c.IsForceSsl,
+                        RobotText = c.RobotText,
+                        SiteMap = c.SiteMap
                     }).FirstOrDefault();
 
                 companyResponse.SecondaryPageResponse = new SecondaryPageResponse

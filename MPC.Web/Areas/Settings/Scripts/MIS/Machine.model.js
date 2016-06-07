@@ -166,6 +166,7 @@
             WeightUnit = ko.observable(),
             LengthUnit = ko.observable(),
             IsSpotColor = ko.observable(),
+            isSetupCostForDoubleSided = ko.observable(),
             onSelectStockItem = function (ostockItem) {
                 if (ostockItem) {
                     deFaultPlatesName(ostockItem.name);
@@ -261,7 +262,8 @@
                 MachineInkCoverages: MachineInkCoverages,
                 lookupMethod: lookupMethod,
                 isDigitalPress: isDigitalPress,
-                isPressUseInks: isPressUseInks
+                isPressUseInks: isPressUseInks,
+                isSetupCostForDoubleSided: isSetupCostForDoubleSided
             }),
             hasChanges = ko.computed(function () {
 
@@ -366,7 +368,8 @@
             lookupMethod: lookupMethod,
             isClickChargezoneUi: isClickChargezoneUi,
             isDigitalPress: isDigitalPress,
-            isPressUseInks: isPressUseInks
+            isPressUseInks: isPressUseInks,
+            isSetupCostForDoubleSided: isSetupCostForDoubleSided
           
         };
         return self;
@@ -729,6 +732,7 @@
         omachine.isClickChargezone(source.machine.isSheetFed ? 'true' : 'false');
         omachine.isDigitalPress(source.machine.IsDigitalPress || source.machine.IsDigitalPress == null ? 'true' : 'false');
         omachine.isPressUseInks(source.machine.IsPressUseInks ? true : false);
+        omachine.isSetupCostForDoubleSided(source.machine.IsSetupCostForDoubleSided ? true : false);
         //omachine.lookupList.removeAll();
         //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         //omachine.lookupList.valueHasMutated();
@@ -864,6 +868,7 @@
         omachine.IsSpotColor = machine.IsSpotColor();
         omachine.IsDigitalPress = machine.isDigitalPress();
         omachine.IsPressUseInks = machine.isPressUseInks();
+        omachine.IsSetupCostForDoubleSided = machine.isSetupCostForDoubleSided();
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;

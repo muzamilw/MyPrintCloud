@@ -82,5 +82,9 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public string CurrencySymbol { get; set; }
         public long? DefaultCountryId { get; set; }
+        public string OrganisationName { get; set; }
+        public Guid LoginUserId { get; set; }
+        public string LoginUserFullName { get; set; }
+        public string LoginUserName { get; set; }
     }
 }

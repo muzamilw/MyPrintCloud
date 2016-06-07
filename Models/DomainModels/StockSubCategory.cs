@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.Models.DomainModels
 {
+    [Serializable]
     public class StockSubCategory
     {
         public long SubCategoryId { get; set; }

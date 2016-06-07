@@ -10542,6 +10542,14 @@ alter table Role add OrganisationId bigint
 alter table company add RobotText text
 alter table company add SiteMap text
 ------------------------------Deployed------------------
+alter table organisation add ProductionBoardLabel1 varchar(255)
+alter table organisation add ProductionBoardLabel2 varchar(255)
+alter table organisation add ProductionBoardLabel3 varchar(255)
+alter table organisation add ProductionBoardLabel4 varchar(255)
+alter table organisation add ProductionBoardLabel5 varchar(255)
+alter table organisation add ProductionBoardLabel6 varchar(255)
 alter table company add IsForceSsl bit
 -----Execute alter of JobCardReport stored procedure
+
+alter table Machine add IsSetupCostForDoubleSided bit
 

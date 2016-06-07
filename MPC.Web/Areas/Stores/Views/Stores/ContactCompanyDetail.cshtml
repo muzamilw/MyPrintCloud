@@ -46,6 +46,9 @@
                     </div>
 
                     <div class="col-xs-12" style="text-align: right; padding-right:0;margin-bottom:18px;">
+                        <button class="btn btn-primary" data-bind="click: $root.openGlobalDesigner">
+                            Template Gallery
+                        </button>
                         <button class="btn btn-primary" data-bind="click: $root.openReport.bind($data, true) " style="">
                             Print
                         </button>
@@ -211,7 +214,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group" style="margin-bottom:25px;">
+                                        <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 @*<div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Internal Use Only for CRM Notes" data-original-title="" title="">
@@ -225,7 +228,21 @@
 
                                             </div>
                                         </div>
+                                        <div class="form-group" style="margin-bottom:25px;">
+                                            <div class="col-lg-3 text-right">
+                                                <label for="switchForceSsl" class="control-label text-right tooltip-float">Force SSL</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="onoffswitch" style="margin-right:0;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchForceSsl" data-bind="checked: $root.selectedStore().isForceSsl">
+                                                    <label class="onoffswitch-label" for="switchForceSsl">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
 
+                                            </div>
+                                        </div>
                                     </div>
 
 
