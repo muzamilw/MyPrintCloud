@@ -562,7 +562,11 @@ function g1(D1AO) {
         $("#inputPositionXTxt").spinner("option", "disabled", false);
         $("#inputPositionYTxt").spinner("option", "disabled", false);
         $("#BtnLockTxtPosition").removeAttr("disabled");
-       
+        $("#BtnBulletedLstTxt").removeAttr("disabled");
+
+        $("#inputObjectRotationTxt").spinner("option", "disabled", false);
+        $(".CaseModeSlider").slider("enable");
+        
     }
     else {
         $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -610,7 +614,11 @@ function g1(D1AO) {
         $("#inputObjectHeightTxt").spinner("option", "disabled", true);
         $("#inputPositionXTxt").spinner("option", "disabled", true);
         $("#inputPositionYTxt").spinner("option", "disabled", true);
-        $(".fontSelector").attr("disabled", "disabled"); 
+        $(".fontSelector").attr("disabled", "disabled");
+
+        $("#BtnBulletedLstTxt").attr("disabled", "disabled");
+        $("#inputObjectRotationTxt").spinner("option", "disabled", true);
+        $(".CaseModeSlider").slider("disable");
     }
     //$.each(TO, function (i, IT) {
 
