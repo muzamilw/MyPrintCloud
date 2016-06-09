@@ -10553,3 +10553,89 @@ alter table company add IsForceSsl bit
 
 alter table Machine add IsSetupCostForDoubleSided bit
 
+
+
+
+------------------------------------------- SP changed by MZ and tested on staging. needs deployment on all servers ----------------------------------------------
+GO
+/****** Object:  StoredProcedure [dbo].[sp_GetUsedFontsUpdated]    Script Date: 6/8/2016 5:26:45 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--[sp_GetUsedFontsUpdated] 64964,32857,0
+ALTER PROCEDURE [dbo].[sp_GetUsedFontsUpdated] 
+ -- Add the parameters for the stored procedure here
+ @TemplateID bigint = 0, 
+ @CustomerID bigint = 0,
+ @TerritoryID bigint = 0
+AS
+BEGIN
+ -- SET NOCOUNT ON added to prevent extra result sets from
+ -- interfering with SELECT statements.
+ SET NOCOUNT ON;
+ IF(@TerritoryID = 0 ) 
+ BEGIN
+	 set @TerritoryID = null
+ END	
+    -- Insert statements for procedure here
+ --SELECT @TemplateID, @CustomerID
+  select *, null as FontBytes from (
+ SELECT [ProductFontId]
+      ,[ProductId]
+      ,[FontName]
+      ,[FontDisplayName]
+      ,[FontFile]
+      ,[DisplayIndex]
+      ,[IsPrivateFont]
+      ,[IsEnable]
+      ,[CustomerID]
+   ,[FontPath]
+  FROM [dbo].[TemplateFont]
+  where isprivatefont = 0 and TemplateFont.IsEnable = 1
+ 
+
+ union
+  SELECT [ProductFontId]
+    ,[ProductId]
+    ,[FontName]
+    ,[FontDisplayName]
+    ,[FontFile]
+    ,[DisplayIndex]
+    ,[IsPrivateFont]
+    ,[IsEnable]
+    ,[CustomerID]
+    ,[FontPath]
+     FROM templatefont
+  where fontname in (
+
+  select fontname from dbo.TemplateObject
+  where productid = @TemplateID) and  CustomerID = @CustomerID and TemplateFont.IsEnable = 1
+
+ union
+  SELECT [ProductFontId]
+    ,[ProductId]
+    ,[FontName]
+    ,[FontDisplayName]
+    ,[FontFile]
+    ,[DisplayIndex]
+    ,[IsPrivateFont]
+    ,[IsEnable]
+    ,[CustomerID]
+    ,[FontPath]
+  FROM [dbo].[TemplateFont]
+  where CustomerID = @CustomerID and TemplateFont.IsEnable = 1
+  --(TerritoryId is null OR TerritoryId = @TerritoryID)
+  --case
+  --TerritoryId = (CASE WHEN @TerritoryID > 0 THEN @TerritoryID ELSE  is null
+    and  (@TerritoryID is null or TerritoryId = @TerritoryID )
+
+	
+
+  ) Templ
+
+END
+
+
+
