@@ -903,6 +903,8 @@ function d1(cCanvas, IO, isCenter) {
         url = "/Content/Designer/assets-v2/placeholder19.png";
     } else if (url == "{{ListingImage20}}") {
         url = "/Content/Designer/assets-v2/placeholder20.png";
+    } else if (url == "/Content/Designer/assets-v2/Imageplaceholder_sim.png") {
+        url = IO.ContentString;
     } else {
         url = "/MPC_Content/" + IO.ContentString;
     }
