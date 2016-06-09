@@ -25,7 +25,7 @@ namespace MPC.Interfaces.Repository
 
         List<usp_OrderReport_Result> getOrderReportResult(long OrganisationID, long OrderID);
 
-        DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam);
+        DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam, long WebStoreOrganisationId = 0);
 
         List<ReportNote> GetReportNoteByCompanyId(long CompanyId);
 

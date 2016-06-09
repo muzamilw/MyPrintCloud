@@ -79,6 +79,7 @@ namespace MPC.Implementation.MISServices
         private readonly IInquiryAttachmentRepository inquiryAttachmentRepository;
         private readonly IDeliveryCarrierRepository deliveryCarrierRepository;
         private readonly IDeliveryNoteRepository deliveryNoteRepository;
+        private readonly IDiscountVoucherRepository _discountVoucherRepository;
         /// <summary>
         /// Creates New Order and assigns new generated code
         /// </summary>
@@ -480,7 +481,7 @@ namespace MPC.Implementation.MISServices
             ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository,
             ISectionCostCentreDetailRepository sectionCostCentreDetailRepository, IPipeLineProductRepository pipeLineProductRepository, IItemStockOptionRepository itemStockOptionRepository, IItemSectionRepository itemSectionRepository, IItemAddOnCostCentreRepository itemAddOnCostCentreRepository, IExportReportHelper exportReportHelper
             , IPurchaseRepository purchaseRepository, ICampaignRepository campaignRepository, IInvoiceRepository invoiceRepository, IInquiryAttachmentRepository inquiryAttachmentRepository, IDeliveryCarrierRepository deliveryCarrierRepository,
-            IDeliveryNoteRepository deliveryNoteRepository)
+            IDeliveryNoteRepository deliveryNoteRepository, IDiscountVoucherRepository discountVoucherRepository)
         {
             if (estimateRepository == null)
             {
@@ -570,6 +571,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("deliveryNoteRepository");
             }
+            if (discountVoucherRepository == null)
+            {
+                throw new ArgumentNullException("discountVoucherRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.invoiceRepository = invoiceRepository;
             this.companyRepository = companyRepository;
@@ -614,6 +619,7 @@ namespace MPC.Implementation.MISServices
             this.inquiryAttachmentRepository = inquiryAttachmentRepository;
             this.deliveryCarrierRepository = deliveryCarrierRepository;
             this.deliveryNoteRepository = deliveryNoteRepository;
+            this._discountVoucherRepository = discountVoucherRepository;
         }
 
         #endregion
@@ -653,6 +659,23 @@ namespace MPC.Implementation.MISServices
                 }
                 bool isExtra = CheckIsExtraOrder(orderId, estimate.isDirectSale ?? true);
                 estimate.IsExtraOrder = isExtra;
+                if (estimate.isDirectSale == false)
+                {
+                    var orderNetTotal = estimate.Items.Where(i => i.ItemType != 2).ToList().Sum(a => a.Qty1NetTotal);
+                    foreach (var item in estimate.Items)
+                    {
+                        if (item.DiscountVoucherID != null)
+                        {
+                            var disc = _discountVoucherRepository.GetDiscountVoucherById(Convert.ToInt64(item.DiscountVoucherID));
+                            if (disc != null)
+                            {
+                                item.ActualValue = (item.Qty1CostCentreProfit ?? 0) + (item.Qty1NetTotal ?? 0);
+                                item.CouponCode = disc.CouponCode;
+                            }
+                        }
+                    }
+                }
+                
             }
             
             return estimate;
@@ -1704,7 +1727,7 @@ namespace MPC.Implementation.MISServices
             }
 
         }
-        public bool RegenerateTemplateAttachments(string estimateId, string customerID, string productionFolderPath, Estimate oOrder, long OrganisationId)
+        public bool RegenerateTemplateAttachments(string estimateId, string customerID, string productionFolderPath, Estimate oOrder, long OrganisationId, bool isDigitalArtwork = false)
         {
             try
             {
@@ -1720,7 +1743,11 @@ namespace MPC.Implementation.MISServices
                 bool mutlipageMode = false;
                 bool hasOverlayPdf = false;
                 long StoreId = orderRepository.GetStoreIdByOrderId(EstimateId);
-                List<Item> OrderItems = orderRepository.GetOrderItems(EstimateId);
+                List<Item> OrderItems = null;
+                if(isDigitalArtwork)
+                    OrderItems = orderRepository.GetDigitalOrderedItems(EstimateId);
+                else
+                     OrderItems = orderRepository.GetOrderItems(EstimateId);
                 if (OrderItems != null)
                 {
                     
@@ -2169,8 +2196,75 @@ namespace MPC.Implementation.MISServices
         public List<Item> GetOrderItems(long EstimateId)
         {
             return orderRepository.GetOrderItems(EstimateId);
-        } 
+        }
 
+        public string GenerateDigitalItemsArtwork(long estimateId, long organisationId)
+        {
+            string sCreateDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + organisationId);
+            string sZipFileName = estimateId + "DigitalArtwork.zip";
+            string sFolderPath = string.Empty;
+            string sFileFullPath = string.Empty;
+            if (!Directory.Exists(sCreateDirectory))
+            {
+                Directory.CreateDirectory(sCreateDirectory);
+            }
+            long sOrganisationId = organisationId > 0 ? organisationId : organisationRepository.OrganisationId;
+            Estimate oOrder = orderRepository.GetOrderByID(estimateId);
+            var ItemsList = orderRepository.GetDigitalOrderedItems(estimateId);
+            string sOrderID = estimateId.ToString();
+            string sProductionFolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production";
+            string sCustomerID = oOrder.CompanyId.ToString();
+            bool isArtworkProductionReady = RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath, oOrder, sOrganisationId, true);
+            using (ZipFile zip = new ZipFile())
+            {
+
+                foreach (Item item in ItemsList)
+                {
+
+                    sFolderPath = sCreateDirectory + "\\" + MakeValidFileName(item.ProductCode ?? "pc101" + "-" + item.ProductName);
+
+                    string ZipfolderName = MakeValidFileName(item.ProductCode ?? "pc101" + "-" + item.ProductName);
+
+                    Directory.CreateDirectory(sFolderPath);
+
+                    ZipEntry d = zip.AddDirectory(sFolderPath, "");
+
+                    // item attachments
+                    foreach (var attach in item.ItemAttachments)
+                    {
+                        //if artwork is production ready then pick the attachments from new location.
+                        if (isArtworkProductionReady)
+                        {
+                            attach.FolderPath = "MPC_Content/Artworks/" + sOrganisationId + "/Production/";
+                            
+                        }
+
+                        string path = attach.FolderPath + "\\" + attach.FileName + attach.FileType;
+                        sFileFullPath = HttpContext.Current.Server.MapPath("~/" + path);
+                        
+                        if (System.IO.File.Exists(sFileFullPath))
+                        {
+                            ZipEntry e = zip.AddFile(sFileFullPath, ZipfolderName);
+                            e.Comment = "Created by My Print Cloud";
+                        }
+                    }
+
+                    Directory.Delete(sFolderPath);
+                }
+               
+                zip.Comment = "This zip archive was created by My Print Cloud MIS";
+                if (Directory.Exists(sCreateDirectory))
+                {
+                    zip.Save(sCreateDirectory + "\\" + sZipFileName);
+                }
+
+                // DeleteFiles();
+            }
+            string ReturnPhysicalPath = "/MPC_Content/Artworks/" + sOrganisationId + "/" + sZipFileName;
+            
+            return ReturnPhysicalPath;
+           
+        }
 
         #endregion
 

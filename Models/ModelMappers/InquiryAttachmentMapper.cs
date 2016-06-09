@@ -21,7 +21,7 @@ namespace MPC.Models.ModelMappers
 
             target.AttachmentId = source.AttachmentId;
             target.OrignalFileName = source.OrignalFileName;
-            target.AttachmentPath = source.AttachmentPath;
+           // target.AttachmentPath = source.AttachmentPath;
             target.FileSource = source.FileSource;
             target.InquiryId = source.InquiryId;
             target.Extension = source.Extension;

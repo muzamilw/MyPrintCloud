@@ -152,6 +152,7 @@ namespace MPC.Interfaces.Repository
 
         void DeleteOrderById(long OrderId);
         void RemoveAllDeAttachedItem();
+        List<Item> GetDigitalOrderedItems(long OrderId);
 
     }
 }

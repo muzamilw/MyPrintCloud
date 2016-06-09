@@ -198,5 +198,6 @@ namespace MPC.Interfaces.MISServices
         #endregion
 
         EmailsResponse GetOrganisationCampaigns();
+        
     }
 }

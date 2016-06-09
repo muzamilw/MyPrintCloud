@@ -402,7 +402,9 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsRealStateProduct { get; set; }
         public int? ProductDisplayOptions { get; set; }
         public long? SmartFormId { get; set; }
-
+        public long? DiscountVoucherID { get; set; }
+        public double ActualValue { get; set; }
+        public string CouponCode { get; set; }
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
         /// existing template object else removes

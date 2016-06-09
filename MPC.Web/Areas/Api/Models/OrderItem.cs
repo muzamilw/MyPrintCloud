@@ -56,6 +56,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Qty1 Cost Center Profit
         /// </summary>
         public double? Qty1CostCentreProfit { get; set; }
+        public double? Qty2CostCentreProfit { get; set; }
 
         /// <summary>
         /// Qty1 Base Charge
@@ -148,6 +149,9 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<string> ProductCategories { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
         public  ICollection<ItemAttachment> ItemAttachments { get; set; }
+        public long? DiscountVoucherID { get; set; }
+        public string CouponCode { get; set; }
+        public double ActualValue { get; set; }
         #endregion
     }
 }

@@ -287,7 +287,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam)
+        public DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam, long WebStoreOrganisationId = 0)
         {
             string connectionString = string.Empty;
             SqlConnection oConn = new SqlConnection();
@@ -301,8 +301,8 @@ namespace MPC.Repository.Repositories
             //{
             oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ReportConnectiontring"].ConnectionString);
             //}
-
-
+            long organisationId = WebStoreOrganisationId > 0 ? WebStoreOrganisationId : OrganisationId;
+            
             oConn.Open();
             try
             {
@@ -318,7 +318,7 @@ namespace MPC.Repository.Repositories
                     {
 
 
-                        string queryString = "select " + report.ReportDataSource + OrganisationId;
+                        string queryString = "select " + report.ReportDataSource + organisationId;
 
                       
 
@@ -348,7 +348,7 @@ namespace MPC.Repository.Repositories
                         //    CriteriaParam = CriteriaParam.Replace("where", " and ");
                         //}
 
-                        string queryString = "select " + report.ReportDataSource + OrganisationId +  CriteriaParam + " " + report.SortOrder;
+                        string queryString = "select " + report.ReportDataSource + organisationId + CriteriaParam + " " + report.SortOrder;
 
                          
 

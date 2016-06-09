@@ -402,6 +402,10 @@ namespace MPC.Models.DomainModels
         public double MinPrice { get; set; }
 
         public bool? IsSavedDesign { get; set; }
+        [NotMapped]
+        public string CouponCode { get; set; }
+        [NotMapped]
+        public double ActualValue { get; set; }
 
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves

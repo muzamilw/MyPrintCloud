@@ -108,7 +108,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<ItemSection>(),
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()) : new List<ItemImage>(),
                 ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ?
-                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList().OrderBy(q => q.SortOrder) : null
+                source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList().OrderBy(q => q.SortOrder) : null,
+                Qty1CostCentreProfit = source.Qty1CostCentreProfit,
+                Qty2CostCentreProfit = source.Qty2CostCentreProfit,
+                DiscountVoucherID = source.DiscountVoucherID
             };
 
             // Load Thumbnail Image
@@ -428,7 +431,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemImages = source.ItemImages != null ? source.ItemImages.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ItemImage>(),
                 ProductMarketBriefQuestions = source.ProductMarketBriefQuestions != null ? source.ProductMarketBriefQuestions.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ProductMarketBriefQuestion>()
+                new List<DomainModels.ProductMarketBriefQuestion>(),
+                Qty1CostCentreProfit = source.Qty1CostCentreProfit,
+                Qty2CostCentreProfit = source.Qty2CostCentreProfit,
+                DiscountVoucherID = source.DiscountVoucherID
             };
         }
 
@@ -604,7 +610,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateId = source.EstimateId,
                 JobSelectedQty = source.JobSelectedQty,
                 IsFinishedGoodPrivate = source.IsFinishedGoodPrivate,
-                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null,
+                Qty1CostCentreProfit = source.Qty1CostCentreProfit,
+                Qty2CostCentreProfit = source.Qty2CostCentreProfit,
+                DiscountVoucherID = source.DiscountVoucherID,
+                ActualValue = source.ActualValue,
+                CouponCode = source.CouponCode
             };
             return item;
         }
@@ -676,7 +687,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemType = source.ItemType,
                 EstimateId = source.EstimateId,
                 RefItemId = source.RefItemId,
-                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null,
+                Qty1CostCentreProfit = source.Qty1CostCentreProfit,
+                Qty2CostCentreProfit = source.Qty2CostCentreProfit,
+                DiscountVoucherID = source.DiscountVoucherID
+                
             };
             return item;
         }

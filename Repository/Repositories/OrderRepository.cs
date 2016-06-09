@@ -112,6 +112,20 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public List<Item> GetDigitalOrderedItems(long OrderId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return (from r in db.Items.Include("ItemSections.SectionCostcentres")
+                        where r.EstimateId == OrderId && r.IsOrderedItem == true && r.IsDigitalDownload == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                        select r).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null)
         {
