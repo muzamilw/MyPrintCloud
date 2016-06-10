@@ -4036,6 +4036,12 @@ namespace MPC.Implementation.WebStoreServices
             return _CompanyTerritoryRepository.IsUseUserColors(TerritoryId);
 
         }
+        public bool HasDigitalItem(long EstimateId)
+        {
+
+            return _ItemRepository.HasDigitalItem(EstimateId);
+
+        }
         #endregion
     }
 }
