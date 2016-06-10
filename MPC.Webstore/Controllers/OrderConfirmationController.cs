@@ -276,16 +276,16 @@ namespace MPC.Webstore.Controllers
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                             
-                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            //string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
-                            AttachmentList.Add(AttachmentPath);
+                            //AttachmentList.Add(AttachmentPath);
 
                             // string contains table 
 
                             if (_ItemService.HasDigitalItem(OrderId))
                             {
-                               // HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork;
-                                AttachmentList.Add(HiResArtworkDownloadLink);
+                               HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                               AttachmentList.Add(HiResArtworkDownloadLink);
                             }
                          
                             if (ItemTypeFourHtml != null && ItemTypeFourHtml != string.Empty)
@@ -406,9 +406,16 @@ namespace MPC.Webstore.Controllers
 
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, (int)ManagerID, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                           
-                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                           // string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
-                            AttachmentList.Add(AttachmentPath);
+                            //AttachmentList.Add(AttachmentPath);
+
+                            if (_ItemService.HasDigitalItem(OrderId))
+                            {
+                                HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                                AttachmentList.Add(HiResArtworkDownloadLink);
+                            }
+
                             if (ItemTypeFourHtml != null && ItemTypeFourHtml != string.Empty)
                             {
                                 _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList,"",null,"","","","","",0,"",0,ItemTypeFourHtml);
@@ -443,9 +450,16 @@ namespace MPC.Webstore.Controllers
                             _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId, EmailOFSM.Email);
                             
                             
-                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            //string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
-                            AttachmentList.Add(AttachmentPath);
+                           // AttachmentList.Add(AttachmentPath);
+
+                            if (_ItemService.HasDigitalItem(OrderId))
+                            {
+                                HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                                AttachmentList.Add(HiResArtworkDownloadLink);
+                            }
+
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
 
                            
