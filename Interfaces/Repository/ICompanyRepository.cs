@@ -136,5 +136,6 @@ namespace MPC.Interfaces.Repository
         long GetOrganisationIdByCompanyId(long companyid);
 
         long GetStoreIdByCustomerId(long CustomerId);
+        long GetStoreOrganisation(long storeId);
     }
 }

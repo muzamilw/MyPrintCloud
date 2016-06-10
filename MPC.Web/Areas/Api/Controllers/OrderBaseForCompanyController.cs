@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Company Base Data
         /// </summary>
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
         public OrderBaseResponseForCompany Get([FromUri]int id,long storeId, long orderId = 0)
         {

@@ -2338,7 +2338,7 @@ namespace MPC.Implementation.WebStoreServices
                                     singlePagePdf.Rect.String = singlePagePdf.MediaBox.String = theDoc.MediaBox.String;
                                     singlePagePdf.AddPage();
                                     singlePagePdf.AddImageDoc(theDoc, i, null);
-                                    singlePagePdf.FrameRect();
+                                    //singlePagePdf.FrameRect();   //commented by mz as it adds a RGB stroke on the uplaoded PDF
 
                                     int srcPageRot = theDoc.GetInfoInt(theDoc.Page, "/Rotate");
                                     if (srcDocRot != 0)
@@ -2471,7 +2471,7 @@ namespace MPC.Implementation.WebStoreServices
                                     singlePagePdf.Rect.String = singlePagePdf.MediaBox.String = theDoc.MediaBox.String;
                                     singlePagePdf.AddPage();
                                     singlePagePdf.AddImageDoc(theDoc, i, null);
-                                    singlePagePdf.FrameRect();
+                                    //singlePagePdf.FrameRect();  //commented by mz as it adds a RGB stroke on the uplaoded PDF
 
                                     int srcPageRot = theDoc.GetInfoInt(theDoc.Page, "/Rotate");
                                     if (srcDocRot != 0)
