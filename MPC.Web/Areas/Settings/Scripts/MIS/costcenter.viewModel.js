@@ -46,8 +46,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //{ Id: 1, Text: 'Cost Centers' },
             QuestionVariableType = ko.observableArray([
             { Id: 1, Text: 'General' },
-            { Id: 3, Text: 'Yes/No' },
-            { Id: 2, Text: 'Multiple Options' }            
+            { Id: 2, Text: 'Yes/No' },
+            { Id: 3, Text: 'Multiple Options' }            
             ]),
             RowscolCountList = ko.observableArray([
             //{ Id: 1, Text: '1' },
@@ -760,7 +760,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
 
                     var oQuestionData = questionVariableNodes.filter(function (item) { return item.Id() === Id })[0];
-                    if (oQuestionData.Type() == "2") {
+                    if (oQuestionData.Type() == "3") {
                         dataservice.getCostCentreAnswerList({
                             QuestionId: oQuestionData.Id(),
                         }, {
@@ -780,7 +780,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     }
                 } else if (oQuestion != null && oQuestion != undefined) {
 
-                    if (oQuestion.Type() == "2") {
+                    if (oQuestion.Type() == "3") {
                         dataservice.getCostCentreAnswerList({
                             QuestionId: oQuestion.Id(),
                         }, {

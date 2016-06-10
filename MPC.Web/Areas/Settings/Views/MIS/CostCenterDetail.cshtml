@@ -1150,7 +1150,7 @@
                                                         </div>
                                                         <label for="txtQuotedLabourCost" style="float: left;" class="control-label tooltip-float">Cost Center Charge  </label>
                                                     </div>
-                                                    <div style="float:right;" class="col-lg-6" data-bind="visible: $root.selectedVariableString() === 'txtQuotedLabourCost'">
+                                                    <div style="float:right;" class="col-lg-6" data-bind="visible: isEditLabourQuote() && $root.selectedVariableString() === 'txtQuotedLabourCost'">
                                                         <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                         <!-- /ko -->
 
@@ -1436,8 +1436,8 @@
     <div class="col-md-1 icondivide iconFormulaCost" data-bind="click:$root.iconClick" id="icoDiv"></div>
 
     <div class="col-md-1 iconif iconFormulaCost" data-bind="click:$root.iconClick" id="icoIf"></div>
-    <div class="col-md-1 iconifelse iconFormulaCost" data-bind="click:$root.iconClick" id="icoIfEl"></div>
-    <div class="col-md-1 iconmode iconFormulaCost" data-bind="click:$root.iconClick" id="icoMod"></div>
+    <div style="width: 63px;" class="col-md-1 iconifelse iconFormulaCost" data-bind="click:$root.iconClick" id="icoIfEl"></div>
+    <div style="width: 42px;" class="col-md-1 iconmode iconFormulaCost" data-bind="click:$root.iconClick" id="icoMod"></div>
     <div class="col-md-1 iconpercent iconFormulaCost" data-bind="click:$root.iconClick" id="icoPer"></div>
     <div class="col-md-1 iconstartbrace iconFormulaCost" data-bind="click:$root.iconClick" id="icoBrace1"></div>
     <div class="col-md-1 iconendbrace iconFormulaCost" data-bind="click:$root.iconClick" id="icoBrace2"></div>

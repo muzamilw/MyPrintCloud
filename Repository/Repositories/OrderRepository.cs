@@ -117,7 +117,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                return (from r in db.Items.Include("ItemSections.SectionCostcentres")
+                return (from r in db.Items.Include("ItemSections.SectionCostcentres").Include("ItemAttachments")
                         where r.EstimateId == OrderId && r.IsOrderedItem == true && r.IsDigitalDownload == true && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
                         select r).ToList();
             }
