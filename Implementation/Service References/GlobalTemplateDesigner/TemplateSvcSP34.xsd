@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="Templates">
+    <xs:sequence>
+      <xs:element name="_FullViewByte" nillable="true" type="xs:base64Binary" />
+      <xs:element name="_SLThumbnailByte" nillable="true" type="xs:base64Binary" />
+      <xs:element name="_SuperViewByte" nillable="true" type="xs:base64Binary" />
+      <xs:element name="_x003C_ApprovalDate_x003E_k__BackingField" nillable="true" type="xs:dateTime" />
+      <xs:element name="_x003C_ApprovedByName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ApprovedBy_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ApprovedDate_x003E_k__BackingField" nillable="true" type="xs:dateTime" />
+      <xs:element name="_x003C_BackgroundArtwork_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_BaseColorID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_BaseColors_x003E_k__BackingField" nillable="true" type="tns:BaseColors" />
+      <xs:element name="_x003C_BgB_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_BgG_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_BgR_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Code_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ColorHex_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CuttingMargin_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_Description_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FullView_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Image_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsCorporateEditable_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsDisabled_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsDoubleSide_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsPrivate_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsUseBackGroundColor_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsUsePDFFile_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsUseSide2BackGroundColor_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_LowResPDFTemplates_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_MPCRating_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_MatchingSetID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_MatchingSetTheme_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_MultiPageCount_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Orientation_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_PDFTemplateHeight_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_PDFTemplateWidth_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_PTempId_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ProductName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_RejectionReason_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_SLThumbnail_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ScaleFactor_x003E_k__BackingField" nillable="true" type="xs:decimal" />
+      <xs:element name="_x003C_Side2BackgroundArtwork_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Side2BgB_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Side2BgG_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Side2BgR_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Side2LowResPDFTemplates_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Status_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_SubmitDate_x003E_k__BackingField" nillable="true" type="xs:dateTime" />
+      <xs:element name="_x003C_SubmittedByName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_SubmittedBy_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_SuperView_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TempString_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TemplateBackgroundImages_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateBackgroundImages" />
+      <xs:element name="_x003C_TemplateColorStyles_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateColorStyles" />
+      <xs:element name="_x003C_TemplateFontStyles_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateFontStyles" />
+      <xs:element name="_x003C_TemplateFonts_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateFonts" />
+      <xs:element name="_x003C_TemplateIndustryTags_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateIndustryTags" />
+      <xs:element name="_x003C_TemplateKeywords_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateKeywords" />
+      <xs:element name="_x003C_TemplateOwnerName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TemplateOwner_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_TemplatePages_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplatePages" />
+      <xs:element name="_x003C_TemplateSide2Templates1_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateSide2Templates" />
+      <xs:element name="_x003C_TemplateSide2Templates_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateSide2Templates" />
+      <xs:element name="_x003C_TemplateThemeTags_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateThemeTags" />
+      <xs:element name="_x003C_TemplateType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Thumbnail_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UsedCount_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_UserRating_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_isCreatedManual_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_isEditorChoice_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_isSpotTemplate_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_isWatermarkText_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_tbl_ProductCategory_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Templates" nillable="true" type="tns:Templates" />
+  <xs:complexType name="BaseColors">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseColorID" type="xs:int" />
+      <xs:element minOccurs="0" name="CMYK" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Color" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HEX" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RGB" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Templates" nillable="true" type="tns:ArrayOfTemplates" />
+      <xs:element minOccurs="0" name="type" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BaseColors" nillable="true" type="tns:BaseColors" />
+  <xs:complexType name="ArrayOfTemplates">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Templates" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplates" nillable="true" type="tns:ArrayOfTemplates" />
+  <xs:complexType name="ArrayOfTemplateBackgroundImages">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateBackgroundImages" nillable="true" type="tns:TemplateBackgroundImages" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateBackgroundImages" nillable="true" type="tns:ArrayOfTemplateBackgroundImages" />
+  <xs:complexType name="TemplateBackgroundImages">
+    <xs:sequence>
+      <xs:element name="_x003C_BackgroundImageAbsolutePath_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_BackgroundImageRelativePath_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ContactCompanyID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ContactID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ImageDescription_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ImageHeight_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ImageKeywords_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ImageName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ImagePermissions_x003E_k__BackingField" nillable="true" type="tns:ArrayOfImagePermissions" />
+      <xs:element name="_x003C_ImageTitle_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ImageType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ImageWidth_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+      <xs:element name="_x003C_UploadedFrom_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_clippingFileName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_flgCover_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_flgPhotobook_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_hasClippingPath_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateBackgroundImages" nillable="true" type="tns:TemplateBackgroundImages" />
+  <xs:complexType name="ArrayOfImagePermissions">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ImagePermissions" nillable="true" type="tns:ImagePermissions" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfImagePermissions" nillable="true" type="tns:ArrayOfImagePermissions" />
+  <xs:complexType name="ImagePermissions">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="ImageID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TemplateBackgroundImages" nillable="true" type="tns:TemplateBackgroundImages" />
+      <xs:element minOccurs="0" name="TerritoryID" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ImagePermissions" nillable="true" type="tns:ImagePermissions" />
+  <xs:complexType name="ArrayOfTemplateColorStyles">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateColorStyles" nillable="true" type="tns:TemplateColorStyles" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateColorStyles" nillable="true" type="tns:ArrayOfTemplateColorStyles" />
+  <xs:complexType name="TemplateColorStyles">
+    <xs:sequence>
+      <xs:element name="_x003C_ColorC_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorHex_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ColorK_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorM_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorY_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_CustomerID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Field1_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_IsColorActive_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsSpotColor_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_PelleteID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_SpotColor_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateColorStyles" nillable="true" type="tns:TemplateColorStyles" />
+  <xs:complexType name="ArrayOfTemplateFontStyles">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateFontStyles" nillable="true" type="tns:TemplateFontStyles" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateFontStyles" nillable="true" type="tns:ArrayOfTemplateFontStyles" />
+  <xs:complexType name="TemplateFontStyles">
+    <xs:sequence>
+      <xs:element name="_x003C_Allignment_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ColorPelleteID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_FontName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FontStyleID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Indent_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_IsAllCapital_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsPrivateFontName_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_IsUnderlined_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Size_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+      <xs:element name="_x003C_TheadingUnit_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_TheadingValue_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_TrackingDirective_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateFontStyles" nillable="true" type="tns:TemplateFontStyles" />
+  <xs:complexType name="ArrayOfTemplateFonts">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateFonts" nillable="true" type="tns:TemplateFonts" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateFonts" nillable="true" type="tns:ArrayOfTemplateFonts" />
+  <xs:complexType name="TemplateFonts">
+    <xs:sequence>
+      <xs:element name="_x003C_CustomerID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_DisplayIndex_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_FontBytes_x003E_k__BackingField" nillable="true" type="xs:base64Binary" />
+      <xs:element name="_x003C_FontDisplayName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FontFile_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FontName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FontPath_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_IsEnable_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsPrivateFont_x003E_k__BackingField" type="xs:boolean" />
+      <xs:element name="_x003C_ProductFontId_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ProductId_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateFonts" nillable="true" type="tns:TemplateFonts" />
+  <xs:complexType name="ArrayOfTemplateIndustryTags">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateIndustryTags" nillable="true" type="tns:TemplateIndustryTags" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateIndustryTags" nillable="true" type="tns:ArrayOfTemplateIndustryTags" />
+  <xs:complexType name="TemplateIndustryTags">
+    <xs:sequence>
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_TagID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Tags_x003E_k__BackingField" nillable="true" type="tns:Tags" />
+      <xs:element name="_x003C_TemplateIndustryTagID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateIndustryTags" nillable="true" type="tns:TemplateIndustryTags" />
+  <xs:complexType name="Tags">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TagID" type="xs:int" />
+      <xs:element minOccurs="0" name="TagName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TagSlug" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TemplateIndustryTags" nillable="true" type="tns:ArrayOfTemplateIndustryTags" />
+      <xs:element minOccurs="0" name="TemplateThemeTags" nillable="true" type="tns:ArrayOfTemplateThemeTags" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Tags" nillable="true" type="tns:Tags" />
+  <xs:complexType name="ArrayOfTemplateThemeTags">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateThemeTags" nillable="true" type="tns:TemplateThemeTags" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateThemeTags" nillable="true" type="tns:ArrayOfTemplateThemeTags" />
+  <xs:complexType name="TemplateThemeTags">
+    <xs:sequence>
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_TagID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Tags_x003E_k__BackingField" nillable="true" type="tns:Tags" />
+      <xs:element name="_x003C_TemplateThemeTagID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateThemeTags" nillable="true" type="tns:TemplateThemeTags" />
+  <xs:complexType name="ArrayOfTemplateKeywords">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateKeywords" nillable="true" type="tns:TemplateKeywords" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateKeywords" nillable="true" type="tns:ArrayOfTemplateKeywords" />
+  <xs:complexType name="TemplateKeywords">
+    <xs:sequence>
+      <xs:element name="_x003C_KeywordID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Keyword_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateKeywords" nillable="true" type="tns:TemplateKeywords" />
+  <xs:complexType name="ArrayOfTemplatePages">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplatePages" nillable="true" type="tns:TemplatePages" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplatePages" nillable="true" type="tns:ArrayOfTemplatePages" />
+  <xs:complexType name="TemplatePages">
+    <xs:sequence>
+      <xs:element name="_x003C_BackGroundType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_BackgroundFileName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ColorC_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorK_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorM_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorY_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_IsPrintable_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_Orientation_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_PageName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_PageNo_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_PageType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductPageID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_TemplateObjects_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplateObjects" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+      <xs:element name="_x003C_hasOverlayObjects_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplatePages" nillable="true" type="tns:TemplatePages" />
+  <xs:complexType name="ArrayOfTemplateObjects">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateObjects" nillable="true" type="tns:TemplateObjects" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateObjects" nillable="true" type="tns:ArrayOfTemplateObjects" />
+  <xs:complexType name="TemplateObjects">
+    <xs:sequence>
+      <xs:element name="_x003C_Allignment_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_AutoShrinkText_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_BColor_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_CharSpacing_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_CircleRadiusX_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_CircleRadiusY_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_ClippedInfo_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ColorC_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorHex_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ColorK_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorM_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ColorStyleID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ColorY_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ContentCaseType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ContentString_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DisplayOrderPdf_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_DisplayOrderTxtControl_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ExField1_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ExField2_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FontName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_FontSize_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_FontStyleID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_GColor_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Indent_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_IsBold_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsEditable_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsFontCustom_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsFontNamePrivate_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsHidden_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsItalic_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsMandatory_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsNewLine_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsOverlayObject_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsPositionLocked_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsQuickText_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsRequireNumericValue_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsSpotColor_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsTextEditable_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_IsUnderlinedText_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_LineSpacing_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_MaxCharacters_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_MaxHeight_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_MaxWidth_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_Name_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_ObjectID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ObjectType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Opacity_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_PalleteID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ParentId_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_PositionX_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_PositionY_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductPageId_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_QuickTextOrder_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_RColor_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_RotationAngle_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_SpotColorName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TCtlName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_TemplatePages_x003E_k__BackingField" nillable="true" type="tns:TemplatePages" />
+      <xs:element name="_x003C_Tint_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_VAllignment_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_hasClippingPath_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_isSide2Object_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_textCase_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_textStyles_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_watermarkText_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateObjects" nillable="true" type="tns:TemplateObjects" />
+  <xs:complexType name="ArrayOfTemplateSide2Templates">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateSide2Templates" nillable="true" type="tns:TemplateSide2Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateSide2Templates" nillable="true" type="tns:ArrayOfTemplateSide2Templates" />
+  <xs:complexType name="TemplateSide2Templates">
+    <xs:sequence>
+      <xs:element name="_x003C_ID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Side2ProductID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Templates1_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:Templates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateSide2Templates" nillable="true" type="tns:TemplateSide2Templates" />
+  <xs:complexType name="tbl_ProductCategory">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="tbl_ProductCategory" nillable="true" type="tns:tbl_ProductCategory" />
+  <xs:complexType name="CategoryLayouts">
+    <xs:sequence>
+      <xs:element name="_x003C_ImageLogoType_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_LayoutAttributes_x003E_k__BackingField" nillable="true" type="tns:ArrayOfLayoutAttributes" />
+      <xs:element name="_x003C_LayoutID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_Orientation_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Title_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_tbl_ProductCategory_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryLayouts" nillable="true" type="tns:CategoryLayouts" />
+  <xs:complexType name="ArrayOfLayoutAttributes">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LayoutAttributes" nillable="true" type="tns:LayoutAttributes" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLayoutAttributes" nillable="true" type="tns:ArrayOfLayoutAttributes" />
+  <xs:complexType name="LayoutAttributes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AttId" type="xs:int" />
+      <xs:element minOccurs="0" name="CategoryLayouts" nillable="true" type="tns:CategoryLayouts" />
+      <xs:element minOccurs="0" name="FeildName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LayoutID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="LeftPos" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="fontSize" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="fontWeight" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="maxHeight" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="maxWidth" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="textAlign" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="topPos" nillable="true" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LayoutAttributes" nillable="true" type="tns:LayoutAttributes" />
+  <xs:complexType name="tbl_ProductCategoryFoldLines">
+    <xs:sequence>
+      <xs:element name="_x003C_FoldLineID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_FoldLineOffsetFromOrigin_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_FoldLineOrientation_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_tbl_ProductCategory_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="tbl_ProductCategoryFoldLines" nillable="true" type="tns:tbl_ProductCategoryFoldLines" />
+  <xs:complexType name="CategoryRegions">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RegionCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionID" type="xs:int" />
+      <xs:element minOccurs="0" name="RegionName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryRegions" nillable="true" type="tns:CategoryRegions" />
+  <xs:complexType name="CategoryTypes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TypeID" type="xs:int" />
+      <xs:element minOccurs="0" name="TypeName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tbl_ProductCategory" nillable="true" type="tns:ArrayOftbl_ProductCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryTypes" nillable="true" type="tns:CategoryTypes" />
+  <xs:complexType name="ArrayOftbl_ProductCategory">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="tbl_ProductCategory" nillable="true" type="tns:tbl_ProductCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOftbl_ProductCategory" nillable="true" type="tns:ArrayOftbl_ProductCategory" />
+  <xs:complexType name="MatchingSetCategories">
+    <xs:sequence>
+      <xs:element name="_x003C_ID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_MatchingSetID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_MatchingSets_x003E_k__BackingField" nillable="true" type="tns:MatchingSets" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_tbl_ProductCategory_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MatchingSetCategories" nillable="true" type="tns:MatchingSetCategories" />
+  <xs:complexType name="MatchingSets">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreationDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="LastUpdatedDt" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="MatchingSetCategories" nillable="true" type="tns:ArrayOfMatchingSetCategories" />
+      <xs:element minOccurs="0" name="MatchingSetID" type="xs:int" />
+      <xs:element minOccurs="0" name="MatchingSetName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MatchingSets" nillable="true" type="tns:MatchingSets" />
+  <xs:complexType name="ArrayOfMatchingSetCategories">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MatchingSetCategories" nillable="true" type="tns:MatchingSetCategories" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMatchingSetCategories" nillable="true" type="tns:ArrayOfMatchingSetCategories" />
+  <xs:complexType name="ArrayOfBaseColors">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseColors" nillable="true" type="tns:BaseColors" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBaseColors" nillable="true" type="tns:ArrayOfBaseColors" />
+  <xs:complexType name="ArrayOfsp_GetTemplateThemeTags_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="sp_GetTemplateThemeTags_Result" nillable="true" type="tns:sp_GetTemplateThemeTags_Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfsp_GetTemplateThemeTags_Result" nillable="true" type="tns:ArrayOfsp_GetTemplateThemeTags_Result" />
+  <xs:complexType name="sp_GetTemplateThemeTags_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TagID" type="xs:int" />
+      <xs:element minOccurs="0" name="TagName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="selected" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="sp_GetTemplateThemeTags_Result" nillable="true" type="tns:sp_GetTemplateThemeTags_Result" />
+  <xs:complexType name="ArrayOfsp_GetTemplateIndustryTags_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="sp_GetTemplateIndustryTags_Result" nillable="true" type="tns:sp_GetTemplateIndustryTags_Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfsp_GetTemplateIndustryTags_Result" nillable="true" type="tns:ArrayOfsp_GetTemplateIndustryTags_Result" />
+  <xs:complexType name="sp_GetTemplateIndustryTags_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TagID" type="xs:int" />
+      <xs:element minOccurs="0" name="TagName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="selected" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="sp_GetTemplateIndustryTags_Result" nillable="true" type="tns:sp_GetTemplateIndustryTags_Result" />
+  <xs:complexType name="ArrayOftbl_ProductCategoryFoldLines">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="tbl_ProductCategoryFoldLines" nillable="true" type="tns:tbl_ProductCategoryFoldLines" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOftbl_ProductCategoryFoldLines" nillable="true" type="tns:ArrayOftbl_ProductCategoryFoldLines" />
+  <xs:complexType name="ArrayOfTags">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Tags" nillable="true" type="tns:Tags" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTags" nillable="true" type="tns:ArrayOfTags" />
+  <xs:complexType name="ArrayOfsp_SearchTemplate_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="sp_SearchTemplate_Result" nillable="true" type="tns:sp_SearchTemplate_Result" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfsp_SearchTemplate_Result" nillable="true" type="tns:ArrayOfsp_SearchTemplate_Result" />
+  <xs:complexType name="sp_SearchTemplate_Result">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseColorID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CategoryName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MPCRating" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PDFTemplateHeight" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PDFTemplateWidth" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PageOrientation" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductCategoryID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RowN" type="xs:long" />
+      <xs:element minOccurs="0" name="Thumbnail" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="sp_SearchTemplate_Result" nillable="true" type="tns:sp_SearchTemplate_Result" />
+  <xs:complexType name="ArrayOfvw_WebStore_MatchingSets">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="vw_WebStore_MatchingSets" nillable="true" type="tns:vw_WebStore_MatchingSets" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfvw_WebStore_MatchingSets" nillable="true" type="tns:ArrayOfvw_WebStore_MatchingSets" />
+  <xs:complexType name="vw_WebStore_MatchingSets">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BaseColorID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CategoryName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DisplayOrder" type="xs:int" />
+      <xs:element minOccurs="0" name="FullView" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Image" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsDisabled" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsDoubleSide" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsPrivate" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUseBackGroundColor" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="MatchingSetID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MultiPageCount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Orientation" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PTempId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductCategoryID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SLThumbnail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SubmittedBy" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SuperView" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TemplateOwner" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Thumbnail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isEditorChoice" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="vw_WebStore_MatchingSets" nillable="true" type="tns:vw_WebStore_MatchingSets" />
+  <xs:complexType name="ArrayOfvw_ProductCategoriesLeafNodes">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="vw_ProductCategoriesLeafNodes" nillable="true" type="tns:vw_ProductCategoriesLeafNodes" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfvw_ProductCategoriesLeafNodes" nillable="true" type="tns:ArrayOfvw_ProductCategoriesLeafNodes" />
+  <xs:complexType name="vw_ProductCategoriesLeafNodes">
+    <xs:sequence>
+      <xs:element name="_x003C_CatagoryTypeID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_CategoryName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CreatedBy_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_Height_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_ParentCategoryID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_RegionID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ScaleFactor_x003E_k__BackingField" nillable="true" type="xs:decimal" />
+      <xs:element name="_x003C_Width_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_ZoomFactor_x003E_k__BackingField" nillable="true" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="vw_ProductCategoriesLeafNodes" nillable="true" type="tns:vw_ProductCategoriesLeafNodes" />
+  <xs:complexType name="ArrayOfvw_ProductCategoriesLeafNodesWithRes">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="vw_ProductCategoriesLeafNodesWithRes" nillable="true" type="tns:vw_ProductCategoriesLeafNodesWithRes" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfvw_ProductCategoriesLeafNodesWithRes" nillable="true" type="tns:ArrayOfvw_ProductCategoriesLeafNodesWithRes" />
+  <xs:complexType name="vw_ProductCategoriesLeafNodesWithRes">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CategoryName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ParentCategoryID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductCategoryID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="vw_ProductCategoriesLeafNodesWithRes" nillable="true" type="tns:vw_ProductCategoriesLeafNodesWithRes" />
+  <xs:complexType name="ArrayOfCategoryRegionsModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CategoryRegionsModel" nillable="true" type="tns:CategoryRegionsModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCategoryRegionsModel" nillable="true" type="tns:ArrayOfCategoryRegionsModel" />
+  <xs:complexType name="CategoryRegionsModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RegionCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RegionID" type="xs:int" />
+      <xs:element minOccurs="0" name="RegionName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryRegionsModel" nillable="true" type="tns:CategoryRegionsModel" />
+  <xs:complexType name="ArrayOfCategoryTypesModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CategoryTypesModel" nillable="true" type="tns:CategoryTypesModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCategoryTypesModel" nillable="true" type="tns:ArrayOfCategoryTypesModel" />
+  <xs:complexType name="CategoryTypesModel">
+    <xs:sequence>
+      <xs:element name="_x003C_TypeID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_TypeName_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CategoryTypesModel" nillable="true" type="tns:CategoryTypesModel" />
+</xs:schema>

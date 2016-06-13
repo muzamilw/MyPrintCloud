@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TemplateSvcSP" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" />
+      <xsd:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITemplateSvcSP_GetTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplate" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateWebStore_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateWebStore" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateWebStore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateWebStoreResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatePages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatePages" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatePages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatePagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateObjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateObjects" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateObjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateObjectsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GettemplateImages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GettemplateImages" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GettemplateImages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GettemplateImagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_regeneratePDFs_InputMessage">
+    <wsdl:part name="parameters" element="tns:regeneratePDFs" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_regeneratePDFs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:regeneratePDFsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetCategoriesByMatchingSetID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCategoriesByMatchingSetID" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetCategoriesByMatchingSetID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCategoriesByMatchingSetIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetBaseColors_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBaseColors" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetBaseColors_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBaseColorsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateThemeTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateThemeTags" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateThemeTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateThemeTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateIndustryTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateIndustryTags" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateIndustryTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateIndustryTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplates_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplates" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplates_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateFonts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateFonts" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplateFonts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplateFontsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetFoldLinesByProductCategoryID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFoldLinesByProductCategoryID" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetFoldLinesByProductCategoryID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFoldLinesByProductCategoryIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTemplate" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteTemporaryFiles_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTemporaryFiles" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteTemporaryFiles_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTemporaryFilesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteTemplateFonts_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTemplateFonts" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteTemplateFonts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTemplateFontsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CopyTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyTemplate" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CopyTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CopyTemplateList_InputMessage">
+    <wsdl:part name="parameters" element="tns:CopyTemplateList" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CopyTemplateList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CopyTemplateListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CropImage_InputMessage">
+    <wsdl:part name="parameters" element="tns:CropImage" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CropImage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CropImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTags_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTags" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTags_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyCategory_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyCategory" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyCategory_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyCategoryAndMultipleIndustryIds_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyCategoryAndMultipleIndustryIds" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyCategoryAndMultipleIndustryIds_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyCategoryAndMultipleIndustryIdsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyProductIds_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyProductIds" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyProductIds_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyProductIdsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyTemplateName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyTemplateName" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetTemplatesbyTemplateName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTemplatesbyTemplateNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetEditorsChoiceTemplates_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetEditorsChoiceTemplates" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetEditorsChoiceTemplates_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetEditorsChoiceTemplatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_SaveTemplateLocally_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTemplateLocally" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_SaveTemplateLocally_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveTemplateLocallyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_MergeTemplateLocally_InputMessage">
+    <wsdl:part name="parameters" element="tns:MergeTemplateLocally" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_MergeTemplateLocally_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MergeTemplateLocallyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetCategories_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCategories" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetCategories_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetCategoriesWithResolution_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCategoriesWithResolution" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_GetCategoriesWithResolution_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCategoriesWithResolutionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_AddEditTemplate_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddEditTemplate" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_AddEditTemplate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddEditTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CreateBlankBackgroundPDFs_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateBlankBackgroundPDFs" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CreateBlankBackgroundPDFs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateBlankBackgroundPDFsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CreateBlankBackgroundPDFsByPages_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateBlankBackgroundPDFsByPages" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_CreateBlankBackgroundPDFsByPages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateBlankBackgroundPDFsByPagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_getCategoryRegions_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryRegions" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_getCategoryRegions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryRegionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_getCategoryTypesx_InputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryTypesx" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_getCategoryTypesx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getCategoryTypesxResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_generateTemplateFromPDF_InputMessage">
+    <wsdl:part name="parameters" element="tns:generateTemplateFromPDF" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_generateTemplateFromPDF_OutputMessage">
+    <wsdl:part name="parameters" element="tns:generateTemplateFromPDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteBlankBackgroundPDFsByPages_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlankBackgroundPDFsByPages" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_DeleteBlankBackgroundPDFsByPages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteBlankBackgroundPDFsByPagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_processTemplatePDF_InputMessage">
+    <wsdl:part name="parameters" element="tns:processTemplatePDF" />
+  </wsdl:message>
+  <wsdl:message name="ITemplateSvcSP_processTemplatePDF_OutputMessage">
+    <wsdl:part name="parameters" element="tns:processTemplatePDFResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITemplateSvcSP">
+    <wsdl:operation name="GetTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplate" message="tns:ITemplateSvcSP_GetTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateResponse" message="tns:ITemplateSvcSP_GetTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateWebStore">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateWebStore" message="tns:ITemplateSvcSP_GetTemplateWebStore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateWebStoreResponse" message="tns:ITemplateSvcSP_GetTemplateWebStore_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatePages">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatePages" message="tns:ITemplateSvcSP_GetTemplatePages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatePagesResponse" message="tns:ITemplateSvcSP_GetTemplatePages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateObjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateObjects" message="tns:ITemplateSvcSP_GetTemplateObjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateObjectsResponse" message="tns:ITemplateSvcSP_GetTemplateObjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GettemplateImages">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GettemplateImages" message="tns:ITemplateSvcSP_GettemplateImages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GettemplateImagesResponse" message="tns:ITemplateSvcSP_GettemplateImages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="regeneratePDFs">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/regeneratePDFs" message="tns:ITemplateSvcSP_regeneratePDFs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/regeneratePDFsResponse" message="tns:ITemplateSvcSP_regeneratePDFs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCategoriesByMatchingSetID">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetCategoriesByMatchingSetID" message="tns:ITemplateSvcSP_GetCategoriesByMatchingSetID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetCategoriesByMatchingSetIDResponse" message="tns:ITemplateSvcSP_GetCategoriesByMatchingSetID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseColors">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetBaseColors" message="tns:ITemplateSvcSP_GetBaseColors_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetBaseColorsResponse" message="tns:ITemplateSvcSP_GetBaseColors_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateThemeTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateThemeTags" message="tns:ITemplateSvcSP_GetTemplateThemeTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateThemeTagsResponse" message="tns:ITemplateSvcSP_GetTemplateThemeTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateIndustryTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateIndustryTags" message="tns:ITemplateSvcSP_GetTemplateIndustryTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateIndustryTagsResponse" message="tns:ITemplateSvcSP_GetTemplateIndustryTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplates">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplates" message="tns:ITemplateSvcSP_GetTemplates_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesResponse" message="tns:ITemplateSvcSP_GetTemplates_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateFonts">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateFonts" message="tns:ITemplateSvcSP_GetTemplateFonts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplateFontsResponse" message="tns:ITemplateSvcSP_GetTemplateFonts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFoldLinesByProductCategoryID">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetFoldLinesByProductCategoryID" message="tns:ITemplateSvcSP_GetFoldLinesByProductCategoryID_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetFoldLinesByProductCategoryIDResponse" message="tns:ITemplateSvcSP_GetFoldLinesByProductCategoryID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteTemplate" message="tns:ITemplateSvcSP_DeleteTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteTemplateResponse" message="tns:ITemplateSvcSP_DeleteTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTemporaryFiles">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteTemporaryFiles" message="tns:ITemplateSvcSP_DeleteTemporaryFiles_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteTemporaryFilesResponse" message="tns:ITemplateSvcSP_DeleteTemporaryFiles_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTemplateFonts">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteTemplateFonts" message="tns:ITemplateSvcSP_DeleteTemplateFonts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteTemplateFontsResponse" message="tns:ITemplateSvcSP_DeleteTemplateFonts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/CopyTemplate" message="tns:ITemplateSvcSP_CopyTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/CopyTemplateResponse" message="tns:ITemplateSvcSP_CopyTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyTemplateList">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/CopyTemplateList" message="tns:ITemplateSvcSP_CopyTemplateList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/CopyTemplateListResponse" message="tns:ITemplateSvcSP_CopyTemplateList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CropImage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/CropImage" message="tns:ITemplateSvcSP_CropImage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/CropImageResponse" message="tns:ITemplateSvcSP_CropImage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTags">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTags" message="tns:ITemplateSvcSP_GetTags_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTagsResponse" message="tns:ITemplateSvcSP_GetTags_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyCategory">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyCategory" message="tns:ITemplateSvcSP_GetTemplatesbyCategory_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyCategoryResponse" message="tns:ITemplateSvcSP_GetTemplatesbyCategory_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyCategoryAndMultipleIndustryIds">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyCategoryAndMultipleIndustryIds" message="tns:ITemplateSvcSP_GetTemplatesbyCategoryAndMultipleIndustryIds_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyCategoryAndMultipleIndustryIdsResponse" message="tns:ITemplateSvcSP_GetTemplatesbyCategoryAndMultipleIndustryIds_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyProductIds">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyProductIds" message="tns:ITemplateSvcSP_GetTemplatesbyProductIds_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyProductIdsResponse" message="tns:ITemplateSvcSP_GetTemplatesbyProductIds_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyTemplateName">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyTemplateName" message="tns:ITemplateSvcSP_GetTemplatesbyTemplateName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyTemplateNameResponse" message="tns:ITemplateSvcSP_GetTemplatesbyTemplateName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEditorsChoiceTemplates">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetEditorsChoiceTemplates" message="tns:ITemplateSvcSP_GetEditorsChoiceTemplates_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetEditorsChoiceTemplatesResponse" message="tns:ITemplateSvcSP_GetEditorsChoiceTemplates_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTemplateLocally">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/SaveTemplateLocally" message="tns:ITemplateSvcSP_SaveTemplateLocally_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/SaveTemplateLocallyResponse" message="tns:ITemplateSvcSP_SaveTemplateLocally_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MergeTemplateLocally">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/MergeTemplateLocally" message="tns:ITemplateSvcSP_MergeTemplateLocally_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/MergeTemplateLocallyResponse" message="tns:ITemplateSvcSP_MergeTemplateLocally_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCategories">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetCategories" message="tns:ITemplateSvcSP_GetCategories_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetCategoriesResponse" message="tns:ITemplateSvcSP_GetCategories_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCategoriesWithResolution">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetCategoriesWithResolution" message="tns:ITemplateSvcSP_GetCategoriesWithResolution_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/GetCategoriesWithResolutionResponse" message="tns:ITemplateSvcSP_GetCategoriesWithResolution_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddEditTemplate">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/AddEditTemplate" message="tns:ITemplateSvcSP_AddEditTemplate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/AddEditTemplateResponse" message="tns:ITemplateSvcSP_AddEditTemplate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateBlankBackgroundPDFs">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/CreateBlankBackgroundPDFs" message="tns:ITemplateSvcSP_CreateBlankBackgroundPDFs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/CreateBlankBackgroundPDFsResponse" message="tns:ITemplateSvcSP_CreateBlankBackgroundPDFs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateBlankBackgroundPDFsByPages">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/CreateBlankBackgroundPDFsByPages" message="tns:ITemplateSvcSP_CreateBlankBackgroundPDFsByPages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/CreateBlankBackgroundPDFsByPagesResponse" message="tns:ITemplateSvcSP_CreateBlankBackgroundPDFsByPages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getCategoryRegions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/getCategoryRegions" message="tns:ITemplateSvcSP_getCategoryRegions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/getCategoryRegionsResponse" message="tns:ITemplateSvcSP_getCategoryRegions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getCategoryTypesx">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/getCategoryTypesx" message="tns:ITemplateSvcSP_getCategoryTypesx_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/getCategoryTypesxResponse" message="tns:ITemplateSvcSP_getCategoryTypesx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="generateTemplateFromPDF">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/generateTemplateFromPDF" message="tns:ITemplateSvcSP_generateTemplateFromPDF_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/generateTemplateFromPDFResponse" message="tns:ITemplateSvcSP_generateTemplateFromPDF_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlankBackgroundPDFsByPages">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteBlankBackgroundPDFsByPages" message="tns:ITemplateSvcSP_DeleteBlankBackgroundPDFsByPages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/DeleteBlankBackgroundPDFsByPagesResponse" message="tns:ITemplateSvcSP_DeleteBlankBackgroundPDFsByPages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="processTemplatePDF">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITemplateSvcSP/processTemplatePDF" message="tns:ITemplateSvcSP_processTemplatePDF_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITemplateSvcSP/processTemplatePDFResponse" message="tns:ITemplateSvcSP_processTemplatePDF_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ITemplateSvcSP" type="tns:ITemplateSvcSP">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetTemplate">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateWebStore">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplateWebStore" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatePages">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplatePages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateObjects">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplateObjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GettemplateImages">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GettemplateImages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="regeneratePDFs">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/regeneratePDFs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategoriesByMatchingSetID">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetCategoriesByMatchingSetID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBaseColors">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetBaseColors" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateThemeTags">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplateThemeTags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateIndustryTags">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplateIndustryTags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplates">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplateFonts">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplateFonts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFoldLinesByProductCategoryID">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetFoldLinesByProductCategoryID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTemplate">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/DeleteTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTemporaryFiles">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/DeleteTemporaryFiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTemplateFonts">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/DeleteTemplateFonts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyTemplate">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/CopyTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyTemplateList">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/CopyTemplateList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CropImage">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/CropImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTags">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTags" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyCategory">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyCategory" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyCategoryAndMultipleIndustryIds">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyCategoryAndMultipleIndustryIds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyProductIds">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyProductIds" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplatesbyTemplateName">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetTemplatesbyTemplateName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEditorsChoiceTemplates">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetEditorsChoiceTemplates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTemplateLocally">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/SaveTemplateLocally" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MergeTemplateLocally">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/MergeTemplateLocally" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategories">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCategoriesWithResolution">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/GetCategoriesWithResolution" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddEditTemplate">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/AddEditTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateBlankBackgroundPDFs">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/CreateBlankBackgroundPDFs" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateBlankBackgroundPDFsByPages">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/CreateBlankBackgroundPDFsByPages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoryRegions">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/getCategoryRegions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoryTypesx">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/getCategoryTypesx" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateTemplateFromPDF">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/generateTemplateFromPDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteBlankBackgroundPDFsByPages">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/DeleteBlankBackgroundPDFsByPages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="processTemplatePDF">
+      <soap:operation soapAction="http://tempuri.org/ITemplateSvcSP/processTemplatePDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TemplateSvcSP">
+    <wsdl:port name="BasicHttpBinding_ITemplateSvcSP" binding="tns:BasicHttpBinding_ITemplateSvcSP">
+      <soap:address location="http://designer/Services/TemplateSvcSP.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
