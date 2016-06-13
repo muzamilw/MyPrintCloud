@@ -63,55 +63,56 @@ namespace MPC.Implementation.MISServices
                 string folderPath = directoryInfo != null ? directoryInfo.FullName : attachmentMapPath;
                 int indexOf = folderPath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 folderPath = folderPath.Substring(indexOf, folderPath.Length - indexOf);
-                inquiryAttachment.AttachmentPath = folderPath;
                 if (SaveImage(attachmentMapPath, inquiryAttachment.AttachmentPath, "",
                     inquiryAttachment.OrignalFileName,
                     inquiryAttachment.FileSource, inquiryAttachment.FileSourceBytes) != null)
                 {
                     //inquiryAttachment.Extension = "jpg";
                     inquiryAttachment.OrignalFileName = inquiryAttachment.OrignalFileName;
+                    inquiryAttachment.AttachmentPath = folderPath;
                 }
             }
         }
         private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
             string fileSource, byte[] fileSourceBytes)
         {
-            if (!string.IsNullOrEmpty(fileSource))
+            //if (!string.IsNullOrEmpty(fileSource))
+            //{
+            //    // Look if file already exists then replace it
+            //    if (!string.IsNullOrEmpty(existingImage))
+            //    {
+            //        if (Path.IsPathRooted(existingImage))
+            //        {
+            //            if (File.Exists(existingImage))
+            //            {
+            //                // Remove Existing File
+            //                File.Delete(existingImage);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            string filePath = HttpContext.Current.Server.MapPath("~/" + existingImage);
+            //            if (File.Exists(filePath))
+            //            {
+            //                // Remove Existing File
+            //                File.Delete(filePath);
+            //            }
+            //        }
+
+            //    }
+                
+            //    // First Time Upload
+
+
+
+            //}
+            if (fileSourceBytes != null)
             {
-                // Look if file already exists then replace it
-                if (!string.IsNullOrEmpty(existingImage))
-                {
-                    if (Path.IsPathRooted(existingImage))
-                    {
-                        if (File.Exists(existingImage))
-                        {
-                            // Remove Existing File
-                            File.Delete(existingImage);
-                        }
-                    }
-                    else
-                    {
-                        string filePath = HttpContext.Current.Server.MapPath("~/" + existingImage);
-                        if (File.Exists(filePath))
-                        {
-                            // Remove Existing File
-                            File.Delete(filePath);
-                        }
-                    }
-
-                }
-                if (fileSourceBytes != null)
-                {
-                    string imageurl = mapPath + "\\" + caption + fileName;
-                    File.WriteAllBytes(imageurl, fileSourceBytes);
-                    int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
-                    imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
-                    return imageurl;
-                }
-                // First Time Upload
-
-
-
+                string imageurl = mapPath + "\\" + caption + fileName;
+                File.WriteAllBytes(imageurl, fileSourceBytes);
+                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
+                return imageurl;
             }
 
             return null;

@@ -609,7 +609,7 @@ namespace MPC.Implementation.MISServices
 
             List<Reportparam> reportParams = ReportRepository.getReportParamsByReportId(iReportId);
             string ReportName = ReportRepository.GetReportName(iReportId);
-
+            long organiationId = CompanyRepository.GetStoreOrganisation(Convert.ToInt64(ComboValue));
             string CriteriaField = string.Empty;
 
             if (reportParams != null && reportParams.Count > 0)
@@ -687,7 +687,7 @@ namespace MPC.Implementation.MISServices
 
 
             
-             Path = ExportReportHelper.ExportPDF((int)iReportId, 0, ReportType.Internal, 0, CriteriaField, 0, false);
+             Path = ExportReportHelper.ExportPDF((int)iReportId, 0, ReportType.Internal, 0, CriteriaField,organiationId, false);
             
            
 

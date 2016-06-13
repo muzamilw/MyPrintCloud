@@ -7086,6 +7086,13 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public long GetStoreOrganisation(long storeId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var comp = DbSet.FirstOrDefault(o => o.CompanyId == storeId);
+            return comp != null ? comp.OrganisationId ?? 0 : 0;
+        }
+
         #region ExportStoreZip
 
         public ExportStore ExportStore(long CompanyId,long OrganisationId)

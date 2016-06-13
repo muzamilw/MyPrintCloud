@@ -339,6 +339,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Api\Controllers\CostCenterExecutionMisController.cs" />
+    <Compile Include="Areas\Api\Controllers\DigitalArtworkDownloadController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserListController.cs" />
     <Compile Include="Areas\Api\Controllers\UserRoleController.cs" />
     <Compile Include="Areas\Api\Controllers\XeroInvoiceController.cs" />
@@ -1246,6 +1247,7 @@
     <Content Include="Content\Images\coming.jpg" />
     <Content Include="Content\Images\Company_Default.png" />
     <Content Include="Content\Images\foldericon3.png" />
+    <Content Include="Content\Images\icons\OperatorIcons.png" />
     <Content Include="Content\Images\ImageAttach.png" />
     <Content Include="Content\Images\company_contact.jpg" />
     <Content Include="Content\Images\company_contact.jpg" />
@@ -3619,7 +3621,6 @@
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
     <Folder Include="Content\Images\gallery\" />
-    <Folder Include="Content\Images\icons\" />
     <Folder Include="Content\Images\patterns\body\" />
     <Folder Include="Content\Images\patterns\header\" />
     <Folder Include="Content\Images\patterns\sidebar\" />

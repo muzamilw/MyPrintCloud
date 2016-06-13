@@ -107,7 +107,48 @@
                                                             <input type="button" class="btn btn-success col-sm-4" style="float: right;margin-right:5px;" data-bind="value: $root.selectedQtyForItem() == 1 ? 'Qty 1      (' + qty1() + ')' : $root.selectedQtyForItem() == 2? 'Qty 2      (' + qty2() + ')': 'Qty 3      (' + qty3() + ') '" />
                                                         </div>
                                                     </div>
-                                                    
+                                                    <!--ko if: !$root.isEstimateScreen() && $root.selectedProduct().discountVoucherId() -->
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5" style="text-align: right;">
+                                                            <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
+                                                                <label class="control-label">Actual Total</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            
+                                                        </div>
+                                                        <div class="txtBox-contentAlignRight" style="margin-right: 34px">
+                                                            <label class="control-label">
+                                                                <span data-bind="text:$root.currencySymbol"></span>
+                                                                <span data-bind="numberInput:actualPriceBeforeDiscount"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5" style="text-align: right;">
+                                                            <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">
+                                                                <label class="control-label">Discount</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-3">
+                                                            <div class="col-sm-10">
+                                                                <label class="control-label" style="color: red" data-bind=" text:couponCode"></label>
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                        <div class="col-sm-4">
+                                                            <div class="txtBox-contentAlignRight" style="margin-right: 34px">
+                                                                <label class="control-label">
+                                                                    <span data-bind="text:$root.currencySymbol"></span>
+                                                                    <span data-bind="numberInput:discountPercentage"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- /ko -->
                                                     <div class="form-group">
                                                         <div class="col-sm-5" style="text-align: right;">
                                                             <div class="col-sm-12" style="padding-right: 0;margin-bottom: 5px">

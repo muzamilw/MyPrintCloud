@@ -207,7 +207,7 @@ namespace MPC.Implementation.MISServices
                         string ReportTemplate = string.Empty;
 
                         sFileName = "OrderReport.pdf";
-                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam, OrganisationID);
                         currReport.DataSource = dataSourceList;
                     }
                     if (currReport != null)
@@ -1636,7 +1636,7 @@ namespace MPC.Implementation.MISServices
                         string ReportDataSource = string.Empty;
                         string ReportTemplate = string.Empty;
 
-                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam, OrganisationID);
                         currReport.DataSource = dataSourceList;
                     }
                     if (currReport != null)

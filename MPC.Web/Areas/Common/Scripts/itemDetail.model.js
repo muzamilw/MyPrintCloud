@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood, specifiedDiscountVoucherId, specifiedDiscountPercent, specifiedActualPriceWoDiscount, specifiedCouponCode) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -262,6 +262,7 @@
                         qty3NetTotal(value);
                     }
                 }),
+                
                 qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || 0).extend({ numberInput: ist.numberFormat }),
                 qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || 0).extend({ numberInput: ist.numberFormat }),
                 qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || 0).extend({ numberInput: ist.numberFormat }),
@@ -284,6 +285,10 @@
                     moment(specifiedJobEstimatedCompletionDateTime).toDate() : undefined),
                 // Ref Item Id
                 refItemId = ko.observable(specifiedRefItemId || undefined),
+                discountPercentage = ko.observable(specifiedDiscountPercent || undefined),
+                discountVoucherId = ko.observable(specifiedDiscountVoucherId || undefined),
+                actualPriceBeforeDiscount = ko.observable(specifiedActualPriceWoDiscount || undefined),
+                couponCode = ko.observable(specifiedCouponCode || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Has Deleted Sections
@@ -588,7 +593,11 @@
                 hasChanges: hasChanges,
                 reset: reset,
                 setValidationSummary: setValidationSummary,
-                convertToServerData: convertToServerData
+                convertToServerData: convertToServerData,
+                discountPercentage :discountPercentage,
+                discountVoucherId :discountVoucherId,
+                actualPriceBeforeDiscount: actualPriceBeforeDiscount,
+                couponCode: couponCode
             };
         },
         //#endregion
@@ -2293,7 +2302,7 @@
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
-            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate);
+            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate, source.DiscountVoucherID, source.Qty1CostCentreProfit, source.ActualValue, source.CouponCode);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
