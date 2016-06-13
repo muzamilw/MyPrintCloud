@@ -244,5 +244,6 @@ namespace MPC.Interfaces.WebStoreServices
         List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
         bool IsTerritoryUseUserFonts(long TerritoryId);
         bool IsTerritoryUseColors(long TerritoryId);
+        bool HasDigitalItem(long EstimateId);
     }
 }

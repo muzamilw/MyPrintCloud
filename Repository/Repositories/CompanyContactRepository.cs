@@ -1722,9 +1722,13 @@ namespace MPC.Repository.Repositories
             var contact = db.CompanyContacts.Where(c => c.ContactId == ContactId).FirstOrDefault();
             if (contact != null)
             {
-                contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
-                if (string.IsNullOrEmpty(contact.Company.StoreName))
-                    contact.Company.StoreName = contact.Company.Name;
+                if(contact.Company != null)
+                {
+                    contact.Company.StoreName = GetStoreNameByStoreId(contact.Company.StoreId ?? 0);
+                    if (string.IsNullOrEmpty(contact.Company.StoreName))
+                        contact.Company.StoreName = contact.Company.Name;
+                }
+              
             }
 
             return contact;

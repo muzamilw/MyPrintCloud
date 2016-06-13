@@ -33,10 +33,12 @@ namespace MPC.Webstore.Controllers
         private readonly IPayPalResponseService _PayPalResponseService;
         private readonly ITemplateService _templateService;
         private readonly IPaymentGatewayService _paymentGatewayService;
+        private readonly MPC.Interfaces.MISServices.IOrderService _MISOrderService;
 
         public PaymentController(IItemService ItemService, IOrderService OrderService, ICampaignService campaignService, ICompanyService myCompanyService, IWebstoreClaimsHelperService myClaimHelper, IUserManagerService usermanagerService, IPrePaymentService IPrePaymentService, IPayPalResponseService _PayPalResponseService
            , ITemplateService templateService
-            , IPaymentGatewayService paymentGatewayService)
+            , IPaymentGatewayService paymentGatewayService
+            , MPC.Interfaces.MISServices.IOrderService MISOrderService)
         {
             this._ItemService = ItemService;
             this._OrderService = OrderService;
@@ -48,6 +50,7 @@ namespace MPC.Webstore.Controllers
             this._PayPalResponseService = _PayPalResponseService;
             this._templateService = templateService;
             this._paymentGatewayService = paymentGatewayService;
+            this._MISOrderService = MISOrderService;
         }
 
         // GET: Payment
@@ -279,6 +282,14 @@ namespace MPC.Webstore.Controllers
                                 }
                                 List<string> AttachmentList = new List<string>();
                                 AttachmentList.Add(AttachmentPath);
+
+                                if (_ItemService.HasDigitalItem(modelOrder.EstimateId))
+                                {
+                                    string HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(modelOrder.EstimateId, Store.OrganisationId ?? 0);
+                                    AttachmentList.Add(HiResArtworkDownloadLink);
+                                }
+                         
+
                                 cep.OrganisationId = Store.OrganisationId ?? 0;
                                 Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                                 cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
@@ -636,6 +647,13 @@ namespace MPC.Webstore.Controllers
                             }
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
+
+                            if (_ItemService.HasDigitalItem(modelOrder.EstimateId))
+                            {
+                                string HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(modelOrder.EstimateId, Store.OrganisationId ?? 0);
+                                AttachmentList.Add(HiResArtworkDownloadLink);
+                            }
+                         
                             cep.OrganisationId = Store.OrganisationId ?? 0;
                             Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
@@ -909,6 +927,12 @@ namespace MPC.Webstore.Controllers
                             }
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
+                            if (_ItemService.HasDigitalItem(modelOrder.EstimateId))
+                            {
+                                string HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(modelOrder.EstimateId, Store.OrganisationId ?? 0);
+                                AttachmentList.Add(HiResArtworkDownloadLink);
+                            }
+                         
                             cep.OrganisationId = Store.OrganisationId ?? 0;
                             Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
