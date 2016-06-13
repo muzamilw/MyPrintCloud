@@ -3386,7 +3386,15 @@ function togglePage(pId) {
             if (s != undefined) {
                 var p = s.split("?");
                // if (s.indexOf("asset") == -1) { / commented for tfe hotels as their domain contains asset  http://brandassethub.tfehotels.com/
-                    var temp = p[0].split("http://");
+                //var temp = p[0].split("http://");
+
+                var temp;
+                if (p[0].indexOf("https") > -1)
+                    temp = p[0].split("https://");
+                else
+                    temp = p[0].split("http://");
+
+
                     var t2 = temp[1].split(".jpg");
                     var i = 'http://' + t2[0] + '.pdf'; //+= '?r=' + ra ;
                 
@@ -3421,8 +3429,16 @@ function togglePage(pId) {
             var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?"); 
-              //  if (s.indexOf("asset") == -1) {
-                    var temp = p[0].split("http://");
+                //  if (s.indexOf("asset") == -1) {
+
+                var temp;
+                if (p[0].indexOf("https") > -1)
+                    temp = p[0].split("https://");
+                else
+                    temp = p[0].split("http://");
+
+
+                   
                     $(".PreviewerDownloadImg").attr("href", "http://" + temp[1]);
               //  }
             }
