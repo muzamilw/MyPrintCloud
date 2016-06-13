@@ -615,7 +615,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty2CostCentreProfit = source.Qty2CostCentreProfit,
                 DiscountVoucherID = source.DiscountVoucherID,
                 ActualValue = source.ActualValue,
-                CouponCode = source.CouponCode
+                CouponCode = source.CouponCode,
+                IsDigitalDownload = source.IsDigitalDownload
             };
             return item;
         }

@@ -1639,7 +1639,7 @@ define("order/order.viewModel",
                         currentScreen(currentTab);
                         if (isEstimateScreen()) {
 
-                            pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
+                            pager(new pagination.Pagination({ PageSize: 10 }, orders, getEstimates));
                             pager().reset();
                             //selectedFilterFlag(0);
 
@@ -2863,7 +2863,7 @@ define("order/order.viewModel",
                         currentScreen(8);
                         pager().reset(0);
                         //
-                        pager(new pagination.Pagination({ PageSize: 5 }, inquiries, getInquiries));
+                        pager(new pagination.Pagination({ PageSize: 10 }, inquiries, getInquiries));
                         getInquiries();
                         if (!isInquiryBaseDataLoaded()) {
                             getInquiriesTabBaseData();
@@ -3503,7 +3503,7 @@ define("order/order.viewModel",
                                  
                              },
                              error: function (response) {
-                                 toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                                 toastr.error("Failed to delete order. Error: " + response, "", ist.toastrOptions);
                              }
                          });
                      },
