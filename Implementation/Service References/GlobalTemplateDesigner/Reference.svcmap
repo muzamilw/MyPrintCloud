@@ -20,18 +20,16 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://designerv2.myprintcloud.com/services/templatesvcsp.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://designer/services/templatesvcsp.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="TemplateSvcSP.xsd" MetadataType="Schema" ID="57a621db-8fe6-4801-a8f3-45a9ce4200de" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd1" />
-    <MetadataFile FileName="TemplateSvcSP1.xsd" MetadataType="Schema" ID="f3fc183f-96e8-4e34-81d6-add463dad1b2" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd2" />
-    <MetadataFile FileName="TemplateSvcSP2.xsd" MetadataType="Schema" ID="b1130a63-1419-477b-a147-1da20894c3ba" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd3" />
-    <MetadataFile FileName="TemplateSvcSP.wsdl" MetadataType="Wsdl" ID="39d7f542-faec-4465-9c09-f577d526f9d2" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?wsdl" />
-    <MetadataFile FileName="TemplateSvcSP3.xsd" MetadataType="Schema" ID="9b328279-3f52-42fc-bd10-fab2bc55e798" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd5" />
-    <MetadataFile FileName="TemplateSvcSP4.xsd" MetadataType="Schema" ID="dc10071c-2159-49a9-95ee-ceb5f7f203bc" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd6" />
-    <MetadataFile FileName="TemplateSvcSP5.xsd" MetadataType="Schema" ID="8a3411fb-1bb3-4743-85d9-8f40b1459484" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd4" />
-    <MetadataFile FileName="TemplateSvcSP.disco" MetadataType="Disco" ID="1d31825d-5b88-4082-a0d6-d37552b785ab" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?disco" />
-    <MetadataFile FileName="TemplateSvcSP6.xsd" MetadataType="Schema" ID="b112eead-790e-415d-ac66-ce94974d484d" SourceId="1" SourceUrl="http://designerv2.myprintcloud.com/Services/TemplateSvcSP.svc?xsd=xsd0" />
+    <MetadataFile FileName="TemplateSvcSP3.xsd" MetadataType="Schema" ID="367845d2-9b2d-41a7-a6b8-f59da2febd2a" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?xsd=xsd4" />
+    <MetadataFile FileName="TemplateSvcSP31.xsd" MetadataType="Schema" ID="a3e8745b-bc05-4ec8-a082-7a3b2b64c918" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?xsd=xsd0" />
+    <MetadataFile FileName="TemplateSvcSP32.xsd" MetadataType="Schema" ID="92e95bad-47fa-4ff0-a0fa-afb0d53bb910" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?xsd=xsd3" />
+    <MetadataFile FileName="TemplateSvcSP1.disco" MetadataType="Disco" ID="19f5fd74-1071-4666-8322-1de25eb3cb5f" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?disco" />
+    <MetadataFile FileName="TemplateSvcSP1.wsdl" MetadataType="Wsdl" ID="19fa4137-596d-45c8-802a-5dd6be7f774d" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?wsdl" />
+    <MetadataFile FileName="TemplateSvcSP33.xsd" MetadataType="Schema" ID="f4eedec5-dd79-40e5-a24e-214e030ee3d4" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?xsd=xsd1" />
+    <MetadataFile FileName="TemplateSvcSP34.xsd" MetadataType="Schema" ID="70858090-d02c-4536-bd0d-50c0ee0683af" SourceId="1" SourceUrl="http://designer/Services/TemplateSvcSP.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -2368,19 +2368,19 @@ namespace MPC.Implementation.MISServices
             List<ProductCategory> templateCategories;
             List<CategoryRegion> categoryRegions;
             List<CategoryType> categoryTypes;
-            // ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident 
             using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
             // ReSharper restore SuggestUseVarKeywordEvident
             {
                 templateCategories = pSc.GetCategories().Select(category => new ProductCategory
                 {
-                    ProductCategoryId = category.ProductCategoryID,
-                    CategoryName = category.CategoryName,
-                    RegionId = category.RegionID,
-                    CategoryTypeId = category.CatagoryTypeID,
-                    ZoomFactor = category.ZoomFactor,
-                    ScaleFactor = category.ScaleFactor,
-                    OrganisationId = category.CreatedBy
+                    ProductCategoryId = category.ProductCategoryIDk__BackingField,
+                    CategoryName = category.CategoryNamek__BackingField,
+                    RegionId = category.RegionIDk__BackingField,
+                    CategoryTypeId = category.CatagoryTypeIDk__BackingField,
+                    ZoomFactor = category.ZoomFactork__BackingField,
+                    ScaleFactor = category.ScaleFactork__BackingField,
+                    OrganisationId = category.CreatedByk__BackingField
                 }).ToList();
                 categoryRegions = pSc.getCategoryRegions().Select(category => new CategoryRegion
                 {
@@ -2388,10 +2388,10 @@ namespace MPC.Implementation.MISServices
                     RegionName = category.RegionName
                 }).ToList();
 
-                categoryTypes = pSc.getCategoryTypes().Select(category => new CategoryType
+                categoryTypes = pSc.getCategoryTypesx().Select(category => new CategoryType
                 {
-                    TypeId = category.TypeID,
-                    TypeName = category.TypeName
+                    TypeId = category.TypeIDk__BackingField,
+                    TypeName = category.TypeNamek__BackingField
                 }).ToList();
 
             }
