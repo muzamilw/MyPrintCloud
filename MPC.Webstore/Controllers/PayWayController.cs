@@ -29,12 +29,16 @@ namespace MPC.Webstore.Controllers
         private readonly INABTransactionService _INABTransactionService;
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly ITemplateService _templateService;
+        private readonly MPC.Interfaces.MISServices.IOrderService _MISOrderService;
+        private readonly IItemService _ItemService;
         // GET: NabSubmit
         public PayWayController(IPaymentGatewayService PaymentGatewayService, IOrderService OrderService, ICompanyService _CompanyService,
             ICampaignService _campaignService, IUserManagerService _usermanagerService,
             IPrePaymentService _IPrePaymentService,
             INABTransactionService _INABTransactionService,
-            IWebstoreClaimsHelperService myClaimHelper, ITemplateService templateService)
+            IWebstoreClaimsHelperService myClaimHelper, ITemplateService templateService
+            , MPC.Interfaces.MISServices.IOrderService MISOrderService
+            , IItemService ItemService)
         {
             this._PaymentGatewayService = PaymentGatewayService;
             this._OrderService = OrderService;
@@ -45,6 +49,8 @@ namespace MPC.Webstore.Controllers
             this._INABTransactionService = _INABTransactionService;
             this._myClaimHelper = myClaimHelper;
             this._templateService = templateService;
+            this._MISOrderService = MISOrderService;
+            this._ItemService = ItemService;
         }
         // GET: PayWay
         public ActionResult Index(int OrderID)
@@ -263,6 +269,12 @@ namespace MPC.Webstore.Controllers
                                             }
                                             List<string> AttachmentList = new List<string>();
                                             AttachmentList.Add(AttachmentPath);
+                                            if (_ItemService.HasDigitalItem(CustomerOrder.EstimateId))
+                                            {
+                                                string HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(CustomerOrder.EstimateId, Store.OrganisationId ?? 0);
+                                                AttachmentList.Add(HiResArtworkDownloadLink);
+                                            }
+                         
                                             Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, Store.OrganisationId ?? 0, Store.CompanyId);
                                             cep.SalesManagerContactID = Convert.ToInt32(CustomerOrder.ContactId);
                                             cep.StoreId = Store.CompanyId;

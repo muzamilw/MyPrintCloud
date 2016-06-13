@@ -276,9 +276,9 @@ namespace MPC.Webstore.Controllers
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                             
-                            //string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
-                            //AttachmentList.Add(AttachmentPath);
+                            AttachmentList.Add(AttachmentPath);
 
                             // string contains table 
 
@@ -406,9 +406,9 @@ namespace MPC.Webstore.Controllers
 
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, (int)ManagerID, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                           
-                           // string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
-                            //AttachmentList.Add(AttachmentPath);
+                            AttachmentList.Add(AttachmentPath);
 
                             if (_ItemService.HasDigitalItem(OrderId))
                             {
@@ -450,9 +450,9 @@ namespace MPC.Webstore.Controllers
                             _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId, EmailOFSM.Email);
                             
                             
-                            //string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
+                            string AttachmentPath = _templateService.OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
-                           // AttachmentList.Add(AttachmentPath);
+                            AttachmentList.Add(AttachmentPath);
 
                             if (_ItemService.HasDigitalItem(OrderId))
                             {
