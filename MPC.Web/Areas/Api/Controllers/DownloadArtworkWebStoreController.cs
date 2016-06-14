@@ -74,25 +74,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             } 
             
         }
-        [AcceptVerbs("GET", "POST")]
-        [HttpGet]
-        [CompressFilterAttribute]
-        public HttpResponseMessage DwonloadDigitalArtwork(int orderId, long organisationId)
-        {
-            string path = orderService.GenerateDigitalItemsArtwork(orderId, organisationId);
-            if (!string.IsNullOrEmpty(path))
-            {
-                string sFilePath = Request.RequestUri.Scheme + "://" + Request.RequestUri.Host + "/" + path;
-                var response = Request.CreateResponse(HttpStatusCode.Found);
-                response.Headers.Location = new Uri(sFilePath);
-                return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            } 
-
-        }
+        
         #endregion
     }
 }

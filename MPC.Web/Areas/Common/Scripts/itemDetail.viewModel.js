@@ -140,6 +140,7 @@ define("common/itemDetail.viewModel",
                     closeItemDetailSection = null,
                     saveOrderFromSection = null,
                     saveFrom = ko.observable(),
+                    isPress1Perfecting = ko.observable(),
                     //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
                     // Default MarkUp Id
@@ -847,6 +848,7 @@ define("common/itemDetail.viewModel",
                             selectedSection().pressIdSide1ColourHeads(press.colourHeads || 0);
                             selectedSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
                             selectedSection().passesSide1(press.passes);
+                            isPress1Perfecting(press.isPerfecting || false);
                             // Update Section Ink Coverage
                             selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide1());
                             if (press.inkCoverages.length > 0) {
@@ -2383,7 +2385,8 @@ define("common/itemDetail.viewModel",
                     selectedPressInstructions: selectedPressInstructions,
                     onSectionInkCoverageSave: onSectionInkCoverageSave,
                     selectedCostCenterCategory: selectedCostCenterCategory,
-                    onCreateNewItemSection: onCreateNewItemSection
+                    onCreateNewItemSection: onCreateNewItemSection,
+                    isPress1Perfecting: isPress1Perfecting
                     //#endregion
                 };
             })()

@@ -231,6 +231,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsSpotColor = source.IsSpotColor,
                 Passes = source.Passes,
                 isSheetFed = source.isSheetFed,
+                isPerfecting = source.isPerfecting,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(ic => ic.CreateFrom()) : null
             };
         }

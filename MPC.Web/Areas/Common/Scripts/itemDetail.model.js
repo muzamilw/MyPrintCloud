@@ -2273,7 +2273,7 @@
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
-    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed, specifiedIks)
+    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed, specifiedIks, specifiedIsPerfecting)
         // ReSharper restore InconsistentNaming
     {
         return {
@@ -2285,7 +2285,8 @@
             isSpotColor: specifiedIsSpotColor,
             passes: specifiedPasses,
             isSheetFed: specifiedSheetFed,
-            inkCoverages: specifiedIks
+            inkCoverages: specifiedIks,
+            isPerfecting : specifiedIsPerfecting
         };
     };
     //#endregion
@@ -2546,7 +2547,7 @@
     //#region Machine Factory
     // Machine Factory
     Machine.Create = function (source) {
-        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed, source.MachineInkCoverages);
+        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed, source.MachineInkCoverages, source.isPerfecting);
     };
     //#endregion
 

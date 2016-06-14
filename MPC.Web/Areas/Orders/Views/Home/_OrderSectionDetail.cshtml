@@ -244,26 +244,28 @@
                                 </div>
                             </div>
                             <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && !isWorknTurn()">
-                                <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
-                                    <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
-                                </div>
+                                <div>
+                                    <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
+                                        <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
+                                    </div>
 
-                                <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
-                                    @*<select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>*@
-                                </div>
-                                <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
-                                    <!-- ko if: pressIdSide2IsSpotColor -->
-                                    <img src="~/Content/Images/Section_spotColor.jpeg" style="  width: 100%; float: left;" />
-                                    <!-- /ko -->
-                                    <!-- ko if: !pressIdSide2IsSpotColor() -->
-                                    <img src="~/Content/Images/Order_Section_CMYK_circle.jpeg" style="  width: 100%; float: left;" />
-                                    <!-- /ko -->
-                                </div>
-                                <div class="col-sm-2 text-right" style=" margin-left: -0.8%; width: 10%;">
-                                    <button class="btn btn-primary font20px" id="side2InkColorBtn" style="  width: 100%;" data-bind="click: $root.openInkDialog">
-                                        <span data-bind="text: pressIdSide2ColourHeads"></span>
-                                        <span>c</span>
-                                    </button>
+                                    <div class="col-sm-1 text-right" style="margin-left: -0.5%; width: 12.6%;">
+                                        @*<select class="form-control font20px" data-bind="options: $root.impressionCoverages, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select Impression', value: impressionCoverageSide2"></select>*@
+                                    </div>
+                                    <div class="col-sm-1 text-right" style="width: 4%; margin-left: -1%;padding-top: 1%;">
+                                        <!-- ko if: pressIdSide2IsSpotColor -->
+                                        <img src="~/Content/Images/Section_spotColor.jpeg" style="  width: 100%; float: left;" />
+                                        <!-- /ko -->
+                                        <!-- ko if: !pressIdSide2IsSpotColor() -->
+                                        <img src="~/Content/Images/Order_Section_CMYK_circle.jpeg" style="  width: 100%; float: left;" />
+                                        <!-- /ko -->
+                                    </div>
+                                    <div class="col-sm-2 text-right" style=" margin-left: -0.8%; width: 10%;">
+                                        <button class="btn btn-primary font20px" id="side2InkColorBtn" style="  width: 100%;" data-bind="click: $root.openInkDialog">
+                                            <span data-bind="text: pressIdSide2ColourHeads"></span>
+                                            <span>c</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
