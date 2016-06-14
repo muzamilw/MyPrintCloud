@@ -4970,7 +4970,15 @@ namespace MPC.Repository.Repositories
 
         }
 
-
+        public bool HasDigitalItem(long EstimateId)
+        {
+            int countOfItems = db.Items.Where(i => i.EstimateId == EstimateId && i.IsDigitalDownload == true).ToList().Count;
+            if (countOfItems > 0)
+            {
+                return true;
+            }
+            return false;
+        }
       
    
     }

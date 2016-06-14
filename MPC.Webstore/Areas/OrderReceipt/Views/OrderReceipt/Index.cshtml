@@ -319,7 +319,10 @@
                                                     FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
                                                 }
 
-
+                                                if (FolderPathOfAttachment.Contains("Artwork") == true)
+                                                {
+                                                    FolderPathOfAttachment = "mpc_content/Attachments/" + @ViewBag.OrganisationId + "/" + @CookieStoreId + "/Products/" + item.ItemID + "";
+                                                }
                                                 if (FolderPathOfAttachment[0] == '/')
                                                 {
                                                     ImageSource = FolderPathOfAttachment + "/" + item.Attatchment.FileName + ThumnbString;

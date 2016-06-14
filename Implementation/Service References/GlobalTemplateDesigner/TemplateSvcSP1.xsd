@@ -80,13 +80,13 @@
   <xs:element name="Templates" nillable="true" type="tns:Templates" />
   <xs:complexType name="BaseColors">
     <xs:sequence>
-      <xs:element minOccurs="0" name="BaseColorID" type="xs:int" />
-      <xs:element minOccurs="0" name="CMYK" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Color" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="HEX" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="RGB" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Templates" nillable="true" type="tns:ArrayOfTemplates" />
-      <xs:element minOccurs="0" name="type" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_BaseColorID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_CMYK_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Color_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_HEX_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_RGB_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplates" />
+      <xs:element name="_x003C_type_x003E_k__BackingField" nillable="true" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BaseColors" nillable="true" type="tns:BaseColors" />
@@ -399,9 +399,49 @@
   </xs:complexType>
   <xs:element name="TemplateSide2Templates" nillable="true" type="tns:TemplateSide2Templates" />
   <xs:complexType name="tbl_ProductCategory">
-    <xs:sequence />
+    <xs:sequence>
+      <xs:element name="_x003C_ApplyFoldLines_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_ApplySizeRestrictions_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_CatagoryTypeID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_CategoryLayouts_x003E_k__BackingField" nillable="true" type="tns:ArrayOfCategoryLayouts" />
+      <xs:element name="_x003C_CategoryName_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CategoryRegions_x003E_k__BackingField" nillable="true" type="tns:CategoryRegions" />
+      <xs:element name="_x003C_CategoryTypes_x003E_k__BackingField" nillable="true" type="tns:CategoryTypes" />
+      <xs:element name="_x003C_ContentType_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_CreatedBy_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_CreatedDateTime_x003E_k__BackingField" nillable="true" type="xs:dateTime" />
+      <xs:element name="_x003C_Description1_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_Description2_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_DisplayOrder_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_HeightRestriction_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_ImagePath_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_LastUpdatedBy_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_LockedBy_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_MatchingSetCategories_x003E_k__BackingField" nillable="true" type="tns:ArrayOfMatchingSetCategories" />
+      <xs:element name="_x003C_ParentCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_RegionID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_ScaleFactor_x003E_k__BackingField" nillable="true" type="xs:decimal" />
+      <xs:element name="_x003C_Templates_x003E_k__BackingField" nillable="true" type="tns:ArrayOfTemplates" />
+      <xs:element name="_x003C_ThumbnailPath_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_UpdatedDateTime_x003E_k__BackingField" nillable="true" type="xs:dateTime" />
+      <xs:element name="_x003C_WidthRestriction_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_ZoomFactor_x003E_k__BackingField" nillable="true" type="xs:decimal" />
+      <xs:element name="_x003C_categoryDescription_x003E_k__BackingField" nillable="true" type="xs:string" />
+      <xs:element name="_x003C_displayOnClydy_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_tbl_ProductCategory1_x003E_k__BackingField" nillable="true" type="tns:ArrayOftbl_ProductCategory" />
+      <xs:element name="_x003C_tbl_ProductCategory2_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
+      <xs:element name="_x003C_tbl_ProductCategoryFoldLines_x003E_k__BackingField" nillable="true" type="tns:ArrayOftbl_ProductCategoryFoldLines" />
+      <xs:element name="_x003C_userFriendlyName_x003E_k__BackingField" nillable="true" type="xs:string" />
+    </xs:sequence>
   </xs:complexType>
   <xs:element name="tbl_ProductCategory" nillable="true" type="tns:tbl_ProductCategory" />
+  <xs:complexType name="ArrayOfCategoryLayouts">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CategoryLayouts" nillable="true" type="tns:CategoryLayouts" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCategoryLayouts" nillable="true" type="tns:ArrayOfCategoryLayouts" />
   <xs:complexType name="CategoryLayouts">
     <xs:sequence>
       <xs:element name="_x003C_ImageLogoType_x003E_k__BackingField" nillable="true" type="xs:int" />
@@ -436,16 +476,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="LayoutAttributes" nillable="true" type="tns:LayoutAttributes" />
-  <xs:complexType name="tbl_ProductCategoryFoldLines">
-    <xs:sequence>
-      <xs:element name="_x003C_FoldLineID_x003E_k__BackingField" type="xs:int" />
-      <xs:element name="_x003C_FoldLineOffsetFromOrigin_x003E_k__BackingField" nillable="true" type="xs:double" />
-      <xs:element name="_x003C_FoldLineOrientation_x003E_k__BackingField" nillable="true" type="xs:boolean" />
-      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
-      <xs:element name="_x003C_tbl_ProductCategory_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="tbl_ProductCategoryFoldLines" nillable="true" type="tns:tbl_ProductCategoryFoldLines" />
   <xs:complexType name="CategoryRegions">
     <xs:sequence>
       <xs:element minOccurs="0" name="RegionCode" nillable="true" type="xs:string" />
@@ -468,6 +498,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOftbl_ProductCategory" nillable="true" type="tns:ArrayOftbl_ProductCategory" />
+  <xs:complexType name="ArrayOfMatchingSetCategories">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MatchingSetCategories" nillable="true" type="tns:MatchingSetCategories" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMatchingSetCategories" nillable="true" type="tns:ArrayOfMatchingSetCategories" />
   <xs:complexType name="MatchingSetCategories">
     <xs:sequence>
       <xs:element name="_x003C_ID_x003E_k__BackingField" type="xs:int" />
@@ -488,12 +524,221 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="MatchingSets" nillable="true" type="tns:MatchingSets" />
-  <xs:complexType name="ArrayOfMatchingSetCategories">
+  <xs:complexType name="tbl_ProductCategoryFoldLines">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="MatchingSetCategories" nillable="true" type="tns:MatchingSetCategories" />
+      <xs:element name="_x003C_FoldLineID_x003E_k__BackingField" type="xs:int" />
+      <xs:element name="_x003C_FoldLineOffsetFromOrigin_x003E_k__BackingField" nillable="true" type="xs:double" />
+      <xs:element name="_x003C_FoldLineOrientation_x003E_k__BackingField" nillable="true" type="xs:boolean" />
+      <xs:element name="_x003C_ProductCategoryID_x003E_k__BackingField" nillable="true" type="xs:int" />
+      <xs:element name="_x003C_tbl_ProductCategory_x003E_k__BackingField" nillable="true" type="tns:tbl_ProductCategory" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOfMatchingSetCategories" nillable="true" type="tns:ArrayOfMatchingSetCategories" />
+  <xs:element name="tbl_ProductCategoryFoldLines" nillable="true" type="tns:tbl_ProductCategoryFoldLines" />
+  <xs:complexType name="ArrayOftbl_ProductCategoryFoldLines">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="tbl_ProductCategoryFoldLines" nillable="true" type="tns:tbl_ProductCategoryFoldLines" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOftbl_ProductCategoryFoldLines" nillable="true" type="tns:ArrayOftbl_ProductCategoryFoldLines" />
+  <xs:complexType name="TemplatesModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApprovalDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ApprovedBy" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ApprovedByName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ApprovedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="BackgroundArtwork" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BaseColorID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BgB" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BgG" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BgR" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ColorHex" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CuttingMargin" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FullView" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FullViewByte" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="Image" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsCorporateEditable" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsDisabled" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsDoubleSide" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsPrivate" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUseBackGroundColor" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUsePDFFile" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUseSide2BackGroundColor" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LowResPDFTemplates" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MPCRating" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MatchingSetID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="MatchingSetTheme" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MultiPageCount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Orientation" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PDFTemplateHeight" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PDFTemplateWidth" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PTempId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductCategoryID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RejectionReason" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SLThumbnail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SLThumbnaillByte" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="ScaleFactor" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Side2BackgroundArtwork" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Side2BgB" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Side2BgG" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Side2BgR" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Side2LowResPDFTemplates" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SubmitDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SubmittedBy" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SubmittedByName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SuperView" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SuperViewByte" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="TempString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TemplateOwner" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TemplateOwnerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TemplateType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Thumbnail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UsedCount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="UserRating" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="isCreatedManual" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isEditorChoice" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isSpotTemplate" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isWatermarkText" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplatesModel" nillable="true" type="tns:TemplatesModel" />
+  <xs:complexType name="ArrayOfTemplatePagesModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplatePagesModel" nillable="true" type="tns:TemplatePagesModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplatePagesModel" nillable="true" type="tns:ArrayOfTemplatePagesModel" />
+  <xs:complexType name="TemplatePagesModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BackGroundType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BackgroundFileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ColorC" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorK" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorM" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorY" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="IsPrintable" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Orientation" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PageName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PageNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PageType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductPageID" type="xs:int" />
+      <xs:element minOccurs="0" name="hasOverlayObjects" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplatePagesModel" nillable="true" type="tns:TemplatePagesModel" />
+  <xs:complexType name="ArrayOfTemplateObjectsModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateObjectsModel" nillable="true" type="tns:TemplateObjectsModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateObjectsModel" nillable="true" type="tns:ArrayOfTemplateObjectsModel" />
+  <xs:complexType name="TemplateObjectsModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Allignment" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="AutoShrinkText" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BColor" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CharSpacing" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="CircleRadiusX" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="CircleRadiusY" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="ClippedInfo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ColorC" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorHex" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ColorK" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorM" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ColorStyleID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ColorY" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ContentCaseType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ContentString" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DisplayOrderPdf" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DisplayOrderTxtControl" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ExField1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExField2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FontName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FontSize" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="FontStyleID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="GColor" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Indent" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="IsBold" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsEditable" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsFontCustom" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsFontNamePrivate" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsHidden" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsItalic" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsMandatory" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsNewLine" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsOverlayObject" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsPositionLocked" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsQuickText" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsRequireNumericValue" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSpotColor" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsTextEditable" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsUnderlinedText" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LineSpacing" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="MaxCharacters" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="MaxHeight" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="MaxWidth" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ObjectID" type="xs:int" />
+      <xs:element minOccurs="0" name="ObjectType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Opacity" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PalleteID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ParentId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PositionX" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="PositionY" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductPageId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="QuickTextOrder" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RColor" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RotationAngle" nillable="true" type="xs:double" />
+      <xs:element minOccurs="0" name="SpotColorName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TCtlName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Tint" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="VAllignment" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="hasClippingPath" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="isSide2Object" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="textCase" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="textStyles" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="watermarkText" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateObjectsModel" nillable="true" type="tns:TemplateObjectsModel" />
+  <xs:complexType name="ArrayOfTemplateBackgroundImagesModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateBackgroundImagesModel" nillable="true" type="tns:TemplateBackgroundImagesModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTemplateBackgroundImagesModel" nillable="true" type="tns:ArrayOfTemplateBackgroundImagesModel" />
+  <xs:complexType name="TemplateBackgroundImagesModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BackgroundImageAbsolutePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BackgroundImageRelativePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ContactCompanyID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ContactID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="ImageDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ImageHeight" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ImageKeywords" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ImageName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ImageTitle" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ImageType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ImageWidth" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="UploadedFrom" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="clippingFileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="flgCover" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="flgPhotobook" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="hasClippingPath" nillable="true" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateBackgroundImagesModel" nillable="true" type="tns:TemplateBackgroundImagesModel" />
   <xs:complexType name="ArrayOfBaseColors">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="BaseColors" nillable="true" type="tns:BaseColors" />
@@ -530,12 +775,28 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="sp_GetTemplateIndustryTags_Result" nillable="true" type="tns:sp_GetTemplateIndustryTags_Result" />
-  <xs:complexType name="ArrayOftbl_ProductCategoryFoldLines">
+  <xs:complexType name="ArrayOfTemplateFontsModel">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="tbl_ProductCategoryFoldLines" nillable="true" type="tns:tbl_ProductCategoryFoldLines" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TemplateFontsModel" nillable="true" type="tns:TemplateFontsModel" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ArrayOftbl_ProductCategoryFoldLines" nillable="true" type="tns:ArrayOftbl_ProductCategoryFoldLines" />
+  <xs:element name="ArrayOfTemplateFontsModel" nillable="true" type="tns:ArrayOfTemplateFontsModel" />
+  <xs:complexType name="TemplateFontsModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomerID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DisplayIndex" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="FontBytes" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FontDisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FontFile" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FontName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FontPath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsEnable" nillable="true" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsPrivateFont" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ProductFontId" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductId" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TemplateFontsModel" nillable="true" type="tns:TemplateFontsModel" />
   <xs:complexType name="ArrayOfTags">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Tags" nillable="true" type="tns:Tags" />

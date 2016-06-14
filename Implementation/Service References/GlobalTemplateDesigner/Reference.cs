@@ -1146,26 +1146,19 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int BaseColorIDField;
+        private int BaseColorIDk__BackingFieldField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string CMYKField;
+        private string CMYKk__BackingFieldField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ColorField;
+        private string Colork__BackingFieldField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string HEXField;
+        private string HEXk__BackingFieldField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string RGBField;
+        private string RGBk__BackingFieldField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private MPC.Implementation.GlobalTemplateDesigner.Templates[] TemplatesField;
+        private MPC.Implementation.GlobalTemplateDesigner.Templates[] Templatesk__BackingFieldField;
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> typeField;
+        private System.Nullable<int> typek__BackingFieldField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -1177,93 +1170,93 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int BaseColorID {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<BaseColorID>k__BackingField", IsRequired=true)]
+        public int BaseColorIDk__BackingField {
             get {
-                return this.BaseColorIDField;
+                return this.BaseColorIDk__BackingFieldField;
             }
             set {
-                if ((this.BaseColorIDField.Equals(value) != true)) {
-                    this.BaseColorIDField = value;
-                    this.RaisePropertyChanged("BaseColorID");
+                if ((this.BaseColorIDk__BackingFieldField.Equals(value) != true)) {
+                    this.BaseColorIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("BaseColorIDk__BackingField");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string CMYK {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CMYK>k__BackingField", IsRequired=true)]
+        public string CMYKk__BackingField {
             get {
-                return this.CMYKField;
+                return this.CMYKk__BackingFieldField;
             }
             set {
-                if ((object.ReferenceEquals(this.CMYKField, value) != true)) {
-                    this.CMYKField = value;
-                    this.RaisePropertyChanged("CMYK");
+                if ((object.ReferenceEquals(this.CMYKk__BackingFieldField, value) != true)) {
+                    this.CMYKk__BackingFieldField = value;
+                    this.RaisePropertyChanged("CMYKk__BackingField");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Color {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Color>k__BackingField", IsRequired=true)]
+        public string Colork__BackingField {
             get {
-                return this.ColorField;
+                return this.Colork__BackingFieldField;
             }
             set {
-                if ((object.ReferenceEquals(this.ColorField, value) != true)) {
-                    this.ColorField = value;
-                    this.RaisePropertyChanged("Color");
+                if ((object.ReferenceEquals(this.Colork__BackingFieldField, value) != true)) {
+                    this.Colork__BackingFieldField = value;
+                    this.RaisePropertyChanged("Colork__BackingField");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string HEX {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<HEX>k__BackingField", IsRequired=true)]
+        public string HEXk__BackingField {
             get {
-                return this.HEXField;
+                return this.HEXk__BackingFieldField;
             }
             set {
-                if ((object.ReferenceEquals(this.HEXField, value) != true)) {
-                    this.HEXField = value;
-                    this.RaisePropertyChanged("HEX");
+                if ((object.ReferenceEquals(this.HEXk__BackingFieldField, value) != true)) {
+                    this.HEXk__BackingFieldField = value;
+                    this.RaisePropertyChanged("HEXk__BackingField");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string RGB {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<RGB>k__BackingField", IsRequired=true)]
+        public string RGBk__BackingField {
             get {
-                return this.RGBField;
+                return this.RGBk__BackingFieldField;
             }
             set {
-                if ((object.ReferenceEquals(this.RGBField, value) != true)) {
-                    this.RGBField = value;
-                    this.RaisePropertyChanged("RGB");
+                if ((object.ReferenceEquals(this.RGBk__BackingFieldField, value) != true)) {
+                    this.RGBk__BackingFieldField = value;
+                    this.RaisePropertyChanged("RGBk__BackingField");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public MPC.Implementation.GlobalTemplateDesigner.Templates[] Templates {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Templates>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.Templates[] Templatesk__BackingField {
             get {
-                return this.TemplatesField;
+                return this.Templatesk__BackingFieldField;
             }
             set {
-                if ((object.ReferenceEquals(this.TemplatesField, value) != true)) {
-                    this.TemplatesField = value;
-                    this.RaisePropertyChanged("Templates");
+                if ((object.ReferenceEquals(this.Templatesk__BackingFieldField, value) != true)) {
+                    this.Templatesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("Templatesk__BackingField");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> type {
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<type>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> typek__BackingField {
             get {
-                return this.typeField;
+                return this.typek__BackingFieldField;
             }
             set {
-                if ((this.typeField.Equals(value) != true)) {
-                    this.typeField = value;
-                    this.RaisePropertyChanged("type");
+                if ((this.typek__BackingFieldField.Equals(value) != true)) {
+                    this.typek__BackingFieldField = value;
+                    this.RaisePropertyChanged("typek__BackingField");
                 }
             }
         }
@@ -1287,6 +1280,72 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
+        private System.Nullable<bool> ApplyFoldLinesk__BackingFieldField;
+        
+        private System.Nullable<bool> ApplySizeRestrictionsk__BackingFieldField;
+        
+        private System.Nullable<int> CatagoryTypeIDk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.CategoryLayouts[] CategoryLayoutsk__BackingFieldField;
+        
+        private string CategoryNamek__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.CategoryRegions CategoryRegionsk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.CategoryTypes CategoryTypesk__BackingFieldField;
+        
+        private string ContentTypek__BackingFieldField;
+        
+        private System.Nullable<int> CreatedByk__BackingFieldField;
+        
+        private System.Nullable<System.DateTime> CreatedDateTimek__BackingFieldField;
+        
+        private string Description1k__BackingFieldField;
+        
+        private string Description2k__BackingFieldField;
+        
+        private int DisplayOrderk__BackingFieldField;
+        
+        private System.Nullable<double> HeightRestrictionk__BackingFieldField;
+        
+        private string ImagePathk__BackingFieldField;
+        
+        private System.Nullable<int> LastUpdatedByk__BackingFieldField;
+        
+        private int LockedByk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.MatchingSetCategories[] MatchingSetCategoriesk__BackingFieldField;
+        
+        private System.Nullable<int> ParentCategoryIDk__BackingFieldField;
+        
+        private int ProductCategoryIDk__BackingFieldField;
+        
+        private System.Nullable<int> RegionIDk__BackingFieldField;
+        
+        private System.Nullable<decimal> ScaleFactork__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.Templates[] Templatesk__BackingFieldField;
+        
+        private string ThumbnailPathk__BackingFieldField;
+        
+        private System.Nullable<System.DateTime> UpdatedDateTimek__BackingFieldField;
+        
+        private System.Nullable<double> WidthRestrictionk__BackingFieldField;
+        
+        private System.Nullable<decimal> ZoomFactork__BackingFieldField;
+        
+        private string categoryDescriptionk__BackingFieldField;
+        
+        private System.Nullable<bool> displayOnClydyk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory[] tbl_ProductCategory1k__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategory2k__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategoryFoldLines[] tbl_ProductCategoryFoldLinesk__BackingFieldField;
+        
+        private string userFriendlyNamek__BackingFieldField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -1294,6 +1353,435 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ApplyFoldLines>k__BackingField", IsRequired=true)]
+        public System.Nullable<bool> ApplyFoldLinesk__BackingField {
+            get {
+                return this.ApplyFoldLinesk__BackingFieldField;
+            }
+            set {
+                if ((this.ApplyFoldLinesk__BackingFieldField.Equals(value) != true)) {
+                    this.ApplyFoldLinesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ApplyFoldLinesk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ApplySizeRestrictions>k__BackingField", IsRequired=true)]
+        public System.Nullable<bool> ApplySizeRestrictionsk__BackingField {
+            get {
+                return this.ApplySizeRestrictionsk__BackingFieldField;
+            }
+            set {
+                if ((this.ApplySizeRestrictionsk__BackingFieldField.Equals(value) != true)) {
+                    this.ApplySizeRestrictionsk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ApplySizeRestrictionsk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CatagoryTypeID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> CatagoryTypeIDk__BackingField {
+            get {
+                return this.CatagoryTypeIDk__BackingFieldField;
+            }
+            set {
+                if ((this.CatagoryTypeIDk__BackingFieldField.Equals(value) != true)) {
+                    this.CatagoryTypeIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("CatagoryTypeIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CategoryLayouts>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.CategoryLayouts[] CategoryLayoutsk__BackingField {
+            get {
+                return this.CategoryLayoutsk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryLayoutsk__BackingFieldField, value) != true)) {
+                    this.CategoryLayoutsk__BackingFieldField = value;
+                    this.RaisePropertyChanged("CategoryLayoutsk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CategoryName>k__BackingField", IsRequired=true)]
+        public string CategoryNamek__BackingField {
+            get {
+                return this.CategoryNamek__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryNamek__BackingFieldField, value) != true)) {
+                    this.CategoryNamek__BackingFieldField = value;
+                    this.RaisePropertyChanged("CategoryNamek__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CategoryRegions>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.CategoryRegions CategoryRegionsk__BackingField {
+            get {
+                return this.CategoryRegionsk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryRegionsk__BackingFieldField, value) != true)) {
+                    this.CategoryRegionsk__BackingFieldField = value;
+                    this.RaisePropertyChanged("CategoryRegionsk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CategoryTypes>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.CategoryTypes CategoryTypesk__BackingField {
+            get {
+                return this.CategoryTypesk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryTypesk__BackingFieldField, value) != true)) {
+                    this.CategoryTypesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("CategoryTypesk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ContentType>k__BackingField", IsRequired=true)]
+        public string ContentTypek__BackingField {
+            get {
+                return this.ContentTypek__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ContentTypek__BackingFieldField, value) != true)) {
+                    this.ContentTypek__BackingFieldField = value;
+                    this.RaisePropertyChanged("ContentTypek__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CreatedBy>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> CreatedByk__BackingField {
+            get {
+                return this.CreatedByk__BackingFieldField;
+            }
+            set {
+                if ((this.CreatedByk__BackingFieldField.Equals(value) != true)) {
+                    this.CreatedByk__BackingFieldField = value;
+                    this.RaisePropertyChanged("CreatedByk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<CreatedDateTime>k__BackingField", IsRequired=true)]
+        public System.Nullable<System.DateTime> CreatedDateTimek__BackingField {
+            get {
+                return this.CreatedDateTimek__BackingFieldField;
+            }
+            set {
+                if ((this.CreatedDateTimek__BackingFieldField.Equals(value) != true)) {
+                    this.CreatedDateTimek__BackingFieldField = value;
+                    this.RaisePropertyChanged("CreatedDateTimek__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Description1>k__BackingField", IsRequired=true)]
+        public string Description1k__BackingField {
+            get {
+                return this.Description1k__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Description1k__BackingFieldField, value) != true)) {
+                    this.Description1k__BackingFieldField = value;
+                    this.RaisePropertyChanged("Description1k__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Description2>k__BackingField", IsRequired=true)]
+        public string Description2k__BackingField {
+            get {
+                return this.Description2k__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Description2k__BackingFieldField, value) != true)) {
+                    this.Description2k__BackingFieldField = value;
+                    this.RaisePropertyChanged("Description2k__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<DisplayOrder>k__BackingField", IsRequired=true)]
+        public int DisplayOrderk__BackingField {
+            get {
+                return this.DisplayOrderk__BackingFieldField;
+            }
+            set {
+                if ((this.DisplayOrderk__BackingFieldField.Equals(value) != true)) {
+                    this.DisplayOrderk__BackingFieldField = value;
+                    this.RaisePropertyChanged("DisplayOrderk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<HeightRestriction>k__BackingField", IsRequired=true)]
+        public System.Nullable<double> HeightRestrictionk__BackingField {
+            get {
+                return this.HeightRestrictionk__BackingFieldField;
+            }
+            set {
+                if ((this.HeightRestrictionk__BackingFieldField.Equals(value) != true)) {
+                    this.HeightRestrictionk__BackingFieldField = value;
+                    this.RaisePropertyChanged("HeightRestrictionk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ImagePath>k__BackingField", IsRequired=true)]
+        public string ImagePathk__BackingField {
+            get {
+                return this.ImagePathk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImagePathk__BackingFieldField, value) != true)) {
+                    this.ImagePathk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ImagePathk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<LastUpdatedBy>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> LastUpdatedByk__BackingField {
+            get {
+                return this.LastUpdatedByk__BackingFieldField;
+            }
+            set {
+                if ((this.LastUpdatedByk__BackingFieldField.Equals(value) != true)) {
+                    this.LastUpdatedByk__BackingFieldField = value;
+                    this.RaisePropertyChanged("LastUpdatedByk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<LockedBy>k__BackingField", IsRequired=true)]
+        public int LockedByk__BackingField {
+            get {
+                return this.LockedByk__BackingFieldField;
+            }
+            set {
+                if ((this.LockedByk__BackingFieldField.Equals(value) != true)) {
+                    this.LockedByk__BackingFieldField = value;
+                    this.RaisePropertyChanged("LockedByk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<MatchingSetCategories>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.MatchingSetCategories[] MatchingSetCategoriesk__BackingField {
+            get {
+                return this.MatchingSetCategoriesk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MatchingSetCategoriesk__BackingFieldField, value) != true)) {
+                    this.MatchingSetCategoriesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("MatchingSetCategoriesk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ParentCategoryID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> ParentCategoryIDk__BackingField {
+            get {
+                return this.ParentCategoryIDk__BackingFieldField;
+            }
+            set {
+                if ((this.ParentCategoryIDk__BackingFieldField.Equals(value) != true)) {
+                    this.ParentCategoryIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ParentCategoryIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ProductCategoryID>k__BackingField", IsRequired=true)]
+        public int ProductCategoryIDk__BackingField {
+            get {
+                return this.ProductCategoryIDk__BackingFieldField;
+            }
+            set {
+                if ((this.ProductCategoryIDk__BackingFieldField.Equals(value) != true)) {
+                    this.ProductCategoryIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ProductCategoryIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<RegionID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> RegionIDk__BackingField {
+            get {
+                return this.RegionIDk__BackingFieldField;
+            }
+            set {
+                if ((this.RegionIDk__BackingFieldField.Equals(value) != true)) {
+                    this.RegionIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("RegionIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ScaleFactor>k__BackingField", IsRequired=true)]
+        public System.Nullable<decimal> ScaleFactork__BackingField {
+            get {
+                return this.ScaleFactork__BackingFieldField;
+            }
+            set {
+                if ((this.ScaleFactork__BackingFieldField.Equals(value) != true)) {
+                    this.ScaleFactork__BackingFieldField = value;
+                    this.RaisePropertyChanged("ScaleFactork__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Templates>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.Templates[] Templatesk__BackingField {
+            get {
+                return this.Templatesk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Templatesk__BackingFieldField, value) != true)) {
+                    this.Templatesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("Templatesk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ThumbnailPath>k__BackingField", IsRequired=true)]
+        public string ThumbnailPathk__BackingField {
+            get {
+                return this.ThumbnailPathk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ThumbnailPathk__BackingFieldField, value) != true)) {
+                    this.ThumbnailPathk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ThumbnailPathk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<UpdatedDateTime>k__BackingField", IsRequired=true)]
+        public System.Nullable<System.DateTime> UpdatedDateTimek__BackingField {
+            get {
+                return this.UpdatedDateTimek__BackingFieldField;
+            }
+            set {
+                if ((this.UpdatedDateTimek__BackingFieldField.Equals(value) != true)) {
+                    this.UpdatedDateTimek__BackingFieldField = value;
+                    this.RaisePropertyChanged("UpdatedDateTimek__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<WidthRestriction>k__BackingField", IsRequired=true)]
+        public System.Nullable<double> WidthRestrictionk__BackingField {
+            get {
+                return this.WidthRestrictionk__BackingFieldField;
+            }
+            set {
+                if ((this.WidthRestrictionk__BackingFieldField.Equals(value) != true)) {
+                    this.WidthRestrictionk__BackingFieldField = value;
+                    this.RaisePropertyChanged("WidthRestrictionk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ZoomFactor>k__BackingField", IsRequired=true)]
+        public System.Nullable<decimal> ZoomFactork__BackingField {
+            get {
+                return this.ZoomFactork__BackingFieldField;
+            }
+            set {
+                if ((this.ZoomFactork__BackingFieldField.Equals(value) != true)) {
+                    this.ZoomFactork__BackingFieldField = value;
+                    this.RaisePropertyChanged("ZoomFactork__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<categoryDescription>k__BackingField", IsRequired=true)]
+        public string categoryDescriptionk__BackingField {
+            get {
+                return this.categoryDescriptionk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.categoryDescriptionk__BackingFieldField, value) != true)) {
+                    this.categoryDescriptionk__BackingFieldField = value;
+                    this.RaisePropertyChanged("categoryDescriptionk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<displayOnClydy>k__BackingField", IsRequired=true)]
+        public System.Nullable<bool> displayOnClydyk__BackingField {
+            get {
+                return this.displayOnClydyk__BackingFieldField;
+            }
+            set {
+                if ((this.displayOnClydyk__BackingFieldField.Equals(value) != true)) {
+                    this.displayOnClydyk__BackingFieldField = value;
+                    this.RaisePropertyChanged("displayOnClydyk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategory1>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory[] tbl_ProductCategory1k__BackingField {
+            get {
+                return this.tbl_ProductCategory1k__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategory1k__BackingFieldField, value) != true)) {
+                    this.tbl_ProductCategory1k__BackingFieldField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategory1k__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategory2>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategory2k__BackingField {
+            get {
+                return this.tbl_ProductCategory2k__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategory2k__BackingFieldField, value) != true)) {
+                    this.tbl_ProductCategory2k__BackingFieldField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategory2k__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategoryFoldLines>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategoryFoldLines[] tbl_ProductCategoryFoldLinesk__BackingField {
+            get {
+                return this.tbl_ProductCategoryFoldLinesk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategoryFoldLinesk__BackingFieldField, value) != true)) {
+                    this.tbl_ProductCategoryFoldLinesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategoryFoldLinesk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<userFriendlyName>k__BackingField", IsRequired=true)]
+        public string userFriendlyNamek__BackingField {
+            get {
+                return this.userFriendlyNamek__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.userFriendlyNamek__BackingFieldField, value) != true)) {
+                    this.userFriendlyNamek__BackingFieldField = value;
+                    this.RaisePropertyChanged("userFriendlyNamek__BackingField");
+                }
             }
         }
         
@@ -4308,6 +4796,3508 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CategoryRegions", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class CategoryRegions : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RegionCodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RegionIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RegionNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string RegionCode {
+            get {
+                return this.RegionCodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RegionCodeField, value) != true)) {
+                    this.RegionCodeField = value;
+                    this.RaisePropertyChanged("RegionCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RegionID {
+            get {
+                return this.RegionIDField;
+            }
+            set {
+                if ((this.RegionIDField.Equals(value) != true)) {
+                    this.RegionIDField = value;
+                    this.RaisePropertyChanged("RegionID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string RegionName {
+            get {
+                return this.RegionNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RegionNameField, value) != true)) {
+                    this.RegionNameField = value;
+                    this.RaisePropertyChanged("RegionName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CategoryTypes", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class CategoryTypes : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int TypeIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TypeNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory[] tbl_ProductCategoryField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int TypeID {
+            get {
+                return this.TypeIDField;
+            }
+            set {
+                if ((this.TypeIDField.Equals(value) != true)) {
+                    this.TypeIDField = value;
+                    this.RaisePropertyChanged("TypeID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TypeName {
+            get {
+                return this.TypeNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TypeNameField, value) != true)) {
+                    this.TypeNameField = value;
+                    this.RaisePropertyChanged("TypeName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory[] tbl_ProductCategory {
+            get {
+                return this.tbl_ProductCategoryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategoryField, value) != true)) {
+                    this.tbl_ProductCategoryField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategory");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CategoryLayouts", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class CategoryLayouts : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private System.Nullable<int> ImageLogoTypek__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.LayoutAttributes[] LayoutAttributesk__BackingFieldField;
+        
+        private int LayoutIDk__BackingFieldField;
+        
+        private System.Nullable<int> Orientationk__BackingFieldField;
+        
+        private System.Nullable<int> ProductCategoryIDk__BackingFieldField;
+        
+        private string Titlek__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingFieldField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ImageLogoType>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> ImageLogoTypek__BackingField {
+            get {
+                return this.ImageLogoTypek__BackingFieldField;
+            }
+            set {
+                if ((this.ImageLogoTypek__BackingFieldField.Equals(value) != true)) {
+                    this.ImageLogoTypek__BackingFieldField = value;
+                    this.RaisePropertyChanged("ImageLogoTypek__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<LayoutAttributes>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.LayoutAttributes[] LayoutAttributesk__BackingField {
+            get {
+                return this.LayoutAttributesk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LayoutAttributesk__BackingFieldField, value) != true)) {
+                    this.LayoutAttributesk__BackingFieldField = value;
+                    this.RaisePropertyChanged("LayoutAttributesk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<LayoutID>k__BackingField", IsRequired=true)]
+        public int LayoutIDk__BackingField {
+            get {
+                return this.LayoutIDk__BackingFieldField;
+            }
+            set {
+                if ((this.LayoutIDk__BackingFieldField.Equals(value) != true)) {
+                    this.LayoutIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("LayoutIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Orientation>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> Orientationk__BackingField {
+            get {
+                return this.Orientationk__BackingFieldField;
+            }
+            set {
+                if ((this.Orientationk__BackingFieldField.Equals(value) != true)) {
+                    this.Orientationk__BackingFieldField = value;
+                    this.RaisePropertyChanged("Orientationk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ProductCategoryID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> ProductCategoryIDk__BackingField {
+            get {
+                return this.ProductCategoryIDk__BackingFieldField;
+            }
+            set {
+                if ((this.ProductCategoryIDk__BackingFieldField.Equals(value) != true)) {
+                    this.ProductCategoryIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ProductCategoryIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<Title>k__BackingField", IsRequired=true)]
+        public string Titlek__BackingField {
+            get {
+                return this.Titlek__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Titlek__BackingFieldField, value) != true)) {
+                    this.Titlek__BackingFieldField = value;
+                    this.RaisePropertyChanged("Titlek__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategory>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingField {
+            get {
+                return this.tbl_ProductCategoryk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategoryk__BackingFieldField, value) != true)) {
+                    this.tbl_ProductCategoryk__BackingFieldField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategoryk__BackingField");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MatchingSetCategories", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class MatchingSetCategories : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int IDk__BackingFieldField;
+        
+        private System.Nullable<int> MatchingSetIDk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.MatchingSets MatchingSetsk__BackingFieldField;
+        
+        private System.Nullable<int> ProductCategoryIDk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingFieldField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ID>k__BackingField", IsRequired=true)]
+        public int IDk__BackingField {
+            get {
+                return this.IDk__BackingFieldField;
+            }
+            set {
+                if ((this.IDk__BackingFieldField.Equals(value) != true)) {
+                    this.IDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("IDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<MatchingSetID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> MatchingSetIDk__BackingField {
+            get {
+                return this.MatchingSetIDk__BackingFieldField;
+            }
+            set {
+                if ((this.MatchingSetIDk__BackingFieldField.Equals(value) != true)) {
+                    this.MatchingSetIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("MatchingSetIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<MatchingSets>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.MatchingSets MatchingSetsk__BackingField {
+            get {
+                return this.MatchingSetsk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MatchingSetsk__BackingFieldField, value) != true)) {
+                    this.MatchingSetsk__BackingFieldField = value;
+                    this.RaisePropertyChanged("MatchingSetsk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ProductCategoryID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> ProductCategoryIDk__BackingField {
+            get {
+                return this.ProductCategoryIDk__BackingFieldField;
+            }
+            set {
+                if ((this.ProductCategoryIDk__BackingFieldField.Equals(value) != true)) {
+                    this.ProductCategoryIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ProductCategoryIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategory>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingField {
+            get {
+                return this.tbl_ProductCategoryk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategoryk__BackingFieldField, value) != true)) {
+                    this.tbl_ProductCategoryk__BackingFieldField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategoryk__BackingField");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="tbl_ProductCategoryFoldLines", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class tbl_ProductCategoryFoldLines : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int FoldLineIDk__BackingFieldField;
+        
+        private System.Nullable<double> FoldLineOffsetFromOrigink__BackingFieldField;
+        
+        private System.Nullable<bool> FoldLineOrientationk__BackingFieldField;
+        
+        private System.Nullable<int> ProductCategoryIDk__BackingFieldField;
+        
+        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingFieldField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<FoldLineID>k__BackingField", IsRequired=true)]
+        public int FoldLineIDk__BackingField {
+            get {
+                return this.FoldLineIDk__BackingFieldField;
+            }
+            set {
+                if ((this.FoldLineIDk__BackingFieldField.Equals(value) != true)) {
+                    this.FoldLineIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("FoldLineIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<FoldLineOffsetFromOrigin>k__BackingField", IsRequired=true)]
+        public System.Nullable<double> FoldLineOffsetFromOrigink__BackingField {
+            get {
+                return this.FoldLineOffsetFromOrigink__BackingFieldField;
+            }
+            set {
+                if ((this.FoldLineOffsetFromOrigink__BackingFieldField.Equals(value) != true)) {
+                    this.FoldLineOffsetFromOrigink__BackingFieldField = value;
+                    this.RaisePropertyChanged("FoldLineOffsetFromOrigink__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<FoldLineOrientation>k__BackingField", IsRequired=true)]
+        public System.Nullable<bool> FoldLineOrientationk__BackingField {
+            get {
+                return this.FoldLineOrientationk__BackingFieldField;
+            }
+            set {
+                if ((this.FoldLineOrientationk__BackingFieldField.Equals(value) != true)) {
+                    this.FoldLineOrientationk__BackingFieldField = value;
+                    this.RaisePropertyChanged("FoldLineOrientationk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<ProductCategoryID>k__BackingField", IsRequired=true)]
+        public System.Nullable<int> ProductCategoryIDk__BackingField {
+            get {
+                return this.ProductCategoryIDk__BackingFieldField;
+            }
+            set {
+                if ((this.ProductCategoryIDk__BackingFieldField.Equals(value) != true)) {
+                    this.ProductCategoryIDk__BackingFieldField = value;
+                    this.RaisePropertyChanged("ProductCategoryIDk__BackingField");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategory>k__BackingField", IsRequired=true)]
+        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingField {
+            get {
+                return this.tbl_ProductCategoryk__BackingFieldField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tbl_ProductCategoryk__BackingFieldField, value) != true)) {
+                    this.tbl_ProductCategoryk__BackingFieldField = value;
+                    this.RaisePropertyChanged("tbl_ProductCategoryk__BackingField");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LayoutAttributes", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class LayoutAttributes : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int AttIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MPC.Implementation.GlobalTemplateDesigner.CategoryLayouts CategoryLayoutsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FeildNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> LayoutIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<decimal> LeftPosField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<decimal> fontSizeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string fontWeightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string maxHeightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string maxWidthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string textAlignField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<decimal> topPosField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int AttId {
+            get {
+                return this.AttIdField;
+            }
+            set {
+                if ((this.AttIdField.Equals(value) != true)) {
+                    this.AttIdField = value;
+                    this.RaisePropertyChanged("AttId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MPC.Implementation.GlobalTemplateDesigner.CategoryLayouts CategoryLayouts {
+            get {
+                return this.CategoryLayoutsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CategoryLayoutsField, value) != true)) {
+                    this.CategoryLayoutsField = value;
+                    this.RaisePropertyChanged("CategoryLayouts");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FeildName {
+            get {
+                return this.FeildNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FeildNameField, value) != true)) {
+                    this.FeildNameField = value;
+                    this.RaisePropertyChanged("FeildName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> LayoutID {
+            get {
+                return this.LayoutIDField;
+            }
+            set {
+                if ((this.LayoutIDField.Equals(value) != true)) {
+                    this.LayoutIDField = value;
+                    this.RaisePropertyChanged("LayoutID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<decimal> LeftPos {
+            get {
+                return this.LeftPosField;
+            }
+            set {
+                if ((this.LeftPosField.Equals(value) != true)) {
+                    this.LeftPosField = value;
+                    this.RaisePropertyChanged("LeftPos");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<decimal> fontSize {
+            get {
+                return this.fontSizeField;
+            }
+            set {
+                if ((this.fontSizeField.Equals(value) != true)) {
+                    this.fontSizeField = value;
+                    this.RaisePropertyChanged("fontSize");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string fontWeight {
+            get {
+                return this.fontWeightField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.fontWeightField, value) != true)) {
+                    this.fontWeightField = value;
+                    this.RaisePropertyChanged("fontWeight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string maxHeight {
+            get {
+                return this.maxHeightField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.maxHeightField, value) != true)) {
+                    this.maxHeightField = value;
+                    this.RaisePropertyChanged("maxHeight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string maxWidth {
+            get {
+                return this.maxWidthField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.maxWidthField, value) != true)) {
+                    this.maxWidthField = value;
+                    this.RaisePropertyChanged("maxWidth");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string textAlign {
+            get {
+                return this.textAlignField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.textAlignField, value) != true)) {
+                    this.textAlignField = value;
+                    this.RaisePropertyChanged("textAlign");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<decimal> topPos {
+            get {
+                return this.topPosField;
+            }
+            set {
+                if ((this.topPosField.Equals(value) != true)) {
+                    this.topPosField = value;
+                    this.RaisePropertyChanged("topPos");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MatchingSets", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class MatchingSets : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> CreationDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> LastUpdatedDtField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private MPC.Implementation.GlobalTemplateDesigner.MatchingSetCategories[] MatchingSetCategoriesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int MatchingSetIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MatchingSetNameField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> CreationDate {
+            get {
+                return this.CreationDateField;
+            }
+            set {
+                if ((this.CreationDateField.Equals(value) != true)) {
+                    this.CreationDateField = value;
+                    this.RaisePropertyChanged("CreationDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> LastUpdatedDt {
+            get {
+                return this.LastUpdatedDtField;
+            }
+            set {
+                if ((this.LastUpdatedDtField.Equals(value) != true)) {
+                    this.LastUpdatedDtField = value;
+                    this.RaisePropertyChanged("LastUpdatedDt");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public MPC.Implementation.GlobalTemplateDesigner.MatchingSetCategories[] MatchingSetCategories {
+            get {
+                return this.MatchingSetCategoriesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MatchingSetCategoriesField, value) != true)) {
+                    this.MatchingSetCategoriesField = value;
+                    this.RaisePropertyChanged("MatchingSetCategories");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int MatchingSetID {
+            get {
+                return this.MatchingSetIDField;
+            }
+            set {
+                if ((this.MatchingSetIDField.Equals(value) != true)) {
+                    this.MatchingSetIDField = value;
+                    this.RaisePropertyChanged("MatchingSetID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MatchingSetName {
+            get {
+                return this.MatchingSetNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MatchingSetNameField, value) != true)) {
+                    this.MatchingSetNameField = value;
+                    this.RaisePropertyChanged("MatchingSetName");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TemplatesModel", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class TemplatesModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> ApprovalDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ApprovedByField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ApprovedByNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> ApprovedDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BackgroundArtworkField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> BaseColorIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> BgBField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> BgGField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> BgRField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ColorHexField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> CuttingMarginField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FullViewField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] FullViewByteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsCorporateEditableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsDisabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsDoubleSideField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsPrivateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsUseBackGroundColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsUsePDFFileField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsUseSide2BackGroundColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LowResPDFTemplatesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> MPCRatingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> MatchingSetIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MatchingSetThemeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> MultiPageCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> OrientationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PDFTemplateHeightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PDFTemplateWidthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> PTempIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProductCategoryIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ProductIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ProductNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string RejectionReasonField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SLThumbnailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] SLThumbnaillByteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<decimal> ScaleFactorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Side2BackgroundArtworkField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> Side2BgBField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> Side2BgGField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> Side2BgRField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string Side2LowResPDFTemplatesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> StatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> SubmitDateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> SubmittedByField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SubmittedByNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SuperViewField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] SuperViewByteField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TempStringField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> TemplateOwnerField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TemplateOwnerNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> TemplateTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ThumbnailField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> UsedCountField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> UserRatingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> isCreatedManualField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> isEditorChoiceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> isSpotTemplateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> isWatermarkTextField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> ApprovalDate {
+            get {
+                return this.ApprovalDateField;
+            }
+            set {
+                if ((this.ApprovalDateField.Equals(value) != true)) {
+                    this.ApprovalDateField = value;
+                    this.RaisePropertyChanged("ApprovalDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ApprovedBy {
+            get {
+                return this.ApprovedByField;
+            }
+            set {
+                if ((this.ApprovedByField.Equals(value) != true)) {
+                    this.ApprovedByField = value;
+                    this.RaisePropertyChanged("ApprovedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ApprovedByName {
+            get {
+                return this.ApprovedByNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ApprovedByNameField, value) != true)) {
+                    this.ApprovedByNameField = value;
+                    this.RaisePropertyChanged("ApprovedByName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> ApprovedDate {
+            get {
+                return this.ApprovedDateField;
+            }
+            set {
+                if ((this.ApprovedDateField.Equals(value) != true)) {
+                    this.ApprovedDateField = value;
+                    this.RaisePropertyChanged("ApprovedDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BackgroundArtwork {
+            get {
+                return this.BackgroundArtworkField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BackgroundArtworkField, value) != true)) {
+                    this.BackgroundArtworkField = value;
+                    this.RaisePropertyChanged("BackgroundArtwork");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> BaseColorID {
+            get {
+                return this.BaseColorIDField;
+            }
+            set {
+                if ((this.BaseColorIDField.Equals(value) != true)) {
+                    this.BaseColorIDField = value;
+                    this.RaisePropertyChanged("BaseColorID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> BgB {
+            get {
+                return this.BgBField;
+            }
+            set {
+                if ((this.BgBField.Equals(value) != true)) {
+                    this.BgBField = value;
+                    this.RaisePropertyChanged("BgB");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> BgG {
+            get {
+                return this.BgGField;
+            }
+            set {
+                if ((this.BgGField.Equals(value) != true)) {
+                    this.BgGField = value;
+                    this.RaisePropertyChanged("BgG");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> BgR {
+            get {
+                return this.BgRField;
+            }
+            set {
+                if ((this.BgRField.Equals(value) != true)) {
+                    this.BgRField = value;
+                    this.RaisePropertyChanged("BgR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Code {
+            get {
+                return this.CodeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CodeField, value) != true)) {
+                    this.CodeField = value;
+                    this.RaisePropertyChanged("Code");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ColorHex {
+            get {
+                return this.ColorHexField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ColorHexField, value) != true)) {
+                    this.ColorHexField = value;
+                    this.RaisePropertyChanged("ColorHex");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> CuttingMargin {
+            get {
+                return this.CuttingMarginField;
+            }
+            set {
+                if ((this.CuttingMarginField.Equals(value) != true)) {
+                    this.CuttingMarginField = value;
+                    this.RaisePropertyChanged("CuttingMargin");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description {
+            get {
+                return this.DescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DescriptionField, value) != true)) {
+                    this.DescriptionField = value;
+                    this.RaisePropertyChanged("Description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FullView {
+            get {
+                return this.FullViewField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FullViewField, value) != true)) {
+                    this.FullViewField = value;
+                    this.RaisePropertyChanged("FullView");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] FullViewByte {
+            get {
+                return this.FullViewByteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FullViewByteField, value) != true)) {
+                    this.FullViewByteField = value;
+                    this.RaisePropertyChanged("FullViewByte");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Image {
+            get {
+                return this.ImageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageField, value) != true)) {
+                    this.ImageField = value;
+                    this.RaisePropertyChanged("Image");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsCorporateEditable {
+            get {
+                return this.IsCorporateEditableField;
+            }
+            set {
+                if ((this.IsCorporateEditableField.Equals(value) != true)) {
+                    this.IsCorporateEditableField = value;
+                    this.RaisePropertyChanged("IsCorporateEditable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsDisabled {
+            get {
+                return this.IsDisabledField;
+            }
+            set {
+                if ((this.IsDisabledField.Equals(value) != true)) {
+                    this.IsDisabledField = value;
+                    this.RaisePropertyChanged("IsDisabled");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsDoubleSide {
+            get {
+                return this.IsDoubleSideField;
+            }
+            set {
+                if ((this.IsDoubleSideField.Equals(value) != true)) {
+                    this.IsDoubleSideField = value;
+                    this.RaisePropertyChanged("IsDoubleSide");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsPrivate {
+            get {
+                return this.IsPrivateField;
+            }
+            set {
+                if ((this.IsPrivateField.Equals(value) != true)) {
+                    this.IsPrivateField = value;
+                    this.RaisePropertyChanged("IsPrivate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsUseBackGroundColor {
+            get {
+                return this.IsUseBackGroundColorField;
+            }
+            set {
+                if ((this.IsUseBackGroundColorField.Equals(value) != true)) {
+                    this.IsUseBackGroundColorField = value;
+                    this.RaisePropertyChanged("IsUseBackGroundColor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsUsePDFFile {
+            get {
+                return this.IsUsePDFFileField;
+            }
+            set {
+                if ((this.IsUsePDFFileField.Equals(value) != true)) {
+                    this.IsUsePDFFileField = value;
+                    this.RaisePropertyChanged("IsUsePDFFile");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsUseSide2BackGroundColor {
+            get {
+                return this.IsUseSide2BackGroundColorField;
+            }
+            set {
+                if ((this.IsUseSide2BackGroundColorField.Equals(value) != true)) {
+                    this.IsUseSide2BackGroundColorField = value;
+                    this.RaisePropertyChanged("IsUseSide2BackGroundColor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string LowResPDFTemplates {
+            get {
+                return this.LowResPDFTemplatesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.LowResPDFTemplatesField, value) != true)) {
+                    this.LowResPDFTemplatesField = value;
+                    this.RaisePropertyChanged("LowResPDFTemplates");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> MPCRating {
+            get {
+                return this.MPCRatingField;
+            }
+            set {
+                if ((this.MPCRatingField.Equals(value) != true)) {
+                    this.MPCRatingField = value;
+                    this.RaisePropertyChanged("MPCRating");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> MatchingSetID {
+            get {
+                return this.MatchingSetIDField;
+            }
+            set {
+                if ((this.MatchingSetIDField.Equals(value) != true)) {
+                    this.MatchingSetIDField = value;
+                    this.RaisePropertyChanged("MatchingSetID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string MatchingSetTheme {
+            get {
+                return this.MatchingSetThemeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MatchingSetThemeField, value) != true)) {
+                    this.MatchingSetThemeField = value;
+                    this.RaisePropertyChanged("MatchingSetTheme");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> MultiPageCount {
+            get {
+                return this.MultiPageCountField;
+            }
+            set {
+                if ((this.MultiPageCountField.Equals(value) != true)) {
+                    this.MultiPageCountField = value;
+                    this.RaisePropertyChanged("MultiPageCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Orientation {
+            get {
+                return this.OrientationField;
+            }
+            set {
+                if ((this.OrientationField.Equals(value) != true)) {
+                    this.OrientationField = value;
+                    this.RaisePropertyChanged("Orientation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PDFTemplateHeight {
+            get {
+                return this.PDFTemplateHeightField;
+            }
+            set {
+                if ((this.PDFTemplateHeightField.Equals(value) != true)) {
+                    this.PDFTemplateHeightField = value;
+                    this.RaisePropertyChanged("PDFTemplateHeight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PDFTemplateWidth {
+            get {
+                return this.PDFTemplateWidthField;
+            }
+            set {
+                if ((this.PDFTemplateWidthField.Equals(value) != true)) {
+                    this.PDFTemplateWidthField = value;
+                    this.RaisePropertyChanged("PDFTemplateWidth");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> PTempId {
+            get {
+                return this.PTempIdField;
+            }
+            set {
+                if ((this.PTempIdField.Equals(value) != true)) {
+                    this.PTempIdField = value;
+                    this.RaisePropertyChanged("PTempId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProductCategoryID {
+            get {
+                return this.ProductCategoryIDField;
+            }
+            set {
+                if ((this.ProductCategoryIDField.Equals(value) != true)) {
+                    this.ProductCategoryIDField = value;
+                    this.RaisePropertyChanged("ProductCategoryID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ProductID {
+            get {
+                return this.ProductIDField;
+            }
+            set {
+                if ((this.ProductIDField.Equals(value) != true)) {
+                    this.ProductIDField = value;
+                    this.RaisePropertyChanged("ProductID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ProductName {
+            get {
+                return this.ProductNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProductNameField, value) != true)) {
+                    this.ProductNameField = value;
+                    this.RaisePropertyChanged("ProductName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string RejectionReason {
+            get {
+                return this.RejectionReasonField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RejectionReasonField, value) != true)) {
+                    this.RejectionReasonField = value;
+                    this.RaisePropertyChanged("RejectionReason");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SLThumbnail {
+            get {
+                return this.SLThumbnailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SLThumbnailField, value) != true)) {
+                    this.SLThumbnailField = value;
+                    this.RaisePropertyChanged("SLThumbnail");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] SLThumbnaillByte {
+            get {
+                return this.SLThumbnaillByteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SLThumbnaillByteField, value) != true)) {
+                    this.SLThumbnaillByteField = value;
+                    this.RaisePropertyChanged("SLThumbnaillByte");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<decimal> ScaleFactor {
+            get {
+                return this.ScaleFactorField;
+            }
+            set {
+                if ((this.ScaleFactorField.Equals(value) != true)) {
+                    this.ScaleFactorField = value;
+                    this.RaisePropertyChanged("ScaleFactor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Side2BackgroundArtwork {
+            get {
+                return this.Side2BackgroundArtworkField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Side2BackgroundArtworkField, value) != true)) {
+                    this.Side2BackgroundArtworkField = value;
+                    this.RaisePropertyChanged("Side2BackgroundArtwork");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Side2BgB {
+            get {
+                return this.Side2BgBField;
+            }
+            set {
+                if ((this.Side2BgBField.Equals(value) != true)) {
+                    this.Side2BgBField = value;
+                    this.RaisePropertyChanged("Side2BgB");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Side2BgG {
+            get {
+                return this.Side2BgGField;
+            }
+            set {
+                if ((this.Side2BgGField.Equals(value) != true)) {
+                    this.Side2BgGField = value;
+                    this.RaisePropertyChanged("Side2BgG");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Side2BgR {
+            get {
+                return this.Side2BgRField;
+            }
+            set {
+                if ((this.Side2BgRField.Equals(value) != true)) {
+                    this.Side2BgRField = value;
+                    this.RaisePropertyChanged("Side2BgR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Side2LowResPDFTemplates {
+            get {
+                return this.Side2LowResPDFTemplatesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.Side2LowResPDFTemplatesField, value) != true)) {
+                    this.Side2LowResPDFTemplatesField = value;
+                    this.RaisePropertyChanged("Side2LowResPDFTemplates");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((this.StatusField.Equals(value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> SubmitDate {
+            get {
+                return this.SubmitDateField;
+            }
+            set {
+                if ((this.SubmitDateField.Equals(value) != true)) {
+                    this.SubmitDateField = value;
+                    this.RaisePropertyChanged("SubmitDate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> SubmittedBy {
+            get {
+                return this.SubmittedByField;
+            }
+            set {
+                if ((this.SubmittedByField.Equals(value) != true)) {
+                    this.SubmittedByField = value;
+                    this.RaisePropertyChanged("SubmittedBy");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SubmittedByName {
+            get {
+                return this.SubmittedByNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SubmittedByNameField, value) != true)) {
+                    this.SubmittedByNameField = value;
+                    this.RaisePropertyChanged("SubmittedByName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SuperView {
+            get {
+                return this.SuperViewField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SuperViewField, value) != true)) {
+                    this.SuperViewField = value;
+                    this.RaisePropertyChanged("SuperView");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] SuperViewByte {
+            get {
+                return this.SuperViewByteField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SuperViewByteField, value) != true)) {
+                    this.SuperViewByteField = value;
+                    this.RaisePropertyChanged("SuperViewByte");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TempString {
+            get {
+                return this.TempStringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TempStringField, value) != true)) {
+                    this.TempStringField = value;
+                    this.RaisePropertyChanged("TempString");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> TemplateOwner {
+            get {
+                return this.TemplateOwnerField;
+            }
+            set {
+                if ((this.TemplateOwnerField.Equals(value) != true)) {
+                    this.TemplateOwnerField = value;
+                    this.RaisePropertyChanged("TemplateOwner");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TemplateOwnerName {
+            get {
+                return this.TemplateOwnerNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TemplateOwnerNameField, value) != true)) {
+                    this.TemplateOwnerNameField = value;
+                    this.RaisePropertyChanged("TemplateOwnerName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> TemplateType {
+            get {
+                return this.TemplateTypeField;
+            }
+            set {
+                if ((this.TemplateTypeField.Equals(value) != true)) {
+                    this.TemplateTypeField = value;
+                    this.RaisePropertyChanged("TemplateType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Thumbnail {
+            get {
+                return this.ThumbnailField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ThumbnailField, value) != true)) {
+                    this.ThumbnailField = value;
+                    this.RaisePropertyChanged("Thumbnail");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> UsedCount {
+            get {
+                return this.UsedCountField;
+            }
+            set {
+                if ((this.UsedCountField.Equals(value) != true)) {
+                    this.UsedCountField = value;
+                    this.RaisePropertyChanged("UsedCount");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> UserRating {
+            get {
+                return this.UserRatingField;
+            }
+            set {
+                if ((this.UserRatingField.Equals(value) != true)) {
+                    this.UserRatingField = value;
+                    this.RaisePropertyChanged("UserRating");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> isCreatedManual {
+            get {
+                return this.isCreatedManualField;
+            }
+            set {
+                if ((this.isCreatedManualField.Equals(value) != true)) {
+                    this.isCreatedManualField = value;
+                    this.RaisePropertyChanged("isCreatedManual");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> isEditorChoice {
+            get {
+                return this.isEditorChoiceField;
+            }
+            set {
+                if ((this.isEditorChoiceField.Equals(value) != true)) {
+                    this.isEditorChoiceField = value;
+                    this.RaisePropertyChanged("isEditorChoice");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> isSpotTemplate {
+            get {
+                return this.isSpotTemplateField;
+            }
+            set {
+                if ((this.isSpotTemplateField.Equals(value) != true)) {
+                    this.isSpotTemplateField = value;
+                    this.RaisePropertyChanged("isSpotTemplate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> isWatermarkText {
+            get {
+                return this.isWatermarkTextField;
+            }
+            set {
+                if ((this.isWatermarkTextField.Equals(value) != true)) {
+                    this.isWatermarkTextField = value;
+                    this.RaisePropertyChanged("isWatermarkText");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TemplatePagesModel", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class TemplatePagesModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> BackGroundTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BackgroundFileNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorCField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorKField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorMField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorYField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsPrintableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> OrientationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PageNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> PageNoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> PageTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProductIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ProductPageIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> hasOverlayObjectsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> BackGroundType {
+            get {
+                return this.BackGroundTypeField;
+            }
+            set {
+                if ((this.BackGroundTypeField.Equals(value) != true)) {
+                    this.BackGroundTypeField = value;
+                    this.RaisePropertyChanged("BackGroundType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BackgroundFileName {
+            get {
+                return this.BackgroundFileNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BackgroundFileNameField, value) != true)) {
+                    this.BackgroundFileNameField = value;
+                    this.RaisePropertyChanged("BackgroundFileName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorC {
+            get {
+                return this.ColorCField;
+            }
+            set {
+                if ((this.ColorCField.Equals(value) != true)) {
+                    this.ColorCField = value;
+                    this.RaisePropertyChanged("ColorC");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorK {
+            get {
+                return this.ColorKField;
+            }
+            set {
+                if ((this.ColorKField.Equals(value) != true)) {
+                    this.ColorKField = value;
+                    this.RaisePropertyChanged("ColorK");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorM {
+            get {
+                return this.ColorMField;
+            }
+            set {
+                if ((this.ColorMField.Equals(value) != true)) {
+                    this.ColorMField = value;
+                    this.RaisePropertyChanged("ColorM");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorY {
+            get {
+                return this.ColorYField;
+            }
+            set {
+                if ((this.ColorYField.Equals(value) != true)) {
+                    this.ColorYField = value;
+                    this.RaisePropertyChanged("ColorY");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsPrintable {
+            get {
+                return this.IsPrintableField;
+            }
+            set {
+                if ((this.IsPrintableField.Equals(value) != true)) {
+                    this.IsPrintableField = value;
+                    this.RaisePropertyChanged("IsPrintable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Orientation {
+            get {
+                return this.OrientationField;
+            }
+            set {
+                if ((this.OrientationField.Equals(value) != true)) {
+                    this.OrientationField = value;
+                    this.RaisePropertyChanged("Orientation");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PageName {
+            get {
+                return this.PageNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PageNameField, value) != true)) {
+                    this.PageNameField = value;
+                    this.RaisePropertyChanged("PageName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> PageNo {
+            get {
+                return this.PageNoField;
+            }
+            set {
+                if ((this.PageNoField.Equals(value) != true)) {
+                    this.PageNoField = value;
+                    this.RaisePropertyChanged("PageNo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> PageType {
+            get {
+                return this.PageTypeField;
+            }
+            set {
+                if ((this.PageTypeField.Equals(value) != true)) {
+                    this.PageTypeField = value;
+                    this.RaisePropertyChanged("PageType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProductID {
+            get {
+                return this.ProductIDField;
+            }
+            set {
+                if ((this.ProductIDField.Equals(value) != true)) {
+                    this.ProductIDField = value;
+                    this.RaisePropertyChanged("ProductID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ProductPageID {
+            get {
+                return this.ProductPageIDField;
+            }
+            set {
+                if ((this.ProductPageIDField.Equals(value) != true)) {
+                    this.ProductPageIDField = value;
+                    this.RaisePropertyChanged("ProductPageID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> hasOverlayObjects {
+            get {
+                return this.hasOverlayObjectsField;
+            }
+            set {
+                if ((this.hasOverlayObjectsField.Equals(value) != true)) {
+                    this.hasOverlayObjectsField = value;
+                    this.RaisePropertyChanged("hasOverlayObjects");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TemplateObjectsModel", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class TemplateObjectsModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> AllignmentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> AutoShrinkTextField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> BColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> CharSpacingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> CircleRadiusXField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> CircleRadiusYField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ClippedInfoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorCField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ColorHexField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorKField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorMField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ColorNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorStyleIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ColorYField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ContentCaseTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ContentStringField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DisplayOrderPdfField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DisplayOrderTxtControlField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ExField1Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ExField2Field;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FontNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> FontSizeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> FontStyleIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> GColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> IndentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsBoldField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsEditableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsFontCustomField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsFontNamePrivateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsHiddenField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsItalicField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsMandatoryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsNewLineField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsOverlayObjectField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsPositionLockedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsQuickTextField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsRequireNumericValueField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsSpotColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsTextEditableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsUnderlinedTextField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> LineSpacingField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> MaxCharactersField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> MaxHeightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> MaxWidthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ObjectIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ObjectTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> OpacityField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> PalleteIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ParentIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PositionXField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> PositionYField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProductIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProductPageIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> QuickTextOrderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> RColorField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<double> RotationAngleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SpotColorNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string TCtlNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> TintField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> VAllignmentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> hasClippingPathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> isSide2ObjectField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> textCaseField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string textStylesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string watermarkTextField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Allignment {
+            get {
+                return this.AllignmentField;
+            }
+            set {
+                if ((this.AllignmentField.Equals(value) != true)) {
+                    this.AllignmentField = value;
+                    this.RaisePropertyChanged("Allignment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> AutoShrinkText {
+            get {
+                return this.AutoShrinkTextField;
+            }
+            set {
+                if ((this.AutoShrinkTextField.Equals(value) != true)) {
+                    this.AutoShrinkTextField = value;
+                    this.RaisePropertyChanged("AutoShrinkText");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> BColor {
+            get {
+                return this.BColorField;
+            }
+            set {
+                if ((this.BColorField.Equals(value) != true)) {
+                    this.BColorField = value;
+                    this.RaisePropertyChanged("BColor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> CharSpacing {
+            get {
+                return this.CharSpacingField;
+            }
+            set {
+                if ((this.CharSpacingField.Equals(value) != true)) {
+                    this.CharSpacingField = value;
+                    this.RaisePropertyChanged("CharSpacing");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> CircleRadiusX {
+            get {
+                return this.CircleRadiusXField;
+            }
+            set {
+                if ((this.CircleRadiusXField.Equals(value) != true)) {
+                    this.CircleRadiusXField = value;
+                    this.RaisePropertyChanged("CircleRadiusX");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> CircleRadiusY {
+            get {
+                return this.CircleRadiusYField;
+            }
+            set {
+                if ((this.CircleRadiusYField.Equals(value) != true)) {
+                    this.CircleRadiusYField = value;
+                    this.RaisePropertyChanged("CircleRadiusY");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ClippedInfo {
+            get {
+                return this.ClippedInfoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ClippedInfoField, value) != true)) {
+                    this.ClippedInfoField = value;
+                    this.RaisePropertyChanged("ClippedInfo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorC {
+            get {
+                return this.ColorCField;
+            }
+            set {
+                if ((this.ColorCField.Equals(value) != true)) {
+                    this.ColorCField = value;
+                    this.RaisePropertyChanged("ColorC");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ColorHex {
+            get {
+                return this.ColorHexField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ColorHexField, value) != true)) {
+                    this.ColorHexField = value;
+                    this.RaisePropertyChanged("ColorHex");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorK {
+            get {
+                return this.ColorKField;
+            }
+            set {
+                if ((this.ColorKField.Equals(value) != true)) {
+                    this.ColorKField = value;
+                    this.RaisePropertyChanged("ColorK");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorM {
+            get {
+                return this.ColorMField;
+            }
+            set {
+                if ((this.ColorMField.Equals(value) != true)) {
+                    this.ColorMField = value;
+                    this.RaisePropertyChanged("ColorM");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ColorName {
+            get {
+                return this.ColorNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ColorNameField, value) != true)) {
+                    this.ColorNameField = value;
+                    this.RaisePropertyChanged("ColorName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorStyleID {
+            get {
+                return this.ColorStyleIDField;
+            }
+            set {
+                if ((this.ColorStyleIDField.Equals(value) != true)) {
+                    this.ColorStyleIDField = value;
+                    this.RaisePropertyChanged("ColorStyleID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorType {
+            get {
+                return this.ColorTypeField;
+            }
+            set {
+                if ((this.ColorTypeField.Equals(value) != true)) {
+                    this.ColorTypeField = value;
+                    this.RaisePropertyChanged("ColorType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ColorY {
+            get {
+                return this.ColorYField;
+            }
+            set {
+                if ((this.ColorYField.Equals(value) != true)) {
+                    this.ColorYField = value;
+                    this.RaisePropertyChanged("ColorY");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ContentCaseType {
+            get {
+                return this.ContentCaseTypeField;
+            }
+            set {
+                if ((this.ContentCaseTypeField.Equals(value) != true)) {
+                    this.ContentCaseTypeField = value;
+                    this.RaisePropertyChanged("ContentCaseType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ContentString {
+            get {
+                return this.ContentStringField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ContentStringField, value) != true)) {
+                    this.ContentStringField = value;
+                    this.RaisePropertyChanged("ContentString");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DisplayOrderPdf {
+            get {
+                return this.DisplayOrderPdfField;
+            }
+            set {
+                if ((this.DisplayOrderPdfField.Equals(value) != true)) {
+                    this.DisplayOrderPdfField = value;
+                    this.RaisePropertyChanged("DisplayOrderPdf");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DisplayOrderTxtControl {
+            get {
+                return this.DisplayOrderTxtControlField;
+            }
+            set {
+                if ((this.DisplayOrderTxtControlField.Equals(value) != true)) {
+                    this.DisplayOrderTxtControlField = value;
+                    this.RaisePropertyChanged("DisplayOrderTxtControl");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ExField1 {
+            get {
+                return this.ExField1Field;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ExField1Field, value) != true)) {
+                    this.ExField1Field = value;
+                    this.RaisePropertyChanged("ExField1");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ExField2 {
+            get {
+                return this.ExField2Field;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ExField2Field, value) != true)) {
+                    this.ExField2Field = value;
+                    this.RaisePropertyChanged("ExField2");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FontName {
+            get {
+                return this.FontNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FontNameField, value) != true)) {
+                    this.FontNameField = value;
+                    this.RaisePropertyChanged("FontName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> FontSize {
+            get {
+                return this.FontSizeField;
+            }
+            set {
+                if ((this.FontSizeField.Equals(value) != true)) {
+                    this.FontSizeField = value;
+                    this.RaisePropertyChanged("FontSize");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> FontStyleID {
+            get {
+                return this.FontStyleIDField;
+            }
+            set {
+                if ((this.FontStyleIDField.Equals(value) != true)) {
+                    this.FontStyleIDField = value;
+                    this.RaisePropertyChanged("FontStyleID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> GColor {
+            get {
+                return this.GColorField;
+            }
+            set {
+                if ((this.GColorField.Equals(value) != true)) {
+                    this.GColorField = value;
+                    this.RaisePropertyChanged("GColor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> Indent {
+            get {
+                return this.IndentField;
+            }
+            set {
+                if ((this.IndentField.Equals(value) != true)) {
+                    this.IndentField = value;
+                    this.RaisePropertyChanged("Indent");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsBold {
+            get {
+                return this.IsBoldField;
+            }
+            set {
+                if ((this.IsBoldField.Equals(value) != true)) {
+                    this.IsBoldField = value;
+                    this.RaisePropertyChanged("IsBold");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsEditable {
+            get {
+                return this.IsEditableField;
+            }
+            set {
+                if ((this.IsEditableField.Equals(value) != true)) {
+                    this.IsEditableField = value;
+                    this.RaisePropertyChanged("IsEditable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsFontCustom {
+            get {
+                return this.IsFontCustomField;
+            }
+            set {
+                if ((this.IsFontCustomField.Equals(value) != true)) {
+                    this.IsFontCustomField = value;
+                    this.RaisePropertyChanged("IsFontCustom");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsFontNamePrivate {
+            get {
+                return this.IsFontNamePrivateField;
+            }
+            set {
+                if ((this.IsFontNamePrivateField.Equals(value) != true)) {
+                    this.IsFontNamePrivateField = value;
+                    this.RaisePropertyChanged("IsFontNamePrivate");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsHidden {
+            get {
+                return this.IsHiddenField;
+            }
+            set {
+                if ((this.IsHiddenField.Equals(value) != true)) {
+                    this.IsHiddenField = value;
+                    this.RaisePropertyChanged("IsHidden");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsItalic {
+            get {
+                return this.IsItalicField;
+            }
+            set {
+                if ((this.IsItalicField.Equals(value) != true)) {
+                    this.IsItalicField = value;
+                    this.RaisePropertyChanged("IsItalic");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsMandatory {
+            get {
+                return this.IsMandatoryField;
+            }
+            set {
+                if ((this.IsMandatoryField.Equals(value) != true)) {
+                    this.IsMandatoryField = value;
+                    this.RaisePropertyChanged("IsMandatory");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsNewLine {
+            get {
+                return this.IsNewLineField;
+            }
+            set {
+                if ((this.IsNewLineField.Equals(value) != true)) {
+                    this.IsNewLineField = value;
+                    this.RaisePropertyChanged("IsNewLine");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsOverlayObject {
+            get {
+                return this.IsOverlayObjectField;
+            }
+            set {
+                if ((this.IsOverlayObjectField.Equals(value) != true)) {
+                    this.IsOverlayObjectField = value;
+                    this.RaisePropertyChanged("IsOverlayObject");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsPositionLocked {
+            get {
+                return this.IsPositionLockedField;
+            }
+            set {
+                if ((this.IsPositionLockedField.Equals(value) != true)) {
+                    this.IsPositionLockedField = value;
+                    this.RaisePropertyChanged("IsPositionLocked");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsQuickText {
+            get {
+                return this.IsQuickTextField;
+            }
+            set {
+                if ((this.IsQuickTextField.Equals(value) != true)) {
+                    this.IsQuickTextField = value;
+                    this.RaisePropertyChanged("IsQuickText");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsRequireNumericValue {
+            get {
+                return this.IsRequireNumericValueField;
+            }
+            set {
+                if ((this.IsRequireNumericValueField.Equals(value) != true)) {
+                    this.IsRequireNumericValueField = value;
+                    this.RaisePropertyChanged("IsRequireNumericValue");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsSpotColor {
+            get {
+                return this.IsSpotColorField;
+            }
+            set {
+                if ((this.IsSpotColorField.Equals(value) != true)) {
+                    this.IsSpotColorField = value;
+                    this.RaisePropertyChanged("IsSpotColor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsTextEditable {
+            get {
+                return this.IsTextEditableField;
+            }
+            set {
+                if ((this.IsTextEditableField.Equals(value) != true)) {
+                    this.IsTextEditableField = value;
+                    this.RaisePropertyChanged("IsTextEditable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsUnderlinedText {
+            get {
+                return this.IsUnderlinedTextField;
+            }
+            set {
+                if ((this.IsUnderlinedTextField.Equals(value) != true)) {
+                    this.IsUnderlinedTextField = value;
+                    this.RaisePropertyChanged("IsUnderlinedText");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> LineSpacing {
+            get {
+                return this.LineSpacingField;
+            }
+            set {
+                if ((this.LineSpacingField.Equals(value) != true)) {
+                    this.LineSpacingField = value;
+                    this.RaisePropertyChanged("LineSpacing");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> MaxCharacters {
+            get {
+                return this.MaxCharactersField;
+            }
+            set {
+                if ((this.MaxCharactersField.Equals(value) != true)) {
+                    this.MaxCharactersField = value;
+                    this.RaisePropertyChanged("MaxCharacters");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> MaxHeight {
+            get {
+                return this.MaxHeightField;
+            }
+            set {
+                if ((this.MaxHeightField.Equals(value) != true)) {
+                    this.MaxHeightField = value;
+                    this.RaisePropertyChanged("MaxHeight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> MaxWidth {
+            get {
+                return this.MaxWidthField;
+            }
+            set {
+                if ((this.MaxWidthField.Equals(value) != true)) {
+                    this.MaxWidthField = value;
+                    this.RaisePropertyChanged("MaxWidth");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ObjectID {
+            get {
+                return this.ObjectIDField;
+            }
+            set {
+                if ((this.ObjectIDField.Equals(value) != true)) {
+                    this.ObjectIDField = value;
+                    this.RaisePropertyChanged("ObjectID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ObjectType {
+            get {
+                return this.ObjectTypeField;
+            }
+            set {
+                if ((this.ObjectTypeField.Equals(value) != true)) {
+                    this.ObjectTypeField = value;
+                    this.RaisePropertyChanged("ObjectType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> Opacity {
+            get {
+                return this.OpacityField;
+            }
+            set {
+                if ((this.OpacityField.Equals(value) != true)) {
+                    this.OpacityField = value;
+                    this.RaisePropertyChanged("Opacity");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> PalleteID {
+            get {
+                return this.PalleteIDField;
+            }
+            set {
+                if ((this.PalleteIDField.Equals(value) != true)) {
+                    this.PalleteIDField = value;
+                    this.RaisePropertyChanged("PalleteID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ParentId {
+            get {
+                return this.ParentIdField;
+            }
+            set {
+                if ((this.ParentIdField.Equals(value) != true)) {
+                    this.ParentIdField = value;
+                    this.RaisePropertyChanged("ParentId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PositionX {
+            get {
+                return this.PositionXField;
+            }
+            set {
+                if ((this.PositionXField.Equals(value) != true)) {
+                    this.PositionXField = value;
+                    this.RaisePropertyChanged("PositionX");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> PositionY {
+            get {
+                return this.PositionYField;
+            }
+            set {
+                if ((this.PositionYField.Equals(value) != true)) {
+                    this.PositionYField = value;
+                    this.RaisePropertyChanged("PositionY");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProductID {
+            get {
+                return this.ProductIDField;
+            }
+            set {
+                if ((this.ProductIDField.Equals(value) != true)) {
+                    this.ProductIDField = value;
+                    this.RaisePropertyChanged("ProductID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProductPageId {
+            get {
+                return this.ProductPageIdField;
+            }
+            set {
+                if ((this.ProductPageIdField.Equals(value) != true)) {
+                    this.ProductPageIdField = value;
+                    this.RaisePropertyChanged("ProductPageId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> QuickTextOrder {
+            get {
+                return this.QuickTextOrderField;
+            }
+            set {
+                if ((this.QuickTextOrderField.Equals(value) != true)) {
+                    this.QuickTextOrderField = value;
+                    this.RaisePropertyChanged("QuickTextOrder");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> RColor {
+            get {
+                return this.RColorField;
+            }
+            set {
+                if ((this.RColorField.Equals(value) != true)) {
+                    this.RColorField = value;
+                    this.RaisePropertyChanged("RColor");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<double> RotationAngle {
+            get {
+                return this.RotationAngleField;
+            }
+            set {
+                if ((this.RotationAngleField.Equals(value) != true)) {
+                    this.RotationAngleField = value;
+                    this.RaisePropertyChanged("RotationAngle");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SpotColorName {
+            get {
+                return this.SpotColorNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SpotColorNameField, value) != true)) {
+                    this.SpotColorNameField = value;
+                    this.RaisePropertyChanged("SpotColorName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string TCtlName {
+            get {
+                return this.TCtlNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.TCtlNameField, value) != true)) {
+                    this.TCtlNameField = value;
+                    this.RaisePropertyChanged("TCtlName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Tint {
+            get {
+                return this.TintField;
+            }
+            set {
+                if ((this.TintField.Equals(value) != true)) {
+                    this.TintField = value;
+                    this.RaisePropertyChanged("Tint");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> VAllignment {
+            get {
+                return this.VAllignmentField;
+            }
+            set {
+                if ((this.VAllignmentField.Equals(value) != true)) {
+                    this.VAllignmentField = value;
+                    this.RaisePropertyChanged("VAllignment");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> hasClippingPath {
+            get {
+                return this.hasClippingPathField;
+            }
+            set {
+                if ((this.hasClippingPathField.Equals(value) != true)) {
+                    this.hasClippingPathField = value;
+                    this.RaisePropertyChanged("hasClippingPath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> isSide2Object {
+            get {
+                return this.isSide2ObjectField;
+            }
+            set {
+                if ((this.isSide2ObjectField.Equals(value) != true)) {
+                    this.isSide2ObjectField = value;
+                    this.RaisePropertyChanged("isSide2Object");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> textCase {
+            get {
+                return this.textCaseField;
+            }
+            set {
+                if ((this.textCaseField.Equals(value) != true)) {
+                    this.textCaseField = value;
+                    this.RaisePropertyChanged("textCase");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string textStyles {
+            get {
+                return this.textStylesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.textStylesField, value) != true)) {
+                    this.textStylesField = value;
+                    this.RaisePropertyChanged("textStyles");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string watermarkText {
+            get {
+                return this.watermarkTextField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.watermarkTextField, value) != true)) {
+                    this.watermarkTextField = value;
+                    this.RaisePropertyChanged("watermarkText");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TemplateBackgroundImagesModel", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.SerializableAttribute()]
+    public partial class TemplateBackgroundImagesModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BackgroundImageAbsolutePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BackgroundImageRelativePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ContactCompanyIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ContactIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageDescriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ImageHeightField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageKeywordsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ImageTitleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ImageTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ImageWidthField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProductIDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> UploadedFromField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string clippingFileNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> flgCoverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> flgPhotobookField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> hasClippingPathField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BackgroundImageAbsolutePath {
+            get {
+                return this.BackgroundImageAbsolutePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BackgroundImageAbsolutePathField, value) != true)) {
+                    this.BackgroundImageAbsolutePathField = value;
+                    this.RaisePropertyChanged("BackgroundImageAbsolutePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BackgroundImageRelativePath {
+            get {
+                return this.BackgroundImageRelativePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BackgroundImageRelativePathField, value) != true)) {
+                    this.BackgroundImageRelativePathField = value;
+                    this.RaisePropertyChanged("BackgroundImageRelativePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ContactCompanyID {
+            get {
+                return this.ContactCompanyIDField;
+            }
+            set {
+                if ((this.ContactCompanyIDField.Equals(value) != true)) {
+                    this.ContactCompanyIDField = value;
+                    this.RaisePropertyChanged("ContactCompanyID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ContactID {
+            get {
+                return this.ContactIDField;
+            }
+            set {
+                if ((this.ContactIDField.Equals(value) != true)) {
+                    this.ContactIDField = value;
+                    this.RaisePropertyChanged("ContactID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                if ((this.IDField.Equals(value) != true)) {
+                    this.IDField = value;
+                    this.RaisePropertyChanged("ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImageDescription {
+            get {
+                return this.ImageDescriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageDescriptionField, value) != true)) {
+                    this.ImageDescriptionField = value;
+                    this.RaisePropertyChanged("ImageDescription");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ImageHeight {
+            get {
+                return this.ImageHeightField;
+            }
+            set {
+                if ((this.ImageHeightField.Equals(value) != true)) {
+                    this.ImageHeightField = value;
+                    this.RaisePropertyChanged("ImageHeight");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImageKeywords {
+            get {
+                return this.ImageKeywordsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageKeywordsField, value) != true)) {
+                    this.ImageKeywordsField = value;
+                    this.RaisePropertyChanged("ImageKeywords");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImageName {
+            get {
+                return this.ImageNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageNameField, value) != true)) {
+                    this.ImageNameField = value;
+                    this.RaisePropertyChanged("ImageName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ImageTitle {
+            get {
+                return this.ImageTitleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ImageTitleField, value) != true)) {
+                    this.ImageTitleField = value;
+                    this.RaisePropertyChanged("ImageTitle");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ImageType {
+            get {
+                return this.ImageTypeField;
+            }
+            set {
+                if ((this.ImageTypeField.Equals(value) != true)) {
+                    this.ImageTypeField = value;
+                    this.RaisePropertyChanged("ImageType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ImageWidth {
+            get {
+                return this.ImageWidthField;
+            }
+            set {
+                if ((this.ImageWidthField.Equals(value) != true)) {
+                    this.ImageWidthField = value;
+                    this.RaisePropertyChanged("ImageWidth");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProductID {
+            get {
+                return this.ProductIDField;
+            }
+            set {
+                if ((this.ProductIDField.Equals(value) != true)) {
+                    this.ProductIDField = value;
+                    this.RaisePropertyChanged("ProductID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> UploadedFrom {
+            get {
+                return this.UploadedFromField;
+            }
+            set {
+                if ((this.UploadedFromField.Equals(value) != true)) {
+                    this.UploadedFromField = value;
+                    this.RaisePropertyChanged("UploadedFrom");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string clippingFileName {
+            get {
+                return this.clippingFileNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.clippingFileNameField, value) != true)) {
+                    this.clippingFileNameField = value;
+                    this.RaisePropertyChanged("clippingFileName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> flgCover {
+            get {
+                return this.flgCoverField;
+            }
+            set {
+                if ((this.flgCoverField.Equals(value) != true)) {
+                    this.flgCoverField = value;
+                    this.RaisePropertyChanged("flgCover");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> flgPhotobook {
+            get {
+                return this.flgPhotobookField;
+            }
+            set {
+                if ((this.flgPhotobookField.Equals(value) != true)) {
+                    this.flgPhotobookField = value;
+                    this.RaisePropertyChanged("flgPhotobook");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> hasClippingPath {
+            get {
+                return this.hasClippingPathField;
+            }
+            set {
+                if ((this.hasClippingPathField.Equals(value) != true)) {
+                    this.hasClippingPathField = value;
+                    this.RaisePropertyChanged("hasClippingPath");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="sp_GetTemplateThemeTags_Result", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
     [System.SerializableAttribute()]
     public partial class sp_GetTemplateThemeTags_Result : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -4494,22 +8484,45 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="tbl_ProductCategoryFoldLines", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TemplateFontsModel", Namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2")]
     [System.SerializableAttribute()]
-    public partial class tbl_ProductCategoryFoldLines : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class TemplateFontsModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        private int FoldLineIDk__BackingFieldField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> CustomerIDField;
         
-        private System.Nullable<double> FoldLineOffsetFromOrigink__BackingFieldField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> DisplayIndexField;
         
-        private System.Nullable<bool> FoldLineOrientationk__BackingFieldField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private byte[] FontBytesField;
         
-        private System.Nullable<int> ProductCategoryIDk__BackingFieldField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FontDisplayNameField;
         
-        private MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingFieldField;
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FontFileField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FontNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FontPathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<bool> IsEnableField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsPrivateFontField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ProductFontIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ProductIdField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -4521,67 +8534,145 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(Name="<FoldLineID>k__BackingField", IsRequired=true)]
-        public int FoldLineIDk__BackingField {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> CustomerID {
             get {
-                return this.FoldLineIDk__BackingFieldField;
+                return this.CustomerIDField;
             }
             set {
-                if ((this.FoldLineIDk__BackingFieldField.Equals(value) != true)) {
-                    this.FoldLineIDk__BackingFieldField = value;
-                    this.RaisePropertyChanged("FoldLineIDk__BackingField");
+                if ((this.CustomerIDField.Equals(value) != true)) {
+                    this.CustomerIDField = value;
+                    this.RaisePropertyChanged("CustomerID");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(Name="<FoldLineOffsetFromOrigin>k__BackingField", IsRequired=true)]
-        public System.Nullable<double> FoldLineOffsetFromOrigink__BackingField {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> DisplayIndex {
             get {
-                return this.FoldLineOffsetFromOrigink__BackingFieldField;
+                return this.DisplayIndexField;
             }
             set {
-                if ((this.FoldLineOffsetFromOrigink__BackingFieldField.Equals(value) != true)) {
-                    this.FoldLineOffsetFromOrigink__BackingFieldField = value;
-                    this.RaisePropertyChanged("FoldLineOffsetFromOrigink__BackingField");
+                if ((this.DisplayIndexField.Equals(value) != true)) {
+                    this.DisplayIndexField = value;
+                    this.RaisePropertyChanged("DisplayIndex");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(Name="<FoldLineOrientation>k__BackingField", IsRequired=true)]
-        public System.Nullable<bool> FoldLineOrientationk__BackingField {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public byte[] FontBytes {
             get {
-                return this.FoldLineOrientationk__BackingFieldField;
+                return this.FontBytesField;
             }
             set {
-                if ((this.FoldLineOrientationk__BackingFieldField.Equals(value) != true)) {
-                    this.FoldLineOrientationk__BackingFieldField = value;
-                    this.RaisePropertyChanged("FoldLineOrientationk__BackingField");
+                if ((object.ReferenceEquals(this.FontBytesField, value) != true)) {
+                    this.FontBytesField = value;
+                    this.RaisePropertyChanged("FontBytes");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(Name="<ProductCategoryID>k__BackingField", IsRequired=true)]
-        public System.Nullable<int> ProductCategoryIDk__BackingField {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FontDisplayName {
             get {
-                return this.ProductCategoryIDk__BackingFieldField;
+                return this.FontDisplayNameField;
             }
             set {
-                if ((this.ProductCategoryIDk__BackingFieldField.Equals(value) != true)) {
-                    this.ProductCategoryIDk__BackingFieldField = value;
-                    this.RaisePropertyChanged("ProductCategoryIDk__BackingField");
+                if ((object.ReferenceEquals(this.FontDisplayNameField, value) != true)) {
+                    this.FontDisplayNameField = value;
+                    this.RaisePropertyChanged("FontDisplayName");
                 }
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute(Name="<tbl_ProductCategory>k__BackingField", IsRequired=true)]
-        public MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategory tbl_ProductCategoryk__BackingField {
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FontFile {
             get {
-                return this.tbl_ProductCategoryk__BackingFieldField;
+                return this.FontFileField;
             }
             set {
-                if ((object.ReferenceEquals(this.tbl_ProductCategoryk__BackingFieldField, value) != true)) {
-                    this.tbl_ProductCategoryk__BackingFieldField = value;
-                    this.RaisePropertyChanged("tbl_ProductCategoryk__BackingField");
+                if ((object.ReferenceEquals(this.FontFileField, value) != true)) {
+                    this.FontFileField = value;
+                    this.RaisePropertyChanged("FontFile");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FontName {
+            get {
+                return this.FontNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FontNameField, value) != true)) {
+                    this.FontNameField = value;
+                    this.RaisePropertyChanged("FontName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FontPath {
+            get {
+                return this.FontPathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FontPathField, value) != true)) {
+                    this.FontPathField = value;
+                    this.RaisePropertyChanged("FontPath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<bool> IsEnable {
+            get {
+                return this.IsEnableField;
+            }
+            set {
+                if ((this.IsEnableField.Equals(value) != true)) {
+                    this.IsEnableField = value;
+                    this.RaisePropertyChanged("IsEnable");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsPrivateFont {
+            get {
+                return this.IsPrivateFontField;
+            }
+            set {
+                if ((this.IsPrivateFontField.Equals(value) != true)) {
+                    this.IsPrivateFontField = value;
+                    this.RaisePropertyChanged("IsPrivateFont");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ProductFontId {
+            get {
+                return this.ProductFontIdField;
+            }
+            set {
+                if ((this.ProductFontIdField.Equals(value) != true)) {
+                    this.ProductFontIdField = value;
+                    this.RaisePropertyChanged("ProductFontId");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ProductId {
+            get {
+                return this.ProductIdField;
+            }
+            set {
+                if ((this.ProductIdField.Equals(value) != true)) {
+                    this.ProductIdField = value;
+                    this.RaisePropertyChanged("ProductId");
                 }
             }
         }
@@ -5646,16 +9737,16 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
         MPC.Implementation.GlobalTemplateDesigner.Templates GetTemplate(int TemplateID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/GetTemplateWebStore", ReplyAction="http://tempuri.org/ITemplateSvcSP/GetTemplateWebStoreResponse")]
-        MPC.Implementation.GlobalTemplateDesigner.Templates GetTemplateWebStore(int TemplateID);
+        MPC.Implementation.GlobalTemplateDesigner.TemplatesModel GetTemplateWebStore(int TemplateID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/GetTemplatePages", ReplyAction="http://tempuri.org/ITemplateSvcSP/GetTemplatePagesResponse")]
-        MPC.Implementation.GlobalTemplateDesigner.TemplatePages[] GetTemplatePages(int TemplateID);
+        MPC.Implementation.GlobalTemplateDesigner.TemplatePagesModel[] GetTemplatePages(int TemplateID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/GetTemplateObjects", ReplyAction="http://tempuri.org/ITemplateSvcSP/GetTemplateObjectsResponse")]
-        MPC.Implementation.GlobalTemplateDesigner.TemplateObjects[] GetTemplateObjects(int TemplateID);
+        MPC.Implementation.GlobalTemplateDesigner.TemplateObjectsModel[] GetTemplateObjects(int TemplateID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/GettemplateImages", ReplyAction="http://tempuri.org/ITemplateSvcSP/GettemplateImagesResponse")]
-        MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImages[] GettemplateImages(int TemplateID);
+        MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImagesModel[] GettemplateImages(int TemplateID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/regeneratePDFs", ReplyAction="http://tempuri.org/ITemplateSvcSP/regeneratePDFsResponse")]
         bool regeneratePDFs(int templateID, bool printCuttingMargins, bool drawBleedArea, bool isMultipageMode);
@@ -5676,7 +9767,7 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
         MPC.Implementation.GlobalTemplateDesigner.Templates[] GetTemplates(out int PageCount, string keywords, int ProductCategoryID, int PageNo, int PageSize, bool callbind, int status, int UserID, string Role, int TemplateOwnerID, string userType);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/GetTemplateFonts", ReplyAction="http://tempuri.org/ITemplateSvcSP/GetTemplateFontsResponse")]
-        MPC.Implementation.GlobalTemplateDesigner.TemplateFonts[] GetTemplateFonts(int TemplateID);
+        MPC.Implementation.GlobalTemplateDesigner.TemplateFontsModel[] GetTemplateFonts(int TemplateID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ITemplateSvcSP/GetFoldLinesByProductCategoryID", ReplyAction="http://tempuri.org/ITemplateSvcSP/GetFoldLinesByProductCategoryIDResponse")]
         MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategoryFoldLines[] GetFoldLinesByProductCategoryID(out bool ApplyFoldLines, int ProductCategoryID);
@@ -5786,19 +9877,19 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
             return base.Channel.GetTemplate(TemplateID);
         }
         
-        public MPC.Implementation.GlobalTemplateDesigner.Templates GetTemplateWebStore(int TemplateID) {
+        public MPC.Implementation.GlobalTemplateDesigner.TemplatesModel GetTemplateWebStore(int TemplateID) {
             return base.Channel.GetTemplateWebStore(TemplateID);
         }
         
-        public MPC.Implementation.GlobalTemplateDesigner.TemplatePages[] GetTemplatePages(int TemplateID) {
+        public MPC.Implementation.GlobalTemplateDesigner.TemplatePagesModel[] GetTemplatePages(int TemplateID) {
             return base.Channel.GetTemplatePages(TemplateID);
         }
         
-        public MPC.Implementation.GlobalTemplateDesigner.TemplateObjects[] GetTemplateObjects(int TemplateID) {
+        public MPC.Implementation.GlobalTemplateDesigner.TemplateObjectsModel[] GetTemplateObjects(int TemplateID) {
             return base.Channel.GetTemplateObjects(TemplateID);
         }
         
-        public MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImages[] GettemplateImages(int TemplateID) {
+        public MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImagesModel[] GettemplateImages(int TemplateID) {
             return base.Channel.GettemplateImages(TemplateID);
         }
         
@@ -5826,7 +9917,7 @@ namespace MPC.Implementation.GlobalTemplateDesigner {
             return base.Channel.GetTemplates(out PageCount, keywords, ProductCategoryID, PageNo, PageSize, callbind, status, UserID, Role, TemplateOwnerID, userType);
         }
         
-        public MPC.Implementation.GlobalTemplateDesigner.TemplateFonts[] GetTemplateFonts(int TemplateID) {
+        public MPC.Implementation.GlobalTemplateDesigner.TemplateFontsModel[] GetTemplateFonts(int TemplateID) {
             return base.Channel.GetTemplateFonts(TemplateID);
         }
         

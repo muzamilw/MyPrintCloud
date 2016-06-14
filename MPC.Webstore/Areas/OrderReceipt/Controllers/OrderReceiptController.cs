@@ -113,12 +113,14 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                     ViewBag.Currency = "";
                 }
 
-
+                ViewBag.OrganisationId = oCompany.OrganisationId;
             }
 
             OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
             ViewBag.StoreId = StoreId;
+
+           
 
             if (IsPrintReceipt == "1")
             {

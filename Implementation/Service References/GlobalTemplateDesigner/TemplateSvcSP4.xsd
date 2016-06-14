@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" />
-  <xs:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
-  <xs:import schemaLocation="http://designer/Services/TemplateSvcSP.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://designer/services/TemplateSvcSP.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" />
+  <xs:import schemaLocation="http://designer/services/TemplateSvcSP.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://designer/services/TemplateSvcSP.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:element name="GetTemplate">
     <xs:complexType>
       <xs:sequence>
@@ -27,7 +27,7 @@
   <xs:element name="GetTemplateWebStoreResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplateWebStoreResult" nillable="true" type="q2:Templates" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplateWebStoreResult" nillable="true" type="q2:TemplatesModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -41,7 +41,7 @@
   <xs:element name="GetTemplatePagesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplatePagesResult" nillable="true" type="q3:ArrayOfTemplatePages" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplatePagesResult" nillable="true" type="q3:ArrayOfTemplatePagesModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -55,7 +55,7 @@
   <xs:element name="GetTemplateObjectsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplateObjectsResult" nillable="true" type="q4:ArrayOfTemplateObjects" />
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplateObjectsResult" nillable="true" type="q4:ArrayOfTemplateObjectsModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -69,7 +69,7 @@
   <xs:element name="GettemplateImagesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GettemplateImagesResult" nillable="true" type="q5:ArrayOfTemplateBackgroundImages" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GettemplateImagesResult" nillable="true" type="q5:ArrayOfTemplateBackgroundImagesModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -178,7 +178,7 @@
   <xs:element name="GetTemplateFontsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplateFontsResult" nillable="true" type="q11:ArrayOfTemplateFonts" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/TemplateDesignerModelV2" minOccurs="0" name="GetTemplateFontsResult" nillable="true" type="q11:ArrayOfTemplateFontsModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
