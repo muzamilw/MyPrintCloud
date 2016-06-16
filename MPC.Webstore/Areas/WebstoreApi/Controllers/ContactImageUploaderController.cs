@@ -814,6 +814,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
               Campaign oCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.ProofArtWorkByEmail, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
+             
               SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
               CampaignEmailParams cep = new CampaignEmailParams();

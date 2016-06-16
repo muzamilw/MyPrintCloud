@@ -3000,7 +3000,7 @@ function togglePage(pId) {
                 $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 33 + "px");
                 $('#thumbs').css("height", $('#PreviewerDesigner').height() - 33 + "px");
             }
-            $('.divTxtProofingDesigner').css("width", "624px");
+            $('.divTxtProofingDesigner').css("width", "524px");
             $('.btnBlueProofing').css("width", "108px");
             $('.previewerTitle').css("padding-left", "7px");
             $('.previewerTitle').css("padding-top", "7px");

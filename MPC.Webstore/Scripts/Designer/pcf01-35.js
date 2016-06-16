@@ -394,7 +394,14 @@ function d8(mode, dheight, title) {
             var s = $('.mcSlc').css('background-image');
             if (s != undefined) {
                 var p = s.split("?");
-                var temp = p[0].split("http://");
+                //var temp = p[0].split("http://");
+
+                var temp;
+                if (p[0].indexOf("https") > -1)
+                    temp = p[0].split("https://");
+                else
+                    temp = p[0].split("http://");
+
                 var i = 'url("http://' + temp[1];
                 i += '?r=' + ra + '")';
                 $('.mcSlc').css('background-image', i);
@@ -406,12 +413,19 @@ function d8(mode, dheight, title) {
             var s = $('#sliderDesigner').css('background-image');
             if (s != undefined) {
                 var p = s.split("?");
-                if (s.indexOf("asset") == -1) {
-                    var temp = p[0].split("http://");
+                //if (s.indexOf("asset") == -1) {  //condition removed by mz on 15 july to get TFE store prevew functional. but why this conidtion is here  ?
+                    //var temp = p[0].split("http://");
+
+                    var temp;
+                    if (p[0].indexOf("https") > -1)
+                        temp = p[0].split("https://");
+                    else
+                        temp = p[0].split("http://");
+
                     var i = 'url("http://' + temp[1];
                     i += '?r=' + ra + '")';
                     $('#sliderDesigner').css('background-image', i);
-                }
+                //}
             }
         }
         $.each(TP, function (i, IT) {
@@ -1228,6 +1242,12 @@ function g2(e) {
             $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
             $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
             //  $("#inputcharSpacing").spinner("option", "disabled", false);
+
+
+           
+            $("#BtnBulletedLstTxt").removeAttr("disabled");
+            $("#inputObjectRotationTxt").spinner("option", "disabled", false);
+            $(".CaseModeSlider").slider("enable");
         }
         else {
             //  $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -1268,6 +1288,12 @@ function g2(e) {
             $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
             $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
             $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+
+
+
+            $("#BtnBulletedLstTxt").attr("disabled", "disabled");
+            $("#inputObjectRotationTxt").spinner("option", "disabled", true);
+            $(".CaseModeSlider").slider("disable");
 
         }
 
@@ -1512,6 +1538,12 @@ function g2_1(e) {
             } else {
                 $(".positioningControls").css("display", "block");
             }
+
+
+           
+            $("#BtnBulletedLstTxt").removeAttr("disabled");
+            $("#inputObjectRotationTxt").spinner("option", "disabled", false);
+            $(".CaseModeSlider").slider("enable");
          
         }
         else {
@@ -1559,6 +1591,11 @@ function g2_1(e) {
             $("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
             $(".positioningControls").css("display", "block");
+
+
+            $("#BtnBulletedLstTxt").attr("disabled", "disabled");
+            $("#inputObjectRotationTxt").spinner("option", "disabled", true);
+            $(".CaseModeSlider").slider("disable");
           
         }
        // g1(D1AO);

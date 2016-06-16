@@ -420,7 +420,8 @@ namespace MPC.Repository.Repositories
 
                                             if (propertyInfo.Name == tagRecord.CriteriaFieldName)
                                             {
-
+                                                
+                
                                                 if (propertyInfo.Name == "SystemUserId")
                                                 {
                                                     if (!string.IsNullOrEmpty(Convert.ToString(propertyInfo.GetValue(variablValues, null))))
@@ -515,7 +516,7 @@ namespace MPC.Repository.Repositories
                                                     }
                                                     else if (propertyInfo.Name == "SalesManagerContactID")
                                                     {
-
+                                                       
                                                         tagValue = OrgSMEmail;
 
                                                     }
