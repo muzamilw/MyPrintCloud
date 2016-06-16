@@ -349,19 +349,22 @@
     <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.tbl_ProductCategoryFoldLines.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImages.datasource">
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateBackgroundImagesModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateFonts.datasource">
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateFontsModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateObjects.datasource">
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplateObjectsModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplatePages.datasource">
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplatePagesModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.Templates.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.TemplatesModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.vw_ProductCategoriesLeafNodes.datasource">
@@ -373,20 +376,20 @@
     <None Include="Service References\GlobalTemplateDesigner\MPC.Implementation.GlobalTemplateDesigner.vw_WebStore_MatchingSets.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP1.wsdl" />
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.wsdl" />
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP2.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP31.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP32.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP33.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP34.xsd">
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP4.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -416,7 +419,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP1.disco" />
+    <None Include="Service References\GlobalTemplateDesigner\TemplateSvcSP.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' == ''" />

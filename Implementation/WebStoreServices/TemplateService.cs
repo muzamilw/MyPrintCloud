@@ -39,63 +39,63 @@ namespace MPC.Implementation.WebStoreServices
     class TemplateService : ITemplateService
     {
         #region projection
-        private Template returnLocalTemplate(GlobalTemplateDesigner.Templates objGlobal)
+        private Template returnLocalTemplate(GlobalTemplateDesigner.TemplatesModel objGlobal)
         {
             Template objTemplate = new Template();
-            objTemplate.ApprovalDate = objGlobal.ApprovalDatek__BackingField;
-            objTemplate.ApprovedBy = objGlobal.ApprovedByk__BackingField;
-            objTemplate.ApprovedByName = objGlobal.ApprovedByNamek__BackingField;
-            objTemplate.ApprovedDate = objGlobal.ApprovedDatek__BackingField;
-            objTemplate.BaseColorID = objGlobal.BaseColorIDk__BackingField;
-            objTemplate.Code = objGlobal.Codek__BackingField;
-            objTemplate.ColorHex = objGlobal.ColorHexk__BackingField;
-            objTemplate.CuttingMargin = objGlobal.CuttingMargink__BackingField;
-            objTemplate.Description = objGlobal.Descriptionk__BackingField;
-            objTemplate.FullView = objGlobal.FullViewk__BackingField;
-            objTemplate.Image = objGlobal.Imagek__BackingField;
-            objTemplate.IsCorporateEditable = objGlobal.IsCorporateEditablek__BackingField;
-            objTemplate.isCreatedManual = objGlobal.isCreatedManualk__BackingField;
-            objTemplate.IsDisabled = objGlobal.IsDisabledk__BackingField;
-            objTemplate.isEditorChoice = objGlobal.isEditorChoicek__BackingField;
-            objTemplate.IsPrivate = objGlobal.IsPrivatek__BackingField;
-            objTemplate.isSpotTemplate = objGlobal.isSpotTemplatek__BackingField;
-            objTemplate.isWatermarkText = objGlobal.isWatermarkTextk__BackingField;
-            objTemplate.MatchingSetID = objGlobal.MatchingSetIDk__BackingField;
-            objTemplate.MatchingSetTheme = objGlobal.MatchingSetThemek__BackingField;
-            objTemplate.MPCRating = objGlobal.MPCRatingk__BackingField;
-            objTemplate.MultiPageCount = objGlobal.MultiPageCountk__BackingField;
-            objTemplate.Orientation = objGlobal.Orientationk__BackingField;
-            objTemplate.PDFTemplateHeight = objGlobal.PDFTemplateHeightk__BackingField;
-            objTemplate.PDFTemplateWidth = objGlobal.PDFTemplateWidthk__BackingField;
-            objTemplate.ProductCategoryId = objGlobal.ProductCategoryIDk__BackingField; 
-            objTemplate.ProductId = objGlobal.ProductIDk__BackingField;
-            objTemplate.ProductName = objGlobal.ProductNamek__BackingField;
-            objTemplate.RejectionReason = objGlobal.RejectionReasonk__BackingField;
-            objTemplate.TemplateType = objGlobal.TemplateTypek__BackingField;
-            objTemplate.TempString = objGlobal.TempStringk__BackingField;
+            objTemplate.ApprovalDate = objGlobal.ApprovalDate;
+            objTemplate.ApprovedBy = objGlobal.ApprovedBy;
+            objTemplate.ApprovedByName = objGlobal.ApprovedByName;
+            objTemplate.ApprovedDate = objGlobal.ApprovedDate;
+            objTemplate.BaseColorID = objGlobal.BaseColorID;
+            objTemplate.Code = objGlobal.Code;
+            objTemplate.ColorHex = objGlobal.ColorHex;
+            objTemplate.CuttingMargin = objGlobal.CuttingMargin;
+            objTemplate.Description = objGlobal.Description;
+            objTemplate.FullView = objGlobal.FullView;
+            objTemplate.Image = objGlobal.Image;
+            objTemplate.IsCorporateEditable = objGlobal.IsCorporateEditable;
+            objTemplate.isCreatedManual = objGlobal.isCreatedManual;
+            objTemplate.IsDisabled = objGlobal.IsDisabled;
+            objTemplate.isEditorChoice = objGlobal.isEditorChoice;
+            objTemplate.IsPrivate = objGlobal.IsPrivate;
+            objTemplate.isSpotTemplate = objGlobal.isSpotTemplate;
+            objTemplate.isWatermarkText = objGlobal.isWatermarkText;
+            objTemplate.MatchingSetID = objGlobal.MatchingSetID;
+            objTemplate.MatchingSetTheme = objGlobal.MatchingSetTheme;
+            objTemplate.MPCRating = objGlobal.MPCRating;
+            objTemplate.MultiPageCount = objGlobal.MultiPageCount;
+            objTemplate.Orientation = objGlobal.Orientation;
+            objTemplate.PDFTemplateHeight = objGlobal.PDFTemplateHeight;
+            objTemplate.PDFTemplateWidth = objGlobal.PDFTemplateWidth;
+            objTemplate.ProductCategoryId = objGlobal.ProductCategoryID; 
+            objTemplate.ProductId = objGlobal.ProductID;
+            objTemplate.ProductName = objGlobal.ProductName;
+            objTemplate.RejectionReason = objGlobal.RejectionReason;
+            objTemplate.TemplateType = objGlobal.TemplateType;
+            objTemplate.TempString = objGlobal.TempString;
             return objTemplate;
         }
-        private TemplatePage returnLocalPage(GlobalTemplateDesigner.TemplatePages objGlobalPage, Template objtemplate)
+        private TemplatePage returnLocalPage(GlobalTemplateDesigner.TemplatePagesModel objGlobalPage, Template objtemplate)
         {
            TemplatePage obj = new TemplatePage();
-           obj.BackgroundFileName = objGlobalPage.BackgroundFileNamek__BackingField;
-           obj.BackGroundType = objGlobalPage.BackGroundTypek__BackingField;
-           obj.ColorC = objGlobalPage.ColorCk__BackingField;
-           obj.ColorK = objGlobalPage.ColorKk__BackingField;
-           obj.ColorM = objGlobalPage.ColorMk__BackingField;
-           obj.ColorY = objGlobalPage.ColorYk__BackingField;
-           obj.hasOverlayObjects = objGlobalPage.hasOverlayObjectsk__BackingField;
+           obj.BackgroundFileName = objGlobalPage.BackgroundFileName;
+           obj.BackGroundType = objGlobalPage.BackGroundType;
+           obj.ColorC = objGlobalPage.ColorC;
+           obj.ColorK = objGlobalPage.ColorK;
+           obj.ColorM = objGlobalPage.ColorM;
+           obj.ColorY = objGlobalPage.ColorY;
+           obj.hasOverlayObjects = objGlobalPage.hasOverlayObjects;
          //  obj.Height = objGlobalPage.Height;
-           obj.IsPrintable = objGlobalPage.IsPrintablek__BackingField;
-           obj.Orientation = objGlobalPage.Orientationk__BackingField;
-           obj.PageName = objGlobalPage.PageNamek__BackingField;
-           obj.PageNo = objGlobalPage.PageNok__BackingField;
-           obj.PageType = objGlobalPage.PageTypek__BackingField;
-           obj.ProductId = objGlobalPage.ProductIDk__BackingField;
-           obj.ProductPageId = objGlobalPage.ProductPageIDk__BackingField;
+           obj.IsPrintable = objGlobalPage.IsPrintable;
+           obj.Orientation = objGlobalPage.Orientation;
+           obj.PageName = objGlobalPage.PageName;
+           obj.PageNo = objGlobalPage.PageNo;
+           obj.PageType = objGlobalPage.PageType;
+           obj.ProductId = objGlobalPage.ProductID;
+           obj.ProductPageId = objGlobalPage.ProductPageID;
       //     obj.Width = objGlobalPage.Width;
 
-          if(objGlobalPage.Orientationk__BackingField == 2)
+          if(objGlobalPage.Orientation == 2)
           {
               obj.Height = objtemplate.PDFTemplateWidth;
               obj.Width = objtemplate.PDFTemplateHeight;
@@ -103,106 +103,106 @@ namespace MPC.Implementation.WebStoreServices
            
            return obj;
         }
-        private TemplateObject returnLocalObject(GlobalTemplateDesigner.TemplateObjects tempObj)
+        private TemplateObject returnLocalObject(GlobalTemplateDesigner.TemplateObjectsModel tempObj)
         {
             TemplateObject obj = new TemplateObject();
-            obj.Allignment = tempObj.Allignmentk__BackingField;
-            obj.AutoShrinkText = tempObj.AutoShrinkTextk__BackingField;
-            obj.BColor = tempObj.BColork__BackingField;
-            obj.CharSpacing = tempObj.CharSpacingk__BackingField;
-            obj.CircleRadiusX = tempObj.CircleRadiusXk__BackingField;
-            obj.CircleRadiusY = tempObj.CircleRadiusYk__BackingField;
-            obj.ClippedInfo = tempObj.ClippedInfok__BackingField;
-            obj.ColorC = tempObj.ColorCk__BackingField;
-            obj.ColorHex = tempObj.ColorHexk__BackingField;
-            obj.ColorK = tempObj.ColorKk__BackingField;
-            obj.ColorM = tempObj.ColorMk__BackingField;
-            obj.ColorName = tempObj.ColorNamek__BackingField;
-            obj.ColorType = tempObj.ColorTypek__BackingField;
-            obj.ColorY = tempObj.ColorYk__BackingField;
-            obj.ContentCaseType = tempObj.ContentCaseTypek__BackingField;
-            obj.ContentString = tempObj.ContentStringk__BackingField;
-            obj.DisplayOrderPdf = tempObj.DisplayOrderPdfk__BackingField;
-            obj.DisplayOrderTxtControl = tempObj.DisplayOrderTxtControlk__BackingField;
-            obj.FontName = tempObj.FontNamek__BackingField;
-            obj.FontSize = tempObj.FontSizek__BackingField;
-            obj.GColor = tempObj.GColork__BackingField;
-            obj.Indent = tempObj.Indentk__BackingField;
-            obj.IsBold = tempObj.IsBoldk__BackingField;
-            obj.IsEditable = tempObj.IsEditablek__BackingField;
-            obj.IsFontCustom = tempObj.IsFontCustomk__BackingField;
-            obj.IsFontNamePrivate = tempObj.IsFontNamePrivatek__BackingField;
-            obj.IsHidden = tempObj.IsHiddenk__BackingField;
-            obj.IsItalic = tempObj.IsItalick__BackingField;
-            obj.IsMandatory = tempObj.IsMandatoryk__BackingField;
-            obj.IsOverlayObject = tempObj.IsOverlayObjectk__BackingField;
-            obj.IsPositionLocked = tempObj.IsPositionLockedk__BackingField;
-            obj.IsQuickText = tempObj.IsQuickTextk__BackingField;
-            obj.IsSpotColor = tempObj.IsSpotColork__BackingField;
-            obj.IsTextEditable = tempObj.IsTextEditablek__BackingField;
-            obj.IsUnderlinedText = tempObj.IsUnderlinedTextk__BackingField;
-            obj.LineSpacing = tempObj.LineSpacingk__BackingField;
-            obj.MaxCharacters = tempObj.MaxCharactersk__BackingField;
-            obj.MaxHeight = tempObj.MaxHeightk__BackingField;
-            obj.MaxWidth = tempObj.MaxWidthk__BackingField;
-            obj.Name = tempObj.Namek__BackingField;
-            obj.ObjectId = tempObj.ObjectIDk__BackingField;
-            obj.ObjectType = tempObj.ObjectTypek__BackingField;
-            obj.Opacity = tempObj.Opacityk__BackingField;
-            obj.ParentId = tempObj.ParentIdk__BackingField;
-            obj.PositionX = tempObj.PositionXk__BackingField;
-            obj.PositionY = tempObj.PositionYk__BackingField;
-            obj.ProductId = tempObj.ProductIDk__BackingField;
-            obj.ProductPageId = tempObj.ProductPageIdk__BackingField;
-            obj.QuickTextOrder = tempObj.QuickTextOrderk__BackingField;
-            obj.RColor = tempObj.RColork__BackingField;
-            obj.RotationAngle = tempObj.RotationAnglek__BackingField;
-            obj.SpotColorName = tempObj.SpotColorNamek__BackingField;
+            obj.Allignment = tempObj.Allignment;
+            obj.AutoShrinkText = tempObj.AutoShrinkText;
+            obj.BColor = tempObj.BColor;
+            obj.CharSpacing = tempObj.CharSpacing;
+            obj.CircleRadiusX = tempObj.CircleRadiusX;
+            obj.CircleRadiusY = tempObj.CircleRadiusY;
+            obj.ClippedInfo = tempObj.ClippedInfo;
+            obj.ColorC = tempObj.ColorC;
+            obj.ColorHex = tempObj.ColorHex;
+            obj.ColorK = tempObj.ColorK;
+            obj.ColorM = tempObj.ColorM;
+            obj.ColorName = tempObj.ColorName;
+            obj.ColorType = tempObj.ColorType;
+            obj.ColorY = tempObj.ColorY;
+            obj.ContentCaseType = tempObj.ContentCaseType;
+            obj.ContentString = tempObj.ContentString;
+            obj.DisplayOrderPdf = tempObj.DisplayOrderPdf;
+            obj.DisplayOrderTxtControl = tempObj.DisplayOrderTxtControl;
+            obj.FontName = tempObj.FontName;
+            obj.FontSize = tempObj.FontSize;
+            obj.GColor = tempObj.GColor;
+            obj.Indent = tempObj.Indent;
+            obj.IsBold = tempObj.IsBold;
+            obj.IsEditable = tempObj.IsEditable;
+            obj.IsFontCustom = tempObj.IsFontCustom;
+            obj.IsFontNamePrivate = tempObj.IsFontNamePrivate;
+            obj.IsHidden = tempObj.IsHidden;
+            obj.IsItalic = tempObj.IsItalic;
+            obj.IsMandatory = tempObj.IsMandatory;
+            obj.IsOverlayObject = tempObj.IsOverlayObject;
+            obj.IsPositionLocked = tempObj.IsPositionLocked;
+            obj.IsQuickText = tempObj.IsQuickText;
+            obj.IsSpotColor = tempObj.IsSpotColor;
+            obj.IsTextEditable = tempObj.IsTextEditable;
+            obj.IsUnderlinedText = tempObj.IsUnderlinedText;
+            obj.LineSpacing = tempObj.LineSpacing;
+            obj.MaxCharacters = tempObj.MaxCharacters;
+            obj.MaxHeight = tempObj.MaxHeight;
+            obj.MaxWidth = tempObj.MaxWidth;
+            obj.Name = tempObj.Name;
+            obj.ObjectId = tempObj.ObjectID;
+            obj.ObjectType = tempObj.ObjectType;
+            obj.Opacity = tempObj.Opacity;
+            obj.ParentId = tempObj.ParentId;
+            obj.PositionX = tempObj.PositionX;
+            obj.PositionY = tempObj.PositionY;
+            obj.ProductId = tempObj.ProductID;
+            obj.ProductPageId = tempObj.ProductPageId;
+            obj.QuickTextOrder = tempObj.QuickTextOrder;
+            obj.RColor = tempObj.RColor;
+            obj.RotationAngle = tempObj.RotationAngle;
+            obj.SpotColorName = tempObj.SpotColorName;
             //obj.textCase = tempObj.textCase;
-            obj.textStyles = tempObj.textStylesk__BackingField;
-            obj.Tint = tempObj.Tintk__BackingField;
-            obj.VAllignment = tempObj.VAllignmentk__BackingField;
-            obj.watermarkText = tempObj.watermarkTextk__BackingField;
-            obj.originalContentString = tempObj.ContentStringk__BackingField;
-            obj.originalTextStyles = tempObj.textStylesk__BackingField;
+            obj.textStyles = tempObj.textStyles;
+            obj.Tint = tempObj.Tint;
+            obj.VAllignment = tempObj.VAllignment;
+            obj.watermarkText = tempObj.watermarkText;
+            obj.originalContentString = tempObj.ContentString;
+            obj.originalTextStyles = tempObj.textStyles;
             return obj;
 
         }
-        private TemplateBackgroundImage returnLocalImage(GlobalTemplateDesigner.TemplateBackgroundImages v2Img)
+        private TemplateBackgroundImage returnLocalImage(GlobalTemplateDesigner.TemplateBackgroundImagesModel v2Img)
         {
             TemplateBackgroundImage objImage = new TemplateBackgroundImage();
-            objImage.BackgroundImageAbsolutePath = v2Img.BackgroundImageAbsolutePathk__BackingField;
-            objImage.BackgroundImageRelativePath = v2Img.BackgroundImageRelativePathk__BackingField;
-            objImage.ContactCompanyId = v2Img.ContactCompanyIDk__BackingField;
-            objImage.ContactId = v2Img.ContactIDk__BackingField;
-            objImage.flgCover = v2Img.flgCoverk__BackingField;
-            objImage.flgPhotobook = v2Img.flgPhotobookk__BackingField;
-            objImage.Id = v2Img.IDk__BackingField;
-            objImage.ImageDescription = v2Img.ImageDescriptionk__BackingField;
-            objImage.ImageHeight = v2Img.ImageHeightk__BackingField;
-            objImage.ImageKeywords = v2Img.ImageKeywordsk__BackingField;
-            objImage.ImageName = v2Img.ImageNamek__BackingField;
-            objImage.ImageTitle = v2Img.ImageTitlek__BackingField;
-            objImage.ImageType = v2Img.ImageTypek__BackingField;
-            objImage.ImageWidth = v2Img.ImageWidthk__BackingField;
-            objImage.Name = v2Img.Namek__BackingField;
-            objImage.ProductId = v2Img.ProductIDk__BackingField;
-            objImage.UploadedFrom = v2Img.UploadedFromk__BackingField;
+            objImage.BackgroundImageAbsolutePath = v2Img.BackgroundImageAbsolutePath;
+            objImage.BackgroundImageRelativePath = v2Img.BackgroundImageRelativePath;
+            objImage.ContactCompanyId = v2Img.ContactCompanyID;
+            objImage.ContactId = v2Img.ContactID;
+            objImage.flgCover = v2Img.flgCover;
+            objImage.flgPhotobook = v2Img.flgPhotobook;
+            objImage.Id = v2Img.ID;
+            objImage.ImageDescription = v2Img.ImageDescription;
+            objImage.ImageHeight = v2Img.ImageHeight;
+            objImage.ImageKeywords = v2Img.ImageKeywords;
+            objImage.ImageName = v2Img.ImageName;
+            objImage.ImageTitle = v2Img.ImageTitle;
+            objImage.ImageType = v2Img.ImageType;
+            objImage.ImageWidth = v2Img.ImageWidth;
+            objImage.Name = v2Img.Name;
+            objImage.ProductId = v2Img.ProductID;
+            objImage.UploadedFrom = v2Img.UploadedFrom;
             return objImage;
         }
-        private TemplateFont returnLocalFont(GlobalTemplateDesigner.TemplateFonts v2Font)
+        private TemplateFont returnLocalFont(GlobalTemplateDesigner.TemplateFontsModel v2Font)
         {
             TemplateFont objFont = new TemplateFont();
-            objFont.CustomerId = v2Font.CustomerIDk__BackingField;
-            objFont.DisplayIndex = v2Font.DisplayIndexk__BackingField;
-            objFont.FontDisplayName = v2Font.FontDisplayNamek__BackingField;
-            objFont.FontFile = v2Font.FontFilek__BackingField;
-            objFont.FontName = v2Font.FontNamek__BackingField;
-            objFont.FontPath = v2Font.FontPathk__BackingField;
-            objFont.IsEnable = v2Font.IsEnablek__BackingField;
-            objFont.IsPrivateFont = v2Font.IsPrivateFontk__BackingField;
-            objFont.ProductFontId = v2Font.ProductFontIdk__BackingField;
-            objFont.ProductId = v2Font.ProductIdk__BackingField;
+            objFont.CustomerId = v2Font.CustomerID;
+            objFont.DisplayIndex = v2Font.DisplayIndex;
+            objFont.FontDisplayName = v2Font.FontDisplayName;
+            objFont.FontFile = v2Font.FontFile;
+            objFont.FontName = v2Font.FontName;
+            objFont.FontPath = v2Font.FontPath;
+            objFont.IsEnable = v2Font.IsEnable;
+            objFont.IsPrivateFont = v2Font.IsPrivateFont;
+            objFont.ProductFontId = v2Font.ProductFontId;
+            objFont.ProductId = v2Font.ProductId;
             return objFont;
         }
         #endregion
@@ -3206,23 +3206,23 @@ namespace MPC.Implementation.WebStoreServices
                 long LocalProductID = 0;
                 using (GlobalTemplateDesigner.TemplateSvcSPClient pSc = new GlobalTemplateDesigner.TemplateSvcSPClient())
                 {
-                    GlobalTemplateDesigner.Templates oTemplateV2 = pSc.GetTemplateWebStore(RemoteTemplateID);
+                    GlobalTemplateDesigner.TemplatesModel oTemplateV2 = pSc.GetTemplateWebStore(RemoteTemplateID);
 
-                    oTemplateV2.TemplateOwnerk__BackingField = oTemplateV2.ProductCategoryIDk__BackingField;
+                    oTemplateV2.TemplateOwner = oTemplateV2.ProductCategoryID;
 
-                    GlobalTemplateDesigner.TemplatePages[] oTemplatePagesV2 = pSc.GetTemplatePages(RemoteTemplateID);
+                    GlobalTemplateDesigner.TemplatePagesModel[] oTemplatePagesV2 = pSc.GetTemplatePages(RemoteTemplateID);
 
-                    GlobalTemplateDesigner.TemplateObjects[] oTemplateObjectsV2 = pSc.GetTemplateObjects(RemoteTemplateID);
+                    GlobalTemplateDesigner.TemplateObjectsModel[] oTemplateObjectsV2 = pSc.GetTemplateObjects(RemoteTemplateID);
 
-                    GlobalTemplateDesigner.TemplateBackgroundImages[] oTemplateImagesV2 = pSc.GettemplateImages(RemoteTemplateID);
+                    GlobalTemplateDesigner.TemplateBackgroundImagesModel[] oTemplateImagesV2 = pSc.GettemplateImages(RemoteTemplateID);
 
-                    GlobalTemplateDesigner.TemplateFonts[] oTemplateFontV2 = pSc.GetTemplateFonts(RemoteTemplateID);
+                    GlobalTemplateDesigner.TemplateFontsModel[] oTemplateFontV2 = pSc.GetTemplateFonts(RemoteTemplateID);
                     // added for 2 sided business cards 
-                    if (oTemplateV2.TemplateTypek__BackingField == 2)
+                    if (oTemplateV2.TemplateType == 2)
                     {
                         if (oTemplatePagesV2.Length >= 2)
                         {
-                            GlobalTemplateDesigner.TemplatePages[] oTemp = new GlobalTemplateDesigner.TemplatePages[2];
+                            GlobalTemplateDesigner.TemplatePagesModel[] oTemp = new GlobalTemplateDesigner.TemplatePagesModel[2];
                             oTemp[0] = oTemplatePagesV2[0];
                             oTemp[1] = oTemplatePagesV2[1];
                             oTemplatePagesV2 = oTemp;
