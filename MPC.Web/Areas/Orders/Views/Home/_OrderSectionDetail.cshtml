@@ -228,23 +228,25 @@
                                 </div>
                             </div>
                             <div class="form-group" data-bind="visible: isDoubleSidedUi()" style="margin-bottom: 2px;">
-                                <div class="col-sm-5 text-right" style="padding-left: 2.5%">
-                                    <label data-bind="text: !isWorknTurn() ? 'Side 2' : 'Side 2 - Double side and Work n Trun, Passes = 2'" class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
-                                </div>
+                                <div data-bind="visible: !$root.isPress1Perfecting()">
+                                    <div class="col-sm-5 text-right" style="padding-left: 2.5%">
+                                        <label data-bind="text: !isWorknTurn() ? 'Side 2' : 'Side 2 - Double side and Work n Trun, Passes = 2'" class="control-label tooltip-float" style="float: left;">Side 2 - Double side and Work n Trun, Passes = 2</label>
+                                    </div>
 
-                                <div class="radio col-sm-3">
-                                    &nbsp;
-                                </div>
-                                <div class="col-sm-2 text-right" style="padding-right:0;">
-                                    &nbsp;
-                                </div>
-                                <div class=" col-sm-2" style="padding-left: 23px;" data-bind="visible: !isWorknTurn()">
-                                    <label class="control-label">Color #2</label>
+                                    <div class="radio col-sm-3">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-2 text-right" style="padding-right:0;">
+                                        &nbsp;
+                                    </div>
+                                    <div class=" col-sm-2" style="padding-left: 23px;" data-bind="visible: !isWorknTurn()">
+                                        <label class="control-label">Color #2</label>
 
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group" style="" data-bind="visible: isDoubleSidedUi() && !isWorknTurn()">
-                                <div>
+                                <div data-bind="visible: !$root.isPress1Perfecting()">
                                     <div class="col-sm-8 text-right" style="padding-left: 2.4%;width: 69.5%;">
                                         <select class="form-control font20px" data-bind="options: $root.presses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select Press', value: pressIdSide2"></select>
                                     </div>

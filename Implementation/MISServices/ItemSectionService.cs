@@ -197,13 +197,13 @@ namespace MPC.Implementation.MISServices
                     temp2 = PressReRunQuantityIndex - 1;
                 }
                 double setupCharge = oPressDTO.SetupCharge ?? 0;
-                if (isPressSide2)
-                {
-                    setupCharge = oItemSection.PressId == PressID &&
-                                     (oPressDTO.IsSetupCostForDoubleSided ?? true) == false
-                    ? 0
-                    : oPressDTO.SetupCharge ?? 0;
-                }
+                //if (isPressSide2)
+                //{
+                //    setupCharge = oItemSection.PressId == PressID &&
+                //                     (oPressDTO.IsSetupCostForDoubleSided ?? true) == false
+                //    ? 0
+                //    : oPressDTO.SetupCharge ?? 0;
+                //}
 
                 switch (oModelLookUpMethod.Type)
                 {
@@ -6697,18 +6697,33 @@ namespace MPC.Implementation.MISServices
                else
                {
                    updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
-                   updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+                   if(pressSide1.isPerfecting != true)
+                        updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
                }
-                   
-               if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
-                    SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
-                else
-                    SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
-                //Highest running spoilage between the two presses will be set.
-                if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
-                    RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
-                else
-                    RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+               if (pressSide1.isPerfecting != true)
+               {
+                   //Highest running spoilage between the two presses will be set.
+                   if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                       SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                   else
+                   {
+                       SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
+                   }
+
+                   if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                       RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                   else if (pressSide1.isPerfecting != true)
+                       RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+               }
+               else
+               {
+                   SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                   RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+               }
+                    
+                
+               
+                
            }
             else
             {
@@ -6789,7 +6804,7 @@ namespace MPC.Implementation.MISServices
             
             //***********************Side 1 Calculation Ends*************
 
-            if (updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true && (updatedSection.PrintingType != null && updatedSection.PrintingType == (int)PrintingTypeEnum.SheetFed))
+            if (updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true && pressSide1.isPerfecting != true && (updatedSection.PrintingType != null && updatedSection.PrintingType == (int)PrintingTypeEnum.SheetFed))
             {
 
                 int uniqueInks =

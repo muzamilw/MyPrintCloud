@@ -1553,8 +1553,11 @@ define("common/itemDetail.viewModel",
                             toastr.info("Please Select Side 1 Press in order to get Cost Centers.");
                             return;
                         } else if (selectedSection().isDoubleSided() && !selectedSection().pressIdSide2() && !selectedSection().isWorknTurn()) {
-                            toastr.info("Please Select Side 2 Press in order to get Cost Centers.");
-                            return;
+                            if (!isPress1Perfecting()) {
+                                toastr.info("Please Select Side 2 Press in order to get Cost Centers.");
+                                return;
+                            }
+                           
                         } else if (selectedSection().numberUp() <= 0) {
                             toastr.info("Sheet plan cannot be zero in order to get Cost Centers.");
                             return;

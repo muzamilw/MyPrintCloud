@@ -314,7 +314,8 @@ define("common/addCostCenter.viewModel",
                     addCostCenter: addCostCenter,
                     executeCostCenter: executeCostCenter,
                     createBlankCostCenter: createBlankCostCenter,
-                    onCostCenterQtyChange: onCostCenterQtyChange
+                    onCostCenterQtyChange: onCostCenterQtyChange,
+                    currentSection: currentSection
                 };
             })()
         };
