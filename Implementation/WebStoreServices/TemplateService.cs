@@ -3021,6 +3021,10 @@ namespace MPC.Implementation.WebStoreServices
                 newProductID = _templateRepository.SaveTemplateLocally(oTemplate, oTemplatePages, oTemplateObjects, oTemplateImages, oTemplateFonts, organisationID, out fontsToDownload, mode, localTemplateID);
             } else
             {
+
+                //special retail mode proof string update scenario.
+                _templateRepository.upateTemplateProofInfo(localTemplateID, oTemplate.TempString, oTemplate.isWatermarkText.Value);
+
                 newProductID = localTemplateID;
             }
             string targetFolder = BasePath + "/Templates/" + newProductID.ToString(); //System.Web.HttpContext.Current.Server.MapPath("../Designer/Products/" + newProductID.ToString());

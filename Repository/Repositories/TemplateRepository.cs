@@ -641,6 +641,42 @@ namespace MPC.Repository.Repositories
             }
             return cuttingMargin;
         }
+
+
+
+        //special function to update proof information in a retail template merge situation.
+        public bool upateTemplateProofInfo(long templateId, string ProofString, bool isWatermarkText)
+        {
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var objProduct = new Template();
+
+                    objProduct = db.Templates.Where(g => g.ProductId == templateId).Single();
+
+                    objProduct.TempString = ProofString;
+                    objProduct.isWatermarkText = isWatermarkText;
+
+
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    dbContextTransaction.Dispose();
+                }
+            }
+
+            return true;
+
+        }
+
         //called from designer for retail store // added by saqib ali 
         public Template CreateTemplate(long productID,long categoryIdv2,double height,double width,long itemId,long organisationId)
         {
