@@ -96,6 +96,21 @@ namespace MPC.Provisioning.Controllers
 
         //}
 
+        /// <summary>
+        /// http://us1.myprintcloud.com/api/provisioning?subdomain=printgiant.saleflow.com&sitePhysicalPath=F:\wwwroot\preview&siteOrganisationId=2288&ContactFullName=Ilias stoilas&userId=db7ac3ed-1fca-483d-845f-6c7453601099&username=lou@printgiant.com&Email=lou@printgiant.com&hash=hash&mpcContentFolder=F:\wwwroot\preview\mis\MPC_Content&isCorp=false
+        /// </summary>
+        /// <param name="subdomain"></param>
+        /// <param name="sitePhysicalPath"></param>
+        /// <param name="siteOrganisationId"></param>
+        /// <param name="ContactFullName"></param>
+        /// <param name="userId"></param>
+        /// <param name="username"></param>
+        /// <param name="Email"></param>
+        /// <param name="hash"></param>
+        /// <param name="mpcContentFolder"></param>
+        /// <param name="isCorp"></param>
+        /// <returns></returns>
+
         public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder,string isCorp)
         {
             try
