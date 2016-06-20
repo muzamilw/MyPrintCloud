@@ -511,7 +511,9 @@ function fu09() {
 }
 function svcCall1(ca, gtID) {
     globalTemplateId = gtID;
-    $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
+    
+    
+    $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId + "/" + CustomerID,
           function (xdata) {
             //  console.log("call returned");
               SvcLoad2ndTemplate();
