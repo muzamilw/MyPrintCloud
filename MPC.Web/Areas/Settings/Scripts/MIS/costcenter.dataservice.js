@@ -103,6 +103,13 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    // Define request to copy cost centre
+                    amplify.request.define('copyCostCenter', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteCostCentre',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -236,6 +243,15 @@ define("costcenter/costcenter.dataservice", function () {
                  data: param
              });
          },
+        copyCostCenter = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'copyCostCenter',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // Save Cost Center 
         saveCostCenter = function (param, callbacks) {
             initialize();
@@ -262,7 +278,8 @@ define("costcenter/costcenter.dataservice", function () {
             saveNewQuestionVariable: saveNewQuestionVariable,
             saveVariable: saveVariable,
             DeleteMatrixVariable: DeleteMatrixVariable,
-            deleteCostCentre: deleteCostCentre
+            deleteCostCentre: deleteCostCentre,
+            copyCostCenter: copyCostCenter
         };
     })();
 

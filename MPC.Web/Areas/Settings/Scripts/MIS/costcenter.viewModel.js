@@ -1116,7 +1116,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         toastr.error("Failed to load Detail . Error: ");
                     }
                 });
-            }
+            },
             openEditDialog = function () {
                 view.showCostCenterDialog();
 
@@ -1307,6 +1307,31 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                 }, null, true);
             },
+            onCopyCostCenter = function () {
+                confirmation.messageText("WARNING - Are you sure you want to copy this cost center?");
+                confirmation.afterProceed(function () {
+                    dataservice.copyCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
+                        success: function (data) {
+                            closeCostCenterDetail();
+                            var cc = model.costCenterListView({});
+                            cc.costCenterId(data);
+                            getCostCenterById(cc);
+                            getCostCenters();
+                            
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                toastr.error(exceptionMessage);
+                            } else {
+                                toastr.error("Failed to copy cost center.");
+                            }
+                        }
+                    });
+                });
+                confirmation.show();
+               
+            },
             // #region Observables
             // Initialize the view model
            initialize = function (specifiedView) {
@@ -1415,7 +1440,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,
                 getCostCenterByFilter: getCostCenterByFilter,
-                onDeletePermanent: onDeletePermanent
+                onDeletePermanent: onDeletePermanent,
+                onCopyCostCenter: onCopyCostCenter
                 
 
             };

@@ -6696,9 +6696,15 @@ namespace MPC.Implementation.MISServices
                    updatedSection.PassesSide1 = (pressSide1.Passes ?? 1) * 2;
                else
                {
-                   updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
-                   if(pressSide1.isPerfecting != true)
-                        updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+                   if (pressSide1.isPerfecting != true)
+                   {
+                       updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
+                       updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+                   }
+                   else if(pressSide1.IsDigitalPress == true)
+                   {
+                       updatedSection.PassesSide1 = (pressSide1.Passes ?? 1) * 2;
+                   }
                }
                if (pressSide1.isPerfecting != true)
                {

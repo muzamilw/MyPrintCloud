@@ -46,6 +46,7 @@
                         <div class="pull-right top-page-ui">
 
                             <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedCostCenter().costCentreId() > 0">Delete</button>
+                            <button class="btn btn-success" data-bind="click: $root.onCopyCostCenter, enable: $root.selectedCostCenter().costCentreId() > 0">Copy Cost Center</button>
 
                             <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                                 Save
@@ -1447,11 +1448,11 @@
     <ol class="dd-list">
         <li class="dd-item dd-item-list">
             <div class="dd-handle-list"> <i class="fa fa-minus-square"> </i> </div>
-            <div class="dd-handle" style="cursor: move;z-index: 1000">
-                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.draggedVariableString, click: $root.OnEditQuestionVariable, attr: {id: Id}">
+            <div class="dd-handle AddEditQuestion" style="cursor: move;z-index: 1000">
+                <span data-bind="text:QuestionString,drag: $root.draggedVariableString, click: $root.OnEditQuestionVariable, attr: {id: Id}">
                 </span>
-                <div class="nested-links">
-                </div>
+                @*<div class="nested-links">
+            </div>*@
             </div>
         </li>
     </ol>
@@ -1490,6 +1491,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        debugger;
         (function ($, window) {
             $.fn.contextMenu = function (settings) {
 
@@ -1502,12 +1504,12 @@
 
                         //open menu
                         $(settings.menuSelector)
-                            .data("invokedOn", $(e.target))
+                            .data("invokedOn", $(e.target.childNodes[1]))
                             .show()
                             .css({
                                 position: "absolute",
-                                left: getLeftLocation(e) - 100,
-                                top: getTopLocation(e) - 15
+                                left: getLeftLocation(e) - 300,
+                                top: getTopLocation(e) - 40
                             })
                             .off('click')
                             .on('click', function (e) {
