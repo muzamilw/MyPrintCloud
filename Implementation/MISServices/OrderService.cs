@@ -1520,7 +1520,7 @@ namespace MPC.Implementation.MISServices
                 if (File.Exists(ReturnPhysicalPath))
                 {
                     ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
-                    return ReturnPhysicalPath;
+                   // return ReturnPhysicalPath;
                 }
 
                 //filter the items which are of type delivery i.e. itemtype = 2
@@ -1568,12 +1568,12 @@ namespace MPC.Implementation.MISServices
 
                 //ReturnRelativePath = szDirectory + "/" + PathConstants.DownloadableFilesPath + sZipFileName;
 
-                if (File.Exists(ReturnPhysicalPath))
-                {
+                //if (File.Exists(ReturnPhysicalPath))
+                //{
 
-                    return ReturnPhysicalPath;
-                }
-                else
+                //    return ReturnPhysicalPath;
+                //}
+                //else
                 {
                     if (!Directory.Exists(sCreateDirectory))
                     {

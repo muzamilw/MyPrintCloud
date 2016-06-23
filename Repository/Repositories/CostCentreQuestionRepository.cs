@@ -65,7 +65,7 @@ namespace MPC.Repository.Repositories
             db.CostCentreQuestions.Add(oQuestion);
             if (db.SaveChanges() > 0)
             {
-                if (question.Type == 2 && answer.Count() > 0)
+                if (question.Type == 3 && answer.Count() > 0)
                 {
                     foreach (CostCentreAnswer ans in answer)
                     {
@@ -96,7 +96,7 @@ namespace MPC.Repository.Repositories
             oQuestion.QuestionString = question.QuestionString;
             oQuestion.Type = question.Type;
             oQuestion.DefaultAnswer = question.DefaultAnswer;
-            if (question.Type == 2 && answer.Count() >0)
+            if (question.Type == 3 && answer.Count() >0)
             {
                 foreach (CostCentreAnswer ans in answer)
                 {

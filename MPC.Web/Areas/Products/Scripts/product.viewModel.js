@@ -903,6 +903,7 @@ define("product/product.viewModel",
                             selectedProduct().zoomFactor(1);
                             selectedProduct().scalar(designerCategory.scalarFactor);
                         });
+                        
                     },
                     // Get Press By Id
                     getPressById = function (pressId) {
@@ -1923,6 +1924,17 @@ define("product/product.viewModel",
                                   
                                     selectedProduct().thumbnail(thumbnailPath);
                                     selectedProduct().gridImage(gridimage);
+                                    
+                                    selectedProduct().template().pdfTemplateHeight.subscribe(function (value) {
+                                        if (selectedProduct().template().templatePages().length === 1) {
+                                            selectedProduct().template().templatePages()[0].height(value);
+                                        }
+                                    });
+                                    selectedProduct().template().pdfTemplateWidth.subscribe(function (value) {
+                                        if (selectedProduct().template().templatePages().length === 1) {
+                                            selectedProduct().template().templatePages()[0].width(value);
+                                        }
+                                    });
 
                                     if (callback && typeof callback === "function") {
                                         callback();

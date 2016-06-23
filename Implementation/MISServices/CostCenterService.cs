@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -137,6 +138,88 @@ namespace MPC.Implementation.MISServices
                       
             return costcenter;
         }
+
+        public long CopyCostCenter(CostCentre costcenter)
+        {
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = specialCharactersEncoderCostCentre(org.OrganisationName);
+            CostCentre newCostCentre = new CostCentre();
+            costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
+            newCostCentre = CloneCostCenter(costcenter, newCostCentre);
+            newCostCentre.OrganisationId = org.OrganisationId;
+            _costCenterRepository.Add(newCostCentre);
+            _costCenterRepository.SaveChanges();
+
+           SaveCostCentre(newCostCentre, org.OrganisationId, sOrgName, false);
+
+            return newCostCentre.CostCentreId;
+        }
+
+        private CostCentre CloneCostCenter(CostCentre source, CostCentre target)
+        {
+            target.Name = source.Name + " Copy";
+            target.SetupCost = source.SetupCost;
+            target.CalculationMethodType = source.CalculationMethodType;
+            target.CostCentreType = source.CostCentreType;
+            target.CostDefaultValue = source.CostDefaultValue;
+            target.CostPerUnitQuantity = source.CostPerUnitQuantity;
+            target.strActualCostLabourParsed = source.strActualCostLabourParsed;
+            target.CostQuestionString = source.CostQuestionString;
+            target.DefaultVA = source.DefaultVA;
+            target.DefaultVAId = source.DefaultVAId;
+            target.CreationDate = DateTime.Now;
+            target.Description = source.Description;
+            target.IsDisabled = source.IsDisabled;
+            target.IsPrintOnJobCard = source.IsPrintOnJobCard;
+            target.Priority = source.Priority;
+            target.EstimateProductionTime = source.EstimateProductionTime;
+            target.WebStoreDesc = source.WebStoreDesc;
+            target.strPriceLabourParsed = source.strPriceLabourParsed;
+            target.MinimumCost = source.MinimumCost;
+            target.PerHourPrice = source.PerHourPrice;
+            target.TimeVariableId = source.TimeVariableId;
+            target.TimeSourceType = source.TimeSourceType;
+            target.TimeQuestionDefaultValue = source.TimeQuestionDefaultValue;
+            target.TimeQuestionString = source.TimeQuestionString;
+            target.PricePerUnitQuantity = source.PricePerUnitQuantity;
+            target.QuantityVariableId = source.QuantityVariableId;
+            target.QuantityQuestionString = source.QuantityQuestionString;
+            target.QuantityQuestionDefaultValue = source.QuantityQuestionDefaultValue;
+            target.QuantitySourceType = source.QuantitySourceType;
+            target.Type = source.Type;
+            if (source.CostcentreInstructions != null && source.CostcentreInstructions.Count > 0)
+            {
+                target.CostcentreInstructions = new Collection<CostcentreInstruction>();
+                foreach (var instruction in source.CostcentreInstructions)
+                {
+                    CostcentreInstruction newInstruction = new CostcentreInstruction
+                    {
+                        Instruction = instruction.Instruction,
+                        CostCenterOption = instruction.CostCenterOption
+                    };
+                    
+                    if (instruction.CostcentreWorkInstructionsChoices != null &&
+                        instruction.CostcentreWorkInstructionsChoices.Count > 0)
+                    {
+                        newInstruction.CostcentreWorkInstructionsChoices = new Collection<CostcentreWorkInstructionsChoice>();
+                        foreach (var choice in instruction.CostcentreWorkInstructionsChoices)
+                        {
+                            CostcentreWorkInstructionsChoice newChoice = new CostcentreWorkInstructionsChoice
+                            {
+                                Choice = choice.Choice
+                            };
+                            newInstruction.CostcentreWorkInstructionsChoices.Add(newChoice);
+                        }
+                    }
+                    target.CostcentreInstructions.Add(newInstruction);
+                }
+            }
+
+
+            return target;
+        }
+
+        
 
         public void CostCentreDLL(CostCentre costcenter,long organisationId)
         {

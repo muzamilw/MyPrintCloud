@@ -58,6 +58,7 @@
                 </button>
                 <button class="btn  btn-danger" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onDeletePurchase">&nbsp;Delete</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onPostPurchaseOrder">&nbsp;Post PO</button>
+                <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===32 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onUnPostPurchaseOrder">&nbsp;Un Post PO</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===31 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCancelPurchaseOrder">&nbsp;Cancel PO</button>
                 <button class="btn btn-primary" style="float: right;display: none;margin-right: 6px;display:inline;" id="saveBtn" data-bind="visible:$root.selectedPurchaseOrder().status()===32 && $root.selectedPurchaseOrder().id()!==undefined,click:$root.onCreateGRN">&nbsp;Create GRN</button>
 

@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood, specifiedDiscountVoucherId, specifiedDiscountPercent, specifiedActualPriceWoDiscount, specifiedCouponCode) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood, specifiedDiscountVoucherId, specifiedDiscountPercent, specifiedActualPriceWoDiscount, specifiedCouponCode, specifiedIsDigitalDownload) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -289,6 +289,7 @@
                 discountVoucherId = ko.observable(specifiedDiscountVoucherId || undefined),
                 actualPriceBeforeDiscount = ko.observable(specifiedActualPriceWoDiscount || undefined),
                 couponCode = ko.observable(specifiedCouponCode || undefined),
+                isDigitalDownload = ko.observable(specifiedIsDigitalDownload || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Has Deleted Sections
@@ -597,7 +598,8 @@
                 discountPercentage :discountPercentage,
                 discountVoucherId :discountVoucherId,
                 actualPriceBeforeDiscount: actualPriceBeforeDiscount,
-                couponCode: couponCode
+                couponCode: couponCode,
+                isDigitalDownload: isDigitalDownload
             };
         },
         //#endregion
@@ -2271,7 +2273,7 @@
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
-    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed, specifiedIks)
+    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed, specifiedIks, specifiedIsPerfecting)
         // ReSharper restore InconsistentNaming
     {
         return {
@@ -2283,7 +2285,8 @@
             isSpotColor: specifiedIsSpotColor,
             passes: specifiedPasses,
             isSheetFed: specifiedSheetFed,
-            inkCoverages: specifiedIks
+            inkCoverages: specifiedIks,
+            isPerfecting : specifiedIsPerfecting
         };
     };
     //#endregion
@@ -2302,7 +2305,7 @@
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
-            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate, source.DiscountVoucherID, source.Qty1CostCentreProfit, source.ActualValue, source.CouponCode);
+            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate, source.DiscountVoucherID, source.Qty1CostCentreProfit, source.ActualValue, source.CouponCode, source.IsDigitalDownload);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
@@ -2544,7 +2547,7 @@
     //#region Machine Factory
     // Machine Factory
     Machine.Create = function (source) {
-        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed, source.MachineInkCoverages);
+        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed, source.MachineInkCoverages, source.isPerfecting);
     };
     //#endregion
 

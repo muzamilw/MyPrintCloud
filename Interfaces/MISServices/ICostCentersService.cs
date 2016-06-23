@@ -23,6 +23,7 @@ namespace MPC.Interfaces.MISServices
         bool ReCompileAllCostCentres(long OrganisationId);
 
         void DeleteCostCentre(long CostCentreId);
+        long CopyCostCenter(CostCentre costcenter);
 
     }
 }

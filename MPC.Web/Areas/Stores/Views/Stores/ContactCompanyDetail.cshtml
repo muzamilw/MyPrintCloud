@@ -87,7 +87,7 @@
                             <li><a href="#tab-featuredProducts" data-toggle="tab">Featured Products</a></li>
                             <li><a href="#tab-DiscountVoucher" data-bind="click:$root.getDiscountVouchers" data-toggle="tab"> Discount Voucher</a></li>
                             <li><a href="#tab-RealEstate" data-bind="click:$root.getRealEstateCampaigns" data-toggle="tab">Real Estate Campaigns</a></li>
-                            <li data-bind="visible:$root.selectedStore().isCustomer() == 3"><a href="#tab-TemplateFonts" data-bind="click:$root.getStoreTemplateFonts" data-toggle="tab">Template Fonts</a></li>
+                            <li><a href="#tab-TemplateFonts" data-bind="click:$root.getStoreTemplateFonts" data-toggle="tab">Template Fonts</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -3455,7 +3455,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>
                             </div>
 
-                            <div class="tab-pane clearfix fade" id="tab-TemplateFonts" data-bind="visible:$root.selectedStore().isCustomer() == 3">
+                            <div class="tab-pane clearfix fade" id="tab-TemplateFonts">
                                 <div class="col-lg-12 clearfix" style="padding-left:6px;">
                                     <div style="background-color:gainsboro;border-radius:3px;margin-left:5px;margin-right:5px;margin-top:20px;">
                                         <div class="main-box-body clearfix">

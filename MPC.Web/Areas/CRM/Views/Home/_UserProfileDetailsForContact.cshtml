@@ -503,7 +503,7 @@
                                                             <label for="txtPO" class="control-label text-right tooltip-float">Post Code</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtPO" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined ? $root.selectedBussinessAddress().postCode():''">
+                                                            <input type="text" class="form-control" id="txtPO" disabled="disabled" data-bind="value: $root.selectedBussinessAddress() != undefined && $root.selectedBussinessAddress().postCode() != undefined ? $root.selectedBussinessAddress().postCode():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">
@@ -568,7 +568,7 @@
                                                             <label for="txtShippingPO" class="control-label text-right tooltip-float">Post Code</label>
                                                         </div>
                                                         <div class="col-lg-7">
-                                                            <input type="text" class="form-control" id="txtShippingPO" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined ? $root.selectedShippingAddress().postCode():''">
+                                                            <input type="text" class="form-control" id="txtShippingPO" disabled="disabled" data-bind="value: $root.selectedShippingAddress() != undefined && $root.selectedShippingAddress().postCode() != undefined ? $root.selectedShippingAddress().postCode():''">
                                                         </div>
                                                     </div>
                                                     <div class="form-group ">

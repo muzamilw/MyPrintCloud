@@ -1,4 +1,6 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using MPC.ExceptionHandling;
+using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
 using System;
@@ -30,6 +32,26 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
+
+        [ApiException]
+        [CompressFilterAttribute]
+        public long Post(CostCentre costcenter)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    return costCentreService.CopyCostCenter(costcenter.CreateFrom());
+
+                }
+                catch (Exception exception)
+                {
+                    throw new MPCException(exception.Message, 0);
+                }
+
+            }
+            throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+        }
 
 
         public bool Delete(CostCentreDeleteModel costcentre)
