@@ -63,11 +63,11 @@
                           menuSelector: "#contextMenu"
                       });
                   },
-                showAddEditClickChargeZoneMenu = function () {
-                    $(".addEditClickChargeZone").contextMenu({
-                        menuSelector: "#contextMenuZone"
-                    });
-                },
+                //showAddEditClickChargeZoneMenu = function () {
+                //    $(".addEditClickChargeZone").contextMenu({
+                //        menuSelector: "#contextMenuZone"
+                //    });
+                //},
                    showCostCentreMatrixDialog = function () {
                        $("#CostCentreMatrixModal").modal("show");
                        //   initializeLabelPopovers();
@@ -120,7 +120,7 @@
                 hideCostCentreStockDialog: hideCostCentreStockDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
                 gotoElement: gotoElement,
-                showAddEditClickChargeZoneMenu: showAddEditClickChargeZoneMenu,
+               // showAddEditClickChargeZoneMenu: showAddEditClickChargeZoneMenu,
                 showClickChargeZoneDialog: showClickChargeZoneDialog,
                 hideClickChargeZoneDialog: hideClickChargeZoneDialog
                 //showCostCenterDialog: showCostCenterDialog,

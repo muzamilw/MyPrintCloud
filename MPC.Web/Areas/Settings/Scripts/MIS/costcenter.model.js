@@ -1380,7 +1380,7 @@
             TimePerHour = ko.observable(source.TimePerHour),
             ZoneName = ko.observable(source.ZoneName).extend({ required: true, message: 'Zone title is requird' }),
             VariableString = ko.computed(function () {
-                return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + ZoneName() + "&quot;}";
+                return "{clickchargezone, ID=&quot;" + Id() + "&quot;,caption=&quot;" + ZoneName() + "&quot;}";
                 
             }, this)
         } else {
