@@ -2326,6 +2326,7 @@ namespace MPC.Implementation.WebStoreServices
                                 {
                                     objPage.PageName = "Back";
                                 }
+
                                 objPage.BackgroundFileName = ProductID + "/Side" + (i).ToString() + ".pdf";
                                 objPage.Width = theDoc.MediaBox.Width;
                                 objPage.Height = theDoc.MediaBox.Height;
@@ -2964,19 +2965,22 @@ namespace MPC.Implementation.WebStoreServices
         //F:\\Development\\Github\\MyPrintCloud-dev\\MPC.web\\MPC_Content\\Products\\Organisation1\\Templates\\random__CorporateTemplateUpload.pdf
         //mode = 1 for creating template and removing all the existing objects  and images
         // mode = 2 for creating template and preserving template objects and images
+        
         public bool generateTemplateFromPDF(string filePhysicalPath, int mode, long templateID, long OrganisationID)
         {
             bool result = false;
             try
             {
-                if (mode == 2)
-                {
+
+                // deactivated the mode 1 so that objects are never removed as per request from logical group as it can lead to mistakes. done by mz on 23 june 2016
+                //if (mode == 2)
+                //{
                    result =  CovertPdfToBackground(filePhysicalPath, templateID, OrganisationID);
-                }
-                else
-                {
-                   result =  CovertPdfToBackgroundWithoutObjects(filePhysicalPath, templateID,OrganisationID);
-                }
+                //}
+                //else
+                //{
+                //   result =  CovertPdfToBackgroundWithoutObjects(filePhysicalPath, templateID,OrganisationID);
+                //}
                 if (File.Exists(filePhysicalPath))
                 {
                     File.Delete(filePhysicalPath);
