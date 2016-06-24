@@ -924,6 +924,10 @@ namespace MPC.Repository.Repositories
             {
                 oResponse.LookupVariables = db.LookupMethods.Where(c => c.OrganisationId == this.OrganisationId && (c.Type != 0 || c.Type != null)).ToList();
             }
+            else if (id == 7)//Click Charge Zones
+            {
+                oResponse.ClickChargeZones = db.MachineClickChargeZones.Where(c => c.IsCostCenterZone == true && c.MethodId == null && c.OrganisationId == OrganisationId).ToList();
+            }
 
             return oResponse;
         }

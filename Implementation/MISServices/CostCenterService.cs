@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using Microsoft.VisualBasic;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Common;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -33,12 +34,15 @@ namespace MPC.Implementation.MISServices
         private readonly IDeliveryCarrierRepository _deliveryCarrierRepository;
         private readonly IOrganisationRepository _organisationRepository;
         private readonly IItemRepository _itemRepository;
+        private readonly IMachineClickChargeZoneRepository _machineClickChargeZoneRepository;
+
         #endregion
 
         #region Constructor
 
         public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
-            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository, IOrganisationRepository organisationRepository, IItemRepository itemRepository)
+            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository, IOrganisationRepository organisationRepository, IItemRepository itemRepository,
+            IMachineClickChargeZoneRepository machineClickChargeZoneRepository)
         {
             if (costCenterRepository == null)
             {
@@ -76,6 +80,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemRepository");
             }
+            if (machineClickChargeZoneRepository == null)
+            {
+                throw new ArgumentNullException("machineClickChargeZoneRepository");
+            }
             this._costCenterRepository = costCenterRepository;
             this._chartOfAccountRepository = chartOfAccountRepository;
             this._systemUserRepository = systemUserRepository;
@@ -85,6 +93,7 @@ namespace MPC.Implementation.MISServices
             this._deliveryCarrierRepository = deliveryCarrierRepository;
             this._organisationRepository = organisationRepository;
             this._itemRepository = itemRepository;
+            _machineClickChargeZoneRepository = machineClickChargeZoneRepository;
         }
 
         #endregion
@@ -1619,6 +1628,123 @@ namespace MPC.Implementation.MISServices
         public void DeleteCostCentre(long CostCentreId)
         {
             _costCenterRepository.DeleteCostCentre(CostCentreId);
+        }
+
+        public bool DeleteClickChargeZone(long zoneId)
+        {
+            bool isDeleted = false;
+            try
+            {
+                MachineClickChargeZone clickChargeZone = _machineClickChargeZoneRepository.Find(zoneId);
+                if (clickChargeZone != null)
+                {
+                    _machineClickChargeZoneRepository.Delete(clickChargeZone);
+                    _machineClickChargeZoneRepository.SaveChanges();
+                    isDeleted = true;
+                }
+            }
+            catch (Exception)
+            {
+                throw new MPCException("Failed to delete click charge zone", _costCenterRepository.OrganisationId);
+            }
+            return isDeleted;
+        }
+
+        public MachineClickChargeZone SaveClickChargeZone(MachineClickChargeZone zone)
+        {
+            MachineClickChargeZone clickChargeZone = zone.Id > 0
+                ? _machineClickChargeZoneRepository.Find(zone.Id)
+                : new MachineClickChargeZone();
+            clickChargeZone = UpdateClickChargeZone(zone, clickChargeZone);
+            if(clickChargeZone.Id == 0)
+                _machineClickChargeZoneRepository.Add(clickChargeZone);
+            _machineClickChargeZoneRepository.SaveChanges();
+            return clickChargeZone;
+        }
+
+        private MachineClickChargeZone UpdateClickChargeZone(MachineClickChargeZone source, MachineClickChargeZone target)
+        {
+            target.ZoneName = source.ZoneName;
+            target.From1 = source.From1;
+            target.From2 = source.From2;
+            target.From3 = source.From3;
+            target.From4 = source.From4;
+            target.From5 = source.From5;
+            target.From6 = source.From6;
+            target.From7 = source.From7;
+            target.From8 = source.From8;
+            target.From9 = source.From9;
+            target.From10 = source.From10;
+            target.From11 = source.From11;
+            target.From12 = source.From12;
+            target.From13 = source.From13;
+            target.From14 = source.From14;
+            target.From15 = source.From15;
+            target.To1 = source.To1;
+            target.To2 = source.To2;
+            target.To3 = source.To3;
+            target.To4 = source.To4;
+            target.To5 = source.To5;
+            target.To6 = source.To6;
+            target.To7 = source.To7;
+            target.To8 = source.To8;
+            target.To9 = source.To9;
+            target.To10 = source.To10;
+            target.To11 = source.To11;
+            target.To12 = source.To12;
+            target.To13 = source.To13;
+            target.To14 = source.To14;
+            target.To15 = source.To15;
+            target.Sheets1 = source.Sheets1;
+            target.Sheets2 = source.Sheets2;
+            target.Sheets3 = source.Sheets3;
+            target.Sheets4 = source.Sheets4;
+            target.Sheets5 = source.Sheets5;
+            target.Sheets6 = source.Sheets6;
+            target.Sheets7 = source.Sheets7;
+            target.Sheets8 = source.Sheets8;
+            target.Sheets9 = source.Sheets9;
+            target.Sheets10 = source.Sheets10;
+            target.Sheets11 = source.Sheets11;
+            target.Sheets12 = source.Sheets12;
+            target.Sheets13 = source.Sheets13;
+            target.Sheets14 = source.Sheets14;
+            target.Sheets15 = source.Sheets15;
+            target.SheetCost1 = source.SheetCost1;
+            target.SheetCost2 = source.SheetCost2;
+            target.SheetCost3 = source.SheetCost3;
+            target.SheetCost4 = source.SheetCost4;
+            target.SheetCost5 = source.SheetCost5;
+            target.SheetCost6 = source.SheetCost6;
+            target.SheetCost7 = source.SheetCost7;
+            target.SheetCost8 = source.SheetCost8;
+            target.SheetCost9 = source.SheetCost9;
+            target.SheetCost10 = source.SheetCost10;
+            target.SheetCost11 = source.SheetCost11;
+            target.SheetCost12 = source.SheetCost12;
+            target.SheetCost13 = source.SheetCost13;
+            target.SheetCost14 = source.SheetCost14;
+            target.SheetCost15 = source.SheetCost15;
+            target.SheetPrice1 = source.SheetPrice1;
+            target.SheetPrice2 = source.SheetPrice2;
+            target.SheetPrice3 = source.SheetPrice3;
+            target.SheetPrice4 = source.SheetPrice4;
+            target.SheetPrice5 = source.SheetPrice5;
+            target.SheetPrice6 = source.SheetPrice6;
+            target.SheetPrice7 = source.SheetPrice7;
+            target.SheetPrice8 = source.SheetPrice8;
+            target.SheetPrice9 = source.SheetPrice9;
+            target.SheetPrice10 = source.SheetPrice10;
+            target.SheetPrice11 = source.SheetPrice11;
+            target.SheetPrice12 = source.SheetPrice12;
+            target.SheetPrice13 = source.SheetPrice13;
+            target.SheetPrice14 = source.SheetPrice14;
+            target.SheetPrice15 = source.SheetPrice15;
+            target.IsCostCenterZone = true;
+            target.OrganisationId = _costCenterRepository.OrganisationId;
+            
+
+            return target;
         }
         #endregion
 

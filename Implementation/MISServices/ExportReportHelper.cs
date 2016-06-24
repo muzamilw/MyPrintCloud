@@ -1643,7 +1643,7 @@ namespace MPC.Implementation.MISServices
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
-                        xls.MinColumnWidth = 2;
+                        xls.MinColumnWidth = 1;
                         
                         string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))

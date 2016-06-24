@@ -2589,6 +2589,9 @@
           <Property Name="isaccumulativecharge" Type="smallint" />
           <Property Name="IsRoundUp" Type="smallint" />
           <Property Name="TimePerHour" Type="float" />
+          <Property Name="IsCostCenterZone" Type="bit" />
+          <Property Name="OrganisationId" Type="bigint" />
+          <Property Name="ZoneName" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="MachineGuillotineCalc">
           <Key>
@@ -13946,6 +13949,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsRoundUp" Type="Int16" />
           <Property Name="TimePerHour" Type="Double" />
           <NavigationProperty Name="LookupMethod" Relationship="DomainModels.FK_tbl_lookup_methods_tbl_machine_clickchargezone" FromRole="MachineClickChargeZone" ToRole="LookupMethod" />
+          <Property Name="IsCostCenterZone" Type="Boolean" />
+          <Property Name="OrganisationId" Type="Int64" />
+          <Property Name="ZoneName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MachineGuillotineCalc">
           <Key>
@@ -19930,6 +19936,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="MachineClickChargeZones">
             <EntityTypeMapping TypeName="DomainModels.MachineClickChargeZone">
               <MappingFragment StoreEntitySet="MachineClickChargeZone">
+                <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
+                <ScalarProperty Name="IsCostCenterZone" ColumnName="IsCostCenterZone" />
                 <ScalarProperty Name="TimePerHour" ColumnName="TimePerHour" />
                 <ScalarProperty Name="IsRoundUp" ColumnName="IsRoundUp" />
                 <ScalarProperty Name="isaccumulativecharge" ColumnName="isaccumulativecharge" />

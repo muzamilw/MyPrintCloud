@@ -87,6 +87,10 @@ namespace MPC.MIS.Areas.Api.Models
         public short? isaccumulativecharge { get; set; }
         public short? IsRoundUp { get; set; }
         public double? TimePerHour { get; set; }
+        public bool? IsCostCenterZone { get; set; }
+        public long? OrganisationId { get; set; }
+        public string ZoneName { get; set; }
+        public string VariableString { get; set; }
 
         public virtual LookupMethod LookupMethod { get; set; }
     }

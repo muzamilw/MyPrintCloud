@@ -2405,7 +2405,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             }),
-            cuttingMargin = ko.observable(specifiedCuttingMargin),
+            cuttingMargin = ko.observable(specifiedCuttingMargin).extend({ number: true, min: 0.1, message: 'Value must be greater than zero'}),
             isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
             fileName = ko.observable(),

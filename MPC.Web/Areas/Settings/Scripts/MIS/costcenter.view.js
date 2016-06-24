@@ -63,6 +63,11 @@
                           menuSelector: "#contextMenu"
                       });
                   },
+                showAddEditClickChargeZoneMenu = function () {
+                    $(".addEditClickChargeZone").contextMenu({
+                        menuSelector: "#contextMenuZone"
+                    });
+                },
                    showCostCentreMatrixDialog = function () {
                        $("#CostCentreMatrixModal").modal("show");
                        //   initializeLabelPopovers();
@@ -84,7 +89,12 @@
                       $("#CostCentreStockModal").modal("hide");
 
                   },
-                
+                showClickChargeZoneDialog = function() {
+                    $("#clickChargeZoneDialog").modal("show");
+                },
+                hideClickChargeZoneDialog = function () {
+                    $("#clickChargeZoneDialog").modal("hide");
+                },
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -109,7 +119,10 @@
                 showCostCentreStockDialog: showCostCentreStockDialog,
                 hideCostCentreStockDialog: hideCostCentreStockDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
-                gotoElement: gotoElement
+                gotoElement: gotoElement,
+                showAddEditClickChargeZoneMenu: showAddEditClickChargeZoneMenu,
+                showClickChargeZoneDialog: showClickChargeZoneDialog,
+                hideClickChargeZoneDialog: hideClickChargeZoneDialog
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

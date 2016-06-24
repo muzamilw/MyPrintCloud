@@ -10,6 +10,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<CostCentreQuestion> QuestionVariables { get; set; }
         public IEnumerable<CostCentreMatrix> MatricesVariables { get; set; }
         public IEnumerable<LookupMethod> LookupVariables { get; set; }
+        public IEnumerable<MachineClickChargeZone> ClickChargeZones { get; set; }
         public string StockVariables { get; set; }
         
     }
