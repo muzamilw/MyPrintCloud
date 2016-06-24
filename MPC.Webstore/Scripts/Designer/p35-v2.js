@@ -421,10 +421,15 @@ function g1_(D1AO) {
             $(".rotateSlider").removeAttr("disabled");
             $("#LockPositionImg").removeAttr("disabled");
             $("#BtnPrintImage").removeAttr("disabled");
-            $("#btnImgCanvasAlignLeft").removeAttr("disabled");
-            $("#BtnImgCanvasAlignCenter").removeAttr("disabled");
-            $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
-            $("#BtnImgCanvasAlignRight").removeAttr("disabled");
+            //$("#btnImgCanvasAlignLeft").removeAttr("disabled");
+            //$("#BtnImgCanvasAlignCenter").removeAttr("disabled");
+            //$("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
+            //$("#BtnImgCanvasAlignRight").removeAttr("disabled");
+            $("#btnImgCanvasAlignLeft").attr("disabled", "disabled");
+            $("#BtnImgCanvasAlignCenter").attr("disabled", "disabled");
+            $("#BtnImgCanvasAlignMiddle").attr("disabled", "disabled");
+            $("#BtnImgCanvasAlignRight").attr("disabled", "disabled");
+
             $('.inputObjectAlphaSlider').slider('enable');
             
             $(".positioningControls").css("display","none");
@@ -449,6 +454,13 @@ function g1_(D1AO) {
         $("#BtnImgCanvasAlignCenter").attr("disabled", "disabled");
         $("#BtnImgCanvasAlignMiddle").attr("disabled", "disabled");
         $("#BtnImgCanvasAlignRight").attr("disabled", "disabled");
+        //reverse condition for alignment controls below
+        if (D1AO.IsPositionLocked == false && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+            $("#btnImgCanvasAlignLeft").removeAttr("disabled");
+            $("#BtnImgCanvasAlignCenter").removeAttr("disabled");
+            $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
+            $("#BtnImgCanvasAlignRight").removeAttr("disabled");
+        }
         $("#inputObjectWidth").spinner("option", "disabled", true);
         $("#inputObjectHeight").spinner("option", "disabled", true);
         $("#inputPositionX").spinner("option", "disabled", true);
@@ -554,6 +566,15 @@ function g1(D1AO) {
         $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
         $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
         $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+        //special case for canvas alignment
+        if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+            $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
+            $("#BtnTxtCanvasAlignCenter").attr("disabled", "disabled");
+            $("#BtnTxtCanvasAlignRight").attr("disabled", "disabled");
+            $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
+            $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
+            $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+        }
         $("#inputcharSpacing").spinner("option", "disabled", false);
         $("#BtnFontSize").spinner("option", "disabled", false);
         $("#txtLineHeight").spinner("option", "disabled", false);
@@ -607,6 +628,15 @@ function g1(D1AO) {
         $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
         $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
         $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+        //special case for canvas align controls
+        if (D1AO.IsPositionLocked == false && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+            $("#BtnTxtCanvasAlignLeft").removeAttr("disabled");
+            $("#BtnTxtCanvasAlignCenter").removeAttr("disabled");
+            $("#BtnTxtCanvasAlignRight").removeAttr("disabled");
+            $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
+            $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
+            $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+        }
         $("#BtnFontSize").spinner("option", "disabled", true);
         $("#txtLineHeight").spinner("option", "disabled", true);
 
