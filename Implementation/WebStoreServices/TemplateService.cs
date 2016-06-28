@@ -567,6 +567,9 @@ namespace MPC.Implementation.WebStoreServices
                         }
                     }
 
+
+                    //dirty fix to handle the indentation of inline styled text which happens when bold is applied on the box. its a bug in abcpdf
+                    oPdf.TextStyle.Bold = false;
                 }
                 else
                 {

@@ -217,6 +217,11 @@ namespace MPC.Models.DomainModels
         public virtual Machine MachineSide2 { get; set; }
         public virtual ICollection<SectionInkCoverage> SectionInkCoverages { get; set; }
 
+        public double? SectionPaperWeightExSelfQty1 { get; set; }
+        public double? SectionPaperWeightExSelfQty2 { get; set; }
+        public double? SectionPaperWeightExSelfQty3 { get; set; }
+        
+
         #region Public
 
         /// <summary>

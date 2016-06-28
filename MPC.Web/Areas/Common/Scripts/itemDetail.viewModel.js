@@ -1576,6 +1576,20 @@ define("common/itemDetail.viewModel",
                         dataservice.getUpdatedSystemCostCenters(currSec, {
                             success: function(data) {
                                 if (data != null) {
+
+
+                                    selectedSection().PaperGsm(data.PaperGsm);
+
+                                    selectedSection().PrintSheetQty1(data.PrintSheetQty1);
+                                    selectedSection().PrintSheetQty2(data.PrintSheetQty2);
+                                    selectedSection().PrintSheetQty3(data.PrintSheetQty3);
+
+
+                                    selectedSection().SetupSpoilage(data.SetupSpoilage);
+                                    selectedSection().RunningSpoilage(data.RunningSpoilage);
+                                    selectedSection().RunningSpoilageValue(data.RunningSpoilageValue);
+                                    
+
                                     // Map Section Cost Centres if Any
                                     if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
                                         selectedSection().sectionCostCentres.removeAll();

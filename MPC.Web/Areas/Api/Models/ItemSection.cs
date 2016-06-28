@@ -83,5 +83,41 @@ namespace MPC.MIS.Areas.Api.Models
         public int? PressSpeed3 { get; set; }
         public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
         public IEnumerable<SectionInkCoverage> SectionInkCoverages { get; set; }
+
+
+        public double? PaperGsm { get; set; }
+
+        public int? PrintSheetQty1 { get; set; }
+        public int? PrintSheetQty2 { get; set; }
+        public int? PrintSheetQty3 { get; set; }
+
+        public double? PressHourlyCharge { get; set; }
+
+        public int? SetupSpoilage { get; set; }
+        public int? RunningSpoilage { get; set; }
+        public int? RunningSpoilageValue { get; set; }
+
+        public double? PaperPackPrice { get; set; }
+
+        public int? PTVRows { get; set; }
+        public int? PTVColoumns { get; set; }
+
+        public int? FilmQty { get; set; }
+
+        public int? GuillotineFirstCut { get; set; }
+        public int? GuillotineSecondCut { get; set; }
+        public int? GuillotineCutTime { get; set; }
+
+        public double? PaperWeight1 { get; set; }
+        public double? PaperWeight2 { get; set; }
+        public double? PaperWeight3 { get; set; }
+
+        public int? FinishedItemQty1 { get; set; }
+        public int? FinishedItemQty2 { get; set; }
+        public int? FinishedItemQty3 { get; set; }
+
+        public double? SectionPaperWeightExSelfQty1 { get; set; }
+        public double? SectionPaperWeightExSelfQty2 { get; set; }
+        public double? SectionPaperWeightExSelfQty3 { get; set; }
     }
 }
