@@ -1186,6 +1186,7 @@ namespace MPC.Implementation.MISServices
                 string sMethodName = oModelLookUpMethod.Type == (int) MethodTypes.SpeedWeight
                     ? "Speed Weight"
                     : oModelLookUpMethod.Type == (int) MethodTypes.MeterPerHour ? "Meter Per Hour" : "Click Charge Zone";
+
                 string zoneRatesQty1 = (oModelLookUpMethod.Type == (int) MethodTypes.ClickChargeZone) ? " Zone Rate Charged : " + zoneChargedPrices[0] : "";
                 string zoneRatesQty2 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[1] : "";
                 string zoneRatesQty3 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[2] : "";
@@ -1193,22 +1194,56 @@ namespace MPC.Implementation.MISServices
                 {
                     oItemSectionCostCenter.Qty4WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
                     oItemSectionCostCenter.Qty4WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
-                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
-                    if(oItemSection.Qty2 > 0)
-                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
-                    if(oItemSection.Qty3 > 0)
-                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
+
+                    if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Speed " + (oItemSection.PressSpeed1 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime1 , 2)   + Environment.NewLine;
+                    else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+
+
+                    if (oItemSection.Qty2 > 0)
+                    {
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Speed " + (oItemSection.PressSpeed2 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime2, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    }
+
+                    if (oItemSection.Qty3 > 0)
+                    {
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Speed " + (oItemSection.PressSpeed3 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime3, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    }
                     oItemSectionCostCenter.IsScheduleable = 0;
                 }
                 else
                 {
                     oItemSectionCostCenter.Qty5WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
                     oItemSectionCostCenter.Qty5WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
-                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+
+                    if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Speed " + (oItemSection.PressSpeed1 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime1, 2) + Environment.NewLine;
+                    else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+
+
                     if (oItemSection.Qty2 > 0)
-                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    {
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Speed " + (oItemSection.PressSpeed2 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime2, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                            oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    }
                     if (oItemSection.Qty3 > 0)
+                    {
+
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Speed " + (oItemSection.PressSpeed3 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime3, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
                         oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    }
                     oItemSectionCostCenter.IsScheduleable = 1;
                 }
                 string sSide = string.Empty;

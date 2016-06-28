@@ -1588,6 +1588,12 @@ define("common/itemDetail.viewModel",
                                     selectedSection().SetupSpoilage(data.SetupSpoilage);
                                     selectedSection().RunningSpoilage(data.RunningSpoilage);
                                     selectedSection().RunningSpoilageValue(data.RunningSpoilageValue);
+
+
+                                    selectedSection().ImpressionQty1(data.ImpressionQty1);
+                                    selectedSection().ImpressionQty2(data.ImpressionQty2);
+                                    selectedSection().ImpressionQty3(data.ImpressionQty3);
+                                    
                                     
 
                                     // Map Section Cost Centres if Any

@@ -409,11 +409,7 @@ namespace MPC.Implementation.WebStoreServices
                             //    break;
 
                             case (int)VariableProperty.ImpressionQty_ProRata:
-                                if (Convert.ToDouble(oParamsArray[11]) != 0)
-                                {
-                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
-                                    return functionReturnValue;
-                                }
+                                
 
                                 switch (CurrentQuantity)
                                 {
