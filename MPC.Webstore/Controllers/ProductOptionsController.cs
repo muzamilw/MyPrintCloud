@@ -767,7 +767,15 @@ namespace MPC.Webstore.Controllers
             }
             if(referenceItem.ItemPriceMatrices != null)
             {
-                referenceItem.ItemPriceMatrices = referenceItem.ItemPriceMatrices.OrderBy(s => s.Quantity).ToList();
+                if (referenceItem.IsQtyRanged == true)
+                {
+                    referenceItem.ItemPriceMatrices = referenceItem.ItemPriceMatrices.OrderBy(s => s.QtyRangeFrom).ToList();
+                }
+                else 
+                {
+                    referenceItem.ItemPriceMatrices = referenceItem.ItemPriceMatrices.OrderBy(s => s.Quantity).ToList();
+                }
+               
             }
             
             foreach (var matrixItem in referenceItem.ItemPriceMatrices.ToList())

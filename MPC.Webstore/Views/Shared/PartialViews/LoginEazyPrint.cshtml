@@ -159,13 +159,16 @@
 
 
         function ShowSocialMediaPopUp(provider) {
-
+            var returnUrl = "abc";
+            if ("@ViewBag.ReturnURL" != "") {
+                returnUrl = "@ViewBag.ReturnURL";
+            }
             var w = 820;
             var h = 560;
             var left = (screen.width / 2) - (w / 2);
             var top = (screen.height / 2) - (h / 2);
 
-            window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+            window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/" + returnUrl, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
 
             return false;
         }

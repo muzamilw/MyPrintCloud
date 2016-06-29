@@ -167,55 +167,58 @@
   
 
     <script>
-       
-     
-        function updateSuccess(data) {
-            if (data == "Success") {
-                window.location.href = "/";
-            }
+
+
+    function updateSuccess(data) {
+        if (data == "Success") {
+            window.location.href = "/";
         }
+    }
 
-            function ShowSocialMediaPopUp(provider) {
-
+    function ShowSocialMediaPopUp(provider) {
+        var returnUrl = "abc";
+        if ("@ViewBag.ReturnURL" != "") {
+            returnUrl = "@ViewBag.ReturnURL";
+                }
                 var w = 820;
                 var h = 560;
                 var left = (screen.width / 2) - (w / 2);
                 var top = (screen.height / 2) - (h / 2);
 
-                window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-         
-                return false;
-            }
-       
-            function afterFacebookConnect() {
-                FB.getLoginStatus(function (response) {
-                    if (response.session) {
-                        window.location = "/FacebookLogin/" +
-                               response.session.access_token;
-                    } else {
-                        // user clicked Cancel
-                    }
-                });
-            };
-            $(document).ready(function () {
-                if (document.getElementById('fb-root') != undefined) {
-                    var e = document.createElement('script');
-                    e.type = 'text/javascript';
-                    e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-                    e.async = true;
-                    document.getElementById('fb-root').appendChild(e);
-                }
-            });
+                window.open("/oAuth/" + provider + "/0/@UserCookieManager.WBStoreId/" + returnUrl, "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
 
-            function ValidateUserCredentials() {
-                console.log($('#txtEmailId').val() + "ema");
-                console.log($('#txtPasswordbox').val() + "pas");
-                if ($('#txtEmailId').val() == '' && $('#txtPasswordbox').val() == '') {
+        return false;
+    }
 
-                    return false;
-                } else {
-                    ShowLoader();
-                    return true;
-                }
+    function afterFacebookConnect() {
+        FB.getLoginStatus(function (response) {
+            if (response.session) {
+                window.location = "/FacebookLogin/" +
+                       response.session.access_token;
+            } else {
+                // user clicked Cancel
             }
+        });
+    };
+    $(document).ready(function () {
+        if (document.getElementById('fb-root') != undefined) {
+            var e = document.createElement('script');
+            e.type = 'text/javascript';
+            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+            e.async = true;
+            document.getElementById('fb-root').appendChild(e);
+        }
+    });
+
+    function ValidateUserCredentials() {
+        console.log($('#txtEmailId').val() + "ema");
+        console.log($('#txtPasswordbox').val() + "pas");
+        if ($('#txtEmailId').val() == '' && $('#txtPasswordbox').val() == '') {
+
+            return false;
+        } else {
+            ShowLoader();
+            return true;
+        }
+    }
     </script>
