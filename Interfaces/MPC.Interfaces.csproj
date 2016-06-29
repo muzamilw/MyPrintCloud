@@ -134,6 +134,7 @@
     <Compile Include="Repository\IItemsVoucherRepository.cs" />
     <Compile Include="Repository\IListingBulletPointsRepository.cs" />
     <Compile Include="Repository\IListingRepository.cs" />
+    <Compile Include="Repository\IMachineClickChargeZoneRepository.cs" />
     <Compile Include="Repository\IMarketingBriefHistoryRepository.cs" />
     <Compile Include="Repository\IProductCategoryVoucherRepository.cs" />
     <Compile Include="Repository\IProductMarketBriefAnswerRepository.cs" />

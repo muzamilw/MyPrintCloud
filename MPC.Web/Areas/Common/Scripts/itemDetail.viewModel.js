@@ -140,6 +140,7 @@ define("common/itemDetail.viewModel",
                     closeItemDetailSection = null,
                     saveOrderFromSection = null,
                     saveFrom = ko.observable(),
+                    isPress1Perfecting = ko.observable(),
                     //Is Estimate Screen
                     isEstimateScreen = ko.observable(false),
                     // Default MarkUp Id
@@ -847,6 +848,7 @@ define("common/itemDetail.viewModel",
                             selectedSection().pressIdSide1ColourHeads(press.colourHeads || 0);
                             selectedSection().pressIdSide1IsSpotColor(press.isSpotColor || false);
                             selectedSection().passesSide1(press.passes);
+                            isPress1Perfecting(press.isPerfecting || false);
                             // Update Section Ink Coverage
                             selectedSection().sectionInkCoverageList.removeAll(selectedSection().sectionInkCoveragesSide1());
                             if (press.inkCoverages.length > 0) {
@@ -1551,8 +1553,11 @@ define("common/itemDetail.viewModel",
                             toastr.info("Please Select Side 1 Press in order to get Cost Centers.");
                             return;
                         } else if (selectedSection().isDoubleSided() && !selectedSection().pressIdSide2() && !selectedSection().isWorknTurn()) {
-                            toastr.info("Please Select Side 2 Press in order to get Cost Centers.");
-                            return;
+                            if (!isPress1Perfecting()) {
+                                toastr.info("Please Select Side 2 Press in order to get Cost Centers.");
+                                return;
+                            }
+                           
                         } else if (selectedSection().numberUp() <= 0) {
                             toastr.info("Sheet plan cannot be zero in order to get Cost Centers.");
                             return;
@@ -1571,6 +1576,26 @@ define("common/itemDetail.viewModel",
                         dataservice.getUpdatedSystemCostCenters(currSec, {
                             success: function(data) {
                                 if (data != null) {
+
+
+                                    selectedSection().PaperGsm(data.PaperGsm);
+
+                                    selectedSection().PrintSheetQty1(data.PrintSheetQty1);
+                                    selectedSection().PrintSheetQty2(data.PrintSheetQty2);
+                                    selectedSection().PrintSheetQty3(data.PrintSheetQty3);
+
+
+                                    selectedSection().SetupSpoilage(data.SetupSpoilage);
+                                    selectedSection().RunningSpoilage(data.RunningSpoilage);
+                                    selectedSection().RunningSpoilageValue(data.RunningSpoilageValue);
+
+
+                                    selectedSection().ImpressionQty1(data.ImpressionQty1);
+                                    selectedSection().ImpressionQty2(data.ImpressionQty2);
+                                    selectedSection().ImpressionQty3(data.ImpressionQty3);
+                                    
+                                    
+
                                     // Map Section Cost Centres if Any
                                     if (data.SectionCostcentres && data.SectionCostcentres.length > 0) {
                                         selectedSection().sectionCostCentres.removeAll();
@@ -2383,7 +2408,8 @@ define("common/itemDetail.viewModel",
                     selectedPressInstructions: selectedPressInstructions,
                     onSectionInkCoverageSave: onSectionInkCoverageSave,
                     selectedCostCenterCategory: selectedCostCenterCategory,
-                    onCreateNewItemSection: onCreateNewItemSection
+                    onCreateNewItemSection: onCreateNewItemSection,
+                    isPress1Perfecting: isPress1Perfecting
                     //#endregion
                 };
             })()

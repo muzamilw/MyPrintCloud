@@ -932,6 +932,18 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         return;
                     },
                     onExportPurchaseOrder = function () {
+                        confirmation.messageText("Do you want to POST the purchase order? ");
+                        confirmation.afterProceed(function () {
+                            selectedPurchaseOrder().status(32); //Posted Purchase Order                    
+                            setPurchaseOrderExported();
+                        });
+                        confirmation.afterCancel(function () {
+                            setPurchaseOrderExported();
+                        });
+                        confirmation.show();
+                        
+                    },
+                    setPurchaseOrderExported = function() {
                         if (selectedPurchaseOrder().hasChanges()) {
                             errorList.removeAll();
                             if (!dobeforeSave()) {
@@ -941,7 +953,6 @@ define("purchaseOrders/purchaseOrders.viewModel",
                         } else {
                             exportPurchaseOrder();
                         }
-                        
                     },
                     exportPurchaseOrder = function () {
                         
@@ -961,11 +972,25 @@ define("purchaseOrders/purchaseOrders.viewModel",
                             }
                         });
                     },
+                     onUnPostPurchaseOrder = function () {
+                         if (!dobeforeSave()) {
+                             return;
+                         }
+                         confirmation.messageText("Are you sure you want to revert purchase order to Un Posted?");
+                         confirmation.afterProceed(function () {
+                             selectedPurchaseOrder().status(31); //Un posted purchase order                             
+                             savePurchaseOrder();
+                         });
+                         confirmation.afterCancel(function () {
+                             //Do Nothing on Cancel
+                         });
+                         confirmation.show();
+                     },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(new pagination.Pagination({ PageSize: 5 }, purchaseOrders, getPurchaseOrders));
+                    pager(new pagination.Pagination({ PageSize: 10 }, purchaseOrders, getPurchaseOrders));
                     getBaseData();
                     getPurchaseOrders();
 
@@ -1034,7 +1059,8 @@ define("purchaseOrders/purchaseOrders.viewModel",
                     formatSelection: formatSelection,
                     formatResult: formatResult,
                     loggedInUser: loggedInUser,
-                    onExportPurchaseOrder: onExportPurchaseOrder
+                    onExportPurchaseOrder: onExportPurchaseOrder,
+                    onUnPostPurchaseOrder: onUnPostPurchaseOrder
                 };
             })()
         };

@@ -46,6 +46,7 @@
                         <div class="pull-right top-page-ui">
 
                             <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedCostCenter().costCentreId() > 0">Delete</button>
+                            <button class="btn btn-success" data-bind="click: $root.onCopyCostCenter, enable: $root.selectedCostCenter().costCentreId() > 0">Copy Cost Center</button>
 
                             <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                                 Save
@@ -1219,6 +1220,7 @@
                                                                 <div class="dd-handle-list" data-bind="click: $root.getQuestionsVariableTreeChildItems"><i id="idQuestionsVariable" class="fa fa-chevron-circle-right drop-icon"></i></div>
                                                                 <div class="dd-handle togglelink open">
                                                                     <span style="cursor: not-allowed;">Questions</span>
+                                                                    <a href="#" class="nested-link" style="float: right; font-size: 16px;" title="Add Question" data-bind="click:$root.addQuestionVariable"><i class="fa fa-plus"></i></a>
                                                                 </div>
                                                                 <ol data-bind="visible:$root.showQuestionVariableChildList">
                                                                     <!-- ko template: { name: 'QuestionVariableTemplate' , foreach: $root.questionVariableNodes } -->
@@ -1243,6 +1245,17 @@
                                                             </li>
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
+                                                            <li class="dd-item dd-item-list">
+                                                                <div class="dd-handle-list" data-bind="click: $root.getZonesVariableTreeChildItems"><i id="idZonesVariable" class="fa fa-chevron-circle-right drop-icon"></i></div>
+                                                                <div class="dd-handle togglelink open">
+                                                                    <span style="cursor: not-allowed;">Click Charge Zones</span>
+                                                                    <a href="#" class="nested-link" style="float: right; font-size: 16px;" title="Add Click Charge Zone" data-bind="click:$root.addClickChargeZone"><i class="fa fa-plus"></i></a>
+                                                                </div>
+                                                                <ol data-bind="visible:$root.showZoneVariableChildList">
+                                                                    <!-- ko template: { name: 'ZoneVariableTemplate' , foreach: $root.zoneVariableNodes } -->
+                                                                    <!-- /ko -->
+                                                                </ol>
+                                                            </li>
                                                         </ol>
                                                     </div>
                                                 </div>
@@ -1342,6 +1355,7 @@
                         </div>
                     </div>
                 </div>
+                @Html.Partial("_ClickChargeZoneDialog")
             </div>
         </form>
     </div>
@@ -1447,11 +1461,11 @@
     <ol class="dd-list">
         <li class="dd-item dd-item-list">
             <div class="dd-handle-list"> <i class="fa fa-minus-square"> </i> </div>
-            <div class="dd-handle">
-                <span style="cursor: move;z-index: 1000" class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.draggedVariableString, click: $root.OnEditQuestionVariable, attr: {id: Id}">
+            <div class="dd-handle AddEditQuestion" style="cursor: move;z-index: 1000">
+                <span data-bind="text:QuestionString,drag: $root.draggedVariableString, click: $root.OnEditQuestionVariable, attr: {id: Id}">
                 </span>
-                <div class="nested-links">
-                </div>
+                @*<div class="nested-links">
+            </div>*@
             </div>
         </li>
     </ol>
@@ -1472,6 +1486,18 @@
         </li>
     </ol>
 </script>
+<script id="ZoneVariableTemplate" type="text/html">
+    <ol class="dd-list">
+        <li class="dd-item dd-item-list">
+            <div class="dd-handle-list"> <i class="fa fa-minus-square"> </i> </div>
+            <div class="dd-handle addEditClickChargeZone" style="cursor: move;z-index: 1000">
+                <span data-bind="text:ZoneName,drag: $root.draggedVariableString, click: $root.OnEditClickChargeZone, attr: {id: Id}">
+                </span>
+                
+            </div>           
+        </li>
+    </ol>
+</script>
 <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
     <li><a tabindex="-1" data-bind="click:$root.addQuestionVariable">Add</a></li>
     <li><a tabindex="-1" data-bind="click:$root.OnEditQuestionVariable">Edit</a></li>
@@ -1484,17 +1510,23 @@
     <li><a tabindex="-1" data-bind="click:$root.DeleteMatrixVariable">Delete</a></li>
 
 </ul>
+@*<ul id="contextMenuZone" class="dropdown-menu" role="menu" style="display:none">
+    <li><a tabindex="-1" data-bind="click:$root.addClickChargeZone">Add</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.editZoneByContextMenu">Edit</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.onDeleteClickChargeZone">Delete</a></li>
 
+</ul>*@
 
 <script src="http://mpc/Scripts/jquery.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
+        debugger;
         (function ($, window) {
             $.fn.contextMenu = function (settings) {
 
                 return this.each(function () {
-
+                    debugger;
                     // Open context menu
                     $(this).on("contextmenu", function (e) {
                         // return native menu if pressing control
@@ -1502,12 +1534,12 @@
 
                         //open menu
                         $(settings.menuSelector)
-                            .data("invokedOn", $(e.target))
+                            .data("invokedOn", $(e.target.childNodes[1]))
                             .show()
                             .css({
                                 position: "absolute",
-                                left: getLeftLocation(e) - 100,
-                                top: getTopLocation(e) - 15
+                                left: getLeftLocation(e) - 300,
+                                top: getTopLocation(e) - 40
                             })
                             .off('click')
                             .on('click', function (e) {

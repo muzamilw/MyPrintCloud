@@ -327,11 +327,11 @@ namespace MPC.Implementation.WebStoreServices
                                 break;
                             case (int)VariableProperty.PrintSheetQty_ProRata:
 
-                                if (Convert.ToDouble(oParamsArray[11]) != 0)
-                                {
-                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
-                                    return functionReturnValue;
-                                }
+                                //if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                //{
+                                //    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                //    return functionReturnValue;
+                                //}
 
                                 switch (CurrentQuantity)
                                 {
@@ -409,11 +409,7 @@ namespace MPC.Implementation.WebStoreServices
                             //    break;
 
                             case (int)VariableProperty.ImpressionQty_ProRata:
-                                if (Convert.ToDouble(oParamsArray[11]) != 0)
-                                {
-                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
-                                    return functionReturnValue;
-                                }
+                                
 
                                 switch (CurrentQuantity)
                                 {
@@ -671,11 +667,11 @@ namespace MPC.Implementation.WebStoreServices
                                 break;
                             case (int)VariableProperty.PrintSheetQtyIncSpoilage_ProRata:
 
-                                if (Convert.ToDouble(oParamsArray[11]) != 0)
-                                {
-                                    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
-                                    return functionReturnValue;
-                                }
+                                //if (Convert.ToDouble(oParamsArray[11]) != 0)
+                                //{
+                                //    functionReturnValue = Convert.ToDouble(oParamsArray[11]);
+                                //    return functionReturnValue;
+                                //}
 
                                 switch (CurrentQuantity)
                                 {
@@ -758,39 +754,39 @@ namespace MPC.Implementation.WebStoreServices
 
                             //    break;
 
-                            //case (int)VariableProperty.SectionPaperWeightExSelfQty_ProRata:
-                            //    switch (CurrentQuantity)
-                            //    {
-                            //        case 1:
-                            //            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
-                            //            break;
-                            //        case 2:
-                            //            if (oItemSection.SectionPaperWeightExSelfQty2 == 0)
-                            //            {
-                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
-                            //            }
-                            //            else
-                            //            {
-                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty2;
-                            //            }
-                            //            break;
-                            //        case 3:
-                            //            if (oItemSection.SectionPaperWeightExSelfQty3 == 0)
-                            //            {
-                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1;
-                            //            }
-                            //            else
-                            //            {
-                            //                functionReturnValue = oItemSection.SectionPaperWeightExSelfQty3;
-                            //            }
-                            //            break;
-                            //        //Case 4
-                            //        //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty4
-                            //        //Case 5
-                            //        //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty5
-                            //    }
+                            case (int)VariableProperty.SectionPaperWeightExSelfQty_ProRata:
+                                switch (CurrentQuantity)
+                                {
+                                    case 1:
+                                        functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1.Value;
+                                        break;
+                                    case 2:
+                                        if (oItemSection.SectionPaperWeightExSelfQty2 == 0)
+                                        {
+                                            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1.Value;
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty2.Value;
+                                        }
+                                        break;
+                                    case 3:
+                                        if (oItemSection.SectionPaperWeightExSelfQty3 == 0)
+                                        {
+                                            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty1.Value;
+                                        }
+                                        else
+                                        {
+                                            functionReturnValue = oItemSection.SectionPaperWeightExSelfQty3.Value;
+                                        }
+                                        break;
+                                    //Case 4
+                                    //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty4
+                                    //Case 5
+                                    //    ExecuteVariable = oItemSection.SectionPaperWeightExSelfQty5
+                                }
 
-                            //    break;
+                                break;
 
                             case (int)VariableProperty.WashupQty:
                                 functionReturnValue = Convert.ToDouble(oItemSection.WashupQty);

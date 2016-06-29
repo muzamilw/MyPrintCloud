@@ -528,6 +528,7 @@ namespace MPC.Implementation.WebStoreServices
             value = value.Replace("&#34;", "");
             value = value.Replace("&", "");
             value = value.Replace("+", "");
+            value = value.Replace("'", "");
             return value;
         }
 

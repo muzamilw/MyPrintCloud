@@ -10639,3 +10639,8 @@ END
 
 
 
+---Change costcenter question type---
+
+alter table MachineClickChargeZone add IsCostCenterZone bit
+alter table MachineClickChargeZone add OrganisationId bigint
+alter table MachineClickChargeZone add ZoneName nvarchar(200)

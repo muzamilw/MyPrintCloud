@@ -69,6 +69,7 @@ define("order/order.viewModel",
                     selectedCompany = ko.observable(),
                     isStoreLive = ko.observable(),
                     isInvoicedAndPosted = ko.observable(),
+                    newCostCenterSection = ko.observable(),
                     //inquiries
                     inquiries = ko.observableArray([]),
                     // Errors List
@@ -1135,7 +1136,21 @@ define("order/order.viewModel",
                         //    selectedCostCentre(costCenter);
                         //    createNewCostCenterProduct();
                         //});
-                        addCostCenterVM.executeCostCenter( createNewCostCenterProduct);
+                        createNewCostCenterSection();
+                        addCostCenterVM.currentSection(newCostCenterSection().convertToServerData());
+                        addCostCenterVM.executeCostCenter(createNewCostCenterProduct);
+                    },
+                    createNewCostCenterSection = function() {
+                        var itemSection = itemModel.ItemSection.Create({});
+                        counterForSection = counterForSection - 1;
+                        itemSection.id(counterForSection);
+                        itemSection.name("Text Sheet");
+                        itemSection.qty1(selectedCostCentre().quantity1());
+                        itemSection.qty2(selectedCostCentre().quantity2());
+                        itemSection.qty3(selectedCostCentre().quantity3());
+                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
+                        itemSection.productType(2);
+                        newCostCenterSection(itemSection);
                     },
                     //Product From Cost Center
                     createNewCostCenterProduct = function () {
@@ -1153,15 +1168,9 @@ define("order/order.viewModel",
                         //Req: Item Product code is set to '2', so while editting item's section is non mandatory
                         item.productType(3);
                         item.isFinishedGood(0);
-                        var itemSection = itemModel.ItemSection.Create({});
-                        counterForSection = counterForSection - 1;
-                        itemSection.id(counterForSection);
-                        itemSection.name("Text Sheet");
-                        itemSection.qty1(selectedCostCentre().quantity1());
-                        itemSection.qty2(selectedCostCentre().quantity2());
-                        itemSection.qty3(selectedCostCentre().quantity3());
-                        //Req: Item section Product type is set to '2', so while editting item's section is non mandatory
-                        itemSection.productType(2);
+                        
+                        //Code here for secton
+                        var itemSection = newCostCenterSection();
                         itemSection.baseCharge1(selectedCostCentre().setupCost());
 
                         var sectionCostCenter = itemModel.SectionCostCentre.Create({});
@@ -1639,7 +1648,7 @@ define("order/order.viewModel",
                         currentScreen(currentTab);
                         if (isEstimateScreen()) {
 
-                            pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
+                            pager(new pagination.Pagination({ PageSize: 10 }, orders, getEstimates));
                             pager().reset();
                             //selectedFilterFlag(0);
 
@@ -1969,7 +1978,7 @@ define("order/order.viewModel",
                     },
 
                     getCostCentersForProduct = function () {
-                        addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), null, false, 0 );
+                        addCostCenterVM.show(afterSelectCostCenter, selectedOrder().companyId(), false, currencySymbol(), selectedCompanyTaxRate(), null, false, 0);
                     },
                     //onAddCostCenterCallback = function () {
 
@@ -2863,7 +2872,7 @@ define("order/order.viewModel",
                         currentScreen(8);
                         pager().reset(0);
                         //
-                        pager(new pagination.Pagination({ PageSize: 5 }, inquiries, getInquiries));
+                        pager(new pagination.Pagination({ PageSize: 10 }, inquiries, getInquiries));
                         getInquiries();
                         if (!isInquiryBaseDataLoaded()) {
                             getInquiriesTabBaseData();
@@ -3503,7 +3512,7 @@ define("order/order.viewModel",
                                  
                              },
                              error: function (response) {
-                                 toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                                 toastr.error("Failed to delete order. Error: " + response, "", ist.toastrOptions);
                              }
                          });
                      },

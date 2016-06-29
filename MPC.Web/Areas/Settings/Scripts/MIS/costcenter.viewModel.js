@@ -31,14 +31,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             questionVariableNodes = ko.observableArray([]),
             matrixVariableNodes = ko.observableArray([]),
             lookupVariableNodes = ko.observableArray([]),
+                zoneVariableNodes = ko.observableArray([]),
             selectedCostCenterType = ko.observable(),
             selectedVariableType = ko.observable(),
             SelectedStockVariable = ko.observable(),
+            isClickChargeZonesEditorVisible = ko.observable(),
+            selectedClickChargeZones = ko.observable(),
             selectedcc = ko.observable(),
             fixedvarIndex = ko.observable(1),
             selectedVariableString = ko.observable(),
             CurrencySymbol = ko.observable(),
             showQuestionVariableChildList = ko.observable(0),
+            showZoneVariableChildList = ko.observable(0),
             showMatricesVariableChildList = ko.observable(0),
             // Cost Center Categories
             costCenterCategories = ko.observableArray([]),
@@ -1116,7 +1120,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         toastr.error("Failed to load Detail . Error: ");
                     }
                 });
-            }
+            },
             openEditDialog = function () {
                 view.showCostCenterDialog();
 
@@ -1307,6 +1311,243 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                 }, null, true);
             },
+            onCopyCostCenter = function () {
+                confirmation.messageText("WARNING - Are you sure you want to copy this cost center?");
+                confirmation.afterProceed(function () {
+                    dataservice.copyCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
+                        success: function (data) {
+                            closeCostCenterDetail();
+                            var cc = model.costCenterListView({});
+                            cc.costCenterId(data);
+                            getCostCenterById(cc);
+                            getCostCenters();
+                            
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                toastr.error(exceptionMessage);
+                            } else {
+                                toastr.error("Failed to copy cost center.");
+                            }
+                        }
+                    });
+                });
+                confirmation.show();
+               
+            },
+            getZonesVariableTreeChildItems = function() {
+                if (zoneVariableNodes().length > 0) {
+                    if (showZoneVariableChildList() == 1) {
+                        showZoneVariableChildList(0);
+                        $("#idZonesVariable").removeClass("fa-chevron-circle-down");
+                        $("#idZonesVariable").addClass("fa-chevron-circle-right");
+
+                    } else {
+                        showZoneVariableChildList(1);
+                        $("#idZonesVariable").addClass("fa-chevron-circle-down");
+                        $("#idZonesVariable").removeClass("fa-chevron-circle-right");
+
+                    }
+
+                } else {
+                    dataservice.GetTreeListById({
+                        id: 7,
+                    }, {
+                        success: function (data) {
+                            zoneVariableNodes.removeAll();
+                            _.each(data.ClickChargeZones, function (item) {
+                                var zone = model.MachineClickChargeZone(item);
+                                zoneVariableNodes.push(zone);
+                            });
+                            showZoneVariableChildList(1);
+                            $("#idZonesVariable").addClass("fa-chevron-circle-down");
+                            $("#idZonesVariable").removeClass("fa-chevron-circle-right");
+                            view.showAddEditClickChargeZoneMenu();
+
+                        },
+                        error: function () {
+                            toastr.error("Failed to load click charge zone data.");
+                        }
+                    });
+                }
+
+            },
+            addClickChargeZone = function() {
+                var newZone = model.MachineClickChargeZone();
+                newZone.Id(0);
+                isClickChargeZonesEditorVisible(true);
+                selectedClickChargeZones(newZone);
+                selectedClickChargeZones().reset();
+                view.showClickChargeZoneDialog();
+            },
+            onDeleteClickChargeZone = function() {
+                confirmation.messageText("WARNING - Are you sure you want to delete this click charge zone?");
+                confirmation.afterProceed(function () {
+                    dataservice.deleteClickChargeZone(model.ClickChargeZoneServerMapper(selectedClickChargeZones()), {
+                        success: function (data) {
+                            if (data == true) {
+                                var delZone = zoneVariableNodes.filter(function (item) { return item.Id() === selectedClickChargeZones().Id() })[0];
+                                zoneVariableNodes.remove(delZone);
+                                view.hideClickChargeZoneDialog();
+                            }
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                toastr.error(exceptionMessage);
+                            } else {
+                                toastr.error("Failed to delete click charge zone.");
+                            }
+                        }
+                    });
+                });
+                confirmation.show();
+            },
+           OnEditClickChargeZone = function (zone) {
+               isClickChargeZonesEditorVisible(true);
+               selectedClickChargeZones(zone);
+               selectedClickChargeZones().reset();
+               view.showClickChargeZoneDialog();
+
+           },
+            editZoneByContextMenu = function() {
+                var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
+                var oZoneData = zoneVariableNodes.filter(function (item) { return item.Id() === Id })[0];
+                OnEditClickChargeZone(oZoneData);
+            },
+            onCloseClickChargeZone = function() {
+                if(selectedClickChargeZones().isValid())
+                    view.hideClickChargeZoneDialog();
+            },
+            saveClickCharageZone = function () {
+                if (!selectedClickChargeZones().isValid())
+                    return;
+                dataservice.saveClickChargeZone(model.ClickChargeZoneServerMapper(selectedClickChargeZones()), {
+                    success: function (data) {
+                        if (selectedClickChargeZones().Id() == 0) {
+                            var newZone = model.MachineClickChargeZone(data);
+                            zoneVariableNodes.push(newZone);
+                        } else {
+                            var oZoneData = zoneVariableNodes.filter(function (item) { return item.Id() === data.Id })[0];
+                            oZoneData.ZoneName(data.ZoneName);
+                        }
+                        view.hideClickChargeZoneDialog();
+                        
+
+                    },
+                    error: function (exceptionMessage, exceptionType) {
+
+                        if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                            toastr.error(exceptionMessage);
+                        } else {
+                            toastr.error("Failed to save click charge zone.");
+                        }
+                    }
+                });
+            },
+             onChangeToValue = function (To) {
+                 switch (To) {
+                     case '1':
+                         selectedClickChargeZones().From2(parseInt(selectedClickChargeZones().To1()) + parseInt(1));
+                         if (selectedClickChargeZones().To1() >= selectedClickChargeZones().To2()) {
+                             selectedClickChargeZones().To2(parseInt(selectedClickChargeZones().To1()) + parseInt(102));
+                         }
+                     case '2':
+                         selectedClickChargeZones().From3(parseInt(selectedClickChargeZones().To2()) + parseInt(1));
+                         if (selectedClickChargeZones().To2() >= selectedClickChargeZones().To3()) {
+                             selectedClickChargeZones().To3(parseInt(selectedClickChargeZones().To2()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '3':
+                         selectedClickChargeZones().From4(parseInt(selectedClickChargeZones().To3()) + parseInt(1));
+                         if (selectedClickChargeZones().To3() >= selectedClickChargeZones().To4()) {
+                             selectedClickChargeZones().To4(parseInt(selectedClickChargeZones().To3()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '4':
+                         selectedClickChargeZones().From5(parseInt(selectedClickChargeZones().To4()) + parseInt(1));
+                         if (selectedClickChargeZones().To4() >= selectedClickChargeZones().To5()) {
+                             selectedClickChargeZones().To5(parseInt(selectedClickChargeZones().To4()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '5':
+                         selectedClickChargeZones().From6(parseInt(selectedClickChargeZones().To5()) + parseInt(1));
+                         if (selectedClickChargeZones().To5() >= selectedClickChargeZones().To6()) {
+                             selectedClickChargeZones().To6(parseInt(selectedClickChargeZones().To5()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '6':
+                         selectedClickChargeZones().From7(parseInt(selectedClickChargeZones().To6()) + parseInt(1));
+                         if (selectedClickChargeZones().To6() >= selectedClickChargeZones().To7()) {
+                             selectedClickChargeZones().To7(parseInt(selectedClickChargeZones().To6()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '7':
+                         selectedClickChargeZones().From8(parseInt(selectedClickChargeZones().To7()) + parseInt(1));
+                         if (selectedClickChargeZones().To7() >= selectedClickChargeZones().To8()) {
+                             selectedClickChargeZones().To8(parseInt(selectedClickChargeZones().To7()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '8':
+                         selectedClickChargeZones().From9(parseInt(selectedClickChargeZones().To8()) + parseInt(1));
+                         if (selectedClickChargeZones().To8() >= selectedClickChargeZones().To9()) {
+                             selectedClickChargeZones().To9(parseInt(selectedClickChargeZones().To8()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '9':
+                         selectedClickChargeZones().From10(parseInt(selectedClickChargeZones().To9()) + parseInt(1));
+                         if (selectedClickChargeZones().To9() >= selectedClickChargeZones().To10()) {
+                             selectedClickChargeZones().To10(parseInt(selectedClickChargeZones().To9()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '10':
+                         selectedClickChargeZones().From11(parseInt(selectedClickChargeZones().To10()) + parseInt(1));
+                         if (selectedClickChargeZones().To10() >= selectedClickChargeZones().To11()) {
+                             selectedClickChargeZones().To11(parseInt(selectedClickChargeZones().To10()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '11':
+                         selectedClickChargeZones().From12(parseInt(selectedClickChargeZones().To11()) + parseInt(1));
+                         if (selectedClickChargeZones().To11() >= selectedClickChargeZones().To12()) {
+                             selectedClickChargeZones().To12(parseInt(selectedClickChargeZones().To11()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '12':
+                         selectedClickChargeZones().From13(parseInt(selectedClickChargeZones().To12()) + parseInt(1));
+                         if (selectedClickChargeZones().To12() >= selectedClickChargeZones().To13()) {
+                             selectedClickChargeZones().To13(parseInt(selectedClickChargeZones().To12()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '13':
+                         selectedClickChargeZones().From14(parseInt(selectedClickChargeZones().To13()) + parseInt(1));
+                         if (selectedClickChargeZones().To13() >= selectedClickChargeZones().To14()) {
+                             selectedClickChargeZones().To14(parseInt(selectedClickChargeZones().To13()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '14':
+                         selectedClickChargeZones().From15(parseInt(selectedClickChargeZones().To14()) + parseInt(1));
+                         if (selectedClickChargeZones().To14() >= selectedClickChargeZones().To15()) {
+                             selectedClickChargeZones().To15(parseInt(selectedClickChargeZones().To14()) + parseInt(102));
+                         } else {
+                             break;
+                         }
+                     case '15':
+                         break;
+                 }
+             },
+
             // #region Observables
             // Initialize the view model
            initialize = function (specifiedView) {
@@ -1415,10 +1656,22 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,
                 getCostCenterByFilter: getCostCenterByFilter,
-                onDeletePermanent: onDeletePermanent
-                
+                onDeletePermanent: onDeletePermanent,
+                onCopyCostCenter: onCopyCostCenter,
+                getZonesVariableTreeChildItems: getZonesVariableTreeChildItems,
+                showZoneVariableChildList: showZoneVariableChildList,
+                zoneVariableNodes: zoneVariableNodes,
+                OnEditClickChargeZone: OnEditClickChargeZone,
+                isClickChargeZonesEditorVisible: isClickChargeZonesEditorVisible,
+                selectedClickChargeZones: selectedClickChargeZones,
+                saveClickCharageZone: saveClickCharageZone,
+                onCloseClickChargeZone: onCloseClickChargeZone,
+                onChangeToValue: onChangeToValue,
+                addClickChargeZone: addClickChargeZone,
+                onDeleteClickChargeZone: onDeleteClickChargeZone,
+                editZoneByContextMenu: editZoneByContextMenu
 
-            };
+        };
         })()
     };
     return ist.costcenter.viewModel;

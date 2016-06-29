@@ -1241,6 +1241,15 @@ function g2(e) {
             $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
             $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
             $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+            //special case for canvas alignment
+            if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignCenter").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignRight").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+            }
             //  $("#inputcharSpacing").spinner("option", "disabled", false);
 
 
@@ -1288,7 +1297,15 @@ function g2(e) {
             $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
             $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
             $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
-
+            //special case for canvas align controls
+            if (D1AO.IsPositionLocked == false && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $("#BtnTxtCanvasAlignLeft").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignCenter").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignRight").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+            }
 
 
             $("#BtnBulletedLstTxt").attr("disabled", "disabled");
@@ -1526,6 +1543,15 @@ function g2_1(e) {
             $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
             $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
             $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+            //special case for canvas alignment
+            if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignCenter").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignRight").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
+                $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+            }
             $("#inputcharSpacing").spinner("option", "disabled", false);
             $("#BtnFontSize").spinner("option", "disabled", false);
             $("#txtLineHeight").spinner("option", "disabled", false);
@@ -1583,6 +1609,15 @@ function g2_1(e) {
             $("#BtnTxtCanvasAlignTop").attr("disabled", "disabled");
             $("#BtnTxtCanvasAlignMiddle").attr("disabled", "disabled");
             $("#BtnTxtCanvasAlignBottom").attr("disabled", "disabled");
+            //special case for canvas align controls
+            if (D1AO.IsPositionLocked == false && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $("#BtnTxtCanvasAlignLeft").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignCenter").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignRight").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignTop").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignMiddle").removeAttr("disabled");
+                $("#BtnTxtCanvasAlignBottom").removeAttr("disabled");
+            }
             $("#BtnFontSize").spinner("option", "disabled", true);
             $("#txtLineHeight").spinner("option", "disabled", true);
             $("#inputObjectWidthTxt").spinner("option", "disabled", true);

@@ -98,7 +98,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     getDeliveryNotesOnTabChange = function (currentTabStatus) {
                         searchFilter(undefined);
                         currentTab(currentTabStatus);
-                        pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
+                        pager(new pagination.Pagination({ PageSize: 10 }, deliverNoteListView, getdeliveryNotes));
                         pager().reset();
                         getdeliveryNotes();
                     },
@@ -556,7 +556,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                 initialize = function (specifiedView) {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
-                    pager(new pagination.Pagination({ PageSize: 5 }, deliverNoteListView, getdeliveryNotes));
+                    pager(new pagination.Pagination({ PageSize: 10 }, deliverNoteListView, getdeliveryNotes));
                     getBaseData();
                     getdeliveryNotes();
                     var idfromOrders = $('#DeliveryNoteId').val();

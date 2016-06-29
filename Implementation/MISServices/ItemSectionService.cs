@@ -197,13 +197,13 @@ namespace MPC.Implementation.MISServices
                     temp2 = PressReRunQuantityIndex - 1;
                 }
                 double setupCharge = oPressDTO.SetupCharge ?? 0;
-                if (isPressSide2)
-                {
-                    setupCharge = oItemSection.PressId == PressID &&
-                                     (oPressDTO.IsSetupCostForDoubleSided ?? true) == false
-                    ? 0
-                    : oPressDTO.SetupCharge ?? 0;
-                }
+                //if (isPressSide2)
+                //{
+                //    setupCharge = oItemSection.PressId == PressID &&
+                //                     (oPressDTO.IsSetupCostForDoubleSided ?? true) == false
+                //    ? 0
+                //    : oPressDTO.SetupCharge ?? 0;
+                //}
 
                 switch (oModelLookUpMethod.Type)
                 {
@@ -1186,6 +1186,7 @@ namespace MPC.Implementation.MISServices
                 string sMethodName = oModelLookUpMethod.Type == (int) MethodTypes.SpeedWeight
                     ? "Speed Weight"
                     : oModelLookUpMethod.Type == (int) MethodTypes.MeterPerHour ? "Meter Per Hour" : "Click Charge Zone";
+
                 string zoneRatesQty1 = (oModelLookUpMethod.Type == (int) MethodTypes.ClickChargeZone) ? " Zone Rate Charged : " + zoneChargedPrices[0] : "";
                 string zoneRatesQty2 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[1] : "";
                 string zoneRatesQty3 = (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone) ? " Zone Rate Charged :" + zoneChargedPrices[2] : "";
@@ -1193,22 +1194,56 @@ namespace MPC.Implementation.MISServices
                 {
                     oItemSectionCostCenter.Qty4WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
                     oItemSectionCostCenter.Qty4WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
-                    oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
-                    if(oItemSection.Qty2 > 0)
-                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2??0) + zoneRatesQty2 + Environment.NewLine;
-                    if(oItemSection.Qty3 > 0)
-                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3??0) + zoneRatesQty3 + Environment.NewLine;
+
+                    if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Speed " + (oItemSection.PressSpeed1 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime1 , 2)   + Environment.NewLine;
+                    else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+
+
+                    if (oItemSection.Qty2 > 0)
+                    {
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Speed " + (oItemSection.PressSpeed2 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime2, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    }
+
+                    if (oItemSection.Qty3 > 0)
+                    {
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Speed " + (oItemSection.PressSpeed3 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime3, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty4WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    }
                     oItemSectionCostCenter.IsScheduleable = 0;
                 }
                 else
                 {
                     oItemSectionCostCenter.Qty5WorkInstructions += "Calculation Method :" + sMethodName + Environment.NewLine;
                     oItemSectionCostCenter.Qty5WorkInstructions += "Number of Passes : " + dblPressPass + Environment.NewLine;
-                    oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+
+                    if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Speed " + (oItemSection.PressSpeed1 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime1, 2) + Environment.NewLine;
+                    else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 1: Impression " + (oItemSection.ImpressionQty1 ?? 0) + zoneRatesQty1 + Environment.NewLine;
+
+
                     if (oItemSection.Qty2 > 0)
-                        oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    {
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Speed " + (oItemSection.PressSpeed2 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime2, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
+                            oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 2: Impression " + (oItemSection.ImpressionQty2 ?? 0) + zoneRatesQty2 + Environment.NewLine;
+                    }
                     if (oItemSection.Qty3 > 0)
+                    {
+
+                        if (oModelLookUpMethod.Type == (int)MethodTypes.SpeedWeight)
+                            oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Speed " + (oItemSection.PressSpeed3 ?? 0) + "   Press Run Time(hours) " + Math.Round(PressRunTime3, 2) + Environment.NewLine;
+                        else if (oModelLookUpMethod.Type == (int)MethodTypes.ClickChargeZone)
                         oItemSectionCostCenter.Qty5WorkInstructions += "Quantity 3: Impression " + (oItemSection.ImpressionQty3 ?? 0) + zoneRatesQty3 + Environment.NewLine;
+                    }
                     oItemSectionCostCenter.IsScheduleable = 1;
                 }
                 string sSide = string.Empty;
@@ -6696,19 +6731,40 @@ namespace MPC.Implementation.MISServices
                    updatedSection.PassesSide1 = (pressSide1.Passes ?? 1) * 2;
                else
                {
-                   updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
-                   updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+                   if (pressSide1.isPerfecting != true)
+                   {
+                       updatedSection.PassesSide1 = pressSide1.Passes ?? 1;
+                       updatedSection.PassesSide2 = pressSide2.Passes ?? 1;
+                   }
+                   else if(pressSide1.IsDigitalPress == true)
+                   {
+                       updatedSection.PassesSide1 = (pressSide1.Passes ?? 1) * 2;
+                   }
                }
-                   
-               if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
-                    SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
-                else
-                    SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
-                //Highest running spoilage between the two presses will be set.
-                if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
-                    RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
-                else
-                    RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+               if (pressSide1.isPerfecting != true)
+               {
+                   //Highest running spoilage between the two presses will be set.
+                   if (pressSide1.SetupSpoilage > pressSide2.SetupSpoilage)
+                       SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                   else
+                   {
+                       SetupSpoilage = pressSide2.SetupSpoilage ?? 0;
+                   }
+
+                   if (pressSide1.RunningSpoilage > pressSide2.RunningSpoilage)
+                       RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+                   else if (pressSide1.isPerfecting != true)
+                       RunningSpoilage = pressSide2.RunningSpoilage ?? 0;
+               }
+               else
+               {
+                   SetupSpoilage = pressSide1.SetupSpoilage ?? 0;
+                   RunningSpoilage = pressSide1.RunningSpoilage ?? 0;
+               }
+                    
+                
+               
+                
            }
             else
             {
@@ -6789,7 +6845,7 @@ namespace MPC.Implementation.MISServices
             
             //***********************Side 1 Calculation Ends*************
 
-            if (updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true && (updatedSection.PrintingType != null && updatedSection.PrintingType == (int)PrintingTypeEnum.SheetFed))
+            if (updatedSection.IsDoubleSided == true && updatedSection.isWorknTurn != true && pressSide1.isPerfecting != true && (updatedSection.PrintingType != null && updatedSection.PrintingType == (int)PrintingTypeEnum.SheetFed))
             {
 
                 int uniqueInks =

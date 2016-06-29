@@ -57,7 +57,44 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionQty1 = source.ImpressionQty1,
                 ImpressionQty2 = source.ImpressionQty2,
                 ImpressionQty3 = source.ImpressionQty3,
-                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null,
+                PaperGsm = source.PaperGsm,
+                PrintSheetQty1 = source.PrintSheetQty1,
+                PrintSheetQty2 = source.PrintSheetQty2,
+                PrintSheetQty3 = source.PrintSheetQty3,
+
+                PressHourlyCharge = source.PressHourlyCharge,
+
+                SetupSpoilage = source.SetupSpoilage,
+                RunningSpoilage = source.RunningSpoilage,
+                RunningSpoilageValue = source.RunningSpoilageValue,
+
+                PaperPackPrice = source.PaperPackPrice,
+
+                PTVRows = source.PTVRows,
+                PTVColoumns = source.PTVColoumns,
+
+                FilmQty = source.FilmQty,
+                Side1PlateQty = source.Side1PlateQty,
+                Side2PlateQty = source.Side2PlateQty,
+
+                GuillotineFirstCut = source.GuillotineFirstCut,
+                GuillotineSecondCut = source.GuillotineSecondCut,
+                GuillotineCutTime = source.GuillotineCutTime,
+
+                PaperWeight1 = source.PaperWeight1,
+                PaperWeight2 = source.PaperWeight2,
+
+                PaperWeight3 = source.PaperWeight3,
+
+                FinishedItemQty1 = source.FinishedItemQty1,
+                FinishedItemQty2 = source.FinishedItemQty2,
+                FinishedItemQty3 = source.FinishedItemQty3,
+
+                SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
+                SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
+
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
             };
 
             if (source.Machine != null)
@@ -125,7 +162,44 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImpressionQty1 = source.ImpressionQty1,
                 ImpressionQty2 = source.ImpressionQty2,
                 ImpressionQty3 = source.ImpressionQty3,
-                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null,
+                PaperGsm = source.PaperGsm,
+                PrintSheetQty1 = source.PrintSheetQty1,
+                PrintSheetQty2 = source.PrintSheetQty2,
+                PrintSheetQty3 = source.PrintSheetQty3,
+
+                PressHourlyCharge = source.PressHourlyCharge,
+
+                SetupSpoilage = source.SetupSpoilage,
+                RunningSpoilage = source.RunningSpoilage,
+                RunningSpoilageValue = source.RunningSpoilageValue,
+
+                PaperPackPrice = source.PaperPackPrice,
+
+                PTVRows = source.PTVRows,
+                PTVColoumns = source.PTVColoumns,
+
+                FilmQty = source.FilmQty,
+                Side1PlateQty = source.Side1PlateQty,
+                Side2PlateQty = source.Side2PlateQty,
+
+                GuillotineFirstCut = source.GuillotineFirstCut,
+                GuillotineSecondCut = source.GuillotineSecondCut,
+                GuillotineCutTime = source.GuillotineCutTime,
+
+                PaperWeight1 = source.PaperWeight1,
+                PaperWeight2 = source.PaperWeight2,
+
+                PaperWeight3 = source.PaperWeight3,
+
+                FinishedItemQty1 = source.FinishedItemQty1,
+                FinishedItemQty2 = source.FinishedItemQty2,
+                FinishedItemQty3 = source.FinishedItemQty3,
+
+                SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
+                SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
+
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
             };
         }
 
@@ -190,7 +264,45 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCentreQueue = source.CostCentreQueue,
                 QuestionQueue = source.QuestionQueue,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :  new List<SectionCostcentre>(),
-                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>(),
+                PaperGsm = source.PaperGsm,
+
+                PrintSheetQty1 = source.PrintSheetQty1,
+                PrintSheetQty2 = source.PrintSheetQty2,
+                PrintSheetQty3 = source.PrintSheetQty3,
+
+                PressHourlyCharge = source.PressHourlyCharge,
+
+                SetupSpoilage = source.SetupSpoilage,
+                RunningSpoilage = source.RunningSpoilage,
+                RunningSpoilageValue = source.RunningSpoilageValue,
+
+                PaperPackPrice = source.PaperPackPrice,
+
+                PTVRows = source.PTVRows,
+                PTVColoumns = source.PTVColoumns,
+
+                FilmQty = source.FilmQty,
+                Side1PlateQty = source.Side1PlateQty,
+                Side2PlateQty = source.Side2PlateQty,
+
+                GuillotineFirstCut = source.GuillotineFirstCut,
+                GuillotineSecondCut = source.GuillotineSecondCut,
+                GuillotineCutTime = source.GuillotineCutTime,
+
+                PaperWeight1 = source.PaperWeight1,
+                PaperWeight2 = source.PaperWeight2,
+
+                PaperWeight3 = source.PaperWeight3,
+
+                FinishedItemQty1 = source.FinishedItemQty1,
+                FinishedItemQty2 = source.FinishedItemQty2,
+                FinishedItemQty3 = source.FinishedItemQty3,
+
+                SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
+                SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
+
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
             };
 
             if (source.Machine != null)
@@ -274,7 +386,46 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCentreQueue = source.CostCentreQueue,
                 QuestionQueue = source.QuestionQueue,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
-                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null,
+
+                PaperGsm = source.PaperGsm,
+
+                PrintSheetQty1 = source.PrintSheetQty1,
+                PrintSheetQty2 = source.PrintSheetQty2,
+                PrintSheetQty3 = source.PrintSheetQty3,
+
+                PressHourlyCharge = source.PressHourlyCharge,
+
+                SetupSpoilage = source.SetupSpoilage,
+                RunningSpoilage = source.RunningSpoilage,
+                RunningSpoilageValue = source.RunningSpoilageValue,
+
+                PaperPackPrice = source.PaperPackPrice,
+
+                PTVRows = source.PTVRows,
+                PTVColoumns = source.PTVColoumns,
+
+                FilmQty = source.FilmQty,
+                Side1PlateQty = source.Side1PlateQty,
+                Side2PlateQty = source.Side2PlateQty,
+
+                GuillotineFirstCut = source.GuillotineFirstCut,
+                GuillotineSecondCut = source.GuillotineSecondCut,
+                GuillotineCutTime = source.GuillotineCutTime,
+
+                PaperWeight1 = source.PaperWeight1,
+                PaperWeight2 = source.PaperWeight2,
+
+                PaperWeight3 = source.PaperWeight3,
+
+                FinishedItemQty1 = source.FinishedItemQty1,
+                FinishedItemQty2 = source.FinishedItemQty2,
+                FinishedItemQty3 = source.FinishedItemQty3,
+
+                SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
+                SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
+
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
             };
         }
 

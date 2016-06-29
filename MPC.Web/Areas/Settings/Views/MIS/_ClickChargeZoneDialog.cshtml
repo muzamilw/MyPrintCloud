@@ -1,0 +1,32 @@
+﻿<div class="modal fade my-modal" id="clickChargeZoneDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 700px;" class="modal-dialog">
+        <div class="modal-content" data-bind="with:$root.selectedClickChargeZones">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-bind="click: $root.onCloseClickChargeZone">&times;</button>
+                <h4 class="modal-title">Edit Click Charge Zone</h4>
+            </div>
+            <div class="row" style="padding: 10px;">
+                <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                    <div class="form-group">
+                        <div class="col-sm-3 text-right">
+                            <label class="control-label text-right tooltip-float">Zone Title</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="roleTitle" placeholder="Enter Zone Title" data-bind="value:ZoneName, validationTooltip: ZoneName, validationOnElement: ZoneName" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 10px;" id="divZoneBinding">
+                @Html.Partial("~/Areas/Settings/Views/Home/_ClickChargeZone.cshtml")
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" style="float: left" class="btn btn-danger" data-bind="click: $root.onDeleteClickChargeZone, visible: Id() > 0">Delete</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.saveClickCharageZone">Save</button>
+                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseClickChargeZone">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

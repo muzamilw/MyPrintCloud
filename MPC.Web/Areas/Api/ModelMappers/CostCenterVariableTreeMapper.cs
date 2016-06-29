@@ -19,6 +19,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                  QuestionVariables = source.QuestionVariables != null ? source.QuestionVariables.Select(s => s.CreateFrom()) : new List<CostCentreQuestion>(),
                  MatricesVariables = source.MatricesVariables != null ? source.MatricesVariables.Select(s => s.CreateFrom()) : new List<CostCentreMatrix>(),
                  LookupVariables = source.LookupVariables != null ? source.LookupVariables.Select(s => s.CreateFrom()) : new List<LookupMethod>(),
+                 ClickChargeZones = source.ClickChargeZones != null? source.ClickChargeZones.Select(s => s.CreateFrom()) : new LinkedList<MachineClickChargeZone>(),
                  StockVariables = "Stock Items"
                 
             };

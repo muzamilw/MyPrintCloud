@@ -2405,7 +2405,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             }),
-            cuttingMargin = ko.observable(specifiedCuttingMargin),
+            cuttingMargin = ko.observable(specifiedCuttingMargin).extend({ number: true, min: 0.1, message: 'Value must be greater than zero'}),
             isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
             fileName = ko.observable(),
@@ -2427,6 +2427,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 });
             },
+           
             // Pdf Template Height 
             pdfTemplateHeightUi = ko.computed({
                read: function() {
@@ -2445,6 +2446,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                    pdfTemplateHeight(value);
                    // Update Template Page dimensions
                    updateTemplatePageDimensions();
+                   
                }
             }),
             // Pdf Template Width 
@@ -2465,6 +2467,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     pdfTemplateWidth(value);
                     // Update Template Page dimensions
                     updateTemplatePageDimensions();
+                   
                 }
             }),
             // Can add Template Pages

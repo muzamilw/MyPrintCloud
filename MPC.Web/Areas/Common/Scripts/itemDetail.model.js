@@ -10,7 +10,7 @@
             specifiedJobEstimatedCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood, specifiedDiscountVoucherId, specifiedDiscountPercent, specifiedActualPriceWoDiscount, specifiedCouponCode) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId, specifiedJobSelectedQty, specifiedRefItemId, specifiedIsFinishedGood, specifiedDiscountVoucherId, specifiedDiscountPercent, specifiedActualPriceWoDiscount, specifiedCouponCode, specifiedIsDigitalDownload) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -289,6 +289,7 @@
                 discountVoucherId = ko.observable(specifiedDiscountVoucherId || undefined),
                 actualPriceBeforeDiscount = ko.observable(specifiedActualPriceWoDiscount || undefined),
                 couponCode = ko.observable(specifiedCouponCode || undefined),
+                isDigitalDownload = ko.observable(specifiedIsDigitalDownload || undefined),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Has Deleted Sections
@@ -597,7 +598,8 @@
                 discountPercentage :discountPercentage,
                 discountVoucherId :discountVoucherId,
                 actualPriceBeforeDiscount: actualPriceBeforeDiscount,
-                couponCode: couponCode
+                couponCode: couponCode,
+                isDigitalDownload: isDigitalDownload
             };
         },
         //#endregion
@@ -611,7 +613,7 @@
             specifiedSimilarSections, specifiedSide1Inks, specifiedSide2Inks, specifiedIsPortrait, specifiedFirstTrim, specifiedSecondTrim, specifiedQty1MarkUpID,
             specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedProductType, specifiedPressIdSide2, specifiedImpressionCoverageSide1, specifiedImpressionCoverageSide2,
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
-            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedSpeed1, specifiedSpeed2, specifiedSpeed3, specifiedImpressions1, specifiedImpressions2, specifiedImpressions3) {
+            specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedSpeed1, specifiedSpeed2, specifiedSpeed3, specifiedImpressions1, specifiedImpressions2, specifiedImpressions3, specifiedPaperGsm, specifiedPrintSheetQty1, specifiedPrintSheetQty2, specifiedPrintSheetQty3, specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -836,6 +838,16 @@
                 impressionCountQty1 = ko.observable(specifiedImpressions1),
                 impressionCountQty2 = ko.observable(specifiedImpressions2),
                 impressionCountQty3 = ko.observable(specifiedImpressions3),
+                PaperGsm = ko.observable(specifiedPaperGsm),
+                 PrintSheetQty1 = ko.observable(specifiedPrintSheetQty1),
+                PrintSheetQty2 = ko.observable(specifiedPrintSheetQty2),
+                 PrintSheetQty3 = ko.observable(specifiedPrintSheetQty3),
+
+                 SetupSpoilage = ko.observable(specifiedSetupSpoilage),
+                 RunningSpoilage = ko.observable(specifiedRunningSpoilage),
+                 RunningSpoilageValue = ko.observable(specifiedRunningSpoilageValue),
+
+
                 // Press Id Side 1 Colour Heads
                 pressIdSide1ColourHeads = ko.observable(specifiedPressSide1ColourHeads || 0),
                 // Press Id Side 2 Colour Heads
@@ -1036,6 +1048,14 @@
                         PressSpeed1: pressSpeedQty1(),
                         PressSpeed2: pressSpeedQty2(),
                         PressSpeed3: pressSpeedQty3(),
+                        PaperGsm: PaperGsm(),
+                        PrintSheetQty1:PrintSheetQty1(),
+                        PrintSheetQty2:PrintSheetQty2(),
+                        PrintSheetQty3: PrintSheetQty3(),
+
+                        SetupSpoilage : SetupSpoilage(),
+                        RunningSpoilage : RunningSpoilage(),
+                        RunningSpoilageValue : RunningSpoilageValue(),
                         
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
                         // #endregion
@@ -1142,6 +1162,15 @@
                 stockQueue: stockQueue,
                 costCenterQueue : costCenterQueue,
                 hasDeletedSectionCostCentres: hasDeletedSectionCostCentres,
+                PaperGsm: PaperGsm,
+                PrintSheetQty1: PrintSheetQty1,
+                PrintSheetQty2: PrintSheetQty2,
+                PrintSheetQty3: PrintSheetQty3,
+                SetupSpoilage: SetupSpoilage,
+                RunningSpoilage: RunningSpoilage,
+                RunningSpoilageValue: RunningSpoilageValue,
+
+
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2271,7 +2300,7 @@
     //#region Machine
     // Machine Entity        
 // ReSharper disable InconsistentNaming
-    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed, specifiedIks)
+    Machine = function (specifiedId, specifiedName, specifiedMaxSheetHeight, specifiedMaxSheetWidth, specifiedColourHeads, specifiedIsSpotColor, specifiedPasses, specifiedSheetFed, specifiedIks, specifiedIsPerfecting)
         // ReSharper restore InconsistentNaming
     {
         return {
@@ -2283,7 +2312,8 @@
             isSpotColor: specifiedIsSpotColor,
             passes: specifiedPasses,
             isSheetFed: specifiedSheetFed,
-            inkCoverages: specifiedIks
+            inkCoverages: specifiedIks,
+            isPerfecting : specifiedIsPerfecting
         };
     };
     //#endregion
@@ -2302,7 +2332,7 @@
             source.JobEstimatedCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
             source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId,
-            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate, source.DiscountVoucherID, source.Qty1CostCentreProfit, source.ActualValue, source.CouponCode);
+            source.JobSelectedQty, source.RefItemId, source.IsFinishedGoodPrivate, source.DiscountVoucherID, source.Qty1CostCentreProfit, source.ActualValue, source.CouponCode, source.IsDigitalDownload);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
@@ -2350,7 +2380,7 @@
             source.IsPortrait, source.IsFirstTrim, source.IsSecondTrim, source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.ProductType,
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType,
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
-            source.ItemGutterHorizontal, source.PressSpeed1, source.PressSpeed2, source.PressSpeed3, source.ImpressionQty1, source.ImpressionQty2, source.ImpressionQty3);
+            source.ItemGutterHorizontal, source.PressSpeed1, source.PressSpeed2, source.PressSpeed3, source.ImpressionQty1, source.ImpressionQty2, source.ImpressionQty3, source.PaperGsm, source.PrintSheetQty1, source.PrintSheetQty2, source.PrintSheetQty3, source.SetupSpoilage, source.RunningSpoilage, source.RunningSpoilageValue);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {
@@ -2544,7 +2574,7 @@
     //#region Machine Factory
     // Machine Factory
     Machine.Create = function (source) {
-        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed, source.MachineInkCoverages);
+        return new Machine(source.MachineId, source.MachineName, source.maximumsheetheight, source.maximumsheetwidth, source.ColourHeads, source.IsSpotColor, source.Passes, source.isSheetFed, source.MachineInkCoverages, source.isPerfecting);
     };
     //#endregion
 

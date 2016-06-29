@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsEE9E1C50B122930BBDAC07B8F8FBC5FBD64C1E027113B7DAD6884768E91099E9))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets5AAFD87B736B34813EAD78291D0E4FF354653D93AB060EEFB7892E3CA1895B33))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsEE9E1C50B122930BBDAC07B8F8FBC5FBD64C1E027113B7DAD6884768E91099E9 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets5AAFD87B736B34813EAD78291D0E4FF354653D93AB060EEFB7892E3CA1895B33 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsEE9E1C50B122930BBDAC07B8F8FBC5FBD64C1E027113B7DAD6884768E91099E9()
+        public ViewsForBaseEntitySets5AAFD87B736B34813EAD78291D0E4FF354653D93AB060EEFB7892E3CA1895B33()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "c9ee4c73e63727ffbbb00e7289c4bef20de7fb1fe8d4ba43d7680d9019aa31c2";
-            this.HashOverAllExtentViews = "1ac00d0c348944743c1b72f3c68f80b5ec69eb5e1ce61154779bf75ce587fc23";
+            this.HashOverMappingClosure = "77fefcdd0c8a9b3e0a1a191f2bdbecb15847a5a6aa6121fff15f6a69a3299e4e";
+            this.HashOverAllExtentViews = "819ddd665db314cbdabc95153159fa3c0f287654f889a2b03599bde4bbdcd106";
             this.ViewCount = 374;
         }
         
@@ -5292,7 +5292,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView102()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7937);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8270);
             viewString.Append("\r\n    SELECT VALUE -- Constructing MachineClickChargeZone\r\n        [DomainModels");
             viewString.Append(".Store.MachineClickChargeZone](T1.MachineClickChargeZone_Id, T1.MachineClickChar");
             viewString.Append("geZone_MethodId, T1.MachineClickChargeZone_From1, T1.MachineClickChargeZone_To1,");
@@ -5330,69 +5330,73 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("eZone_To15, T1.MachineClickChargeZone_Sheets15, T1.MachineClickChargeZone_SheetC");
             viewString.Append("ost15, T1.MachineClickChargeZone_SheetPrice15, T1.MachineClickChargeZone_isaccum");
             viewString.Append("ulativecharge, T1.MachineClickChargeZone_IsRoundUp, T1.MachineClickChargeZone_Ti");
-            viewString.Append("mePerHour)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineClickChargeZ");
-            viewString.Append("one_Id, \r\n            T.MethodId AS MachineClickChargeZone_MethodId, \r\n         ");
-            viewString.Append("   T.From1 AS MachineClickChargeZone_From1, \r\n            T.To1 AS MachineClickC");
-            viewString.Append("hargeZone_To1, \r\n            T.Sheets1 AS MachineClickChargeZone_Sheets1, \r\n    ");
-            viewString.Append("        T.SheetCost1 AS MachineClickChargeZone_SheetCost1, \r\n            T.Sheet");
-            viewString.Append("Price1 AS MachineClickChargeZone_SheetPrice1, \r\n            T.From2 AS MachineCl");
-            viewString.Append("ickChargeZone_From2, \r\n            T.To2 AS MachineClickChargeZone_To2, \r\n      ");
-            viewString.Append("      T.Sheets2 AS MachineClickChargeZone_Sheets2, \r\n            T.SheetCost2 AS");
-            viewString.Append(" MachineClickChargeZone_SheetCost2, \r\n            T.SheetPrice2 AS MachineClickC");
-            viewString.Append("hargeZone_SheetPrice2, \r\n            T.From3 AS MachineClickChargeZone_From3, \r\n");
-            viewString.Append("            T.To3 AS MachineClickChargeZone_To3, \r\n            T.Sheets3 AS Mach");
-            viewString.Append("ineClickChargeZone_Sheets3, \r\n            T.SheetCost3 AS MachineClickChargeZone");
-            viewString.Append("_SheetCost3, \r\n            T.SheetPrice3 AS MachineClickChargeZone_SheetPrice3, ");
-            viewString.Append("\r\n            T.From4 AS MachineClickChargeZone_From4, \r\n            T.To4 AS Ma");
-            viewString.Append("chineClickChargeZone_To4, \r\n            T.Sheets4 AS MachineClickChargeZone_Shee");
-            viewString.Append("ts4, \r\n            T.SheetCost4 AS MachineClickChargeZone_SheetCost4, \r\n        ");
-            viewString.Append("    T.SheetPrice4 AS MachineClickChargeZone_SheetPrice4, \r\n            T.From5 A");
-            viewString.Append("S MachineClickChargeZone_From5, \r\n            T.To5 AS MachineClickChargeZone_To");
-            viewString.Append("5, \r\n            T.Sheets5 AS MachineClickChargeZone_Sheets5, \r\n            T.Sh");
-            viewString.Append("eetCost5 AS MachineClickChargeZone_SheetCost5, \r\n            T.SheetPrice5 AS Ma");
-            viewString.Append("chineClickChargeZone_SheetPrice5, \r\n            T.From6 AS MachineClickChargeZon");
-            viewString.Append("e_From6, \r\n            T.To6 AS MachineClickChargeZone_To6, \r\n            T.Shee");
-            viewString.Append("ts6 AS MachineClickChargeZone_Sheets6, \r\n            T.SheetCost6 AS MachineClic");
-            viewString.Append("kChargeZone_SheetCost6, \r\n            T.SheetPrice6 AS MachineClickChargeZone_Sh");
-            viewString.Append("eetPrice6, \r\n            T.From7 AS MachineClickChargeZone_From7, \r\n            ");
-            viewString.Append("T.To7 AS MachineClickChargeZone_To7, \r\n            T.Sheets7 AS MachineClickChar");
-            viewString.Append("geZone_Sheets7, \r\n            T.SheetCost7 AS MachineClickChargeZone_SheetCost7,");
-            viewString.Append(" \r\n            T.SheetPrice7 AS MachineClickChargeZone_SheetPrice7, \r\n          ");
-            viewString.Append("  T.From8 AS MachineClickChargeZone_From8, \r\n            T.To8 AS MachineClickCh");
-            viewString.Append("argeZone_To8, \r\n            T.Sheets8 AS MachineClickChargeZone_Sheets8, \r\n     ");
-            viewString.Append("       T.SheetCost8 AS MachineClickChargeZone_SheetCost8, \r\n            T.SheetP");
-            viewString.Append("rice8 AS MachineClickChargeZone_SheetPrice8, \r\n            T.From9 AS MachineCli");
-            viewString.Append("ckChargeZone_From9, \r\n            T.To9 AS MachineClickChargeZone_To9, \r\n       ");
-            viewString.Append("     T.Sheets9 AS MachineClickChargeZone_Sheets9, \r\n            T.SheetCost9 AS ");
-            viewString.Append("MachineClickChargeZone_SheetCost9, \r\n            T.SheetPrice9 AS MachineClickCh");
-            viewString.Append("argeZone_SheetPrice9, \r\n            T.From10 AS MachineClickChargeZone_From10, \r");
-            viewString.Append("\n            T.To10 AS MachineClickChargeZone_To10, \r\n            T.Sheets10 AS ");
-            viewString.Append("MachineClickChargeZone_Sheets10, \r\n            T.SheetCost10 AS MachineClickChar");
-            viewString.Append("geZone_SheetCost10, \r\n            T.SheetPrice10 AS MachineClickChargeZone_Sheet");
-            viewString.Append("Price10, \r\n            T.From11 AS MachineClickChargeZone_From11, \r\n            ");
-            viewString.Append("T.To11 AS MachineClickChargeZone_To11, \r\n            T.Sheets11 AS MachineClickC");
-            viewString.Append("hargeZone_Sheets11, \r\n            T.SheetCost11 AS MachineClickChargeZone_SheetC");
-            viewString.Append("ost11, \r\n            T.SheetPrice11 AS MachineClickChargeZone_SheetPrice11, \r\n  ");
-            viewString.Append("          T.From12 AS MachineClickChargeZone_From12, \r\n            T.To12 AS Mac");
-            viewString.Append("hineClickChargeZone_To12, \r\n            T.Sheets12 AS MachineClickChargeZone_She");
-            viewString.Append("ets12, \r\n            T.SheetCost12 AS MachineClickChargeZone_SheetCost12, \r\n    ");
-            viewString.Append("        T.SheetPrice12 AS MachineClickChargeZone_SheetPrice12, \r\n            T.F");
-            viewString.Append("rom13 AS MachineClickChargeZone_From13, \r\n            T.To13 AS MachineClickChar");
-            viewString.Append("geZone_To13, \r\n            T.Sheets13 AS MachineClickChargeZone_Sheets13, \r\n    ");
-            viewString.Append("        T.SheetCost13 AS MachineClickChargeZone_SheetCost13, \r\n            T.She");
-            viewString.Append("etPrice13 AS MachineClickChargeZone_SheetPrice13, \r\n            T.From14 AS Mach");
-            viewString.Append("ineClickChargeZone_From14, \r\n            T.To14 AS MachineClickChargeZone_To14, ");
-            viewString.Append("\r\n            T.Sheets14 AS MachineClickChargeZone_Sheets14, \r\n            T.She");
-            viewString.Append("etCost14 AS MachineClickChargeZone_SheetCost14, \r\n            T.SheetPrice14 AS ");
-            viewString.Append("MachineClickChargeZone_SheetPrice14, \r\n            T.From15 AS MachineClickCharg");
-            viewString.Append("eZone_From15, \r\n            T.To15 AS MachineClickChargeZone_To15, \r\n           ");
-            viewString.Append(" T.Sheets15 AS MachineClickChargeZone_Sheets15, \r\n            T.SheetCost15 AS M");
-            viewString.Append("achineClickChargeZone_SheetCost15, \r\n            T.SheetPrice15 AS MachineClickC");
-            viewString.Append("hargeZone_SheetPrice15, \r\n            T.isaccumulativecharge AS MachineClickChar");
-            viewString.Append("geZone_isaccumulativecharge, \r\n            T.IsRoundUp AS MachineClickChargeZone");
-            viewString.Append("_IsRoundUp, \r\n            T.TimePerHour AS MachineClickChargeZone_TimePerHour, \r");
-            viewString.Append("\n            True AS _from0\r\n        FROM BaseDbContext.MachineClickChargeZones ");
-            viewString.Append("AS T\r\n    ) AS T1");
+            viewString.Append("mePerHour, T1.MachineClickChargeZone_IsCostCenterZone, T1.MachineClickChargeZone");
+            viewString.Append("_OrganisationId, T1.MachineClickChargeZone_ZoneName)\r\n    FROM (\r\n        SELECT");
+            viewString.Append(" \r\n            T.Id AS MachineClickChargeZone_Id, \r\n            T.MethodId AS Ma");
+            viewString.Append("chineClickChargeZone_MethodId, \r\n            T.From1 AS MachineClickChargeZone_F");
+            viewString.Append("rom1, \r\n            T.To1 AS MachineClickChargeZone_To1, \r\n            T.Sheets1");
+            viewString.Append(" AS MachineClickChargeZone_Sheets1, \r\n            T.SheetCost1 AS MachineClickCh");
+            viewString.Append("argeZone_SheetCost1, \r\n            T.SheetPrice1 AS MachineClickChargeZone_Sheet");
+            viewString.Append("Price1, \r\n            T.From2 AS MachineClickChargeZone_From2, \r\n            T.T");
+            viewString.Append("o2 AS MachineClickChargeZone_To2, \r\n            T.Sheets2 AS MachineClickChargeZ");
+            viewString.Append("one_Sheets2, \r\n            T.SheetCost2 AS MachineClickChargeZone_SheetCost2, \r\n");
+            viewString.Append("            T.SheetPrice2 AS MachineClickChargeZone_SheetPrice2, \r\n            T");
+            viewString.Append(".From3 AS MachineClickChargeZone_From3, \r\n            T.To3 AS MachineClickCharg");
+            viewString.Append("eZone_To3, \r\n            T.Sheets3 AS MachineClickChargeZone_Sheets3, \r\n        ");
+            viewString.Append("    T.SheetCost3 AS MachineClickChargeZone_SheetCost3, \r\n            T.SheetPric");
+            viewString.Append("e3 AS MachineClickChargeZone_SheetPrice3, \r\n            T.From4 AS MachineClickC");
+            viewString.Append("hargeZone_From4, \r\n            T.To4 AS MachineClickChargeZone_To4, \r\n          ");
+            viewString.Append("  T.Sheets4 AS MachineClickChargeZone_Sheets4, \r\n            T.SheetCost4 AS Mac");
+            viewString.Append("hineClickChargeZone_SheetCost4, \r\n            T.SheetPrice4 AS MachineClickCharg");
+            viewString.Append("eZone_SheetPrice4, \r\n            T.From5 AS MachineClickChargeZone_From5, \r\n    ");
+            viewString.Append("        T.To5 AS MachineClickChargeZone_To5, \r\n            T.Sheets5 AS MachineC");
+            viewString.Append("lickChargeZone_Sheets5, \r\n            T.SheetCost5 AS MachineClickChargeZone_She");
+            viewString.Append("etCost5, \r\n            T.SheetPrice5 AS MachineClickChargeZone_SheetPrice5, \r\n  ");
+            viewString.Append("          T.From6 AS MachineClickChargeZone_From6, \r\n            T.To6 AS Machin");
+            viewString.Append("eClickChargeZone_To6, \r\n            T.Sheets6 AS MachineClickChargeZone_Sheets6,");
+            viewString.Append(" \r\n            T.SheetCost6 AS MachineClickChargeZone_SheetCost6, \r\n            ");
+            viewString.Append("T.SheetPrice6 AS MachineClickChargeZone_SheetPrice6, \r\n            T.From7 AS Ma");
+            viewString.Append("chineClickChargeZone_From7, \r\n            T.To7 AS MachineClickChargeZone_To7, \r");
+            viewString.Append("\n            T.Sheets7 AS MachineClickChargeZone_Sheets7, \r\n            T.SheetC");
+            viewString.Append("ost7 AS MachineClickChargeZone_SheetCost7, \r\n            T.SheetPrice7 AS Machin");
+            viewString.Append("eClickChargeZone_SheetPrice7, \r\n            T.From8 AS MachineClickChargeZone_Fr");
+            viewString.Append("om8, \r\n            T.To8 AS MachineClickChargeZone_To8, \r\n            T.Sheets8 ");
+            viewString.Append("AS MachineClickChargeZone_Sheets8, \r\n            T.SheetCost8 AS MachineClickCha");
+            viewString.Append("rgeZone_SheetCost8, \r\n            T.SheetPrice8 AS MachineClickChargeZone_SheetP");
+            viewString.Append("rice8, \r\n            T.From9 AS MachineClickChargeZone_From9, \r\n            T.To");
+            viewString.Append("9 AS MachineClickChargeZone_To9, \r\n            T.Sheets9 AS MachineClickChargeZo");
+            viewString.Append("ne_Sheets9, \r\n            T.SheetCost9 AS MachineClickChargeZone_SheetCost9, \r\n ");
+            viewString.Append("           T.SheetPrice9 AS MachineClickChargeZone_SheetPrice9, \r\n            T.");
+            viewString.Append("From10 AS MachineClickChargeZone_From10, \r\n            T.To10 AS MachineClickCha");
+            viewString.Append("rgeZone_To10, \r\n            T.Sheets10 AS MachineClickChargeZone_Sheets10, \r\n   ");
+            viewString.Append("         T.SheetCost10 AS MachineClickChargeZone_SheetCost10, \r\n            T.Sh");
+            viewString.Append("eetPrice10 AS MachineClickChargeZone_SheetPrice10, \r\n            T.From11 AS Mac");
+            viewString.Append("hineClickChargeZone_From11, \r\n            T.To11 AS MachineClickChargeZone_To11,");
+            viewString.Append(" \r\n            T.Sheets11 AS MachineClickChargeZone_Sheets11, \r\n            T.Sh");
+            viewString.Append("eetCost11 AS MachineClickChargeZone_SheetCost11, \r\n            T.SheetPrice11 AS");
+            viewString.Append(" MachineClickChargeZone_SheetPrice11, \r\n            T.From12 AS MachineClickChar");
+            viewString.Append("geZone_From12, \r\n            T.To12 AS MachineClickChargeZone_To12, \r\n          ");
+            viewString.Append("  T.Sheets12 AS MachineClickChargeZone_Sheets12, \r\n            T.SheetCost12 AS ");
+            viewString.Append("MachineClickChargeZone_SheetCost12, \r\n            T.SheetPrice12 AS MachineClick");
+            viewString.Append("ChargeZone_SheetPrice12, \r\n            T.From13 AS MachineClickChargeZone_From13");
+            viewString.Append(", \r\n            T.To13 AS MachineClickChargeZone_To13, \r\n            T.Sheets13 ");
+            viewString.Append("AS MachineClickChargeZone_Sheets13, \r\n            T.SheetCost13 AS MachineClickC");
+            viewString.Append("hargeZone_SheetCost13, \r\n            T.SheetPrice13 AS MachineClickChargeZone_Sh");
+            viewString.Append("eetPrice13, \r\n            T.From14 AS MachineClickChargeZone_From14, \r\n         ");
+            viewString.Append("   T.To14 AS MachineClickChargeZone_To14, \r\n            T.Sheets14 AS MachineCli");
+            viewString.Append("ckChargeZone_Sheets14, \r\n            T.SheetCost14 AS MachineClickChargeZone_She");
+            viewString.Append("etCost14, \r\n            T.SheetPrice14 AS MachineClickChargeZone_SheetPrice14, \r");
+            viewString.Append("\n            T.From15 AS MachineClickChargeZone_From15, \r\n            T.To15 AS ");
+            viewString.Append("MachineClickChargeZone_To15, \r\n            T.Sheets15 AS MachineClickChargeZone_");
+            viewString.Append("Sheets15, \r\n            T.SheetCost15 AS MachineClickChargeZone_SheetCost15, \r\n ");
+            viewString.Append("           T.SheetPrice15 AS MachineClickChargeZone_SheetPrice15, \r\n            ");
+            viewString.Append("T.isaccumulativecharge AS MachineClickChargeZone_isaccumulativecharge, \r\n       ");
+            viewString.Append("     T.IsRoundUp AS MachineClickChargeZone_IsRoundUp, \r\n            T.TimePerHou");
+            viewString.Append("r AS MachineClickChargeZone_TimePerHour, \r\n            T.IsCostCenterZone AS Mac");
+            viewString.Append("hineClickChargeZone_IsCostCenterZone, \r\n            T.OrganisationId AS MachineC");
+            viewString.Append("lickChargeZone_OrganisationId, \r\n            T.ZoneName AS MachineClickChargeZon");
+            viewString.Append("e_ZoneName, \r\n            True AS _from0\r\n        FROM BaseDbContext.MachineClic");
+            viewString.Append("kChargeZones AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineClickChargeZone", viewString.ToString());
         }
         
@@ -9745,7 +9749,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView223()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7944);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(8277);
             viewString.Append("\r\n    SELECT VALUE -- Constructing MachineClickChargeZones\r\n        [DomainModel");
             viewString.Append("s.MachineClickChargeZone](T1.MachineClickChargeZone_Id, T1.MachineClickChargeZon");
             viewString.Append("e_MethodId, T1.MachineClickChargeZone_From1, T1.MachineClickChargeZone_To1, T1.M");
@@ -9783,69 +9787,73 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("_To15, T1.MachineClickChargeZone_Sheets15, T1.MachineClickChargeZone_SheetCost15");
             viewString.Append(", T1.MachineClickChargeZone_SheetPrice15, T1.MachineClickChargeZone_isaccumulati");
             viewString.Append("vecharge, T1.MachineClickChargeZone_IsRoundUp, T1.MachineClickChargeZone_TimePer");
-            viewString.Append("Hour)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineClickChargeZone_I");
-            viewString.Append("d, \r\n            T.MethodId AS MachineClickChargeZone_MethodId, \r\n            T.");
-            viewString.Append("From1 AS MachineClickChargeZone_From1, \r\n            T.To1 AS MachineClickCharge");
-            viewString.Append("Zone_To1, \r\n            T.Sheets1 AS MachineClickChargeZone_Sheets1, \r\n         ");
-            viewString.Append("   T.SheetCost1 AS MachineClickChargeZone_SheetCost1, \r\n            T.SheetPrice");
-            viewString.Append("1 AS MachineClickChargeZone_SheetPrice1, \r\n            T.From2 AS MachineClickCh");
-            viewString.Append("argeZone_From2, \r\n            T.To2 AS MachineClickChargeZone_To2, \r\n           ");
-            viewString.Append(" T.Sheets2 AS MachineClickChargeZone_Sheets2, \r\n            T.SheetCost2 AS Mach");
-            viewString.Append("ineClickChargeZone_SheetCost2, \r\n            T.SheetPrice2 AS MachineClickCharge");
-            viewString.Append("Zone_SheetPrice2, \r\n            T.From3 AS MachineClickChargeZone_From3, \r\n     ");
-            viewString.Append("       T.To3 AS MachineClickChargeZone_To3, \r\n            T.Sheets3 AS MachineCl");
-            viewString.Append("ickChargeZone_Sheets3, \r\n            T.SheetCost3 AS MachineClickChargeZone_Shee");
-            viewString.Append("tCost3, \r\n            T.SheetPrice3 AS MachineClickChargeZone_SheetPrice3, \r\n   ");
-            viewString.Append("         T.From4 AS MachineClickChargeZone_From4, \r\n            T.To4 AS Machine");
-            viewString.Append("ClickChargeZone_To4, \r\n            T.Sheets4 AS MachineClickChargeZone_Sheets4, ");
-            viewString.Append("\r\n            T.SheetCost4 AS MachineClickChargeZone_SheetCost4, \r\n            T");
-            viewString.Append(".SheetPrice4 AS MachineClickChargeZone_SheetPrice4, \r\n            T.From5 AS Mac");
-            viewString.Append("hineClickChargeZone_From5, \r\n            T.To5 AS MachineClickChargeZone_To5, \r\n");
-            viewString.Append("            T.Sheets5 AS MachineClickChargeZone_Sheets5, \r\n            T.SheetCo");
-            viewString.Append("st5 AS MachineClickChargeZone_SheetCost5, \r\n            T.SheetPrice5 AS Machine");
-            viewString.Append("ClickChargeZone_SheetPrice5, \r\n            T.From6 AS MachineClickChargeZone_Fro");
-            viewString.Append("m6, \r\n            T.To6 AS MachineClickChargeZone_To6, \r\n            T.Sheets6 A");
-            viewString.Append("S MachineClickChargeZone_Sheets6, \r\n            T.SheetCost6 AS MachineClickChar");
-            viewString.Append("geZone_SheetCost6, \r\n            T.SheetPrice6 AS MachineClickChargeZone_SheetPr");
-            viewString.Append("ice6, \r\n            T.From7 AS MachineClickChargeZone_From7, \r\n            T.To7");
-            viewString.Append(" AS MachineClickChargeZone_To7, \r\n            T.Sheets7 AS MachineClickChargeZon");
-            viewString.Append("e_Sheets7, \r\n            T.SheetCost7 AS MachineClickChargeZone_SheetCost7, \r\n  ");
-            viewString.Append("          T.SheetPrice7 AS MachineClickChargeZone_SheetPrice7, \r\n            T.F");
-            viewString.Append("rom8 AS MachineClickChargeZone_From8, \r\n            T.To8 AS MachineClickChargeZ");
-            viewString.Append("one_To8, \r\n            T.Sheets8 AS MachineClickChargeZone_Sheets8, \r\n          ");
-            viewString.Append("  T.SheetCost8 AS MachineClickChargeZone_SheetCost8, \r\n            T.SheetPrice8");
-            viewString.Append(" AS MachineClickChargeZone_SheetPrice8, \r\n            T.From9 AS MachineClickCha");
-            viewString.Append("rgeZone_From9, \r\n            T.To9 AS MachineClickChargeZone_To9, \r\n            ");
-            viewString.Append("T.Sheets9 AS MachineClickChargeZone_Sheets9, \r\n            T.SheetCost9 AS Machi");
-            viewString.Append("neClickChargeZone_SheetCost9, \r\n            T.SheetPrice9 AS MachineClickChargeZ");
-            viewString.Append("one_SheetPrice9, \r\n            T.From10 AS MachineClickChargeZone_From10, \r\n    ");
-            viewString.Append("        T.To10 AS MachineClickChargeZone_To10, \r\n            T.Sheets10 AS Machi");
-            viewString.Append("neClickChargeZone_Sheets10, \r\n            T.SheetCost10 AS MachineClickChargeZon");
-            viewString.Append("e_SheetCost10, \r\n            T.SheetPrice10 AS MachineClickChargeZone_SheetPrice");
-            viewString.Append("10, \r\n            T.From11 AS MachineClickChargeZone_From11, \r\n            T.To1");
-            viewString.Append("1 AS MachineClickChargeZone_To11, \r\n            T.Sheets11 AS MachineClickCharge");
-            viewString.Append("Zone_Sheets11, \r\n            T.SheetCost11 AS MachineClickChargeZone_SheetCost11");
-            viewString.Append(", \r\n            T.SheetPrice11 AS MachineClickChargeZone_SheetPrice11, \r\n       ");
-            viewString.Append("     T.From12 AS MachineClickChargeZone_From12, \r\n            T.To12 AS MachineC");
-            viewString.Append("lickChargeZone_To12, \r\n            T.Sheets12 AS MachineClickChargeZone_Sheets12");
-            viewString.Append(", \r\n            T.SheetCost12 AS MachineClickChargeZone_SheetCost12, \r\n         ");
-            viewString.Append("   T.SheetPrice12 AS MachineClickChargeZone_SheetPrice12, \r\n            T.From13");
-            viewString.Append(" AS MachineClickChargeZone_From13, \r\n            T.To13 AS MachineClickChargeZon");
-            viewString.Append("e_To13, \r\n            T.Sheets13 AS MachineClickChargeZone_Sheets13, \r\n         ");
-            viewString.Append("   T.SheetCost13 AS MachineClickChargeZone_SheetCost13, \r\n            T.SheetPri");
-            viewString.Append("ce13 AS MachineClickChargeZone_SheetPrice13, \r\n            T.From14 AS MachineCl");
-            viewString.Append("ickChargeZone_From14, \r\n            T.To14 AS MachineClickChargeZone_To14, \r\n   ");
-            viewString.Append("         T.Sheets14 AS MachineClickChargeZone_Sheets14, \r\n            T.SheetCos");
-            viewString.Append("t14 AS MachineClickChargeZone_SheetCost14, \r\n            T.SheetPrice14 AS Machi");
-            viewString.Append("neClickChargeZone_SheetPrice14, \r\n            T.From15 AS MachineClickChargeZone");
-            viewString.Append("_From15, \r\n            T.To15 AS MachineClickChargeZone_To15, \r\n            T.Sh");
-            viewString.Append("eets15 AS MachineClickChargeZone_Sheets15, \r\n            T.SheetCost15 AS Machin");
-            viewString.Append("eClickChargeZone_SheetCost15, \r\n            T.SheetPrice15 AS MachineClickCharge");
-            viewString.Append("Zone_SheetPrice15, \r\n            T.isaccumulativecharge AS MachineClickChargeZon");
-            viewString.Append("e_isaccumulativecharge, \r\n            T.IsRoundUp AS MachineClickChargeZone_IsRo");
-            viewString.Append("undUp, \r\n            T.TimePerHour AS MachineClickChargeZone_TimePerHour, \r\n    ");
-            viewString.Append("        True AS _from0\r\n        FROM DomainModelsStoreContainer.MachineClickChar");
-            viewString.Append("geZone AS T\r\n    ) AS T1");
+            viewString.Append("Hour, T1.MachineClickChargeZone_IsCostCenterZone, T1.MachineClickChargeZone_Orga");
+            viewString.Append("nisationId, T1.MachineClickChargeZone_ZoneName)\r\n    FROM (\r\n        SELECT \r\n  ");
+            viewString.Append("          T.Id AS MachineClickChargeZone_Id, \r\n            T.MethodId AS Machine");
+            viewString.Append("ClickChargeZone_MethodId, \r\n            T.From1 AS MachineClickChargeZone_From1,");
+            viewString.Append(" \r\n            T.To1 AS MachineClickChargeZone_To1, \r\n            T.Sheets1 AS M");
+            viewString.Append("achineClickChargeZone_Sheets1, \r\n            T.SheetCost1 AS MachineClickChargeZ");
+            viewString.Append("one_SheetCost1, \r\n            T.SheetPrice1 AS MachineClickChargeZone_SheetPrice");
+            viewString.Append("1, \r\n            T.From2 AS MachineClickChargeZone_From2, \r\n            T.To2 AS");
+            viewString.Append(" MachineClickChargeZone_To2, \r\n            T.Sheets2 AS MachineClickChargeZone_S");
+            viewString.Append("heets2, \r\n            T.SheetCost2 AS MachineClickChargeZone_SheetCost2, \r\n     ");
+            viewString.Append("       T.SheetPrice2 AS MachineClickChargeZone_SheetPrice2, \r\n            T.From");
+            viewString.Append("3 AS MachineClickChargeZone_From3, \r\n            T.To3 AS MachineClickChargeZone");
+            viewString.Append("_To3, \r\n            T.Sheets3 AS MachineClickChargeZone_Sheets3, \r\n            T");
+            viewString.Append(".SheetCost3 AS MachineClickChargeZone_SheetCost3, \r\n            T.SheetPrice3 AS");
+            viewString.Append(" MachineClickChargeZone_SheetPrice3, \r\n            T.From4 AS MachineClickCharge");
+            viewString.Append("Zone_From4, \r\n            T.To4 AS MachineClickChargeZone_To4, \r\n            T.S");
+            viewString.Append("heets4 AS MachineClickChargeZone_Sheets4, \r\n            T.SheetCost4 AS MachineC");
+            viewString.Append("lickChargeZone_SheetCost4, \r\n            T.SheetPrice4 AS MachineClickChargeZone");
+            viewString.Append("_SheetPrice4, \r\n            T.From5 AS MachineClickChargeZone_From5, \r\n         ");
+            viewString.Append("   T.To5 AS MachineClickChargeZone_To5, \r\n            T.Sheets5 AS MachineClickC");
+            viewString.Append("hargeZone_Sheets5, \r\n            T.SheetCost5 AS MachineClickChargeZone_SheetCos");
+            viewString.Append("t5, \r\n            T.SheetPrice5 AS MachineClickChargeZone_SheetPrice5, \r\n       ");
+            viewString.Append("     T.From6 AS MachineClickChargeZone_From6, \r\n            T.To6 AS MachineClic");
+            viewString.Append("kChargeZone_To6, \r\n            T.Sheets6 AS MachineClickChargeZone_Sheets6, \r\n  ");
+            viewString.Append("          T.SheetCost6 AS MachineClickChargeZone_SheetCost6, \r\n            T.She");
+            viewString.Append("etPrice6 AS MachineClickChargeZone_SheetPrice6, \r\n            T.From7 AS Machine");
+            viewString.Append("ClickChargeZone_From7, \r\n            T.To7 AS MachineClickChargeZone_To7, \r\n    ");
+            viewString.Append("        T.Sheets7 AS MachineClickChargeZone_Sheets7, \r\n            T.SheetCost7 ");
+            viewString.Append("AS MachineClickChargeZone_SheetCost7, \r\n            T.SheetPrice7 AS MachineClic");
+            viewString.Append("kChargeZone_SheetPrice7, \r\n            T.From8 AS MachineClickChargeZone_From8, ");
+            viewString.Append("\r\n            T.To8 AS MachineClickChargeZone_To8, \r\n            T.Sheets8 AS Ma");
+            viewString.Append("chineClickChargeZone_Sheets8, \r\n            T.SheetCost8 AS MachineClickChargeZo");
+            viewString.Append("ne_SheetCost8, \r\n            T.SheetPrice8 AS MachineClickChargeZone_SheetPrice8");
+            viewString.Append(", \r\n            T.From9 AS MachineClickChargeZone_From9, \r\n            T.To9 AS ");
+            viewString.Append("MachineClickChargeZone_To9, \r\n            T.Sheets9 AS MachineClickChargeZone_Sh");
+            viewString.Append("eets9, \r\n            T.SheetCost9 AS MachineClickChargeZone_SheetCost9, \r\n      ");
+            viewString.Append("      T.SheetPrice9 AS MachineClickChargeZone_SheetPrice9, \r\n            T.From1");
+            viewString.Append("0 AS MachineClickChargeZone_From10, \r\n            T.To10 AS MachineClickChargeZo");
+            viewString.Append("ne_To10, \r\n            T.Sheets10 AS MachineClickChargeZone_Sheets10, \r\n        ");
+            viewString.Append("    T.SheetCost10 AS MachineClickChargeZone_SheetCost10, \r\n            T.SheetPr");
+            viewString.Append("ice10 AS MachineClickChargeZone_SheetPrice10, \r\n            T.From11 AS MachineC");
+            viewString.Append("lickChargeZone_From11, \r\n            T.To11 AS MachineClickChargeZone_To11, \r\n  ");
+            viewString.Append("          T.Sheets11 AS MachineClickChargeZone_Sheets11, \r\n            T.SheetCo");
+            viewString.Append("st11 AS MachineClickChargeZone_SheetCost11, \r\n            T.SheetPrice11 AS Mach");
+            viewString.Append("ineClickChargeZone_SheetPrice11, \r\n            T.From12 AS MachineClickChargeZon");
+            viewString.Append("e_From12, \r\n            T.To12 AS MachineClickChargeZone_To12, \r\n            T.S");
+            viewString.Append("heets12 AS MachineClickChargeZone_Sheets12, \r\n            T.SheetCost12 AS Machi");
+            viewString.Append("neClickChargeZone_SheetCost12, \r\n            T.SheetPrice12 AS MachineClickCharg");
+            viewString.Append("eZone_SheetPrice12, \r\n            T.From13 AS MachineClickChargeZone_From13, \r\n ");
+            viewString.Append("           T.To13 AS MachineClickChargeZone_To13, \r\n            T.Sheets13 AS Ma");
+            viewString.Append("chineClickChargeZone_Sheets13, \r\n            T.SheetCost13 AS MachineClickCharge");
+            viewString.Append("Zone_SheetCost13, \r\n            T.SheetPrice13 AS MachineClickChargeZone_SheetPr");
+            viewString.Append("ice13, \r\n            T.From14 AS MachineClickChargeZone_From14, \r\n            T.");
+            viewString.Append("To14 AS MachineClickChargeZone_To14, \r\n            T.Sheets14 AS MachineClickCha");
+            viewString.Append("rgeZone_Sheets14, \r\n            T.SheetCost14 AS MachineClickChargeZone_SheetCos");
+            viewString.Append("t14, \r\n            T.SheetPrice14 AS MachineClickChargeZone_SheetPrice14, \r\n    ");
+            viewString.Append("        T.From15 AS MachineClickChargeZone_From15, \r\n            T.To15 AS Machi");
+            viewString.Append("neClickChargeZone_To15, \r\n            T.Sheets15 AS MachineClickChargeZone_Sheet");
+            viewString.Append("s15, \r\n            T.SheetCost15 AS MachineClickChargeZone_SheetCost15, \r\n      ");
+            viewString.Append("      T.SheetPrice15 AS MachineClickChargeZone_SheetPrice15, \r\n            T.isa");
+            viewString.Append("ccumulativecharge AS MachineClickChargeZone_isaccumulativecharge, \r\n            ");
+            viewString.Append("T.IsRoundUp AS MachineClickChargeZone_IsRoundUp, \r\n            T.TimePerHour AS ");
+            viewString.Append("MachineClickChargeZone_TimePerHour, \r\n            T.IsCostCenterZone AS MachineC");
+            viewString.Append("lickChargeZone_IsCostCenterZone, \r\n            T.OrganisationId AS MachineClickC");
+            viewString.Append("hargeZone_OrganisationId, \r\n            T.ZoneName AS MachineClickChargeZone_Zon");
+            viewString.Append("eName, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Mac");
+            viewString.Append("hineClickChargeZone AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineClickChargeZones", viewString.ToString());
         }
         

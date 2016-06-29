@@ -338,6 +338,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Api\Controllers\ClickChargeZoneController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterExecutionMisController.cs" />
     <Compile Include="Areas\Api\Controllers\DigitalArtworkDownloadController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserListController.cs" />
@@ -2361,6 +2362,7 @@
     <Content Include="Areas\Settings\Views\MIS\_RoleRightsDialog.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\SystemUsers.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_SystemUserDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_ClickChargeZoneDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>

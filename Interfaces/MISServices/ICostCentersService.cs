@@ -23,6 +23,9 @@ namespace MPC.Interfaces.MISServices
         bool ReCompileAllCostCentres(long OrganisationId);
 
         void DeleteCostCentre(long CostCentreId);
+        long CopyCostCenter(CostCentre costcenter);
+        MachineClickChargeZone SaveClickChargeZone(MachineClickChargeZone zone);
+        bool DeleteClickChargeZone(long zoneId);
 
     }
 }

@@ -92,7 +92,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SheetPrice15 = source.SheetPrice15,
                 isaccumulativecharge = source.isaccumulativecharge,
                 IsRoundUp = source.IsRoundUp,
-                TimePerHour = source.TimePerHour
+                TimePerHour = source.TimePerHour,
+                ZoneName = source.ZoneName
 
             };
         }
@@ -179,9 +180,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SheetPrice15 = source.SheetPrice15,
                 isaccumulativecharge = source.isaccumulativecharge,
                 IsRoundUp = source.IsRoundUp,
-                TimePerHour = source.TimePerHour
+                TimePerHour = source.TimePerHour,
+                ZoneName = source.ZoneName,
+                VariableString = GetVariableString(source)
 
             };
+        }
+        private static string GetVariableString(MPC.Models.DomainModels.MachineClickChargeZone source)
+        {
+            string sv = "{clickchargezone, ID=&quot;" + source.Id + "&quot;,caption=&quot;" + source.ZoneName + "&quot;}";
+            return sv;
         }
     }
 }

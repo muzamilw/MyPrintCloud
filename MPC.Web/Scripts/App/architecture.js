@@ -1363,6 +1363,7 @@ function ShowInputCostCentrePopup(inputQueueItems, costCentreId, clonedItemId, s
     selectedStockOptionItemAddOns = itemAddOns;
     globalSelectedCostCenter = costCenter;
     globalAfterCostCenterExecution = afterCostCenterExecution;
+    itemSection = currentSection;
     var innerHtml = "";
     var Heading = "Add " + $(selectedCostCentreCheckBoxId).next().html();
 
@@ -1686,7 +1687,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
         callMode = "UpdateAllCostCentreOnQuantityChange";
     }
     paramRequest = {
-        CurrentItemSection: currentSection,
+        CurrentItemSection: itemSection,
         Queues: costCentreQueueItems,
         CostCentreId: costCentreId,
         ClonedItemId: clonedItemId,
