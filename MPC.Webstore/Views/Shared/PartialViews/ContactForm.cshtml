@@ -1,0 +1,91 @@
+﻿
+@model MPC.Webstore.Areas.WebstoreApi.Models.RFQContactForm
+@using MPC.Webstore.Common;
+@{
+    Layout = null;
+}
+<div class="container content_area" style="clear:right;" id="all-contactus-pg">
+    <div class="left_right_padding">
+     
+        <div class="white-container-lightgrey-border textAlignLeft rounded_corners">
+            <div class="get_in_touch_heading">
+                <label id="lbl_GetInTouch">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgetintouch", UserCookieManager.WBStoreId, "Get in touch..."))</label>
+            </div>
+            <div class="postformmesg">
+                @ViewBag.Message
+            </div>
+            
+            <div class="get_in_touch_sub_padding">
+                @using (Html.BeginForm())
+                {
+                    <table width="100%" cellpadding="5" cellspacing="5">
+                        <tr>
+                            <td>
+                                <label>@Html.Raw(Html.GetKeyValueFromResourceFile("lblContactFormFullName", UserCookieManager.WBStoreId, "Full Name"))</label>
+                            </td>
+                            <td>
+                              
+                                <label>@Html.Raw(Html.GetKeyValueFromResourceFile("lblContactFormEmail", UserCookieManager.WBStoreId, "Email"))</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(model => model.FullName, new { @class = "text_box400 rounded_corners5", @placeholder = "Full Name" })
+
+
+                            </td>
+                            <td  valign="top">
+                              
+                                @Html.TextBoxFor(model => model.Email, new { @class = "text_box400 rounded_corners5", @placeholder = "Email" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>@Html.Raw(Html.GetKeyValueFromResourceFile("lblContactFormMobile", UserCookieManager.WBStoreId, "Mobile"))</label>
+                            </td>
+                            <td>
+
+                                <label>@Html.Raw(Html.GetKeyValueFromResourceFile("lblContactFormQuantity", UserCookieManager.WBStoreId, "Quantity"))</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.TextBoxFor(model => model.Mobile, new { @class = "text_box400 rounded_corners5", @placeholder = "Mobile" })
+
+
+                            </td>
+                            <td valign="top">
+
+                                @Html.TextBoxFor(model => model.Quantity, new { @class = "text_box400 rounded_corners5", @placeholder = "Quantity" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label>@Html.Raw(Html.GetKeyValueFromResourceFile("lblContactFormMessage", UserCookieManager.WBStoreId, "Message"))</label>
+
+
+                            </td>
+                          
+                        </tr>
+                        <tr>
+                            
+                            <td colspan="2">
+
+                                @Html.TextBoxFor(model => model.Message, new { @class = "text_box400 rounded_corners5", @placeholder = "Message" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="right">
+                                <input type="submit" class="start_creating_btn rounded_corners5" />
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  
+</script>

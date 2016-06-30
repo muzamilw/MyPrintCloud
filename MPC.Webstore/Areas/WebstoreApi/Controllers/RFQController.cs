@@ -3,6 +3,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
+using MPC.Webstore.Areas.WebstoreApi.Models;
 using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
@@ -320,5 +321,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
             return listOfInquiries;
         }
+
+     
     }
 }
