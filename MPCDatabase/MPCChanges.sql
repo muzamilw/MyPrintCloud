@@ -10638,7 +10638,7 @@ BEGIN
 END
 
 
-
+--executed on Europe server by mz on 29 june 2016
 ---Change costcenter question type---
 
 alter table MachineClickChargeZone add IsCostCenterZone bit

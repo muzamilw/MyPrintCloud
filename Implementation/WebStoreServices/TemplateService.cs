@@ -2540,6 +2540,9 @@ namespace MPC.Implementation.WebStoreServices
                 List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                 List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
                 Template objProduct = _templateRepository.GetTemplate(productID, out oTemplatePages, out oTemplateObjects);
+
+                //overriding bleed by the value set in template. change made by mz on 30th july, we will use this value next.
+                bleedareaSize = DesignerUtils.PointToPixel(objProduct.CuttingMargin.Value);
                 if (isMultipageProduct)
                 {
                     bool hasOverlayObject = false;
@@ -2547,12 +2550,12 @@ namespace MPC.Implementation.WebStoreServices
                     //writing the PDF to FS
                     System.IO.File.WriteAllBytes(drURL + productID + "/pages.pdf" , PDFFile);
                     //gernating 
-                    generatePagePreviewMultiplage(PDFFile, drURL + productID + "/", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                    generatePagePreviewMultiplage(PDFFile, drURL + productID + "/", bleedareaSize, 150, isroundCorners);
                     if (hasOverlayObject)
                     {
                         byte[] overlayPDFFile = generatePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID, bleedareaSize, true); ;// generatePDF(objProduct, oTemplatePages, targetFolder, System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/"), false, true, objSettings.printCropMarks, false, out hasOverlayObject, true, true);
                         System.IO.File.WriteAllBytes(drURL + productID + "/pagesoverlay.pdf", PDFFile);
-                        generatePagePreviewMultiplage(overlayPDFFile, drURL + productID + "/", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        generatePagePreviewMultiplage(overlayPDFFile, drURL + productID + "/", bleedareaSize, 150, isroundCorners);
                     }
                     result = true;
                 }
@@ -2567,7 +2570,7 @@ namespace MPC.Implementation.WebStoreServices
                         //writing the PDF to FS
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
-                        generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                        generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, bleedareaSize, 150, isroundCorners);
                         List<TemplateObject> clippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject != true).ToList();
                         if (clippingPaths.Count > 0)
                         {
@@ -2592,7 +2595,7 @@ namespace MPC.Implementation.WebStoreServices
                             generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + ".pdf", clippingPaths, drURL + productID + "/p" + objPage.PageNo + "clip.pdf", width, height);
                             File.Copy(drURL + productID + "/p" + objPage.PageNo + "clip.pdf", drURL + productID + "/p" + objPage.PageNo + ".pdf", true);
                             File.Delete(drURL + productID + "/p" + objPage.PageNo + "clip.pdf");
-                            generatePagePreview(drURL + productID + "/p" + objPage.PageNo + ".pdf", drURL, productID + "/p" + objPage.PageNo, objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            generatePagePreview(drURL + productID + "/p" + objPage.PageNo + ".pdf", drURL, productID + "/p" + objPage.PageNo, bleedareaSize, 150, isroundCorners);
                         }
                         if (hasOverlayObject)
                         {
@@ -2601,7 +2604,7 @@ namespace MPC.Implementation.WebStoreServices
                             // writing overlay pdf to FS 
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
-                            generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                            generatePagePreview(overlayPDFFile, drURL, productID + "/p" + objPage.PageNo + "overlay", bleedareaSize, 150, isroundCorners);
                             List<TemplateObject> overlayClippingPaths = oTemplateObjects.Where(g => g.ProductPageId == objPage.ProductPageId && g.hasClippingPath == true && g.IsOverlayObject == true).ToList();
                             if (clippingPaths.Count > 0)
                             {
@@ -2625,7 +2628,7 @@ namespace MPC.Implementation.WebStoreServices
                                 generateClippingPaths(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayClippingPaths, drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", width, height);
                                 File.Copy(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf", drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", true);
                                 File.Delete(drURL + productID + "/p" + objPage.PageNo + "clipoverlay.pdf");
-                                generatePagePreview(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", drURL, productID + "/p" + objPage.PageNo + "overlay", objProduct.CuttingMargin.Value, 150, isroundCorners);
+                                generatePagePreview(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", drURL, productID + "/p" + objPage.PageNo + "overlay", bleedareaSize, 150, isroundCorners);
                             }
                         }
                     }

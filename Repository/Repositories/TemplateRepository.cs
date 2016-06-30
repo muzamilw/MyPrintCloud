@@ -114,10 +114,12 @@ namespace MPC.Repository.Repositories
                 listPages = db.TemplatePages.Where(g => g.ProductId == productID && g.IsPrintable != false).ToList();
                 listTemplateObjs = db.TemplateObjects.Where(g => g.ProductId == productID).ToList();
             }
+
+            //changed and commented the following line because it was causing increement of cutting margin every time this statement was called.
             // add default cutting margin if not available 
-            if (template.CuttingMargin.HasValue)
-                template.CuttingMargin = DesignerUtils.PointToPixel(template.CuttingMargin.Value);
-            else
+            if (template.CuttingMargin.HasValue == false)
+                //template.CuttingMargin = DesignerUtils.PointToPixel(template.CuttingMargin.Value);
+            
                 template.CuttingMargin = DesignerUtils.PointToPixel(14.173228345);
 
             return template;
