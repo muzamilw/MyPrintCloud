@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ActiveReportsLayout Version="3.2" PrintWidth="26743.44" DocumentName="ActiveReports Document" ScriptLang="C#" MasterReport="0">
+  <StyleSheet>
+    <Style Name="Normal" Value="font-family: Arial; font-style: normal; font-variant: inherit; font-weight: normal; font-size: 10pt; font-size-adjust: inherit; font-stretch: inherit; color: rgb(0,0,0); background-repeat: inherit; background-attachment: inherit; opacity: inherit; word-spacing: inherit; letter-spacing: inherit; text-decoration: none; vertical-align: inherit; text-transform: inherit; text-align: inherit; text-indent: inherit; unicode-bidi: inherit; line-height: inherit; white-space: inherit; ddo-char-set: 0" />
+    <Style Name="Heading1" Value="font-family: inherit; font-style: inherit; font-variant: inherit; font-weight: bold; font-size: 16pt; font-size-adjust: inherit; font-stretch: inherit" />
+    <Style Name="Heading2" Value="font-family: Times New Roman; font-style: italic; font-variant: inherit; font-weight: bold; font-size: 14pt; font-size-adjust: inherit; font-stretch: inherit" />
+    <Style Name="Heading3" Value="font-family: inherit; font-style: inherit; font-variant: inherit; font-weight: bold; font-size: 13pt; font-size-adjust: inherit; font-stretch: inherit" />
+  </StyleSheet>
+  <Sections>
+    <Section Type="PageHeader" Name="PageHeader" Height="2070" BackColor="16777215">
+      <Control Type="AR.Shape" Name="Shape1" Left="0" Top="836.64" Width="26578.08" Height="554.4" BackColor="13882323" BackStyle="1" RoundingRadius="9.999999" />
+      <Control Type="AR.Label" Name="Label1" DataField="ReportHeading" Left="3536.64" Top="89.28001" Width="4128.48" Height="450" Caption="Orders pending for approval" Style="font-family: Tahoma; font-size: 14.25pt; font-weight: bold; text-decoration: underline" />
+      <Control Type="AR.Label" Name="Label23" Left="1002.24" Top="948.9601" Width="1016.64" Height="288" Caption="Order Code" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold" />
+      <Control Type="AR.Label" Name="Label26" Left="2371.68" Top="925.92" Width="1484.64" Height="288" Caption="Company Name" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label27" Left="20691.36" Top="974.8801" Width="1478.882" Height="288" Caption="Ordered By" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label28" Left="15556.32" Top="974.8801" Width="1373.761" Height="288" Caption="Product Name" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label30" Left="11609.28" Top="89.28001" Width="652.5" Height="265.5" Caption="Pages :" Style="font-family: Tahoma; font-size: 8.25pt; font-weight: bold" />
+      <Control Type="AR.Field" Name="TextBox2" Left="12284.28" Top="89.28001" Width="382.5" Height="288" Text="" Style="font-family: Tahoma; font-size: 8.25pt; font-weight: normal; text-align: center" SummaryType="4" SummaryFunc="2" SummaryRunning="2" />
+      <Control Type="AR.Field" Name="TextBox3" Left="12644.28" Top="89.28001" Width="270" Height="288" Text="of" Style="font-family: Tahoma; font-size: 8.25pt; font-weight: normal" SummaryFunc="1" />
+      <Control Type="AR.Field" Name="TextBox1" Left="12914.28" Top="89.28001" Width="405" Height="288" Text="" Style="font-family: Tahoma; font-size: 8.25pt; font-weight: normal; text-align: center" SummaryType="4" SummaryFunc="2" />
+      <Control Type="AR.Label" Name="Label4" Left="24163.2" Top="948.9601" Width="1185.12" Height="265.5" Caption="Order Total" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; text-align: right" />
+      <Control Type="AR.Label" Name="Label5" Left="5087.521" Top="948.9601" Width="1409.041" Height="288" Caption="Address Title" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label6" Left="11681.28" Top="974.8801" Width="561.6003" Height="288" Caption="Qty" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label7" Left="12366.72" Top="974.8801" Width="1764" Height="288" Caption="Product Code" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label8" Left="8952.48" Top="948.9601" Width="1288.801" Height="288" Caption="Client Ref #" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label9" Left="28.8" Top="948.9601" Width="908.6401" Height="288" Caption="Order Date" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; ddo-char-set: 0" />
+      <Control Type="AR.Label" Name="Label10" Left="19764" Top="974.8801" Width="833.7603" Height="288" Caption="Item Cost" Style="font-family: Arial; font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0" />
+    </Section>
+    <Section Type="Detail" Name="Detail" Height="345.6" BackColor="16777215">
+      <Control Type="AR.Field" Name="txtOrderCode" DataField="Order_Code" Left="941.7601" Top="0" Width="1271.52" Height="269.28" Text="OrderCodde" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="txtCompanyName" DataField="CompanyName" Left="2371.68" Top="0" Width="2715.84" Height="269.28" Text="CompanyName" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="txtOrderPlacedBy" DataField="OrderPlacedBy" Left="20691.36" Top="0" Width="3314.882" Height="269.28" Text="OrderPlaccedBy" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="txtOrderDate" DataField="Order_Date" Left="0" Top="0" Width="908.6401" Height="269.28" Text="OrderDate" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="txtOrderTotal" DataField="Estimate_Total" Left="24088.32" Top="0" Width="1260.001" Height="269.28" Text="OrderTotal" OutputFormat="#,##0.00" Style="font-size: 8.25pt; text-align: right" />
+      <Control Type="AR.Field" Name="TextBox4" DataField="AddressName" Left="5116.32" Top="0" Width="3759.84" Height="269.28" Text="Address Name" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="TextBox44" DataField="ProductName" Left="15556.32" Top="0" Width="3967.2" Height="269.28" Text="Product" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="TextBox5" DataField="ProductCode" Left="12366.72" Top="0" Width="3084.48" Height="269.28" Text="ProductCode" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="TextBox6" DataField="Qty1" Left="11681.28" Top="0" Width="561.5978" Height="269.28" Text="Qty" Style="font-size: 8.25pt; text-align: right" />
+      <Control Type="AR.Field" Name="TextBox7" DataField="CustomerPO" Left="8952.48" Top="0" Width="2429.28" Height="269.28" Text="client ref #" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="TextBox8" DataField="Qty1GrossTotal" Left="19595.52" Top="0" Width="1002.956" Height="269.28" Text="Item cost" Style="font-size: 8.25pt; text-align: right" />
+    </Section>
+    <Section Type="PageFooter" Name="PageFooter" Height="15.00001" BackColor="16777215" />
+  </Sections>
+  <ReportComponentTray />
+  <DataSources DataMember="Table" />
+  <PageSettings LeftMargin="720" RightMargin="720" TopMargin="720" BottomMargin="720" Orientation="2" />
+  <Parameters />
+</ActiveReportsLayout>
