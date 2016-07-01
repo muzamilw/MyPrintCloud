@@ -7357,7 +7357,44 @@ namespace MPC.Repository.Repositories
                 }
             }
         }
-       
+        public bool CheckOtherCustomerHasSameVoucher(long StoreId, long DiscountVoucherId)
+        {
+            Company oStore = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
+            List<Estimate> discountedEstimates = null;
+            List<Item> discountedItems = null;
+            if (oStore != null && oStore.IsCustomer == (int)StoreMode.Retail)
+            {
+                var estimates = (from est in db.Estimates
+                                 join comp in db.Companies on est.CompanyId equals comp.CompanyId
+                                 where comp.IsCustomer == 1 && est.StatusId == 3 && comp.StoreId == StoreId
+                                 select est).ToList();
+                discountedEstimates = estimates.Where(e => e.DiscountVoucherID == DiscountVoucherId).ToList();
+                discountedItems = (from itm in db.Items
+                                   join est in db.Estimates on itm.EstimateId equals est.EstimateId
+                                   join comp in db.Companies on est.CompanyId equals comp.CompanyId
+                                   where comp.IsCustomer == 1 && est.StatusId == 3 && comp.StoreId == StoreId
+                                   && itm.DiscountVoucherID == DiscountVoucherId
+                                   select itm).ToList();
+                //discountedItems = orderedItems.Where(e => e.DiscountVoucherID == DiscountVoucherId).ToList();
+                if ((discountedEstimates != null && discountedEstimates.Count > 0) || (discountedItems != null && discountedItems.Count > 0)) 
+                {
+                    return true;
+                }
+            }
+            else if (oStore != null && oStore.IsCustomer == (int)StoreMode.Corp)
+            {
+                discountedEstimates = db.Estimates.Where(e => e.CompanyId == StoreId && e.StatusId == 3 && e.DiscountVoucherID == DiscountVoucherId).ToList();
+                discountedItems = (from itm in db.Items
+                                   join est in db.Estimates on itm.EstimateId equals est.EstimateId
+                                   where est.CompanyId == StoreId && est.StatusId == 3 && est.DiscountVoucherID == DiscountVoucherId
+                                              select itm).ToList();
+                if ((discountedEstimates != null && discountedEstimates.Count > 0) || (discountedItems != null && discountedItems.Count > 0))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
 

@@ -1465,28 +1465,67 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     //*****************Existing item Sections and cost Centeres*********************************
                     ItemSection ExistingItemSect = _ItemSectionRepository.GetSectionByItemId(DeliveryItem.ItemId);// db.ItemSections.Where(i => i.ItemId == DeliveryItem.ItemId).FirstOrDefault();
-                    ExistingItemSect.SectionName = DeliveryName;
-                    ExistingItemSect.BaseCharge1 = DeliveryCost;
 
-
-                    //*****************Existing Section Cost Centeres*********************************
-                    SectionCostcentre ExistingSectCostCentre = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(ExistingItemSect.ItemSectionId).FirstOrDefault();
-                    //db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
-
-                    if (zeroMarkup != null)
+                    if (ExistingItemSect != null)
                     {
-                        ExistingSectCostCentre.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                        ExistingItemSect.SectionName = DeliveryName;
+                        ExistingItemSect.BaseCharge1 = DeliveryCost;
+
+
+                        //*****************Existing Section Cost Centeres*********************************
+                        SectionCostcentre ExistingSectCostCentre = _ItemSectionCostCentreRepository.GetAllSectionCostCentres(ExistingItemSect.ItemSectionId).FirstOrDefault();
+                        //db.SectionCostcentres.Where(e => e.ItemSectionId == ExistingItemSect.ItemSectionId).FirstOrDefault();
+
+                        if (zeroMarkup != null)
+                        {
+                            ExistingSectCostCentre.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                        }
+                        else
+                        {
+                            ExistingSectCostCentre.Qty1MarkUpID = 1;
+                        }
+                        ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
+                        ExistingSectCostCentre.Qty1Charge = DeliveryCost;
+                        ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
+                        _ItemRepository.SaveChanges();
+                        _ItemSectionRepository.SaveChanges();
+                        _ItemSectionCostCentreRepository.SaveChanges();
                     }
-                    else
+                    else 
                     {
-                        ExistingSectCostCentre.Qty1MarkUpID = 1;
+                        _ItemRepository.SaveChanges();
+                        //*****************NEw item Sections and cost Centeres*********************************
+                        NewtblItemSection = new ItemSection();
+                        NewtblItemSection.ItemId = DeliveryItem.ItemId;
+                        NewtblItemSection.SectionName = DeliveryName;
+                        NewtblItemSection.BaseCharge1 = DeliveryCost;
+
+                        _ItemSectionRepository.Add(NewtblItemSection);
+                        _ItemSectionRepository.SaveChanges();
+                        //*****************Section Cost Centeres*********************************
+                        NewtblISectionCostCenteres = new SectionCostcentre();
+
+                        if (zeroMarkup != null)
+                        {
+                            NewtblISectionCostCenteres.Qty1MarkUpID = (int)zeroMarkup.MarkUpId;
+                        }
+                        else
+                        {
+                            NewtblISectionCostCenteres.Qty1MarkUpID = 1;
+                        }
+
+                        NewtblISectionCostCenteres.CostCentreId = DeliveryCostCenterId;
+                        NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
+                        NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
+                        NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
+
+                        _ItemSectionCostCentreRepository.Add(NewtblISectionCostCenteres);
+                        _ItemSectionCostCentreRepository.SaveChanges();
                     }
-                    ExistingSectCostCentre.CostCentreId = DeliveryCostCenterId;
-                    ExistingSectCostCentre.Qty1Charge = DeliveryCost;
-                    ExistingSectCostCentre.Qty1NetTotal = DeliveryCost;
-                    _ItemRepository.SaveChanges();
-                    _ItemSectionRepository.SaveChanges();
-                    _ItemSectionCostCentreRepository.SaveChanges();
+
+
+                   
+                   
 
                 }
                 else
@@ -3517,17 +3556,28 @@ namespace MPC.Implementation.WebStoreServices
 
                 if (order != null)
                 {
+                    long DiscountIdToUpdate = order.DiscountVoucherID ?? 0;
                     if (order.DiscountVoucherID != null)
                     {
-                        voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(order.DiscountVoucherID));
+                        if (isDeliveryItem == false)
+                        {
+                            order.DiscountVoucherID = null;
+                            order.VoucherDiscountRate = null;
+                            _OrderRepository.SaveChanges();
+                        }
+
+                        voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(DiscountIdToUpdate));
                         if (voucher != null)
                         {
                             if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
                             {
                                 if (voucher.IsSingleUseRedeemed == true)
                                 {
-                                    voucher.IsSingleUseRedeemed = false;
-                                    _DVRepository.SaveChanges();
+                                    if (_OrderRepository.CheckOtherCustomerHasSameVoucher(StoreId, voucher.DiscountVoucherId) == false) 
+                                    {
+                                        voucher.IsSingleUseRedeemed = false;
+                                        _DVRepository.SaveChanges();
+                                    }
                                 }
                             }
 
@@ -3542,12 +3592,7 @@ namespace MPC.Implementation.WebStoreServices
                             }
                         }
 
-                        if (isDeliveryItem == false)
-                        {
-                            order.DiscountVoucherID = null;
-                            order.VoucherDiscountRate = null;
-                            _OrderRepository.SaveChanges();
-                        }
+                       
                     }
                 }
             }

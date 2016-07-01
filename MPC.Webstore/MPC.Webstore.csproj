@@ -386,6 +386,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\UMController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ValidateLoginController.cs" />
+    <Compile Include="Areas\WebstoreApi\Models\RFQContactForm.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\CostCentreTemplate.cs" />
@@ -411,6 +412,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
+    <Compile Include="Controllers\ContactFormController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DescriptiveFooterController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -1265,6 +1267,7 @@
     <Content Include="Views\Payment\WorldpayGateway.cshtml" />
     <Content Include="Views\Shared\PartialViews\SocialAnSavedDesignInfo.cshtml" />
     <Content Include="Views\Shared\PartialViews\SliderGallery.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ContactForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1272,7 +1275,6 @@
     <Folder Include="Areas\DesignerApi\Views\Shared\" />
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\OrderReceipt\Models\" />
-    <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSideBar\" />
     <Folder Include="Areas\WebstoreApi\Views\RealEstateSmartForm\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
@@ -1285,6 +1287,7 @@
     <Folder Include="Views\BubbleLoginBar\" />
     <Folder Include="Views\BubbleQuickLinks\" />
     <Folder Include="Views\BubbleSavePercent\" />
+    <Folder Include="Views\ContactForm\" />
     <Folder Include="Views\DescriptiveFooter\" />
     <Folder Include="Views\EzyHeader\" />
     <Folder Include="Views\EzyPrintSignUp\" />

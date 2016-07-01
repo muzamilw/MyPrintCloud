@@ -3,6 +3,7 @@ using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
+using MPC.Webstore.Areas.WebstoreApi.Models;
 using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
@@ -319,6 +320,72 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
             }
             return listOfInquiries;
+        }
+
+        [HttpPost]
+        public string SubmitRFQForm(RFQContactForm rfqForm)
+        {
+            string Message = "";
+            try
+            {
+                string smtpUser = null;
+                string smtpserver = null;
+                string smtpPassword = null;
+                string fromName = null;
+                string fromEmail = null;
+
+                MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
+
+                string MesgBody = "";
+                if (StoreBaseResopnse.Organisation != null)
+                {
+                    //organisationResponse
+                    smtpUser = StoreBaseResopnse.Organisation.SmtpUserName == null ? "" : StoreBaseResopnse.Organisation.SmtpUserName;
+                    smtpserver = StoreBaseResopnse.Organisation.SmtpServer;
+                    smtpPassword = StoreBaseResopnse.Organisation.SmtpPassword;
+                    fromName = StoreBaseResopnse.Organisation.OrganisationName;
+                    fromEmail = StoreBaseResopnse.Organisation.Email;
+
+                }
+
+                string StoreName = string.Empty;
+
+                SystemUser salesManager = _companyService.GetSystemUserById(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+
+                StoreName = StoreBaseResopnse.StoreDetaultAddress.AddressName;
+
+
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlDear", UserCookieManager.WBStoreId, "Dear") + salesManager.FullName + ",<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("ltrlinqsub", UserCookieManager.WBStoreId, "An enquiry has been submitted to you with the details:") + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormFullName", UserCookieManager.WBStoreId, "Name: ") + rfqForm.FullName + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormMobile", UserCookieManager.WBStoreId, "Mobile: ") + rfqForm.Mobile + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormQuantity", UserCookieManager.WBStoreId, "Quantity: ") + rfqForm.Quantity + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormEmail", UserCookieManager.WBStoreId, "Email: ") + rfqForm.Email + "<br>";
+                MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormMessage", UserCookieManager.WBStoreId, "Message: ") + rfqForm.Message + "<br>";
+
+                bool result = _campaignService.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, " Contact enquiry from " + StoreName, null, 0);
+
+                if (result)
+                {
+                    rfqForm.FullName = "";
+                    rfqForm.Mobile = "";
+                    rfqForm.Quantity = "";
+                    rfqForm.Email = "";
+                    rfqForm.Message = "";
+                    Message = Utils.GetKeyValueFromResourceFile("ltrlsubmitt", UserCookieManager.WBStoreId, "Thank you for submitting a request. Someone will contact you shortly.");
+                }
+                else
+                {
+                    Message = "An error occured. Please try again.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            return Message;
         }
     }
 }
