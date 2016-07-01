@@ -1590,9 +1590,9 @@ define("common/itemDetail.viewModel",
                                     selectedSection().RunningSpoilageValue(data.RunningSpoilageValue);
 
 
-                                    selectedSection().ImpressionQty1(data.ImpressionQty1);
-                                    selectedSection().ImpressionQty2(data.ImpressionQty2);
-                                    selectedSection().ImpressionQty3(data.ImpressionQty3);
+                                    selectedSection().impressionCountQty1(data.impressionCountQty1);
+                                    selectedSection().impressionCountQty2(data.impressionCountQty2);
+                                    selectedSection().impressionCountQty3(data.impressionCountQty3);
                                     
                                     
 

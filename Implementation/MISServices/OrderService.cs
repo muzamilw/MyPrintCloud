@@ -1757,6 +1757,7 @@ namespace MPC.Implementation.MISServices
                         long ItemID = i.ItemId;
                         long CustomerID = Convert.ToInt64(customerID);
 
+                        
                         if (i.TemplateId > 0) // case of templates
                         {
                             var Item = itemRepository.GetItemWithSections(ItemID);
