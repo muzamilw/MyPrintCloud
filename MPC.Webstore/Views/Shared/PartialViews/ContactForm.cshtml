@@ -1,5 +1,4 @@
 ﻿
-@model MPC.Webstore.Areas.WebstoreApi.Models.RFQContactForm
 @using MPC.Webstore.Common;
 @{
     Layout = null;
@@ -11,13 +10,12 @@
             <div class="get_in_touch_heading">
                 <label id="lbl_GetInTouch">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgetintouch", UserCookieManager.WBStoreId, "Get in touch..."))</label>
             </div>
-            <div class="postformmesg">
-                @ViewBag.Message
+            <div class="postformmesg" id="formRtrnMesg">
+              
             </div>
             
             <div class="get_in_touch_sub_padding">
-                @using (Html.BeginForm())
-                {
+                
                     <table width="100%" cellpadding="5" cellspacing="5">
                         <tr>
                             <td>
@@ -30,13 +28,14 @@
                         </tr>
                         <tr>
                             <td>
-                                @Html.TextBoxFor(model => model.FullName, new { @class = "text_box400 rounded_corners5", @placeholder = "Full Name" })
-
+                               
+                                <input type="text" id="txtContactFormFullName" class="text_box400 rounded_corners5" placeholder="Full Name" />
 
                             </td>
                             <td  valign="top">
+                                <input type="text" id="txtContactFormEmail" class="text_box400 rounded_corners5" placeholder="Email" />
+
                               
-                                @Html.TextBoxFor(model => model.Email, new { @class = "text_box400 rounded_corners5", @placeholder = "Email" })
                             </td>
                         </tr>
                         <tr>
@@ -50,13 +49,15 @@
                         </tr>
                         <tr>
                             <td>
-                                @Html.TextBoxFor(model => model.Mobile, new { @class = "text_box400 rounded_corners5", @placeholder = "Mobile" })
+                                <input type="text" id="txtContactFormMobile" class="text_box400 rounded_corners5" placeholder="Mobile" />
 
+                                
 
                             </td>
                             <td valign="top">
+                                <input type="text" id="txtContactFormQuantity" class="text_box400 rounded_corners5" placeholder="Quantity" />
 
-                                @Html.TextBoxFor(model => model.Quantity, new { @class = "text_box400 rounded_corners5", @placeholder = "Quantity" })
+                                
                             </td>
                         </tr>
                         <tr>
@@ -70,25 +71,27 @@
                         <tr>
                             
                             <td colspan="2">
+                                <input type="text" id="txtContactFormMessage" class="text_box400 rounded_corners5" placeholder="Message" />
 
-                                @Html.TextBoxFor(model => model.Message, new { @class = "text_box400 rounded_corners5", @placeholder = "Message" })
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td align="right">
-                                <input type="submit" class="start_creating_btn rounded_corners5" />
+                                <input type="button" class="start_creating_btn rounded_corners5" value="Submit" onclick="PostFromData();"/>
                             </td>
                         </tr>
                     </table>
-                }
+               
             </div>
         </div>
     </div>
 </div>
-@*<script>
-    $(document).ready(function () {
-        var data = { FullName: "abc", Email: "gmail.com", Mobile: "123456", Quantity: 36, Message: "heloo" }
+<script>
+    function PostFromData() {
+        debugger
+            
+        var data = { FullName: $("#txtContactFormFullName").val(), Email: $("#txtContactFormEmail").val(), Mobile: $("#txtContactFormMobile").val(), Quantity: $("#txtContactFormQuantity").val(), Message: $("#txtContactFormMessage").val() }
         $.ajax({
             type: "POST",
             url: "/WebstoreApi/RFQ/SubmitRFQForm",
@@ -96,13 +99,12 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(data),
             success: function (response) {
-
-
+                $("#formRtrnMesg").html(response);
             },
             error: function (error) {
-
+                $("#formRtrnMesg").html(error);
 
             }
         });
-    });
-</script>*@
+    }
+</script>

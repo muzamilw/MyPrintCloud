@@ -3556,17 +3556,28 @@ namespace MPC.Implementation.WebStoreServices
 
                 if (order != null)
                 {
+                    long DiscountIdToUpdate = order.DiscountVoucherID ?? 0;
                     if (order.DiscountVoucherID != null)
                     {
-                        voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(order.DiscountVoucherID));
+                        if (isDeliveryItem == false)
+                        {
+                            order.DiscountVoucherID = null;
+                            order.VoucherDiscountRate = null;
+                            _OrderRepository.SaveChanges();
+                        }
+
+                        voucher = _DVRepository.GetDiscountVoucherById(Convert.ToInt64(DiscountIdToUpdate));
                         if (voucher != null)
                         {
                             if (voucher.CouponUseType == (int)CouponUseType.OneTimeUseCoupon)
                             {
                                 if (voucher.IsSingleUseRedeemed == true)
                                 {
-                                    voucher.IsSingleUseRedeemed = false;
-                                    _DVRepository.SaveChanges();
+                                    if (_OrderRepository.CheckOtherCustomerHasSameVoucher(StoreId, voucher.DiscountVoucherId) == false) 
+                                    {
+                                        voucher.IsSingleUseRedeemed = false;
+                                        _DVRepository.SaveChanges();
+                                    }
                                 }
                             }
 
@@ -3581,12 +3592,7 @@ namespace MPC.Implementation.WebStoreServices
                             }
                         }
 
-                        if (isDeliveryItem == false)
-                        {
-                            order.DiscountVoucherID = null;
-                            order.VoucherDiscountRate = null;
-                            _OrderRepository.SaveChanges();
-                        }
+                       
                     }
                 }
             }
