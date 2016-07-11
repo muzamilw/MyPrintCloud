@@ -251,17 +251,25 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     DateTime TodayDate = DateTime.Now;
                     if (ValidFromDate != null)
                     {
-                        if (TodayDate < ValidFromDate)
+                        if(ValidFromDate.HasValue)
                         {
-                            return "The promotion for the code you entered has not started yet it will begin on " + ValidFromDate.Value.Month.ToString() + " " + ValidFromDate.Value.Day + ", " + ValidFromDate.Value.Year;
+                            if (TodayDate.Date.Day < ValidFromDate.Value.Date.Day && TodayDate.Date.Month < ValidFromDate.Value.Date.Month && TodayDate.Date.Year < ValidFromDate.Value.Date.Year)
+                            {
+                                return "The promotion for the code you entered has not started yet it will begin on " + ValidFromDate.Value.Month.ToString() + " " + ValidFromDate.Value.Day + ", " + ValidFromDate.Value.Year;
+                            }
                         }
+                       
                     }
                     if (ValidUptoDate != null)
                     {
-                        if (TodayDate > ValidUptoDate)
+                        if (ValidUptoDate.HasValue)
                         {
-                            return "The Voucher is Expired.";
+                            if (TodayDate.Date > ValidUptoDate.Value.Date)
+                            {
+                                return "The Voucher is Expired.";
+                            }
                         }
+                       
                     }
                 }
                 if (DiscountVoucher.IsOrderPriceRequirement.HasValue && DiscountVoucher.IsOrderPriceRequirement.Value == true)

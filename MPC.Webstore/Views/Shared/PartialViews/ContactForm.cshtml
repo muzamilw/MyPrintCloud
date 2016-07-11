@@ -99,11 +99,10 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(data),
             success: function (response) {
-                $("#formRtrnMesg").html(response);
+                ShowPopUp("Message", response);// $("#formRtrnMesg").html(response);
             },
             error: function (error) {
-                $("#formRtrnMesg").html(error);
-
+                ShowPopUp("Message", response);
             }
         });
     }
