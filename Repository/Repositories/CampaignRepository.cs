@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Data;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -1024,13 +1025,17 @@ namespace MPC.Repository.Repositories
 
         private bool SendEmail(CampaignEmailQueue oEmailBody, System.Web.HttpContext context, out string ErrorMsg)
         {
+
+            string emailid = "";
             try
             {
+
+                emailid = oEmailBody.EmailQueueId.ToString();
                 bool isFileExists = true;
 
                 if (string.IsNullOrEmpty(oEmailBody.EmailFrom))
                 {
-                    ErrorMsg = "";
+                    ErrorMsg = "Email from is empty";
                     return false;
                 }
                 MailMessage objMail = new MailMessage();
@@ -1119,7 +1124,7 @@ namespace MPC.Repository.Repositories
                 }
                 else
                 {
-                    ErrorMsg = "Attachment not found.";
+                    ErrorMsg = "Attachments not found or invalid path.";
                     return false;
                 }
 
@@ -1127,7 +1132,7 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("Error Sending email id : " + emailid,ex);
 
             }
 
