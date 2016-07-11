@@ -1339,7 +1339,7 @@ namespace MPC.Implementation.WebStoreServices
             oPdf.Transform.Reset();
         }
         //generate pdf function
-        private byte[] generatePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects, string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID, double bleedareaSize, bool drawBleedArea)
+        private byte[] generateSinglePDF(Template objProduct, TemplatePage objProductPage, List<TemplateObject> listTemplateObjects, string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID, double bleedareaSize, bool drawBleedArea)
         {
             Doc doc = new Doc();
             try
@@ -1608,8 +1608,11 @@ namespace MPC.Implementation.WebStoreServices
                     //{
                     //    TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
                     //}
-                    if (objProduct.CuttingMargin.HasValue)
-                        TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint( objProduct.CuttingMargin.Value));
+                    //if (objProduct.CuttingMargin.HasValue)
+
+
+                    
+                    TrimBoxSize = bleedareaSize;// DesignerUtils.PointToMM(DesignerUtils.PixelToPoint(objProduct.CuttingMargin.Value));
                     doc.SetInfo(doc.Page, "/TrimBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(TrimBoxSize)).ToString());
                     if (System.Configuration.ConfigurationManager.AppSettings["ArtBoxSize"] != null)
                     {
@@ -1617,19 +1620,24 @@ namespace MPC.Implementation.WebStoreServices
                         doc.SetInfo(doc.Page, "/ArtBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(ArtBoxSize)).ToString());
 
                     }
+
+
+                 
+                    //changed the logic below.
+                    //if(bleedareaSize != 0 ){
+
+                    //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+
+                     
+                    //}
+
                     if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
                     {
                         BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                        if (TrimBoxSize != 5)
-                        {
-                            BleedBoxSize = 1;
-                        }
-                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+
+                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
                     }
-                    if(bleedareaSize != 0 ){
-                         
-                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
-                    }
+                    
                     int FontID = 0;
                     var pFont = FontsList.Where(g => g.FontName == "Arial Black").FirstOrDefault();
                     //if (pFont != null)
@@ -1668,7 +1676,9 @@ namespace MPC.Implementation.WebStoreServices
                     double trimboxSizeCuttingLines = 0;
                     if (TrimBoxSize != 5)
                         trimboxSizeCuttingLines = TrimBoxSize;
-                    DrawCuttingLines(ref doc, objProduct.CuttingMargin.Value, 1, objProductPage.PageName, objProduct.TempString, drawCuttingMargins, drawWaterMark, isWaterMarkText, objProduct.PDFTemplateHeight.Value, objProduct.PDFTemplateWidth.Value, TrimBoxSize, BleedBoxSize);
+
+                    //////////////
+                    DrawCuttingLines(ref doc, bleedareaSize, 1, objProductPage.PageName, objProduct.TempString, drawCuttingMargins, drawWaterMark, isWaterMarkText, objProduct.PDFTemplateHeight.Value, objProduct.PDFTemplateWidth.Value, TrimBoxSize, BleedBoxSize);
                 }
 
                 if (IsDrawBGText == true)
@@ -1698,7 +1708,7 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
         // generating multipage pdf 
-        private byte[] generatePDF(Template objProduct, List<TemplatePage> productPages, List<TemplateObject> listTemplateObjects, string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID, double bleedareaSize, bool drawBleedArea)
+        private byte[] generateMultiPagePDF(Template objProduct, List<TemplatePage> productPages, List<TemplateObject> listTemplateObjects, string ProductFolderPath, string fontPath, bool IsDrawBGText, bool IsDrawHiddenObjects, bool drawCuttingMargins, bool drawWaterMark, out bool hasOverlayObject, bool isoverLayMode, long OrganisationID, double bleedareaSize, bool drawBleedArea)
         {
             hasOverlayObject = false;
             Doc doc = new Doc();
@@ -1946,8 +1956,8 @@ namespace MPC.Implementation.WebStoreServices
                         //{
                         //    TrimBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["TrimBoxSize"]);
                         //}
-                        if(objProduct.CuttingMargin.HasValue)
-                            TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint(objProduct.CuttingMargin.Value));
+                        //if(objProduct.CuttingMargin.HasValue)
+                        TrimBoxSize = bleedareaSize;  // TrimBoxSize = DesignerUtils.PointToMM(DesignerUtils.PixelToPoint(objProduct.CuttingMargin.Value));
                         doc.SetInfo(doc.Page, "/TrimBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(TrimBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(TrimBoxSize)).ToString());
                         if (System.Configuration.ConfigurationManager.AppSettings["ArtBoxSize"] != null)
                         {
@@ -1998,7 +2008,9 @@ namespace MPC.Implementation.WebStoreServices
                         double trimboxSizeCuttingLines = 0;
                         if (TrimBoxSize != 5)
                             trimboxSizeCuttingLines = TrimBoxSize;
-                        DrawCuttingLines(ref doc, objProduct.CuttingMargin.Value, 1, objProductPage.PageName, objProduct.TempString, drawCuttingMargins, drawWaterMark, isWaterMarkText, objProduct.PDFTemplateHeight.Value, objProduct.PDFTemplateWidth.Value, TrimBoxSize, BleedBoxSize);
+
+                        //// multip page
+                        DrawCuttingLines(ref doc, bleedareaSize, 1, objProductPage.PageName, objProduct.TempString, drawCuttingMargins, drawWaterMark, isWaterMarkText, objProduct.PDFTemplateHeight.Value, objProduct.PDFTemplateWidth.Value, TrimBoxSize, BleedBoxSize);
                     }
 
                     if (IsDrawBGText == true)
@@ -2542,18 +2554,18 @@ namespace MPC.Implementation.WebStoreServices
                 Template objProduct = _templateRepository.GetTemplate(productID, out oTemplatePages, out oTemplateObjects);
 
                 //overriding bleed by the value set in template. change made by mz on 30th july, we will use this value next.
-                bleedareaSize = DesignerUtils.PointToPixel(objProduct.CuttingMargin.Value);
+                bleedareaSize = DesignerUtils.PointToMM(objProduct.CuttingMargin.Value);
                 if (isMultipageProduct)
                 {
                     bool hasOverlayObject = false;
-                    byte[] PDFFile = generatePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID, bleedareaSize,true);
+                    byte[] PDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID, bleedareaSize,true);
                     //writing the PDF to FS
                     System.IO.File.WriteAllBytes(drURL + productID + "/pages.pdf" , PDFFile);
                     //gernating 
                     generatePagePreviewMultiplage(PDFFile, drURL + productID + "/", bleedareaSize, 150, isroundCorners);
                     if (hasOverlayObject)
                     {
-                        byte[] overlayPDFFile = generatePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID, bleedareaSize, true); ;// generatePDF(objProduct, oTemplatePages, targetFolder, System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/"), false, true, objSettings.printCropMarks, false, out hasOverlayObject, true, true);
+                        byte[] overlayPDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID, bleedareaSize, true); ;// generatePDF(objProduct, oTemplatePages, targetFolder, System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/"), false, true, objSettings.printCropMarks, false, out hasOverlayObject, true, true);
                         System.IO.File.WriteAllBytes(drURL + productID + "/pagesoverlay.pdf", PDFFile);
                         generatePagePreviewMultiplage(overlayPDFFile, drURL + productID + "/", bleedareaSize, 150, isroundCorners);
                     }
@@ -2566,7 +2578,7 @@ namespace MPC.Implementation.WebStoreServices
                     foreach (TemplatePage objPage in oTemplatePages)
                     {
                         bool hasOverlayObject = false;
-                        byte[] PDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID, bleedareaSize, true);
+                        byte[] PDFFile = generateSinglePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, false, OrganisationID, bleedareaSize, true);
                         //writing the PDF to FS
                         System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + ".pdf", PDFFile);
                         //generate and write overlay image to FS 
@@ -2600,7 +2612,7 @@ namespace MPC.Implementation.WebStoreServices
                         if (hasOverlayObject)
                         {
                             // generate overlay PDF 
-                            byte[] overlayPDFFile = generatePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID, bleedareaSize, true);
+                            byte[] overlayPDFFile = generateSinglePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, isDrawHiddenObjs, printCropMarks, printWaterMarks, out hasOverlayObject, true, OrganisationID, bleedareaSize, true);
                             // writing overlay pdf to FS 
                             System.IO.File.WriteAllBytes(drURL + productID + "/p" + objPage.PageNo + "overlay.pdf", overlayPDFFile);
                             // generate and write overlay image to FS 
