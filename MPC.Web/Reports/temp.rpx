@@ -33,7 +33,7 @@
       <Control Type="AR.Field" Name="txtOrderDate" DataField="Order_Date" Left="0" Top="0" Width="908.6401" Height="269.28" Text="OrderDate" Style="font-size: 8.25pt" />
       <Control Type="AR.Field" Name="txtOrderTotal" DataField="Estimate_Total" Left="24088.32" Top="0" Width="1260.001" Height="269.28" Text="OrderTotal" OutputFormat="#,##0.00" Style="font-size: 8.25pt; text-align: right" />
       <Control Type="AR.Field" Name="TextBox4" DataField="AddressName" Left="5116.32" Top="0" Width="3759.84" Height="269.28" Text="Address Name" Style="font-size: 8.25pt" />
-      <Control Type="AR.Field" Name="TextBox44" DataField="ProductName" Left="15556.32" Top="0" Width="3967.2" Height="269.28" Text="Product" Style="font-size: 8.25pt" />
+      <Control Type="AR.Field" Name="TextBox44" DataField="ProductName" Left="15511.68" Top="0" Width="4011.84" Height="269.28" Text="Product" Style="font-size: 8.25pt" />
       <Control Type="AR.Field" Name="TextBox5" DataField="ProductCode" Left="12366.72" Top="0" Width="3084.48" Height="269.28" Text="ProductCode" Style="font-size: 8.25pt" />
       <Control Type="AR.Field" Name="TextBox6" DataField="Qty1" Left="11681.28" Top="0" Width="561.5978" Height="269.28" Text="Qty" Style="font-size: 8.25pt; text-align: right" />
       <Control Type="AR.Field" Name="TextBox7" DataField="CustomerPO" Left="8952.48" Top="0" Width="2429.28" Height="269.28" Text="client ref #" Style="font-size: 8.25pt" />
