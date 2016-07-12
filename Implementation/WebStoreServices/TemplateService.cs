@@ -3054,6 +3054,8 @@ namespace MPC.Implementation.WebStoreServices
             {
                 System.IO.Directory.CreateDirectory(targetFolder);
             }
+
+            int pagecounter = 1;
             foreach (var oPage in oTemplatePages)
             {
                 if (oPage.BackGroundType == 1 || oPage.BackGroundType == 3)
@@ -3061,7 +3063,19 @@ namespace MPC.Implementation.WebStoreServices
                     string remoteUrl = RemoteUrlBasePath + "products/" + oPage.BackgroundFileName;
                     string destinationUrl = BasePath + "Templates/" + newProductID.ToString() + "/" + oPage.BackgroundFileName.Substring(oPage.BackgroundFileName.IndexOf("/"), oPage.BackgroundFileName.Length - oPage.BackgroundFileName.IndexOf("/"));
                     DesignerUtils.DownloadFile(remoteUrl, destinationUrl);
+
+
+
+                    //attempt to download the  templatImgBk1.jpg  files if retail store template is of background type PDF
+                    if (mode == 2)
+                    {
+                        string remotebgUrl = RemoteUrlBasePath + "products/"+oTemplate.ProductId.ToString()+"/templatImgBk" + pagecounter.ToString()+".jpg";
+                        string destinationbgUrl = BasePath + "Templates/" + newProductID.ToString() + "/templatImgBk" + pagecounter.ToString() +".jpg";
+                        DesignerUtils.DownloadFile(remotebgUrl, destinationbgUrl);
+
+                    }
                 }
+                pagecounter+=1;
             }
             foreach (TemplateBackgroundImage item in oTemplateImages)
             {

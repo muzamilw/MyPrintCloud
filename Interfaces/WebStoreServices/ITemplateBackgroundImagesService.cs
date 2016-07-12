@@ -29,5 +29,8 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<RealEstateImage> getPropertyImages(long propertyId);
         bool generateClippingPath(string path);
+
+
+        int generatePdfAsBackgroundDesigner(string physicalPath, long TemplateID, long organisationId);
     }
 }
