@@ -14,18 +14,32 @@ namespace MPC.Implementation.WebStoreServices
     {
         #region private
         public readonly ITemplateFontsRepository _templateFontRepository;
+        public readonly IItemRepository _itemRepository;
         #endregion
         #region constructor
-        public TemplateFontsService(ITemplateFontsRepository templateFontRepository)
+        public TemplateFontsService(ITemplateFontsRepository templateFontRepository, IItemRepository itemRepository)
         {
             this._templateFontRepository = templateFontRepository;
+            this._itemRepository = itemRepository;
         }
         #endregion
 
         #region public
         // get fonts list ,called from designer // added by saqib ali
-        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long OrganisationID, long territoryId)
+        public List<TemplateFontResponseModel> GetFontList(long productId, long customerId, long OrganisationID, long territoryId,long itemID)
         {
+           
+            //if not zero then its a retail store case
+            if  ( itemID != 0)
+            {
+                var item = this._itemRepository.GetItemByItemID(itemID);
+
+                //replacing the customerid in this case as its not needed and we'llk pull the store fonts instead
+                customerId = item.CompanyId.Value;
+
+                
+            }
+
             var fonts = _templateFontRepository.GetFontList(productId, customerId,territoryId);
             List<TemplateFontResponseModel> objToReturn = new List<TemplateFontResponseModel>();
             foreach (var objFonts in fonts)

@@ -1674,7 +1674,7 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     doc.Font = FontID;
                     double trimboxSizeCuttingLines = 0;
-                    if (TrimBoxSize != 5)
+                    //if (TrimBoxSize != 5)
                         trimboxSizeCuttingLines = TrimBoxSize;
 
                     //////////////
@@ -2006,7 +2006,7 @@ namespace MPC.Implementation.WebStoreServices
 
                         doc.Font = FontID;
                         double trimboxSizeCuttingLines = 0;
-                        if (TrimBoxSize != 5)
+                        //if (TrimBoxSize != 5)
                             trimboxSizeCuttingLines = TrimBoxSize;
 
                         //// multip page

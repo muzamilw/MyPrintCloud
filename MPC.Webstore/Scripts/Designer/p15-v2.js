@@ -554,13 +554,23 @@ function svcCall4_img(n, tID, imgtype) {
 function fu06(mode) {
     //CustomerID = parent.CustomerID;
     //ContactID = parent.ContactID;
+
+    var retailItemId
+    if (IsCalledFrom == 3) {
+        //its retail mode
+        retailItemId = ItemId;
+    }
+    else
+        retailItemId = 0;
+    
+
     var str = '<option value="">(select)</option>';
     var fname = 'BtnSelectFontsRetail';
     if (panelMode == 1) {
         fname = 'BtnSelectFonts';
     }
     $('#' + fname).html(str);
-    $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + organisationId + "/" + userTerritoryId,
+    $.getJSON("/designerapi/TemplateFonts/GetFontsList/" + tID + "/" + CustomerID + "/" + organisationId + "/" + userTerritoryId + "/" + retailItemId,
         function (DT) {
             fu06_SvcCallback(DT, fname,mode);
         });
