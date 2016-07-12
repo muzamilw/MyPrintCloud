@@ -62,19 +62,18 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             MyCompanyDomainBaseReponse StoreBaseResopnse = _companyService.GetStoreCachedObject(UserCookieManager.WBStoreId);
 
             Inquiry NewInqury = new Inquiry();
-
+            CompanyContact loginUser = null;
             NewInqury.Title = Title;
             NewInqury.OrganisationId = UserCookieManager.WEBOrganisationID;
             if (_webstoreAuthorizationChecker.loginContactID() > 0)
             {
                 NewInqury.ContactId = _webstoreAuthorizationChecker.loginContactID();
                 NewInqury.CompanyId = (int)_webstoreAuthorizationChecker.loginContactCompanyID();
-
+                loginUser = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
             }
             else
             {
                 long Customer = 0;
-                CompanyContact loginUser = null;
                 loginUser = _companyService.GetContactByEmail(Email, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
                 if (loginUser == null) 
@@ -100,31 +99,31 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     NewInqury.ContactId = loginUser.ContactId;
                     NewInqury.CompanyId = loginUser.CompanyId;
                     
-                    CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
-                    CampaignEmailParams cep = new CampaignEmailParams();
-                    Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
-                    cep.ContactId = NewInqury.ContactId;
+                    // CompanyContact UserContact = _companyService.GetContactByID(loginUser.ContactId); Commented by Naveed on 20160712 also set loginUser as parameter in emailBodyGenerator function instead of UserContact
+                    //CampaignEmailParams cep = new CampaignEmailParams();
+                    //Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
+                    //cep.ContactId = NewInqury.ContactId;
 
-                    cep.OrganisationId = 1;
+                    //cep.OrganisationId = 1;
                     
-                    cep.AddressId = NewInqury.CompanyId??0;
-                    cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
-                    cep.StoreId = UserCookieManager.WBStoreId;
-                    cep.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
-                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                    //cep.AddressId = NewInqury.CompanyId??0;
+                    //cep.SalesManagerContactID = loginUser.ContactId;
+                    //cep.StoreId = UserCookieManager.WBStoreId;
+                    //cep.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
+                    //SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
                   
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                    {
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                    //if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                    //{
+                    //    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
-                    }
-                    else
-                    {
-                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
+                    //}
+                    //else
+                    //{
+                    //    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId,NewInqury.CompanyId??0, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Corp, UserCookieManager.WBStoreId, EmailOFSM);
 
-                    }
+                    //}
 
-                    _campaignService.emailBodyGenerator(RegistrationCampaignn, cep, UserContact, StoreMode.Retail, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
+                    //_campaignService.emailBodyGenerator(RegistrationCampaignn, cep, loginUser, StoreMode.Retail, (int)UserCookieManager.WEBOrganisationID, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 }
             }
@@ -153,20 +152,20 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             if (InquiryId > 0)
             {
 
-                MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
-                CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+               // MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID()); Commented by Naveed: as its not being used
+                CompanyContact UserContact = loginUser ?? _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID()); // Conditional change with loginUser by Naveed: 20160712
                 CampaignEmailParams cep = new CampaignEmailParams();
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                 cep.ContactId = NewInqury.ContactId;
                 cep.InquiryId = InquiryId;
                 cep.OrganisationId = 1;
-                cep.AddressId =NewInqury.CompanyId??0;
-                cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
+                cep.AddressId = loginUser != null ? loginUser.AddressId : NewInqury.CompanyId ?? 0;
+                cep.SalesManagerContactID = loginUser != null ? loginUser.ContactId : 0;
                 cep.StoreId = UserCookieManager.WBStoreId;
                 cep.CompanyId = UserCookieManager.WBStoreId;
                 cep.SystemUserId = StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value;
-                Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
+                //Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);Commented by Naveed: as its not being used
 
                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
                 if (EmailOFSM != null) 
