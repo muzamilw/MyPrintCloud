@@ -107,7 +107,7 @@
                                 </div>
 
                                 <div class="col-sm-2" style="padding-left: 12px;">
-                                    <label style=" float: left; margin-left: 4px;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2'">Number up</label>
+                                    <label style=" float: left; margin-left: 4px;" class="control-label text-right tooltip-float" data-bind="visible: printingTypeUi() !== '2', text: printViewLayout() == 0 ? 'Number up (P)' : 'Number up (L)' "></label>
                                     <!-- ko if: printingTypeUi() === '2' -->
                                     &nbsp;
                                     <!-- /ko -->

@@ -840,7 +840,7 @@
             CompanyId = ko.observable(source.CompanyId),
             SystemSiteId = ko.observable(source.SystemSiteId),
             VariableString = ko.computed(function () {
-                return "{clickchargezone, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
+                return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
                 
             }, this),
             QuestionVariableMCQsAnswer = ko.observableArray([])
@@ -1222,8 +1222,8 @@
     var StockItemVariable = function (item) {
         var self
         if (item != null && item != undefined) {
-            Id = ko.observable(item.id()),
-            StockName = ko.observable(item.name())
+            Id = ko.observable(item.id),
+            StockName = ko.observable(item.name)
         } else {
             Id = ko.observable(),
             StockName = ko.observable()

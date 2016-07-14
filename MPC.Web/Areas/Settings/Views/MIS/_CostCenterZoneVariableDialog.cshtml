@@ -1,0 +1,74 @@
+﻿<div class="modal fade my-modal" id="variableSelectDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Click Charge Zone Variable</h4>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right" style="padding-right:0 !important;">
+                                <label for="rdioVariableInputQtyZone">
+                                    A run-time variable
+                                </label>
+                            </div>
+                            <div class="col-lg-1 text-right radio" style="padding-left:0;">
+                                <input type="radio" name="optionsinputQtyZone" id="rdioVariableInputQtyZone" value="1" style="margin:0" data-bind="checked: $root.isZoneVariableType">
+                                <label for="rdioVariableInputQtyZone">
+                                    &nbsp;
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value: $root.selectedZoneVariableId, visible: $root.isZoneVariableType() === '1'"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 text-right" style="padding-right:0;">
+                                <label for="rdioPromptInputQtyZone" style="margin-top: 9px;">
+                                    Prompting a Question
+                                </label>
+                            </div>
+                            <div class="col-lg-1 text-right radio">
+                                <input type="radio" name="optionsinputQtyZone" id="rdioPromptInputQtyZone" value="2" style="margin:0" data-bind="checked: $root.isZoneVariableType">
+                                <label for="rdioPromptInputQtyZone">
+                                    &nbsp;
+                                </label>
+                            </div>
+                            <div class="col-lg-7" style="padding-left:0">
+                                <input type="text" class="form-control" id="txtInputPromptZone" placeholder="Type the question you want to ask the Estimator." data-bind="value: $root.selectedZonePromptQuestion, visible: $root.isZoneVariableType() === '2'">
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click: $root.selectClickChargeZoneVariable">Select</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Role Rights Template Template *@
+<script id="roleRightsTemplate" type="text/html">
+    <li class="dd-item dd-item-list" data-bind="attr: { id: 'liElement-' + RightId }">
+        <div class="dd-handle-list"><i class="fa fa-chevron-circle-right cursorShape"></i></div>
+        <div class="dd-handle">
+            <div>
+                <span data-bind="text: RightName">
+                </span>
+                <input type="checkbox" class="bigcheckbox" style="float:right" data-bind="checked: IsSelected, event: { change: $root.checkeChanged }" />
+            </div>
+        </div>
+    </li>
+</script>
+
+
+@* Wizard Popup ends here*@
