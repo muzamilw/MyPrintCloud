@@ -3071,7 +3071,19 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         string remotebgUrl = RemoteUrlBasePath + "products/"+oTemplate.ProductId.ToString()+"/templatImgBk" + pagecounter.ToString()+".jpg";
                         string destinationbgUrl = BasePath + "Templates/" + newProductID.ToString() + "/templatImgBk" + pagecounter.ToString() +".jpg";
-                        DesignerUtils.DownloadFile(remotebgUrl, destinationbgUrl);
+
+                        //since this file might not be present so continue without handling the error.
+                        try
+                        {
+
+                            DesignerUtils.DownloadFile(remotebgUrl, destinationbgUrl);
+
+                        }
+                        catch (Exception)
+                        {
+
+                         // do nothing
+                        }
 
                     }
                 }
