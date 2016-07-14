@@ -2363,6 +2363,7 @@
     <Content Include="Areas\Settings\Views\MIS\SystemUsers.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_SystemUserDialog.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_ClickChargeZoneDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_CostCenterZoneVariableDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
