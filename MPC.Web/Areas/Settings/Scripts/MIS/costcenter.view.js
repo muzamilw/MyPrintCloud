@@ -95,6 +95,13 @@
                 hideClickChargeZoneDialog = function () {
                     $("#clickChargeZoneDialog").modal("hide");
                 },
+                
+                showVariableSelectDialog = function () {
+                    $("#variableSelectDialog").modal("show");
+                },
+                hideVariableSelectDialog = function () {
+                    $("#variableSelectDialog").modal("hide");
+                },
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -122,7 +129,9 @@
                 gotoElement: gotoElement,
                // showAddEditClickChargeZoneMenu: showAddEditClickChargeZoneMenu,
                 showClickChargeZoneDialog: showClickChargeZoneDialog,
-                hideClickChargeZoneDialog: hideClickChargeZoneDialog
+                hideClickChargeZoneDialog: hideClickChargeZoneDialog,
+                showVariableSelectDialog: showVariableSelectDialog,
+                hideVariableSelectDialog: hideVariableSelectDialog
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

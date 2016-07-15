@@ -102,7 +102,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 28, Text: 'SMART_POST' },
             { Id: 29, Text: 'STANDARD_OVERNIGHT' }
             ]),
-
+            isZoneVariableType = ko.observable(),
+            selectedZoneVariableId = ko.observable(),
+            selectedZonePromptQuestion = ko.observable(),
             getQuestionsVariableTreeChildItems = function (Selecteddata) {
                 if (questionVariableNodes().length > 0) {
                     if (showQuestionVariableChildList() == 1) {
@@ -1547,7 +1549,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                          break;
                  }
              },
-
+            selectClickChargeZoneVariable = function() {
+                
+            },
             // #region Observables
             // Initialize the view model
            initialize = function (specifiedView) {
@@ -1669,7 +1673,11 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 onChangeToValue: onChangeToValue,
                 addClickChargeZone: addClickChargeZone,
                 onDeleteClickChargeZone: onDeleteClickChargeZone,
-                editZoneByContextMenu: editZoneByContextMenu
+                editZoneByContextMenu: editZoneByContextMenu,
+                isZoneVariableType: isZoneVariableType,
+                selectedZoneVariableId: selectedZoneVariableId,
+                selectedZonePromptQuestion : selectedZonePromptQuestion,
+                selectClickChargeZoneVariable: selectClickChargeZoneVariable
 
         };
         })()
