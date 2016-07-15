@@ -103,8 +103,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 29, Text: 'STANDARD_OVERNIGHT' }
             ]),
             isZoneVariableType = ko.observable(),
+            selectedZoneId = ko.observable(),
+            selectedZoneName = ko.observable(),
             selectedZoneVariableId = ko.observable(),
-            selectedZonePromptQuestion = ko.observable(),
+            selectedZonePromptQuestion = ko.observable(""),
             getQuestionsVariableTreeChildItems = function (Selecteddata) {
                 if (questionVariableNodes().length > 0) {
                     if (showQuestionVariableChildList() == 1) {
@@ -609,11 +611,19 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             // Returns the item being dragged source.$data.VariableString
             draggedVariableString = function (source, event) {
                 if (event != undefined) {
-                    return {
-                        row: source.$parent,
-                        widget: source.$data,
-                        html: source.$data.VariableString().replace(/&quot;/g, '"')
-                    };
+                    if (source.$data.VariableString().indexOf("clickchargezone") > -1) {
+                        isZoneVariableType("1");
+                        selectedZoneId(source.$data.Id());
+                        selectedZoneName(source.$data.ZoneName());
+                        view.showVariableSelectDialog();
+                    } else {
+                        return {
+                            row: source.$parent,
+                            widget: source.$data,
+                            html: source.$data.VariableString().replace(/&quot;/g, '"')
+                        };
+                    }
+                    
                 }
                 return {};
             },
@@ -628,6 +638,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 return {};
             },
             dropped = function (source, target, event) {
+                if (source.html == undefined) {
+                    return;
+                }
                 var vstring = source.html;
                 var currentText;
                 if (event.target.disabled == false) {
@@ -1365,7 +1378,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                             showZoneVariableChildList(1);
                             $("#idZonesVariable").addClass("fa-chevron-circle-down");
                             $("#idZonesVariable").removeClass("fa-chevron-circle-right");
-                            view.showAddEditClickChargeZoneMenu();
+                            //view.showAddEditClickChargeZoneMenu();
 
                         },
                         error: function () {
@@ -1549,8 +1562,19 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                          break;
                  }
              },
-            selectClickChargeZoneVariable = function() {
-                
+            selectClickChargeZoneVariable = function () {
+                var question = isZoneVariableType() === "1" ? selectedZoneName() : selectedZonePromptQuestion();
+                var varVal = isZoneVariableType() === "1" ? selectedZoneVariableId() : 1;
+                var vstring = "{cinput, ID=\"" + selectedZoneId() + "\",question=\"" + question + "\",type=\"1\",InputType=\"" + isZoneVariableType() + "\",value=\"" + varVal + "\"}";
+                var currentText = selectedCostCenter().strPriceLabourUnParsed();
+                if (selectedCostCenter().isEditLabourQuote()) {
+                    currentText += vstring;
+                    selectedCostCenter().strPriceLabourUnParsed(currentText);
+                    selectedZoneId(undefined);
+                    selectedZoneName(undefined);
+                    selectedZoneVariableId(undefined);
+                }
+                view.hideVariableSelectDialog();
             },
             // #region Observables
             // Initialize the view model

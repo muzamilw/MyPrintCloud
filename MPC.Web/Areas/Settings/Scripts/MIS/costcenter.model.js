@@ -1306,7 +1306,7 @@
             SheetCost1 = ko.observable(source.SheetCost1),
             SheetPrice1 = ko.observable(source.SheetPrice1),
             From2 = ko.observable(source.From2),
-            To2 = ko.observable(source.To2).extend({number:true}),
+            To2 = ko.observable(source.To2).extend({ number: true }),
             Sheets2 = ko.observable(source.Sheets2),
             SheetCost2 = ko.observable(source.SheetCost2),
             SheetPrice2 = ko.observable(source.SheetPrice2),
@@ -1379,9 +1379,9 @@
             IsRoundUp = ko.observable(source.IsRoundUp),
             TimePerHour = ko.observable(source.TimePerHour),
             ZoneName = ko.observable(source.ZoneName).extend({ required: true, message: 'Zone title is requird' }),
-            VariableString = ko.computed(function () {
+            VariableString = ko.computed(function() {
                 return "{clickchargezone, ID=&quot;" + Id() + "&quot;,caption=&quot;" + ZoneName() + "&quot;}";
-                
+
             }, this)
         } else {
             Id = ko.observable(),

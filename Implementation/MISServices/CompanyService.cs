@@ -2694,28 +2694,29 @@ namespace MPC.Implementation.MISServices
 
             #region Delete SmartForm Detail
             //missing Items
-            //Commented smartform detail deletion code on 30/10/2015 on Instructions of Muzzamil sb.
-            //List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
-            //if (smartFormDbVersion.SmartFormDetails != null)
-            //{
-            //    foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
-            //    {
-            //        if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
-            //        {
-            //            missingSmartFormDetails.Add(smartFormDetailDbItem);
-            //        }
-            //        else if (smartForm.SmartFormDetails == null)
-            //        {
-            //            missingSmartFormDetails.Add(smartFormDetailDbItem);
-            //        }
-            //    }
+            //Commented smartform detail deletion code on 30/10/2015 on Instructions of Muzzamil sb. 
+            //UnCommented on 20160615
+            List<SmartFormDetail> missingSmartFormDetails = new List<SmartFormDetail>();
+            if (smartFormDbVersion.SmartFormDetails != null)
+            {
+                foreach (var smartFormDetailDbItem in smartFormDbVersion.SmartFormDetails)
+                {
+                    if (smartForm.SmartFormDetails != null && smartForm.SmartFormDetails.All(c => c.SmartFormDetailId != smartFormDetailDbItem.SmartFormDetailId))
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                    else if (smartForm.SmartFormDetails == null)
+                    {
+                        missingSmartFormDetails.Add(smartFormDetailDbItem);
+                    }
+                }
 
-            //    foreach (var missingItem in missingSmartFormDetails)
-            //    {
-            //        smartFormDbVersion.SmartFormDetails.Remove(missingItem);
-            //        smartFormDetailRepository.Delete(missingItem);
-            //    }
-            //}
+                foreach (var missingItem in missingSmartFormDetails)
+                {
+                    smartFormDbVersion.SmartFormDetails.Remove(missingItem);
+                    smartFormDetailRepository.Delete(missingItem);
+                }
+            }
 
             #endregion
 
