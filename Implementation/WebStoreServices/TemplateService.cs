@@ -1969,13 +1969,13 @@ namespace MPC.Implementation.WebStoreServices
                         if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
                         {
                             BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
                         }
-                        if (bleedareaSize != 0)
-                        {
+                        //if (bleedareaSize != 0)
+                        //{
 
-                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
-                        }
+                        //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + (bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - (bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - (bleedareaSize)).ToString());
+                        //}
                     }
                     //crop marks or margins
                     if (objProduct.CuttingMargin != null && objProduct.CuttingMargin != 0 )
