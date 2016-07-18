@@ -8201,7 +8201,7 @@ namespace MPC.Implementation.MISServices
                     //CostCentreQueue
                     _CostCentreParamsArray[4] = 1;
 
-                    // _CostCentreParamsArray[5] = 1;
+                    _CostCentreParamsArray[5] = 1;
                     //MultipleQuantities
 
 

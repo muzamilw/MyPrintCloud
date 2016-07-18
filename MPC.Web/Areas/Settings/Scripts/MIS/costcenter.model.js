@@ -1464,7 +1464,11 @@
             isaccumulativecharge = ko.observable(),
             IsRoundUp = ko.observable(),
             TimePerHour = ko.observable(),
-            ZoneName = ko.observable('Default Zone').extend({ required: true, message: 'Zone title is requird' })
+            ZoneName = ko.observable('Default Zone').extend({ required: true, message: 'Zone title is requird' }),
+            VariableString = ko.computed(function () {
+                return "{clickchargezone,caption=&quot;" + ZoneName() + "&quot;}";
+
+            }, this)
         }
 
         errors = ko.validation.group({
