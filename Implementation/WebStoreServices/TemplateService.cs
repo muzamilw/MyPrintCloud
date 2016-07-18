@@ -1635,7 +1635,7 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
 
-                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+                        doc.SetInfo(doc.Page, "/BleedBox:Rect", doc.MediaBox.Left.ToString() + " " + doc.MediaBox.Top.ToString() + " " + doc.MediaBox.Width.ToString() + " " + doc.MediaBox.Height.ToString());
                     }
                     
                     int FontID = 0;
@@ -1969,7 +1969,7 @@ namespace MPC.Implementation.WebStoreServices
                         if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
                         {
                             BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                            doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());
+                            doc.SetInfo(doc.Page, "/BleedBox:Rect", doc.MediaBox.Left.ToString() + " " + doc.MediaBox.Top.ToString() + " " + doc.MediaBox.Width.ToString() + " " + doc.MediaBox.Height.ToString());
                         }
                         //if (bleedareaSize != 0)
                         //{
