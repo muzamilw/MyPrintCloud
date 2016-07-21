@@ -454,7 +454,7 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
-                    // Define request to delete Store
+                    // Define request to delete Store spot color
                     amplify.request.define('archiveSpotColor', 'ajax', {
                         url: ist.siteUrl + '/Api/SpotColor',
                         dataType: 'json',
@@ -473,6 +473,13 @@
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
+                    });
+                    // Define request to delete Store Template Font
+                    amplify.request.define('deleteTemplateFont', 'ajax', {
+                        url: ist.siteUrl + '/Api/TemplateFont',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Delete'
                     });
                     isInitialized = true;
                 }
@@ -1172,6 +1179,16 @@
                     data: param
                 });
             },
+            
+            deleteTemplateFont = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteTemplateFont',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
 
         // save Store saveCustomWidget
         saveStore = function (param, callbacks) {
@@ -1253,7 +1270,8 @@
             saveCustomWidget: saveCustomWidget,
             deleteCustomWidget: deleteCustomWidget,
             getTemplateFonts : getTemplateFonts,
-            saveTemplateFont: saveTemplateFont
+            saveTemplateFont: saveTemplateFont,
+            deleteTemplateFont: deleteTemplateFont
         };
     })();
 

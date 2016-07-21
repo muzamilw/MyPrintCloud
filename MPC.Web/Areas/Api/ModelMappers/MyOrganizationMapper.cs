@@ -97,6 +97,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 XeroConsumerSecret = source.XeroConsumerSecret,
                 IsXeroActive = source.IsXeroActive,
                 IsAutoCreatePurchaseOrder = source.IsAutoCreatePurchaseOrder,
+                IsAutoPushPurchaseOrder = source.IsAutoPushPurchaseOrder,
                Image = bytes,
                LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : new List<LanguageEditor>(),
            };
@@ -157,6 +158,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 XeroConsumerSecret = source.XeroConsumerSecret,
                 IsXeroActive =  source.IsXeroActive,
                 IsAutoCreatePurchaseOrder = source.IsAutoCreatePurchaseOrder,
+                IsAutoPushPurchaseOrder = source.IsAutoPushPurchaseOrder,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
                 LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : null,

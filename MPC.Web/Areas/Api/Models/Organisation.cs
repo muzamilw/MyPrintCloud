@@ -286,6 +286,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string XeroConsumerSecret { get; set; }
         public bool? IsXeroActive { get; set; }
         public bool? IsAutoCreatePurchaseOrder { get; set; }
+        public bool? IsAutoPushPurchaseOrder { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>

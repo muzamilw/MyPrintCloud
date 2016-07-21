@@ -10644,3 +10644,6 @@ END
 alter table MachineClickChargeZone add IsCostCenterZone bit
 alter table MachineClickChargeZone add OrganisationId bigint
 alter table MachineClickChargeZone add ZoneName nvarchar(200)
+
+--------------Deployed on All Servers---------------
+alter table Organisation add IsAutoPushPurchaseOrder bit

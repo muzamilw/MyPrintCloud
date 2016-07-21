@@ -13,5 +13,6 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<TemplateFont> GetTemplateFontsByStore(long companyId);
         IEnumerable<TemplateFont> GetTemplateFontsByTerritory(long territoryId);
         TemplateFont SaveTemplateFont(TemplateFont templateFont);
+        bool DeleteTemplateFont(long fontId);
     }
 }

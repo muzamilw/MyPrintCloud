@@ -194,7 +194,6 @@ namespace MPC.Repository.Repositories
                         }
 
                         string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
-
                         using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
                         {
                             writer.WriteLine("Message : EmailbodyMesg notificationEmails" + "<br/>" + Environment.NewLine + "StackTrace :" + notificationEmails +
@@ -1049,7 +1048,7 @@ namespace MPC.Repository.Repositories
                 string ToName = oEmailBody.ToName;
                 string MailTo = oEmailBody.To;
                 string CC = oEmailBody.Cc;
-
+                long maxAttachmentSize = 0;//15728640 = 15MB 
 
                 Attachment data = null;
                 if (oEmailBody.FileAttachment != null)
@@ -1074,6 +1073,12 @@ namespace MPC.Repository.Repositories
                             string FilePath = context.Server.MapPath(temp);
                             if (File.Exists(FilePath))
                             {
+                               FileInfo fi = new FileInfo(FilePath);
+                               maxAttachmentSize += fi.Length;
+                               if (maxAttachmentSize > 15728640) //15728640 = 15MB if attachment size is more than 15MB then skip this attachment.
+                                {
+                                    continue;
+                                }
                                 data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
                                 ContentDisposition disposition = data.ContentDisposition;
                                 disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
@@ -1081,6 +1086,7 @@ namespace MPC.Repository.Repositories
                                 disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
                                 disposition.FileName = fname;
                                 objMail.Attachments.Add(data);
+                                
                             }
                             else
                             {

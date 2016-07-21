@@ -885,7 +885,7 @@ namespace MPC.Implementation.WebStoreServices
 							        }
                                     else if (QuestionITEM.ItemInputType == 2) 
                                     {
-                                        return obj.CalculateLookup(Convert.ToInt32(QuestionITEM.ID), QuestionITEM.Qty1Answer, (ClickChargeReturnType)QuestionITEM.ItemType);
+                                        return obj.CalculateLookup(Convert.ToInt32(QuestionITEM.ID), QuestionITEM.Qty1Answer, (ClickChargeReturnType)QuestionITEM.ItemType, connectionString);
 							        }
 
 							        break;

@@ -1379,6 +1379,7 @@ define("stores/stores.viewModel",
                                 territoryFont.territoryId(selectedCompanyTerritory().territoryId());
                                 territoryFont.customerId(selectedStore().companyId());
                                 territoryFont.productFontId(counter);
+                                territoryFont.isEnable(false);
                                 selectedStore().territoryTemplateFonts.push(territoryFont);
                                 counter--;
                             });
@@ -1598,6 +1599,38 @@ define("stores/stores.viewModel",
                         isTerritoryFont(true);
                         companyTemplateFontViewModel.selectItem(templateFont);
                         view.showCompanyTemplateFontDialog();
+                    },
+                    onDeleteTemplateFont = function (font) {
+                        confirmation.messageText("WARNING - Are you sure you want to delete this font?");
+                        confirmation.afterProceed(function () {
+                            var currentFont = font != undefined ? font : (selectedCompanyTemplateFont() != undefined ? selectedCompanyTemplateFont() : undefined);
+                            if (currentFont != undefined) {
+                                dataservice.deleteTemplateFont(currentFont.convertToServerData(), {
+                                    success: function (data) {
+                                        if (data == true) {
+                                            if (!isTerritoryFont()) {
+                                                var delFont = selectedStore().companyTemplateFonts.find(function (font) {
+                                                    return font.productFontId() === currentFont.productFontId();
+                                                });
+                                                selectedStore().companyTemplateFonts.remove(delFont);
+                                            } else {
+                                                var terDelFont = selectedStore().territoryTemplateFonts.find(function (font) {
+                                                    return font.productFontId() === currentFont.productFontId();
+                                                });
+                                                selectedStore().territoryTemplateFonts.remove(terDelFont);
+                                            }
+                                            
+                                        }
+                                        view.hideCompanyTemplateFontDialog();
+                                    },
+                                    error: function (response) {
+                                        toastr.error("Error: Failed to save template font " + response, "", ist.toastrOptions);
+                                    }
+                                });
+                                
+                            }
+                        });
+                        confirmation.show();
                     },
                     // Get Company CMYK Colors By Id
                     getCompanyCMYKColorsByIdFromListView = function(id) {
@@ -8635,7 +8668,8 @@ define("stores/stores.viewModel",
                     onEditTerritoryTemplateFont: onEditTerritoryTemplateFont,
                     isMisEmail: isMisEmail,
                     onCloseCampaignEditor: onCloseCampaignEditor,
-                    openGlobalDesigner: openGlobalDesigner
+                    openGlobalDesigner: openGlobalDesigner,
+                    onDeleteTemplateFont: onDeleteTemplateFont
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

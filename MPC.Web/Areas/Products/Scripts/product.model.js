@@ -2405,6 +2405,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 }
             }),
+            
             cuttingMargin = ko.observable(specifiedCuttingMargin).extend({ number: true, min: 0.1, message: 'Value must be greater than zero'}),
             isAllowCustomSize = ko.observable(specifiedIsAllowCustomSize),
             // File Name
@@ -2472,8 +2473,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Can add Template Pages
             canAddTemplatePages = ko.computed(function () {
-                return isCreatedManual() || (specifiedIsCreatedManual !== false && isCreatedManual() === false && !fileSource());
+                // return isCreatedManual() || (specifiedIsCreatedManual !== false && isCreatedManual() === false && !fileSource());
+                return isCreatedManual() != undefined;
             }),
+            canChangePageTitle = ko.computed(function() {
+                return isCreatedManual() || (!fileSource() && !isCreatedManual());
+            }),
+            actualCreatedManual = ko.observable(specifiedIsCreatedManual),
             // Add Template Page
             addTemplatePage = function () {
                 templatePages.push(TemplatePage.Create({ ProductId: id(), Width: pdfTemplateWidth(), Height: pdfTemplateHeight() }));
@@ -2593,7 +2599,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             hasChanges: hasChanges,
             reset: reset,
             convertToServerData: convertToServerData,
-            cuttingMargin: cuttingMargin
+            cuttingMargin: cuttingMargin,
+            canChangePageTitle: canChangePageTitle,
+            actualCreatedManual: actualCreatedManual
         };
     },
 

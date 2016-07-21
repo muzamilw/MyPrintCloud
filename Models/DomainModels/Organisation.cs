@@ -258,6 +258,7 @@ namespace MPC.Models.DomainModels
         public string ProductionBoardLabel4 { get; set; }
         public string ProductionBoardLabel5 { get; set; }
         public string ProductionBoardLabel6 { get; set; }
+        public bool? IsAutoPushPurchaseOrder { get; set; }
         #endregion
         
         #region Reference Properties

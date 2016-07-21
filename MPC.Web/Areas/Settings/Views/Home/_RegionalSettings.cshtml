@@ -128,13 +128,28 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-4 text-right">
+                <div class="col-lg-4 text-right" style="padding-left: 0">
                     <label for="switchisAutoPo" class="control-label text-right tooltip-float">Auto Create Purchase Order</label>
                 </div>
                 <div class="col-lg-3">
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisAutoPo" data-bind="checked:$root.selectedMyOrganization().isAutoCreatePurchaseOrder">
                         <label class="onoffswitch-label" for="switchisAutoPo">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <label for="switchisAutoPushPo" class="control-label text-right tooltip-float">Auto Push Purchase Order to Supplier</label>
+                </div>
+                <div class="col-lg-3">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchisAutoPushPo" data-bind="checked:$root.selectedMyOrganization().isAutoPushPurchaseOrder">
+                        <label class="onoffswitch-label" for="switchisAutoPushPo">
                             <div class="onoffswitch-inner"></div>
                             <div class="onoffswitch-switch"></div>
                         </label>

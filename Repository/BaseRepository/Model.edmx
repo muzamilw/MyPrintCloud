@@ -2870,6 +2870,7 @@
           <Property Name="ProductionBoardLabel4" Type="varchar" MaxLength="255" />
           <Property Name="ProductionBoardLabel5" Type="varchar" MaxLength="255" />
           <Property Name="ProductionBoardLabel6" Type="varchar" MaxLength="255" />
+          <Property Name="IsAutoPushPurchaseOrder" Type="bit" />
         </EntityType>
         <EntityType Name="PageCategory">
           <Key>
@@ -9284,6 +9285,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductionBoardLabel4" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ProductionBoardLabel5" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ProductionBoardLabel6" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsAutoPushPurchaseOrder" Type="Boolean" />
         </EntityType>
         <EntityType Name="PaperSize">
           <Key>
@@ -16689,6 +16691,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Organisations">
             <EntityTypeMapping TypeName="DomainModels.Organisation">
               <MappingFragment StoreEntitySet="Organisation">
+                <ScalarProperty Name="IsAutoPushPurchaseOrder" ColumnName="IsAutoPushPurchaseOrder" />
                 <ScalarProperty Name="ProductionBoardLabel6" ColumnName="ProductionBoardLabel6" />
                 <ScalarProperty Name="ProductionBoardLabel5" ColumnName="ProductionBoardLabel5" />
                 <ScalarProperty Name="ProductionBoardLabel4" ColumnName="ProductionBoardLabel4" />

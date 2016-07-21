@@ -112,5 +112,41 @@ namespace MPC.Implementation.MISServices
             byte[] data = Convert.FromBase64String(base64);
             return data;
         }
+
+        public bool DeleteTemplateFont(long fontId)
+        {
+            try
+            {
+                TemplateFont dbFont = _templateFontsRepository.GetTemplateFontById(fontId);
+                string dirUrl = string.Empty;
+                if (dbFont != null)
+                {
+                    _templateFontsRepository.Delete(dbFont);
+                    
+                    dirUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + _templateFontsRepository.OrganisationId + "/WebFonts/" + dbFont.CustomerId);
+
+                    string filePath = dirUrl + "\\" + dbFont.FontFile + ".eot"; //delete eot file
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                    filePath = dirUrl + "\\" + dbFont.FontFile + ".ttf"; //delete ttf file
+                    if(File.Exists(filePath))
+                        File.Delete(filePath);
+                    filePath = dirUrl + "\\" + dbFont.FontFile + ".woff"; //delete woff file
+                    if(File.Exists(filePath))
+                        File.Delete(filePath);
+                    _templateFontsRepository.SaveChanges();
+                }
+
+            }
+            catch (Exception)
+            {
+                throw new MPCException("Failed to delete template font", _templateFontsRepository.OrganisationId);
+            }
+            
+
+            return true;
+        }
     }
 }

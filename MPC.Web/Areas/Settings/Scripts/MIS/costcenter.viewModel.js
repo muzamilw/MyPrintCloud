@@ -1565,7 +1565,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             selectClickChargeZoneVariable = function () {
                 var question = isZoneVariableType() === "1" ? selectedZoneName() : selectedZonePromptQuestion();
                 var varVal = isZoneVariableType() === "1" ? selectedZoneVariableId() : 1;
-                var vstring = "{cinput, ID=\"" + selectedZoneId() + "\",question=\"" + question + "\",type=\"1\",InputType=\"" + isZoneVariableType() + "\",value=\"" + varVal + "\"}";
+                var vstring = "{cinput, ID=\"" + selectedZoneId() + "\",question=\"" + question + "\",type=\"2\",InputType=\"" + isZoneVariableType() + "\",value=\"" + varVal + "\"}";
                 var currentText = selectedCostCenter().strPriceLabourUnParsed();
                 if (selectedCostCenter().isEditLabourQuote()) {
                     currentText += vstring;
