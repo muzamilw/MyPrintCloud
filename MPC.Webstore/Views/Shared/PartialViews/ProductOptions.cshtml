@@ -130,46 +130,46 @@
                             <div class="width365pxM250p">
                                 @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                                 {
-                                        <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-isautoexec="@costcenter.IsAutoExec" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
-                                            <div class="float_left_simple spacerbottom CcImageContainer">
-                                                <img class="RfgImgCs" src="/@costcenter.AddOnImage" />
-                                            </div>
-                                            <div class="extra_item float_left_simple">
+                                    <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-isautoexec="@costcenter.IsAutoExec" data-stockid="@costcenter.ItemStockOptionId" style="display:none; margin:10px;">
+                                        <div class="float_left_simple spacerbottom CcImageContainer">
+                                            <img class="RfgImgCs" src="/@costcenter.AddOnImage" />
+                                        </div>
+                                        <div class="extra_item float_left_simple">
 
-                                                <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
+                                            <input id="@costcenter.ProductAddOnID" type="checkbox" name="addOnChecks" class="checkBoxAdOnPriceCheckBox backgroundIMg" />
 
-                                                <label class="margin5 colorBlack">@costcenter.AddOnName</label>
-                                                @{
-                                                    extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
+                                            <label class="margin5 colorBlack">@costcenter.AddOnName</label>
+                                            @{
+                                                extraPricingId = "extrapricing" + costcenter.ProductAddOnID;
+                                            }
+                                            <div id="@extraPricingId" class="extra_pricing float_right">
+                                                @if (ViewBag.IsShowPrices == true)
+                                                {
+                                                    <label id="lblAddOnPrice"> </label>
                                                 }
-                                                    <div id="@extraPricingId" class="extra_pricing float_right">
-                                                        @if (ViewBag.IsShowPrices == true)
-                                                        {
-                                                            <label id="lblAddOnPrice"> </label>
-                                                        }
-                                                        else
-                                                        {
-                                                            <label id="lblAddOnPrice" style="display:none;"> </label>
-                                                        }   
-                                                    </div>
-                                                
-                                                
-                                                <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
-                                                <div class="clearBoth">
-                                                    &nbsp;
-                                                </div>
+                                                else
+                                                {
+                                                    <label id="lblAddOnPrice" style="display:none;"> </label>
+                                                }   
                                             </div>
+                                                
+                                                
+                                            <label class="checkBoxAdOnDesc marginLeft">@costcenter.WebStoreDesc</label>
                                             <div class="clearBoth">
                                                 &nbsp;
                                             </div>
-                                            <div class="BorderLG_LP">
-                                                &nbsp;
-                                            </div>
-
+                                        </div>
+                                        <div class="clearBoth">
+                                            &nbsp;
+                                        </div>
+                                        <div class="BorderLG_LP">
+                                            &nbsp;
                                         </div>
 
+                                    </div>
+
                                 }
-                        </div>
+                            </div>
                         }
                     </div>
                     <div class="clearBoth">
@@ -178,19 +178,23 @@
                 </div>
 
             </div>
-            <div class="float_left_simple UploadContainerCs LGBC rounded_corners">
-                <div class="SelectQtyContainer textAlignLeft">@Html.Raw(Html.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description"))</div>
-                <div style="background: white; padding: 10px; text-align: left;" class="rounded_corners">
-                    <div class="boxCatDes">
-                        <label id="lbl_CategroyCode" class="marginall5"></label>
-                        <p class="marginall5">
-                            <label style="font-weight:normal;width:100%;">@Html.Raw(ViewBag.ItemModel.WebDescription)</label>
-                        </p>
-                    </div>
-                    <div class=" clear">
+            @if (!string.IsNullOrEmpty(ViewBag.ItemModel.WebDescription))
+            {
+                <div class="float_left_simple UploadContainerCs LGBC rounded_corners">
+                    <div class="SelectQtyContainer textAlignLeft">@Html.Raw(Html.GetKeyValueFromResourceFile("btnProductDetails", UserCookieManager.WBStoreId, "Description"))</div>
+                    <div style="background: white; padding: 10px; text-align: left;" class="rounded_corners">
+                        <div class="boxCatDes">
+                            <label id="lbl_CategroyCode" class="marginall5"></label>
+                            <p class="marginall5">
+                                <label style="font-weight:normal;width:100%;">@Html.Raw(ViewBag.ItemModel.WebDescription)</label>
+                            </p>
+                        </div>
+                        <div class=" clear">
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+            
             @if (ViewBag.ShowUploadArkworkPanel == true)
             {
                 <div class="signin_heading_div float_left_simple UploadContainerCs LGBC rounded_corners upload-panel-margin">

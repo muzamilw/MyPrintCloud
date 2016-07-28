@@ -1,6 +1,7 @@
 ﻿using FaceSharp.Api.Extensions;
 using GrapeCity.ActiveReports;
 using GrapeCity.ActiveReports.Export.Pdf.Section;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -137,7 +138,7 @@ namespace MPC.Implementation.MISServices
                 if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
                 {
 
-                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID);
+                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID, OrganisationID);
 
                     if (currentReport == null)
                     {
@@ -192,7 +193,7 @@ namespace MPC.Implementation.MISServices
                     else if (type == ReportType.PurchaseOrders)
                     {
                         sFileName = iRecordID + "PurchaseReport.pdf";
-                        List<usp_PurchaseOrderReport_Result> rptInvoiceSource = ReportRepository.GetPOReport(iRecordID);
+                        List<usp_PurchaseOrderReport_Result> rptInvoiceSource = ReportRepository.GetPOReport(iRecordID, OrganisationID);
                         currReport.DataSource = rptInvoiceSource;
                     }
                     else if (type == ReportType.DeliveryNotes)
@@ -236,7 +237,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception e)
             {
-                throw e;
+                throw new MPCException("Unable to generate report. " + e.Message, OrganisationID);
             }
             if (isFromExternal)
                 return sFilePath;

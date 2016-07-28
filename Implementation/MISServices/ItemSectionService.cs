@@ -8033,24 +8033,28 @@ namespace MPC.Implementation.MISServices
                     };
                 }
                 ItemSection newSection = new ItemSection();
-                newSection.UpdateTo(section);
+                section.UpdateTo(newSection);
+               // newSection.UpdateTo(section);
 
                 foreach (var cc in additionalCostCenterList)
                 {
                     if (Convert.ToInt32(section.Qty1) > 0)
                     {
+                        _CostCentreParamsArray[5] = 1;
                         double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty1), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
                         cc.Qty1Charge = dblResult;
                         cc.Qty1NetTotal = dblResult;
                     }
                     if (Convert.ToInt32(section.Qty2) > 0)
                     {
+                        _CostCentreParamsArray[5] = 2;
                         double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty2), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
                         cc.Qty2Charge = dblResult;
                         cc.Qty2NetTotal = dblResult;
                     }
                     if (Convert.ToInt32(section.Qty3) > 0)
                     {
+                        _CostCentreParamsArray[5] = 3;
                         double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty3), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
                         cc.Qty3Charge = dblResult;
                         cc.Qty3NetTotal = dblResult;
@@ -8201,7 +8205,7 @@ namespace MPC.Implementation.MISServices
                     //CostCentreQueue
                     _CostCentreParamsArray[4] = 1;
 
-                    _CostCentreParamsArray[5] = 1;
+                    //_CostCentreParamsArray[5] = 1;
                     //MultipleQuantities
 
 

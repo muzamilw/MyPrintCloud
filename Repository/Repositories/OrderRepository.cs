@@ -1495,7 +1495,20 @@ namespace MPC.Repository.Repositories
                 if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value == true)
                 {
                     if (orderStatus != OrderStatus.ShoppingCart)
-                        item.StatusId = (short)itemStatus;
+                    {
+                        //Code by Naveed to set Items Status to Need Assigning in case of Auto Push PO, condition added
+                        if (org.IsAutoPushPurchaseOrder == true)
+                        {
+
+                            UpdateItemForJob(item, org.OrganisationId, MgrIds[0]);
+                        }
+                        else
+                        {
+                            item.StatusId = (short)itemStatus;
+                        }
+                        
+                    }
+                        
 
                     db.Configuration.LazyLoadingEnabled = false;
                     Item ActualItem = db.Items.Where(i => i.ItemId == item.RefItemId).FirstOrDefault();
@@ -1531,6 +1544,22 @@ namespace MPC.Repository.Repositories
 
         }
 
+        private void UpdateItemForJob(Item item, long organisationId, Guid managerId)
+        {
+            Prefix prefix = db.Prefixes.FirstOrDefault(c => c.OrganisationId == organisationId);
+            if (prefix != null)
+            {
+                item.JobCode = prefix.JobPrefix + "" + prefix.JobNext;
+                prefix.JobNext = prefix.JobNext + 1;
+            }
+            DateTime currDate = DateTime.Now;
+            item.JobEstimatedStartDateTime = currDate.AddDays(1);
+            item.JobEstimatedCompletionDateTime = currDate.AddDays(2);
+            item.StatusId = (short) ItemStatuses.NeedAssigning;
+            item.JobStatusId = (short)ItemStatuses.NeedAssigning;
+            item.JobManagerId = managerId;
+            item.JobProgressedBy = managerId;
+        }
 
         public static void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
         {
@@ -2028,7 +2057,17 @@ namespace MPC.Repository.Repositories
 
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
-            tblOrder.StatusId = (short)orderStatus;
+            //Code by Naveed for auto push Purchase order 20160721
+            if (Org.IsAutoPushPurchaseOrder == true)
+                tblOrder.StatusId = (short) OrderStatus.InProduction;
+            else
+            {
+                tblOrder.StatusId = (short)orderStatus;
+            }
+
+            //--------------
+
+            
             tblOrder.Order_Date = DateTime.Now;
             tblOrder.ArtworkByDate = DateTime.Now.AddDays(2);
             tblOrder.DataByDate = DateTime.Now.AddDays(2);
@@ -7395,6 +7434,21 @@ namespace MPC.Repository.Repositories
             }
             return false;
         }
+        public Estimate GetOrderByIdWithCompany(long orderId)
+        {
+
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Estimates.Include(c => c.Company).FirstOrDefault(order => order.EstimateId == orderId && order.isEstimate == false);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
     }
 }
 

@@ -253,6 +253,10 @@ namespace MPC.Webstore.Controllers
                         try
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
+                            if (result && baseResponse.Organisation.IsAutoPushPurchaseOrder == true)
+                            {
+                                PushAutoPurchaseOrder(OrderId, baseResponse.Organisation.OrganisationId, StockManagerIds[0]);
+                            }
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
                             UserCookieManager.WEBOrderId = 0;
 
@@ -399,6 +403,10 @@ namespace MPC.Webstore.Controllers
                         try
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Corp, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
+                            if (result && baseResponse.Organisation.IsAutoPushPurchaseOrder == true)
+                            {
+                                PushAutoPurchaseOrder(OrderId, baseResponse.Organisation.OrganisationId, StockManagerIds[0]);
+                            }
                             UserCookieManager.WEBOrderId = 0;
                             
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
@@ -441,7 +449,10 @@ namespace MPC.Webstore.Controllers
                         try
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
-                            
+                            if (result && baseResponse.Organisation.IsAutoPushPurchaseOrder == true)
+                            {
+                                PushAutoPurchaseOrder(OrderId, baseResponse.Organisation.OrganisationId, StockManagerIds[0]);
+                            }
                             UserCookieManager.WEBOrderId = 0;
                             
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
@@ -607,6 +618,31 @@ namespace MPC.Webstore.Controllers
             {
                 return null;
             }
+        }
+
+        private void PushAutoPurchaseOrder(long orderId, long organisationId, Guid managerId)
+        {
+            var isPo = _OrderService.IsPoGenerated(orderId, managerId);
+            if (isPo)
+            {
+                var objCompany = _OrderService.GetOrderByIdWithCompany(orderId);
+                _MISOrderService.ExportPoPdfForWebStore(orderId, objCompany.CompanyId, 0, organisationId);
+                //var purchaseList = _OrderService.GetPurchasesListByOrderId(orderId);
+                //if (purchaseList != null && purchaseList.Count > 0)
+                //{
+                //    
+                //    foreach (var purchase in purchaseList)
+                //    {
+                //        string fileName = string.Empty;
+                //        fileName = 
+                //        _OrderService.PurchaseOrderEmail(orderId, objCompany.CompanyId, purchase.Value, objCompany,
+                //            purchase.Key, organisationId, fileName);
+
+                //    }
+                    
+                //}
+            }
+            
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MPC.Interfaces.Repository
         void UpdateReportNotes(List<ReportNote> reportNotes);
         List<ReportparamResponse> getParamsById(long Id);
 
-        List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId);
+        List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId, long organisationId = 0);
 
         ReportEmailResponseModel GetReportEmailBaseData(ReportEmailRequestModel request, string Path);
 
@@ -44,7 +44,7 @@ namespace MPC.Interfaces.Repository
 
         List<Reportparam> getReportParamsByReportId(long ReportId);
 
-        Report CheckCustomReportOfOrg(long reportId);
+        Report CheckCustomReportOfOrg(long reportId, long organisationId = 0);
 
         long CheckCustomReportForPOEmail();
 

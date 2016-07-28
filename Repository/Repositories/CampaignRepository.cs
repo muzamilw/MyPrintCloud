@@ -1286,7 +1286,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr, Company objCompany)
+        public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr, Company objCompany, long organisationId = 0)
         {
             Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
@@ -1295,10 +1295,11 @@ namespace MPC.Repository.Repositories
             {
                 AttachmentList.Add(item);
             }
+            long orgId = organisationId > 0 ? organisationId : this.OrganisationId;
 
             CompanyContact user = db.CompanyContacts.Where(c => c.ContactId == contactID).FirstOrDefault();
             //tbl_company_sites ServerSettings = CompanySiteManager.GetCompanySite();
-            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
+            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == orgId).FirstOrDefault();
             SystemUser SalesManager = null;
 
             db.Configuration.LazyLoadingEnabled = false;
@@ -1319,13 +1320,13 @@ namespace MPC.Repository.Repositories
             {
 
                 CampaignEmailParams CEP = new CampaignEmailParams();
-                Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, OrganisationId, companyID);
+                Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, orgId, companyID);
                 CEP.EstimateId = orderID;
                 CEP.CompanyId = companyID;
                 CEP.ContactId = contactID;
                 CEP.StoreId = companyID;
                 CEP.SalesManagerContactID = contactID;
-                CEP.OrganisationId = OrganisationId;
+                CEP.OrganisationId = orgId;
                 CEP.AddressId = companyID;
                 CEP.SystemUserId = SalesManager.SystemUserId;
                 CEP.Id = reportNotesID;
@@ -1344,7 +1345,7 @@ namespace MPC.Repository.Repositories
 
             }
         }
-        public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation)
+        public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation, long organisationId = 0)
         {
             Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
@@ -1354,11 +1355,11 @@ namespace MPC.Repository.Repositories
                 AttachmentList.Add(item);
             }
             //UsersManager usermgr = new UsersManager();
-
+            long orgId = organisationId > 0 ? organisationId : this.OrganisationId;
             // here is problem supplier user is null .. bcox in parameter we are sendin
             Campaign EventCampaign = new Campaign();
             CompanyContact supplieruser = db.CompanyContacts.Where(c => c.CompanyId == supplierContactID && c.IsDefaultContact == 1).FirstOrDefault();
-            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
+            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == orgId).FirstOrDefault();
 
             SystemUser SalesManager = null;
 
@@ -1382,11 +1383,11 @@ namespace MPC.Repository.Repositories
                     CampaignEmailParams CEP = new CampaignEmailParams();
                     if (isCancellation)
                     {
-                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), OrganisationId, companyID);
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), orgId, companyID);
                     }
                     else
                     {
-                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), OrganisationId, companyID);
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), orgId, companyID);
                     }
 
                     CEP.EstimateId = orderID;
@@ -1394,7 +1395,7 @@ namespace MPC.Repository.Repositories
                     CEP.ContactId = contactID;
                     CEP.StoreId = companyID;
                     CEP.SalesManagerContactID = contactID;
-                    CEP.OrganisationId = OrganisationId;
+                    CEP.OrganisationId = orgId;
                     CEP.AddressId = companyID;
                     CEP.Id = reportNotesID;
                     CEP.EstimateId = orderID;

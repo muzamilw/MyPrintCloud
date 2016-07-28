@@ -310,7 +310,7 @@ namespace MPC.Models.Common
     {
         Side1Inks = 1,
         Side2Inks = 2,
-        PrintSheetQty_ProRata = 3,
+        PrintSheetQty_ProRata = 33,
         PressSpeed_ProRata = 4,
         ColourHeads = 5,
         ImpressionQty_ProRata = 6,
@@ -340,7 +340,7 @@ namespace MPC.Models.Common
         FinishedItemQtyIncSpoilage_ProRata = 30,
         TotalSections = 31,
         PaperWeight_ProRata = 32,
-        PrintSheetQtyIncSpoilage_ProRata = 33,
+        PrintSheetQtyIncSpoilage_ProRata = 3,
         FinishedItemQty_ProRata = 34,
         NoOfSides = 35,
         PressSizeRatio = 36,

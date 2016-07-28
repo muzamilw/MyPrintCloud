@@ -2347,6 +2347,56 @@ namespace MPC.Implementation.MISServices
             return estimate;
         }
 
+
+        public void ExportPoPdfForWebStore(long orderId, long companyId, long contactId, long organisationId)
+        {
+            var listPurchases = purchaseRepository.GetPurchasesList(orderId);
+            if (listPurchases != null)
+            {
+                foreach (var purchase in listPurchases)
+                {
+                    string fileName = string.Empty;
+                    //long reportId = ReportRepository.CheckCustomReportForPOEmail();
+                    //if (reportId > 0)
+                    //    fileName = exportReportHelper.ExportPDF((int)reportId, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty);
+                    //else
+                        fileName = exportReportHelper.ExportPDF(100, purchase.Key, ReportType.PurchaseOrders, orderId, string.Empty, organisationId);
+
+                    
+                    Company objCompany = companyRepository.GetCompanyByCompanyID(companyId);
+                   
+                    string salesManagerFile = "/" + ImagePathConstants.ReportPath + organisationId + "/" + purchase.Key + "PurchaseReport.pdf";
+                    campaignRepository.POEmailToSalesManager(orderId, companyId, contactId, 250, purchase.Value, salesManagerFile, objCompany, organisationId);
+
+                    
+
+                    string sourceFile = fileName;
+                    string destinationFileSupplier = "/" + ImagePathConstants.ReportPath + organisationId + "/" + purchase.Value + "/" + purchase.Key + "_PurchaseOrder.pdf";
+
+                    string oDirectory = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/" + purchase.Value);
+
+                    string destinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath("~/" + destinationFileSupplier);
+
+                    if (!Directory.Exists(oDirectory))
+                    {
+                        Directory.CreateDirectory(oDirectory);
+                    }
+
+                    if (File.Exists(sourceFile))
+                    {
+                        File.Copy(sourceFile, destinationPhysicalFileSupplier);
+                    }
+
+                    campaignRepository.POEmailToSupplier(orderId, companyId, contactId, 250, purchase.Value, destinationFileSupplier, objCompany, false, organisationId);
+                    
+                }
+            }
+            
+            
+            
+           // return exportReportHelper.ExportPDF((int)reportId, purchaseKey, ReportType.PurchaseOrders, orderId, string.Empty, organisationId);
+        }
+
         #region Unleashed Xero Integration
         public bool PostOrderToXero(long orderID)
         {

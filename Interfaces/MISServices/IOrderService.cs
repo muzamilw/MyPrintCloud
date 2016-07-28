@@ -92,5 +92,7 @@ namespace MPC.Interfaces.MISServices
         void DeleteOrderPermanently(long orderId, string Comment);
         string GenerateDigitalItemsArtwork(long estimateId, long organisationId);
 
+        void ExportPoPdfForWebStore(long orderId, long companyId, long contactId, long organisationId);
+
     }
 }

@@ -92,6 +92,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isXeroActive = ko.observable(),
              isAutoCreatePurchaseOrder = ko.observable(),
              isAutoPushPurchaseOrder = ko.observable(),
+             isAutoPushPurchaseOrderUi = ko.computed({
+                 read: function () {
+                     return isAutoPushPurchaseOrder();
+                 },
+                 write: function (value) {
+                     var isAutoPush = value;
+                     if (isAutoPush === isAutoPushPurchaseOrder()) {
+                         return;
+                     }
+                     if (isAutoPush === true) {
+                         isAutoCreatePurchaseOrder(true);
+                     }
+
+                     isAutoPushPurchaseOrder(isAutoPush);
+                 }
+             }),
             //Language Editor List
             languageEditors = ko.observableArray([]),
              // Errors
@@ -224,7 +240,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              xeroConsumerSecret: xeroConsumerSecret,
              isXeroActive: isXeroActive,
              isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder,
-             isAutoPushPurchaseOrder: isAutoPushPurchaseOrder
+             isAutoPushPurchaseOrder: isAutoPushPurchaseOrder,
+             isAutoPushPurchaseOrderUi: isAutoPushPurchaseOrderUi
          };
          return self;
      };

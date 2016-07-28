@@ -1345,6 +1345,7 @@ define("stores/stores.viewModel",
                                 _.each(selectedStore().companyCMYKColors(), function (color) {
                                     var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
                                     territoryColor.territoryId(selectedCompanyTerritory().territoryId());
+                                    territoryColor.isActive(false);
                                     territoryColor.colorId(counter);
                                     selectedStore().companyTerritoryColors.push(territoryColor);
                                     counter--;
