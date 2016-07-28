@@ -179,6 +179,7 @@ namespace MPC.Models.DomainModels
         public int? ImpressionCoverageSide2 { get; set; }
         public int? PassesSide1 { get; set; }
         public int? PassesSide2 { get; set; }
+        public bool? IsBooklet { get; set; }
         [NotMapped]
         public string SectionSizeName { get; set; }
 

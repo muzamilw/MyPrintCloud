@@ -1301,17 +1301,22 @@ namespace MPC.Repository.Repositories
             //tbl_company_sites ServerSettings = CompanySiteManager.GetCompanySite();
             Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == orgId).FirstOrDefault();
             SystemUser SalesManager = null;
-
+            long storeId = 0; // to get campaign either from retail or corporate
             db.Configuration.LazyLoadingEnabled = false;
 
             if (objCompany.IsCustomer == 3)// corporate
             {
                 saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
+                storeId = objCompany.CompanyId;
             }
             else
             {
                 // if retail
-                var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
+
+
+                var retailStore = db.Companies.FirstOrDefault(c => c.CompanyId == objCompany.StoreId);
+                var manageriD = retailStore != null ? retailStore.SalesAndOrderManagerId1 : null;
+                storeId = retailStore != null ? retailStore.CompanyId : 0;
                 saleManagerId = manageriD ?? Guid.NewGuid();
             }
 
@@ -1320,7 +1325,7 @@ namespace MPC.Repository.Repositories
             {
 
                 CampaignEmailParams CEP = new CampaignEmailParams();
-                Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, orgId, companyID);
+                Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, orgId, storeId);
                 CEP.EstimateId = orderID;
                 CEP.CompanyId = companyID;
                 CEP.ContactId = contactID;
@@ -1362,15 +1367,19 @@ namespace MPC.Repository.Repositories
             Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == orgId).FirstOrDefault();
 
             SystemUser SalesManager = null;
+            long storeId = 0; // to get campaign either from retail or corporate
 
             if (objCompany.IsCustomer == 3)// corporate
             {
                 saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
+                storeId = objCompany.CompanyId;
             }
             else
             {
                 // if retail
-                var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
+                var retailStore = db.Companies.FirstOrDefault(c => c.CompanyId == objCompany.StoreId);
+                var manageriD = retailStore != null? retailStore.SalesAndOrderManagerId1 : null;
+                storeId = retailStore != null? retailStore.CompanyId : 0;
                 saleManagerId = manageriD ?? Guid.NewGuid();
             }
 
@@ -1383,11 +1392,11 @@ namespace MPC.Repository.Repositories
                     CampaignEmailParams CEP = new CampaignEmailParams();
                     if (isCancellation)
                     {
-                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), orgId, companyID);
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), orgId, storeId);
                     }
                     else
                     {
-                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), orgId, companyID);
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), orgId, storeId);
                     }
 
                     CEP.EstimateId = orderID;

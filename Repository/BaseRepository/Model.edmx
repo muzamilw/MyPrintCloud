@@ -2001,6 +2001,7 @@
           <Property Name="ImpressionCoverageSide2" Type="int" />
           <Property Name="PassesSide1" Type="int" />
           <Property Name="PassesSide2" Type="int" />
+          <Property Name="IsBooklet" Type="bit" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -10513,6 +10514,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ImpressionCoverageSide2" Type="Int32" />
           <NavigationProperty Name="MachineSide2" Relationship="DomainModels.FK_ItemSection_Machine2" FromRole="ItemSection" ToRole="Machine" />
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="ItemSection" ToRole="StockItem" />
+          <Property Name="IsBooklet" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -17590,6 +17592,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ItemSections">
             <EntityTypeMapping TypeName="DomainModels.ItemSection">
               <MappingFragment StoreEntitySet="ItemSection">
+                <ScalarProperty Name="IsBooklet" ColumnName="IsBooklet" />
                 <ScalarProperty Name="ImpressionCoverageSide2" ColumnName="ImpressionCoverageSide2" />
                 <ScalarProperty Name="ImpressionCoverageSide1" ColumnName="ImpressionCoverageSide1" />
                 <ScalarProperty Name="PassesSide2" ColumnName="PassesSide2" />

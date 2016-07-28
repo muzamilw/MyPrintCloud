@@ -65,6 +65,7 @@ namespace MPC.Models.ModelMappers
             target.SetupSpoilage = source.SetupSpoilage;
             target.RunningSpoilage = source.RunningSpoilage;
             target.RunningSpoilageValue = source.RunningSpoilageValue;
+            target.IsBooklet = source.IsBooklet;
         }
 
         /// <summary>
@@ -137,6 +138,7 @@ namespace MPC.Models.ModelMappers
             target.SetupSpoilage = source.SetupSpoilage;
             target.RunningSpoilage = source.RunningSpoilage;
             target.RunningSpoilageValue = source.RunningSpoilageValue;
+            target.IsBooklet = source.IsBooklet;
         }
 
         #endregion
