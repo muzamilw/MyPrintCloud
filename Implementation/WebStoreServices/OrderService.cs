@@ -432,9 +432,9 @@ namespace MPC.Implementation.WebStoreServices
             return _purchaseRepository.GetPurchasesList(orderId);
         }
 
-        public Company GetOrderByIdWithCompany(long orderId)
+        public Estimate GetOrderByIdWithCompany(long orderId)
         {
-            return _OrderRepository.GetOrderByIdWithCompany(orderId).Company;
+            return _OrderRepository.GetOrderByIdWithCompany(orderId);
         }
         public double UpdateORderGrandTotal(long OrderID)
         {

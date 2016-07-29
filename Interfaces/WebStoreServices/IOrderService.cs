@@ -116,7 +116,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<Item> GetOrderItems(long OrderId);
         bool IsPoGenerated(long orderId, Guid managerId);
         Dictionary<int, long> GetPurchasesListByOrderId(long orderId);
-        Company GetOrderByIdWithCompany(long orderId);
+        Estimate GetOrderByIdWithCompany(long orderId);
 
         void PurchaseOrderEmail(long orderId, long companyId, long supplierContactId, Company objCompany, int purchaseId,
             long organisationId, string fileName);

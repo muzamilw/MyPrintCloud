@@ -1329,7 +1329,7 @@ namespace MPC.Repository.Repositories
                 CEP.EstimateId = orderID;
                 CEP.CompanyId = companyID;
                 CEP.ContactId = contactID;
-                CEP.StoreId = companyID;
+                CEP.StoreId = storeId;
                 CEP.SalesManagerContactID = contactID;
                 CEP.OrganisationId = orgId;
                 CEP.AddressId = companyID;
@@ -1402,7 +1402,7 @@ namespace MPC.Repository.Repositories
                     CEP.EstimateId = orderID;
                     CEP.CompanyId = companyID;
                     CEP.ContactId = contactID;
-                    CEP.StoreId = companyID;
+                    CEP.StoreId = storeId;
                     CEP.SalesManagerContactID = contactID;
                     CEP.OrganisationId = orgId;
                     CEP.AddressId = companyID;

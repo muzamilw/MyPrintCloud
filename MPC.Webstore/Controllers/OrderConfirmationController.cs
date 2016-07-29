@@ -625,8 +625,8 @@ namespace MPC.Webstore.Controllers
             var isPo = _OrderService.IsPoGenerated(orderId, managerId);
             if (isPo)
             {
-                var objCompany = _OrderService.GetOrderByIdWithCompany(orderId);
-                _MISOrderService.ExportPoPdfForWebStore(orderId, objCompany.CompanyId, 0, organisationId);
+                var objOrder = _OrderService.GetOrderByIdWithCompany(orderId);
+                _MISOrderService.ExportPoPdfForWebStore(orderId, objOrder.CompanyId, objOrder.ContactId??0, organisationId);
                 //var purchaseList = _OrderService.GetPurchasesListByOrderId(orderId);
                 //if (purchaseList != null && purchaseList.Count > 0)
                 //{

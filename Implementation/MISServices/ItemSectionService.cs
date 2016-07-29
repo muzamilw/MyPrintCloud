@@ -158,14 +158,23 @@ namespace MPC.Implementation.MISServices
                 //Get Paper Stock Query
                 oPaperDTO = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));// db.StockItems.Where(s => s.StockItemId == oItemSection.StockItemID1).FirstOrDefault();
 
-                if (oItemSection.PrintViewLayout == (int)PrintViewOrientation.Landscape)
+                if (oItemSection.IsBooklet == true)
                 {
-                    SheetPTV = Convert.ToInt32(oItemSection.PrintViewLayoutLandScape);
+                    SheetPTV = oItemSection.isWorknTurn == true ? 2 : 1;
                 }
-                else
+                else // Existing code added in else when applied condition for booklet
                 {
-                    SheetPTV = Convert.ToInt32(oItemSection.PrintViewLayoutPortrait);
+                    if (oItemSection.PrintViewLayout == (int)PrintViewOrientation.Landscape)
+                    {
+                        SheetPTV = Convert.ToInt32(oItemSection.PrintViewLayoutLandScape);
+                    }
+                    else
+                    {
+                        SheetPTV = Convert.ToInt32(oItemSection.PrintViewLayoutPortrait);
+                    }
                 }
+
+                
 
                 SetupSpoilage = Convert.ToInt32(oItemSection.SetupSpoilage);
                 RunningSpoilagePercentage = Convert.ToDouble(oItemSection.RunningSpoilage);
@@ -4493,14 +4502,23 @@ namespace MPC.Implementation.MISServices
                 OrderSheetWidth = (double)oPaperDTO.ItemSizeWidth;
             }
 
-            if (oItemSection.PrintViewLayout == (int)PrintViewOrientation.Landscape)
+            if (oItemSection.IsBooklet == true)
             {
-                PrintSheetPTV = (int)oItemSection.PrintViewLayoutLandScape;
+               PrintSheetPTV = oItemSection.isWorknTurn == true ? 2 : 1;
             }
-            else
+            else // Existing code added in else when applied condition for booklet
             {
-                PrintSheetPTV = (int)oItemSection.PrintViewLayoutPortrait;
+                if (oItemSection.PrintViewLayout == (int)PrintViewOrientation.Landscape)
+                {
+                    PrintSheetPTV = (int)oItemSection.PrintViewLayoutLandScape;
+                }
+                else
+                {
+                    PrintSheetPTV = (int)oItemSection.PrintViewLayoutPortrait;
+                }
             }
+
+            
 
             if (PrintSheetPTV == 0)
             {
@@ -5148,14 +5166,23 @@ namespace MPC.Implementation.MISServices
 
                 //Have Used 1 for LandScape
                 //If oItemSection.PrintViewLayout = 0 Then
-                if (oItemSection.PrintViewLayout == (int)PrintViewOrientation.Portrait)
+                if (oItemSection.IsBooklet == true)
                 {
-                    intItemPTV = Convert.ToInt32(oItemSection.PrintViewLayoutPortrait);
+                    intItemPTV = oItemSection.isWorknTurn == true ? 2 : 1;
                 }
-                else
+                else // Existing code set to else when applied change for booklet
                 {
-                    intItemPTV = Convert.ToInt32(oItemSection.PrintViewLayoutLandScape);
+                    if (oItemSection.PrintViewLayout == (int)PrintViewOrientation.Portrait)
+                    {
+                        intItemPTV = Convert.ToInt32(oItemSection.PrintViewLayoutPortrait);
+                    }
+                    else
+                    {
+                        intItemPTV = Convert.ToInt32(oItemSection.PrintViewLayoutLandScape);
+                    }
+                    
                 }
+                
 
                 //Calculating the PTV of Working Sheet and Print Sheet / Order PTV
                 if (oItemSection.IsSectionSizeCustom != true)

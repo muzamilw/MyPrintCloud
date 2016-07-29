@@ -785,7 +785,7 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // item Width
@@ -798,7 +798,7 @@ define("common/itemDetail.viewModel",
                                 return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // Include Gutter
@@ -1013,7 +1013,13 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
+                        selectedSection().isBooklet.subscribe(function (value) {
+                            if (value !== selectedSection().isBooklet()) {
+                                selectedSection().isBooklet(value);
+                            }
+                            getSectionSystemCostCenters();
 
+                        });
 
                     },
                     // Get Press By Id
