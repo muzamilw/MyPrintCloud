@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 
 using MPC.WebBase.Mvc;
@@ -40,7 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public List<ExportProductTemplateResponseModel> Get(long id)
+        public List<usp_GetStoreProductTemplatesList_Result> Get(long id)
         {
            return _companyService.GetProductTemplatesListByStoreId(id);
         }
