@@ -209,7 +209,15 @@ define("stores/stores.view",
                     $("#myTemplateFontModal").modal("hide");
                 },
                
-
+               showCompanyProductTemplatesDialog = function () {
+                   $("#productTemplatesDialog").modal("show");
+                   initializeLabelPopovers();
+               },
+                // Hide Activity the dialog
+                // ReSharper disable once InconsistentNaming
+                hideCompanyProductTemplatesDialog = function () {
+                    $("#productTemplatesDialog").modal("hide");
+                },
                    
 
                 //#endregion
@@ -618,7 +626,9 @@ define("stores/stores.view",
                 showVariableIconDialog: showVariableIconDialog,
                 showStoreLayoutWidgetCss: showStoreLayoutWidgetCss,
                 showCompanyTemplateFontDialog: showCompanyTemplateFontDialog,
-                hideCompanyTemplateFontDialog: hideCompanyTemplateFontDialog
+                hideCompanyTemplateFontDialog: hideCompanyTemplateFontDialog,
+                showCompanyProductTemplatesDialog: showCompanyProductTemplatesDialog,
+                hideCompanyProductTemplatesDialog: hideCompanyProductTemplatesDialog
             };
         })(storesViewModel);
 

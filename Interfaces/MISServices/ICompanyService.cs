@@ -198,6 +198,8 @@ namespace MPC.Interfaces.MISServices
         #endregion
 
         EmailsResponse GetOrganisationCampaigns();
-        
+        List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStoreId(long storeId);
+        string ExportProductTemplates(string html);
+
     }
 }

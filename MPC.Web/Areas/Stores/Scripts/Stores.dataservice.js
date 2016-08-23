@@ -481,6 +481,19 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'Delete'
                     });
+                    // Define request to get Items For Widgets
+                    amplify.request.define('getProductTemplates', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductTemplateList',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to save Discount Voucher
+                    amplify.request.define('exportProductTemplates', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductTemplateList',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -1189,7 +1202,25 @@
                 data: param
             });
         },
-
+         getProductTemplates = function (params, callbacks) {
+             initialize();
+             return amplify.request({
+                 resourceId: 'getProductTemplates',
+                 success: callbacks.success,
+                 error: callbacks.error,
+                 data: params
+             });
+         },
+        
+        exportProductTemplates = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportProductTemplates',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store saveCustomWidget
         saveStore = function (param, callbacks) {
             initialize();
@@ -1271,7 +1302,9 @@
             deleteCustomWidget: deleteCustomWidget,
             getTemplateFonts : getTemplateFonts,
             saveTemplateFont: saveTemplateFont,
-            deleteTemplateFont: deleteTemplateFont
+            deleteTemplateFont: deleteTemplateFont,
+            getProductTemplates: getProductTemplates,
+            exportProductTemplates : exportProductTemplates
         };
     })();
 

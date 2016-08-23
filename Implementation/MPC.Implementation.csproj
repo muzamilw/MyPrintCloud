@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABCpdf, Version=9.1.2.3, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
+    <Reference Include="ABCpdf, Version=9.1.2.5, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\ABCpdf.dll</HintPath>
     </Reference>
     <Reference Include="Aurigma.GraphicsMill">
       <HintPath>..\MPC.Common\Externaldlls\Aurigma.GraphicsMill.dll</HintPath>

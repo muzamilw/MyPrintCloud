@@ -31,6 +31,7 @@ using MPC.Common;
 using Newtonsoft.Json.Linq;
 using Scope = System.IdentityModel.Scope;
 using System.Text;
+using GrapeCity.ActiveReports;
 
 
 namespace MPC.Implementation.MISServices
@@ -10145,6 +10146,22 @@ namespace MPC.Implementation.MISServices
                 CampaignSections = _sectionRepository.GetCampaignSections().ToList()
 
             };
+        }
+
+        public List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStoreId(long storeId)
+        {
+            return itemRepository.GetProductTemplatesListByStore(storeId);
+        }
+
+        public string ExportProductTemplates(string html)
+        {
+            string sHtml = "<html><head><title>Product Templates Export</title></head><body>" + html + "</body></html>";
+            byte[] rptBytes = null;
+            rptBytes = System.Text.Encoding.Unicode.GetBytes(sHtml);
+            string savePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationRepository.OrganisationId + "/ProductTemplateExport.xls");
+            // Encoding must be done
+            File.WriteAllBytes(savePath, rptBytes);
+            return "/" + ImagePathConstants.ReportPath + organisationRepository.OrganisationId + "/ProductTemplateExport.xls"; 
         }
     }
 }

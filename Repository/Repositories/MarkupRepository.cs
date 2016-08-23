@@ -88,6 +88,12 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public long GetOrganisationDefaultMarkupId()
+        {
+            var markup = DbSet.FirstOrDefault(m => m.OrganisationId == OrganisationId && m.IsDefault == true);
+            return markup != null ? markup.MarkUpId : 0;
+        }
+
         #endregion
     }
 }

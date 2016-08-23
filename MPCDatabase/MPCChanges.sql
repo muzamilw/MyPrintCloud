@@ -10649,3 +10649,32 @@ alter table MachineClickChargeZone add ZoneName nvarchar(200)
 alter table Organisation add IsAutoPushPurchaseOrder bit
 
 alter table itemSection add IsBooklet bit
+
+
+--------------------------Deployed on All servers-----------
+--exec [usp_GetStoreProductTemplatesList] 33474
+create procedure [dbo].[usp_GetStoreProductTemplatesList]
+ @SotreId bigint
+
+AS
+Begin
+
+	select i.ItemId, i.ProductName, i.Templateid, itp.CategoryName, itp.ParentCategory,
+		case when itp.ParentCategory is null then null
+			else '/MPC_Content/Designer/Organisation'+ cast(i.OrganisationId as varchar(100)) +'/Templates/' + cast( i.TemplateID as varchar(100)) + '/P1.jpg'
+			end as TemplatePath
+	from items i 
+			inner join template t on t.productid = i.templateid 
+			inner join (
+						select pci.ItemId, pci.CategoryId, pc.CategoryName, 
+						pcp.CategoryName As ParentCategory, pc.parentCategoryId 
+						from productcategoryitem pci 
+								inner join productcategory pc on pc.productcategoryid = pci.categoryid
+								left join productcategory pcp on pcp.productcategoryid = pc.parentCategoryid)itp on itp.itemid = i.itemid
+		where i.companyid = @SotreId and i.estimateid is null and i.templateid is not null
+
+End
+
+
+
+

@@ -95,7 +95,8 @@ namespace MPC.Repository.Repositories
                 if (item.ControlType == 1)
                 {
                     string queryString = string.Empty;
-                    if (Id == 519 || ReportName == "Order Report By Store" ) // stock report hard code id because of organisation id check
+                    bool isOrgId = item.CriteriaFieldName.EndsWith("organisationid = ");
+                    if (Id == 519 || ReportName == "Order Report By Store" || isOrgId) // stock report hard code id because of organisation id check
                     {
                     
                         if(item.ComboTableName == "Company")

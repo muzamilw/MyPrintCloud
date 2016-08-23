@@ -343,6 +343,7 @@
     <Compile Include="Areas\Api\Controllers\DigitalArtworkDownloadController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserListController.cs" />
     <Compile Include="Areas\Api\Controllers\UserRoleController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductTemplateListController.cs" />
     <Compile Include="Areas\Api\Controllers\XeroInvoiceController.cs" />
     <Compile Include="Areas\Api\ModelMappers\AccessRighMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\RoleMapper.cs" />
@@ -2364,6 +2365,7 @@
     <Content Include="Areas\Settings\Views\MIS\_SystemUserDialog.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_ClickChargeZoneDialog.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_CostCenterZoneVariableDialog.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_ProductTemplatesList.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3701,7 +3703,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

@@ -35,10 +35,12 @@ namespace MPC.Implementation.MISServices
         private readonly IItemSectionRepository itemsectionRepository;
         private readonly IMachineRepository machineRepository;
         private readonly ICostCentreRepository _costcenterRepository;
+        private readonly IMarkupRepository _markupRepository;
         #endregion
 
         #region Constructor
-        public ItemSectionService(IOrganisationRepository _organisationRepository, IItemSectionRepository _itemsectionRepository, IMachineRepository _machineRepository, ICostCentreRepository costcenterRepository)
+        public ItemSectionService(IOrganisationRepository _organisationRepository, IItemSectionRepository _itemsectionRepository,
+            IMachineRepository _machineRepository, ICostCentreRepository costcenterRepository, IMarkupRepository markupRepository)
         {
             if (_organisationRepository == null)
             {
@@ -56,10 +58,15 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("costcenterRepository");
             }
+            if (markupRepository == null)
+            {
+                throw new ArgumentNullException("markupRepository");
+            }
             this.organisationRepository = _organisationRepository;
             this.itemsectionRepository = _itemsectionRepository;
             this.machineRepository = _machineRepository;
             this._costcenterRepository = costcenterRepository;
+            _markupRepository = markupRepository;
         }
         #endregion
         #region Print View Plan Code
@@ -117,7 +124,7 @@ namespace MPC.Implementation.MISServices
             
             //Get Machine Query
             Machine oPressDTO = itemsectionRepository.GetPressById(PressID);
-
+            
             oItemSection.IsPlateUsed = false;
             oItemSection.IsWashup = false;
             oItemSection.IsMakeReadyUsed = false;
@@ -137,6 +144,7 @@ namespace MPC.Implementation.MISServices
             double PressRunTime1 = 0;
             double PressRunTime2 = 0;
             double PressRunTime3 = 0;
+            int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId()); 
             int[] zoneChargedSheets = new int[3];
             double[] zoneChargedPrices = new double[3];
 
@@ -897,7 +905,7 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultPressInstruction);
                 //Getting Markup Query
                 double ProfitMargin = 0;
-                var markup = itemsectionRepository.GetMarkupById(oCostCentreDTO.DefaultVAId);
+                var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
                 if (markup != null)
                     ProfitMargin = Convert.ToDouble(markup.MarkUpRate);
                 if (oItemSection.Qty1 > 0)
@@ -906,7 +914,7 @@ namespace MPC.Implementation.MISServices
                     {
                         //Setting Cost to Print Cost calculated + Press Setup Cost
                         oItemSectionCostCenter.Qty1Charge = dblPrintPrice[0];
-                        oItemSectionCostCenter.Qty1MarkUpID = oCostCentreDTO.DefaultVAId;
+                        oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                         oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                         oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
                         oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(PressRunTime1 + oItemSectionCostCenter.SetupTime, 2);
@@ -948,7 +956,7 @@ namespace MPC.Implementation.MISServices
                     {
                         //Setting Cost to Print Cost calculated + Press Setup Cost
                         oItemSectionCostCenter.Qty1Charge = dblPrintPrice[0];
-                        oItemSectionCostCenter.Qty1MarkUpID = oCostCentreDTO.DefaultVAId;
+                        oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                         oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                         oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
                         oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(PressRunTime1 + oItemSectionCostCenter.SetupTime, 2);
@@ -992,7 +1000,7 @@ namespace MPC.Implementation.MISServices
                     if (PressReRunMode == (int)PressReRunModes.NotReRun)
                     {
                         oItemSectionCostCenter.Qty2Charge = dblPrintPrice[1];
-                        oItemSectionCostCenter.Qty2MarkUpID = oCostCentreDTO.DefaultVAId;
+                        oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                         oItemSectionCostCenter.Qty2MarkUpValue = Convert.ToDouble(oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100);
                         oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                         oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(PressRunTime2 + oItemSectionCostCenter.SetupTime, 2);
@@ -1035,7 +1043,7 @@ namespace MPC.Implementation.MISServices
                     else if (PressReRunMode == (int)PressReRunModes.ReRunPress && PressReRunQuantityIndex == 2)
                     {
                         oItemSectionCostCenter.Qty2Charge = dblPrintPrice[1];
-                        oItemSectionCostCenter.Qty2MarkUpID = oCostCentreDTO.DefaultVAId;
+                        oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                         oItemSectionCostCenter.Qty2MarkUpValue = Convert.ToDouble(oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100);
                         oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                         oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(PressRunTime2 + oItemSectionCostCenter.SetupTime, 2);
@@ -1079,8 +1087,8 @@ namespace MPC.Implementation.MISServices
                     if (PressReRunMode == (int)PressReRunModes.NotReRun)
                     {
                         oItemSectionCostCenter.Qty3Charge = dblPrintPrice[2];
-                        oItemSectionCostCenter.Qty3MarkUpID = oCostCentreDTO.DefaultVAId;
-                        oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
+                        oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
+                        oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                         oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                         oItemSectionCostCenter.Qty3EstimatedTime = Math.Round(PressRunTime3 + oItemSectionCostCenter.SetupTime, 2);
                         oItemSectionCostCenter.Qty3EstimatedPlantCost = dblPrintCost[2];
@@ -1119,8 +1127,8 @@ namespace MPC.Implementation.MISServices
                     else if (PressReRunMode == (int)PressReRunModes.ReRunPress & PressReRunQuantityIndex == 3)
                     {
                         oItemSectionCostCenter.Qty3Charge = dblPrintPrice[2];
-                        oItemSectionCostCenter.Qty3MarkUpID = oCostCentreDTO.DefaultVAId;
-                        oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
+                        oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
+                        oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                         oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                         oItemSectionCostCenter.Qty3EstimatedTime = Math.Round(PressRunTime3 + oItemSectionCostCenter.SetupTime, 2);
                         oItemSectionCostCenter.Qty3EstimatedPlantCost = dblPrintCost[2];
@@ -2813,10 +2821,11 @@ namespace MPC.Implementation.MISServices
             {
                 sMinimumCost = "0";
             }
-            var markup = itemsectionRepository.GetMarkupById(oPlateCostCentreDTO.DefaultVAId);
+            int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
+            var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
             var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
 
-            oItemSectionCostCenter.Qty1MarkUpID = oPlateCostCentreDTO.DefaultVAId;
+            oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
             oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
             oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
             oItemSectionCostCenter.Qty1EstimatedStockCost = dblPlateCost;
@@ -2844,7 +2853,7 @@ namespace MPC.Implementation.MISServices
                     sMinimumCost += "0";
                 }
 
-                oItemSectionCostCenter.Qty2MarkUpID = oPlateCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                 oItemSectionCostCenter.Qty2EstimatedStockCost = dblPlateCost;
@@ -2869,7 +2878,7 @@ namespace MPC.Implementation.MISServices
                 else
                     sMinimumCost += "0";
 
-                oItemSectionCostCenter.Qty3MarkUpID = oPlateCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
 
@@ -3010,12 +3019,13 @@ namespace MPC.Implementation.MISServices
                 {
                     sMinimumCost = "0";
                 }
+                int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
                 double ProfitMargin = 0;
-                var markup = itemsectionRepository.GetMarkupById(oWashupCostCentreDTO.DefaultVAId);
+                var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
                 if (markup != null)
                     ProfitMargin = Convert.ToDouble(markup.MarkUpRate);
 
-                oItemSectionCostCenter.Qty1MarkUpID = oWashupCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
@@ -3045,7 +3055,7 @@ namespace MPC.Implementation.MISServices
                     {
                         sMinimumCost += "0";
                     }
-                    oItemSectionCostCenter.Qty2MarkUpID = oWashupCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                     oItemSectionCostCenter.Qty2EstimatedPlantCost = dblWashUpCost;
@@ -3074,7 +3084,7 @@ namespace MPC.Implementation.MISServices
                     {
                         sMinimumCost += "0";
                     }
-                    oItemSectionCostCenter.Qty3MarkUpID = oWashupCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                     oItemSectionCostCenter.Qty3EstimatedPlantCost = dblWashUpCost;
@@ -3198,10 +3208,10 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty1Charge = ReelMakeReadyPrice;
                     sMinimumCost = "0";
                 }
-
-                var markup = itemsectionRepository.GetMarkupById(oMakeReadyCostCentreDTO.DefaultVAId);
+                int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
+                var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
                 var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
-                oItemSectionCostCenter.Qty1MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
@@ -3232,7 +3242,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty2MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                     oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(Convert.ToDouble(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
@@ -3263,7 +3273,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty3MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                     oItemSectionCostCenter.Qty3EstimatedTime = Math.Round(Convert.ToDouble(oPressDTO.ReelMakereadyTime / 60 * oItemSection.WebReelMakereadyQty), 2);
@@ -3354,7 +3364,7 @@ namespace MPC.Implementation.MISServices
             Machine oPressDTO = itemsectionRepository.GetPressById(PressID);
             CostCentre oMakeReadyCostCentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Makeready);
 
-
+            int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
             dblMakeReadyCost = Convert.ToDouble(oItemSection.MakeReadyQty * oPressDTO.MakeReadyCost);
             dblMakeReadyPrice = Convert.ToDouble(oItemSection.MakeReadyQty * oPressDTO.MakeReadyPrice);
 
@@ -3389,7 +3399,7 @@ namespace MPC.Implementation.MISServices
             if (oItemSectionCostCenter.SectionCostCentreDetails == null)
                 oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
 
-            var markup = itemsectionRepository.GetMarkupById(oMakeReadyCostCentreDTO.DefaultVAId);
+            var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
             var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
             oItemSectionCostCenter.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultMakereadyUsed);
 
@@ -3405,7 +3415,7 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty1Charge = dblMakeReadyPrice;
                     sMinimumCost = "0";
                 }
-                oItemSectionCostCenter.Qty1MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
@@ -3435,7 +3445,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty2MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
                     oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(Convert.ToDouble((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
@@ -3465,7 +3475,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty3MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                     oItemSectionCostCenter.Qty3EstimatedTime = Math.Round(Convert.ToDouble((oPressDTO.MakeReadyTime * oItemSection.MakeReadyQty) / 60), 2);
@@ -3573,6 +3583,7 @@ namespace MPC.Implementation.MISServices
             double ReelLength = 0;
             double ReelWidth = 0;
             Organisation org = organisationRepository.GetOrganizatiobByID();
+            int defaultMarkupId = Convert.ToInt32(org.Markups.Select(a => a.IsDefault == true));
 
             CostCentre oPaperCostCentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Paper);
             StockItem oPaperDTO = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
@@ -3732,9 +3743,9 @@ namespace MPC.Implementation.MISServices
                 {
                     sMinimumCost = "0";
                 }
-                var markup = itemsectionRepository.GetMarkupById(oPaperCostCentreDTO.DefaultVAId);
+                var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
                 var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
-                oItemSectionCostCenter.Qty1MarkUpID = oPaperCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
@@ -3782,7 +3793,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty2MarkUpID = oPaperCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
 
@@ -3832,7 +3843,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty3MarkUpID = oPaperCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
 
@@ -4090,7 +4101,7 @@ namespace MPC.Implementation.MISServices
             int NoofSheetsQty3 = 0;
             int SetupSpoilage = oItemSection.SetupSpoilage ?? 0;
             double RunningSpoilage = oItemSection.RunningSpoilage ??0;
-           
+            int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
             int NoofInks = 0;
             if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
@@ -4367,14 +4378,14 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCentre.SectionCostCentreDetails.Add(oItemSectionCostCentreDetail);
 
             }
-            var markup = itemsectionRepository.GetMarkupById(oInksCostcentreDTO.DefaultVAId);
+            var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
             var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
             //Calculating and setting cost for qty1
             if (oItemSection.Qty1 >= 0)
             {
 
                 oItemSectionCostCentre.Qty1Charge = Math.Round(dblTotalPrice[0], 2);
-                oItemSectionCostCentre.Qty1MarkUpID = oInksCostcentreDTO.DefaultVAId;
+                oItemSectionCostCentre.Qty1MarkUpID = defaultMarkupId;
                 oItemSectionCostCentre.Qty1MarkUpValue = oItemSectionCostCentre.Qty1Charge * ProfitMargin / 100;
 
                 oItemSectionCostCentre.Qty1NetTotal = oItemSectionCostCentre.Qty1Charge + oItemSectionCostCentre.Qty1MarkUpValue;
@@ -4392,7 +4403,7 @@ namespace MPC.Implementation.MISServices
             if (oItemSection.Qty2 > 0)
             {
                 oItemSectionCostCentre.Qty2Charge = Math.Round(dblTotalPrice[1], 2);
-                oItemSectionCostCentre.Qty2MarkUpID = oInksCostcentreDTO.DefaultVAId;
+                oItemSectionCostCentre.Qty2MarkUpID = defaultMarkupId;
                 oItemSectionCostCentre.Qty2MarkUpValue = oItemSectionCostCentre.Qty2Charge * ProfitMargin / 100;
                 oItemSectionCostCentre.Qty2NetTotal = oItemSectionCostCentre.Qty2Charge + oItemSectionCostCentre.Qty2MarkUpValue;
 
@@ -4410,7 +4421,7 @@ namespace MPC.Implementation.MISServices
             if (oItemSection.Qty3 > 0)
             {
                 oItemSectionCostCentre.Qty3Charge = Math.Round(dblTotalPrice[2], 2);
-                oItemSectionCostCentre.Qty3MarkUpID = oInksCostcentreDTO.DefaultVAId;
+                oItemSectionCostCentre.Qty3MarkUpID = defaultMarkupId;
                 oItemSectionCostCentre.Qty3MarkUpValue = oItemSectionCostCentre.Qty3Charge * ProfitMargin / 100;
                 oItemSectionCostCentre.Qty3NetTotal = oItemSectionCostCentre.Qty3Charge + oItemSectionCostCentre.Qty3MarkUpValue;
                 oItemSectionCostCentre.Qty3EstimatedStockCost = dblTotalCost[2];
@@ -4670,7 +4681,7 @@ namespace MPC.Implementation.MISServices
             }
 
             oItemSectionCostCenter.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultStockDetail);
-
+            int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
             //if paper is not supplied and we have to use it ourself then add the prices :)
 
             if (oItemSection.IsPaperSupplied != true)
@@ -4686,9 +4697,9 @@ namespace MPC.Implementation.MISServices
                 {
                     sMinimumCost = "0";
                 }
-                var markup = itemsectionRepository.GetMarkupById(oPaperCostCentreDTO.DefaultVAId);
+                var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
                 var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
-                oItemSectionCostCenter.Qty1MarkUpID = oPaperCostCentreDTO.DefaultVAId;
+                oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
@@ -4734,7 +4745,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty2MarkUpID = oPaperCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
 
@@ -4781,7 +4792,7 @@ namespace MPC.Implementation.MISServices
                         sMinimumCost += "0";
                     }
 
-                    oItemSectionCostCenter.Qty3MarkUpID = oPaperCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
 
@@ -5358,7 +5369,8 @@ namespace MPC.Implementation.MISServices
 
                 double[] dblGuillTotalCharge = new double[5];
                 double ProfitMargin = 0;
-                var markup = itemsectionRepository.GetMarkupById(oGuillotinCostCentreDTO.DefaultVAId);
+                int defaultMarkupId = Convert.ToInt32(organisationRepository.GetOrganizatiobByID().MarkupId);
+                var markup = itemsectionRepository.GetMarkupById(defaultMarkupId);
                 if (markup != null)
                     ProfitMargin = (double)markup.MarkUpRate;
 
@@ -5413,7 +5425,7 @@ namespace MPC.Implementation.MISServices
 
                         //we are getting time in seconds
                         oItemSectionCostCenter.Qty1EstimatedTime = Math.Round(Convert.ToDouble((TotalCutsFirstTrim[0] + TotalCutsSecondTrim[0] * oModelGuillotine.TimePerCut / 60 + oItemSectionCostCenter.SetupTime) / 60), 2);
-                        oItemSectionCostCenter.Qty1MarkUpID = oGuillotinCostCentreDTO.DefaultVAId;
+                        oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                         oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                         oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
@@ -5472,7 +5484,7 @@ namespace MPC.Implementation.MISServices
                         oItemSectionCostCenter.Qty2EstimatedTime = Math.Round(Convert.ToDouble((TotalCutsFirstTrim[1] + TotalCutsSecondTrim[1] * oModelGuillotine.TimePerCut / 60 + oItemSectionCostCenter.SetupTime) / 60), 2);
 
                         //IIf(dblFirstTrim(1) + dblSecondTrim(1) + oModelGuillotine.SetUpCharge > dblGuillMinCharge, oItemSectionCostCenter.Qty2Charge = dblFirstTrim(1) + dblSecondTrim(1) + oModelGuillotine.SetUpCharge, oItemSectionCostCenter.Qty2Charge = dblGuillMinCharge)
-                        oItemSectionCostCenter.Qty2MarkUpID = oGuillotinCostCentreDTO.DefaultVAId;
+                        oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                         oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                         oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
 
@@ -5613,17 +5625,17 @@ namespace MPC.Implementation.MISServices
                     }
 
                     oItemSectionCostCenter.Qty1Charge = 0;
-                    oItemSectionCostCenter.Qty1MarkUpID = oGuillotinCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty1MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
                     oItemSectionCostCenter.Qty2Charge = 0;
 
-                    oItemSectionCostCenter.Qty2MarkUpID = oGuillotinCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty2MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
 
                     oItemSectionCostCenter.Qty3Charge = 0;
-                    oItemSectionCostCenter.Qty3MarkUpID = oGuillotinCostCentreDTO.DefaultVAId;
+                    oItemSectionCostCenter.Qty3MarkUpID = defaultMarkupId;
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
                     oItemSectionCostCenter.Qty1WorkInstructions = " First Trim:= No , Second Trim:= No";

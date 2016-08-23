@@ -26541,3 +26541,6 @@ background-color: transparent !important;
 .company_logo {
     height: 50px !important;
 }
+.totalHidden {
+    display: none;
+}

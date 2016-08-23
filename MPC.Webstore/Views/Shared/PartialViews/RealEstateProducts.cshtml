@@ -5,6 +5,7 @@
 }
 @{
     var ListingId = ViewBag.ListingID;
+    var redirectUrl = string.Empty;
 
 }
 <div class="container content_area" id="all-category-pg">
@@ -27,7 +28,7 @@
                     <div id="pnlCatList" class="padd_bottom_30 ">
                         @foreach (var cat in ViewData["RealEstateProducts"] as List<MPC.Models.DomainModels.usp_GetRealEstateProducts_Result>)
                         {
-                            <div id="Maincontainer" class="CAT_Body rounded_corners">
+                            <div id="Maincontainer" class="CAT_Body rounded_corners BD_CatProducts">
                                 <div class="LCLB">
 
                                     @if (cat.ProductType == (int)ProductType.MarketingBrief)
@@ -87,9 +88,20 @@
                                         </a>
                                     }
                                 </div>
-                                <div class="product_detail_image_heading_CAT">
-                                    <label id="lblProductName">@cat.ProductName</label>
+                                <div class="product_detail_image_heading_IRI">
+                                    <p id="lblProductName">@cat.ProductName</p>
                                 </div>
+                                @if (cat.ProductType == (int)ProductType.PrintProduct)
+                                {
+                                    if (cat.isTemplateDesignMode != (int)TemplateMode.DoNotLoadDesigner)
+                                    {
+                                        <a href="@Url.Action("CloneRealEstateItem", "RealEstateProducts", new { id = cat.ItemId, PropertyId=ListingId})" onclick="ShowLoader();">
+                                            <input type="button" value="Design Now" class="goto-designer-button rounded_corners">
+                                        </a>
+                                    }
+
+                                }
+                                
 
 
                             </div>

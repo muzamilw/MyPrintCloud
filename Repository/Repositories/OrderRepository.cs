@@ -2164,6 +2164,7 @@ namespace MPC.Repository.Repositories
                             YourRef = tblOrd.CustomerPO,
                             ClientStatusID = tblOrd.ClientStatus,
                             RejectionReason = tblOrd.RejectionReason,
+                            OrderTotal = tblOrd.Estimate_Total ?? 0
                             // SOrderDate =tblOrd.Order_Date.HasValue?tblOrd.Order_Date.Value.ToString("MMMM dd, yyyy"):string.Empty, // FormatDateValue(tblOrd.Order_Date),
                             // SOrderDeliveryDate = tblOrd.StartDeliveryDate.HasValue? tblOrd.StartDeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty,
                             // ClientStatusName=tblStatuses.StatusName;
@@ -2782,7 +2783,8 @@ namespace MPC.Repository.Repositories
                             CustomerName = tblContacts.FirstName,
                             TerritoryId = tblContacts.TerritoryId ?? 0,
                             CompanyName = tblcompany.Name,
-                            RejectionReason = tblOrd.RejectionReason
+                            RejectionReason = tblOrd.RejectionReason,
+                            OrderTotal = tblOrd.Estimate_Total??0
                         };
 
             // filter list by status

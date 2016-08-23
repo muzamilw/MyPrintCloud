@@ -57,6 +57,7 @@ define("stores/stores.viewModel",
 
                       // for company variable icons
                     companyVariableIcons = ko.observableArray([]),
+                    productTemplatesList = ko.observableArray([]),
                     // Count of Users
                     userCount = ko.observable(0),
                     // Count of Orders
@@ -8182,6 +8183,56 @@ define("stores/stores.viewModel",
                     });
                     // discountVoucherpager().totalCount(data.RowCount);
                 },
+                openProductTempaltesList = function() {
+                    dataservice.getProductTemplates(
+                        { id: selectedStore().companyId() }, {
+                        success: function (data) {
+                            productTemplatesList.removeAll();
+                            if (data != null) {
+                                _.each(data, function (item) {
+                                    productTemplatesList.push(item);
+                                });
+                                view.showCompanyProductTemplatesDialog();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Error: Failed To load templates " + response, "", ist.toastrOptions);
+                        }
+                    });
+                },
+                exportProductTemplates = function () {
+                  //  window.open('data:application/vnd.ms-excel,' + $("#tblTemplatesList")[0].innerHTML);
+                    var html = $("#tblTemplatesList")[0].innerHTML;
+                    //var to = "/mis/DashBoard/ExportProductTemplatesList";
+
+                    //var options = {
+                    //    type: "POST",
+                    //    url: to,
+                    //    data: html,
+                    //    contentType: "application/json",
+                    //    async: true,
+                    //    success: function (response) {
+                    //                        var host = window.location.host;
+                    //                        var uri = encodeURI("http://" + host + data);
+                    //                        window.open(uri, "_blank download");
+                    //    }
+                    //};
+                    //var returnText = $.ajax(options).responseText;
+                    dataservice.exportProductTemplates(
+                        { Html: html }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank download");
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To export templates " + response, "", ist.toastrOptions);
+                            }
+                        });
+                },
+                
                     //Delete company variable icon
                 onDeleteCompanyVariableIcon = function(variableIcon) {
                     confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
@@ -8670,7 +8721,10 @@ define("stores/stores.viewModel",
                     isMisEmail: isMisEmail,
                     onCloseCampaignEditor: onCloseCampaignEditor,
                     openGlobalDesigner: openGlobalDesigner,
-                    onDeleteTemplateFont: onDeleteTemplateFont
+                    onDeleteTemplateFont: onDeleteTemplateFont,
+                    openProductTempaltesList: openProductTempaltesList,
+                    productTemplatesList: productTemplatesList,
+                    exportProductTemplates: exportProductTemplates
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

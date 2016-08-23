@@ -1,0 +1,62 @@
+
+<div class="modal fade my-modal" id="productTemplatesDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Product Templates</h4>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div style="border:1px solid #eeeeee;padding-right:5px;padding-left:3px; padding-bottom:20px;min-height:250px; max-height:400px;overflow-y:scroll;">
+                        <div class="main-box-body main-box clearfix">
+                            <div class="table-responsive" style="padding-left:20px; padding-right:20px;" id="tblTemplatesList">
+                                <table id="templatesListtbl" class="table user-list table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-sm-1"></th>
+                                            <th class="col-sm-3"><span>Product Code</span></th>
+                                            <th class="col-sm-3"><span>Product Name</span></th>
+                                            <th class="col-sm-4"><span>Thumbnail</span></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <!-- ko template: { name: 'templateList', foreach: productTemplatesList } -->
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
+                <div style="padding-right:8px;">
+                    @*<button type="button" class="btn btn-primary" data-bind="click: $root.exportProductTemplates">Export</button>*@
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:0;">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script id="templateList" type="text/html">
+    <tr>
+        <td></td>
+        <td>
+            <span data-bind="text: ProductCode"></span>
+        </td>
+        <td>
+            <span data-bind="text: ProductName"></span>
+        </td>
+
+        <td>
+            <img data-bind="attr: { src: '@Url.Content("~/")' + ThumbnailPath }" alt=""></img>
+
+        </td>
+    </tr>
+</script>

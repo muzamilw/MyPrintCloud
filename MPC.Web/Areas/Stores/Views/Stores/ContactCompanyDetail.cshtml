@@ -46,6 +46,9 @@
                     </div>
 
                     <div class="col-xs-12" style="text-align: right; padding-right:0;margin-bottom:18px;">
+                        <button class="btn btn-success" data-bind="click: $root.openProductTempaltesList">
+                            Templates List
+                        </button>
                         <button class="btn btn-primary" data-bind="click: $root.openGlobalDesigner">
                             Template Gallery
                         </button>
@@ -1828,7 +1831,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <textarea class="form-control" id="txtGoogelWebMasterCode" rows="8" data-bind="value: $root.selectedStore().webMasterTag"></textarea>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1842,7 +1845,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <textarea class="form-control" id="txtGoogelAnaylyticCode" rows="8" data-bind="value: $root.selectedStore().webAnalyticCode"></textarea>
-                                               
+
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1856,7 +1859,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <textarea class="form-control" id="txtRobotText" rows="8" data-bind="value: $root.selectedStore().robotText"></textarea>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1972,7 +1975,7 @@
                                                 <tr>
                                                     <th style="width: 435px"><span>Title</span></th>
                                                     <th style="width: 432px"><span>Event</span></th>
-                                                    
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -3984,6 +3987,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 @Html.Partial("~/Areas/Stores/Views/Stores/_RealEstateCompaignDailog.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Stores/_StoreLayoutWidgetCss.cshtml")
 @Html.Partial("~/Areas/Stores/Views/Shared/_AddEditTemplateFont.cshtml")
+@Html.Partial("~/Areas/Stores/Views/Stores/_ProductTemplatesList.cshtml")
 
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
@@ -4244,7 +4248,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 <script id="fontsTemplate" type="text/html">
     <tr>
         <td><a href="#" class="store-user-link" data-bind="text: fontName, click: $root.onEditTemplateFont"></a></td>
-        <td data-bind="text:fontFile"></td>       
+        <td data-bind="text:fontFile"></td>
         <td>
             <div class="type">
                 <span class="label label-success" data-bind="text: isEnable() ? 'YES' : 'NO', css: { 'label-success': isEnable, 'label-danger': !isEnable() }">YES</span>

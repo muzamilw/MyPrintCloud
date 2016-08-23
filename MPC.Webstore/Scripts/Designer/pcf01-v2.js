@@ -1194,7 +1194,8 @@ function d5_sub(pageID, isloading) {
                             IT.BackgroundFileName = "/MPC_Content/Designer/" + productionFolderPath + IT.BackgroundFileName;
                         }
                     }
-                    var bk = IT.BackgroundFileName + "?r=" + CzRnd;
+                    var rndm = Math.random();
+                    var bk = IT.BackgroundFileName + "?r=" + rndm; // CzRnd was used as random number Naveed added new rndm and replaced
                     if (IT.BackgroundFileName != "") {
                         if (!isloading) {
                             StartLoader("Loading background files for your design");
@@ -2412,6 +2413,7 @@ function togglePage(pId) {
            .css({ height: "0px"})
            .animate({ height: ($(window).height() - 280) }, 800, function () {
                //$(".multiBackCarouselContainer").css("display", "none");
+               
            });
     }
     function fu14() {
@@ -3469,7 +3471,7 @@ function togglePage(pId) {
         }
     }
     function k12Update(fz) {
-        var pt = k14(fz);
+        var pt = k14(fz); 
         var D1AO = canvas.getActiveObject();
         if (parseFloat(pt)) {
             if (pt <= 400) {
@@ -3484,7 +3486,7 @@ function togglePage(pId) {
                             $("#layer").css("background-color", "rgb(112, 114, 119)");
                             CustomeAlertBoxDesigner("Inline font size applied. Are you sure you want to override existing inline font styles? ", "k12CallBack(" + fontSize + ")");
                         } else {
-                            setActiveStyle("font-Size", fontSize)
+                            setActiveStyle("font-Size", fontSize);
                             canvas.renderAll();
                             D1AO._performClipping(canvas.contextTop, D1AO.text, D1AO);
                         }

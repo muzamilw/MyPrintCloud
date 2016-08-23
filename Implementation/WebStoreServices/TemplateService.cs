@@ -275,6 +275,7 @@ namespace MPC.Implementation.WebStoreServices
 
             try
             {
+              //  ooBject.FontSize = Math.Round(ooBject.FontSize.v, 2); 
                 oPdf.TextStyle.Outline = 0;
                 oPdf.TextStyle.Strike = false;
                 oPdf.TextStyle.Bold = false;
@@ -582,7 +583,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 string sNewLineNormalized = Regex.Replace(StyledHtml, @"\r(?!\n)|(?<!\r)\n", "<BR>");
                 sNewLineNormalized = sNewLineNormalized.Replace("  ", "&nbsp;&nbsp;");
-                sNewLineNormalized = sNewLineNormalized.Replace("> <", ">&nbsp;<");
+                
 
                 if (ooBject.isBulletPoint.HasValue && ooBject.isBulletPoint.Value == true)
                 {
