@@ -6718,6 +6718,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_GetRealEstateProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_GetStoreProductTemplatesList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SotreId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_importCRMCompanyContacts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
         </Function>
@@ -8947,6 +8950,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Role" EntitySet="Roles" />
             <End Role="Roleright" EntitySet="Rolerights" />
           </AssociationSet>
+          <FunctionImport Name="usp_GetStoreProductTemplatesList" ReturnType="Collection(DomainModels.usp_GetStoreProductTemplatesList_Result)">
+            <Parameter Name="SotreId" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -16467,6 +16473,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="usp_GetStoreProductTemplatesList_Result">
+          <Property Type="Int64" Name="ItemId" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
+          <Property Type="Int64" Name="Templateid" Nullable="true" />
+          <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ParentCategory" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TemplatePath" Nullable="true" MaxLength="252" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -21860,6 +21874,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetStoreProductTemplatesList" FunctionName="DomainModels.Store.usp_GetStoreProductTemplatesList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_GetStoreProductTemplatesList_Result">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Templateid" ColumnName="Templateid" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ParentCategory" ColumnName="ParentCategory" />
+                <ScalarProperty Name="TemplatePath" ColumnName="TemplatePath" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

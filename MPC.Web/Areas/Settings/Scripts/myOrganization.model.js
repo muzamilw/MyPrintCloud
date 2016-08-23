@@ -361,13 +361,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return rate();
                 },
                 write: function(value) {
-                    if (value < 0 || value === rate()) {
-                        if (value < 0) {
-                            rate(value);
-                            rate(0);
-                        }
-                        return;
-                    }
+                    //if (value < 0 || value === rate()) {
+                    //    if (value < 0) {
+                    //        rate(value);
+                    //        rate(0);
+                    //    }
+                    //    return;
+                    //}
                     rate(value);
                 }
             }),
