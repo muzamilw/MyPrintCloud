@@ -117,7 +117,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDirectSale = source.isDirectSale,
                 SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null,
                 OrderDate = source.Order_Date,
-                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : string.Empty
+                ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : string.Empty,
+                CustomerPO = source.CustomerPO
             };
 
             return estimate;

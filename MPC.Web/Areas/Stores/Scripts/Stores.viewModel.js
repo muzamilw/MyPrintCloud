@@ -58,6 +58,10 @@ define("stores/stores.viewModel",
                       // for company variable icons
                     companyVariableIcons = ko.observableArray([]),
                     productTemplatesList = ko.observableArray([]),
+                    parenCategoriesList = ko.observableArray([]),
+                    childCategoriesList = ko.observableArray([]),
+                    categoryFilter = ko.observable(),
+                    subcategoryFilter = ko.observable(),
                     // Count of Users
                     userCount = ko.observable(0),
                     // Count of Orders
@@ -8183,14 +8187,33 @@ define("stores/stores.viewModel",
                     });
                     // discountVoucherpager().totalCount(data.RowCount);
                 },
-                openProductTempaltesList = function() {
+                openProductTempaltesList = function () {
+                    categoryFilter.subscribe(function (value) {
+                        filterTemplatesList(value, true);
+                    });
+                    subcategoryFilter.subscribe(function (value) {
+                        filterTemplatesList(value, false);
+                    });
                     dataservice.getProductTemplates(
-                        { id: selectedStore().companyId() }, {
+                        {
+                            ParentCategoryId: 0,
+                            CategoryId: 0,
+                            SearchString : "",
+                            StoreId: selectedStore().companyId(),
+                        }, {
                         success: function (data) {
                             productTemplatesList.removeAll();
+                            parenCategoriesList.removeAll();
+                            childCategoriesList.removeAll();
                             if (data != null) {
-                                _.each(data, function (item) {
+                                _.each(data.ProductTemplateList, function (item) {
                                     productTemplatesList.push(item);
+                                });
+                                _.each(data.ParentCategories, function (item) {
+                                    parenCategoriesList.push(item);
+                                });
+                                _.each(data.SubCategories, function (item) {
+                                    childCategoriesList.push(item);
                                 });
                                 view.showCompanyProductTemplatesDialog();
                             }
@@ -8200,26 +8223,51 @@ define("stores/stores.viewModel",
                         }
                     });
                 },
-                exportProductTemplates = function () {
-                  //  window.open('data:application/vnd.ms-excel,' + $("#tblTemplatesList")[0].innerHTML);
-                    var html = $("#tblTemplatesList")[0].innerHTML;
-                    //var to = "/mis/DashBoard/ExportProductTemplatesList";
-
-                    //var options = {
-                    //    type: "POST",
-                    //    url: to,
-                    //    data: html,
-                    //    contentType: "application/json",
-                    //    async: true,
-                    //    success: function (response) {
-                    //                        var host = window.location.host;
-                    //                        var uri = encodeURI("http://" + host + data);
-                    //                        window.open(uri, "_blank download");
-                    //    }
-                    //};
-                    //var returnText = $.ajax(options).responseText;
+                
+                filterTemplatesList = function (categoryId, isParent) {
+                    
+                    dataservice.getProductTemplates(
+                        {
+                            ParentCategoryId: isParent == true ? categoryId : 0,
+                            CategoryId: isParent != true ? categoryId : 0,
+                            SearchString: "",
+                            StoreId: selectedStore().companyId(),
+                        }, {
+                            success: function (data) {
+                                productTemplatesList.removeAll();
+                                if (isParent == true) {
+                                    childCategoriesList.removeAll();
+                                    _.each(data.SubCategories, function (item) {
+                                        childCategoriesList.push(item);
+                                    });
+                                }
+                                if (data != null) {
+                                    _.each(data.ProductTemplateList, function (item) {
+                                        productTemplatesList.push(item);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load templates " + response, "", ist.toastrOptions);
+                            }
+                        });
+                },
+                exportPdf = function() {
+                    exportProductTemplates(true);
+                },
+                exportExcel = function() {
+                    exportProductTemplates(false);
+                },
+                exportProductTemplates = function (isPdf) {
+                  
                     dataservice.exportProductTemplates(
-                        { Html: html }, {
+                        {
+                            ParentCategoryId: categoryFilter(),
+                            CategoryId: subcategoryFilter(),
+                            SearchString: "",
+                            StoreId: selectedStore().companyId(),
+                            IsPdf: isPdf
+                        }, {
                             success: function (data) {
                                 if (data != null) {
                                     var host = window.location.host;
@@ -8724,7 +8772,12 @@ define("stores/stores.viewModel",
                     onDeleteTemplateFont: onDeleteTemplateFont,
                     openProductTempaltesList: openProductTempaltesList,
                     productTemplatesList: productTemplatesList,
-                    exportProductTemplates: exportProductTemplates
+                    categoryFilter: categoryFilter,
+                    subcategoryFilter: subcategoryFilter,
+                    parenCategoriesList: parenCategoriesList,
+                    childCategoriesList: childCategoriesList,
+                    exportPdf: exportPdf,
+                    exportExcel: exportExcel
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

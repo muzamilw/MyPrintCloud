@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
+using MPC.Web.Reports;
 
 namespace MPC.Implementation.MISServices
 {
@@ -1671,6 +1672,57 @@ namespace MPC.Implementation.MISServices
             else
                 return InternalPath;
         }
+
+        public string ExportProductTemplateReportPdf(int reportId, List<usp_GetStoreProductTemplatesList_Result> dataSource, bool isPdf, long organisationId )
+        {
+            string sFilePath = string.Empty;
+            string InternalPath = string.Empty;
+            string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/");
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+            }
+            try
+            {
+                SectionReport currReport = new ExportProductTemplateList();
+                   
+                    string sFileName = reportId + "ProductTemplatesList.pdf";
+                    currReport.DataSource = dataSource;
+                    currReport.Run();
+                if (isPdf)
+                {
+                    PdfExport pdf = new PdfExport();
+                    pdf.ImageQuality = ImageQuality.Highest;
+                    sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/") + sFileName;
+                    InternalPath = "/" + ImagePathConstants.ReportPath + organisationId + "/" + sFileName;
+                    pdf.Export(currReport.Document, sFilePath);
+                    currReport.Document.Dispose();
+                    pdf.Dispose();
+                }
+                else
+                {
+                    sFileName = "ProductTemplate.xls";
+                    GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
+                    xls.MinColumnWidth = 1;
+
+                    sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/") + sFileName;
+                    InternalPath = "/" + ImagePathConstants.ReportPath + organisationId + "/" + sFileName;
+                    xls.Export(currReport.Document, sFilePath);
+
+                    currReport.Document.Dispose();
+                    xls.Dispose();   
+                }
+                    
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return InternalPath;
+                
+        }
+
+       
 
 
     }

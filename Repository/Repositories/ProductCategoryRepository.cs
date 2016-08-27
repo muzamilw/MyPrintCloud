@@ -279,5 +279,19 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
+
+        public List<ProductCategory> GetAllStoreChildCategories(long storeId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return DbSet.Where(c => c.isArchived != true && c.CompanyId == storeId && c.ParentCategoryId != null).ToList();
+
+        }
+        public List<ProductCategory> GetChildCategoriesByParentId(long parentId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var childList = db.usp_GetChildCategoriesById(parentId).ToList();
+            return DbSet.Where(c => c.isArchived != true && childList.Contains(c.ProductCategoryId) && c.ProductCategoryId != parentId).ToList();
+
+        }
     }
 }

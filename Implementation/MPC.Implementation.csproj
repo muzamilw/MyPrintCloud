@@ -219,6 +219,12 @@
     <Compile Include="MISServices\DashboardService.cs" />
     <Compile Include="MISServices\DeliveryCarrierService.cs" />
     <Compile Include="MISServices\DeliveryNotesService.cs" />
+    <Compile Include="MISServices\ExportProductTemplateList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MISServices\ExportProductTemplateList.Designer.cs">
+      <DependentUpon>ExportProductTemplateList.cs</DependentUpon>
+    </Compile>
     <Compile Include="MISServices\ExportReportHelper.cs" />
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\InquiryService.cs" />
@@ -399,6 +405,10 @@
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="MISServices\ExportProductTemplateList.resx">
+      <DependentUpon>ExportProductTemplateList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

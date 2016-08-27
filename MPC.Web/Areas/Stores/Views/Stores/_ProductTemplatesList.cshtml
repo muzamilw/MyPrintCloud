@@ -1,42 +1,36 @@
 
 <div class="modal fade my-modal" id="productTemplatesDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div style="width: 838px;" class="modal-dialog">
+    <div style="width: 850px;" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Product Templates</h4>
 
             </div>
+            <div class="col-sm-12" style="margin-top: 10px;">
+                <div class="col-lg-6 col-sm-6 form-group pull-left">
+                    <div class="col-lg-4 col-sm-4">
+                        <label class="control-label text-right">Parent Category</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <select id="category" class="form-control" data-bind="options: $root.parenCategoriesList,optionsCaption:'Select Parent Category', optionsText: 'CategoryName', optionsValue: 'ProductCategoryId',value:$root.categoryFilter"></select>
+                    </div>
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div style="border:1px solid #eeeeee;padding-right:5px;padding-left:3px; padding-bottom:20px;min-height:250px; max-height:400px;overflow-y:scroll;">
-                        <div class="main-box-body main-box clearfix">
-                            <div class="table-responsive" style="padding-left:20px; padding-right:20px;" id="tblTemplatesList">
-                                <table id="templatesListtbl" class="table user-list table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th class="col-sm-1"></th>
-                                            <th class="col-sm-3"><span>Product Code</span></th>
-                                            <th class="col-sm-3"><span>Product Name</span></th>
-                                            <th class="col-sm-4"><span>Thumbnail</span></th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <!-- ko template: { name: 'templateList', foreach: productTemplatesList } -->
-                                        <!-- /ko -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 form-group pull-left">
+                    <div class="col-lg-4 col-sm-4">
+                        <label class="control-label text-right">Sub Category</label>
+                    </div>
+                    <div class="col-lg-6 col-sm-6">
+                        <select id="subCategory" class="form-control" data-bind="options: $root.childCategoriesList,optionsCaption:'Select Sub Category', optionsText: 'CategoryName', optionsValue: 'ProductCategoryId',value:$root.subcategoryFilter"></select>
                     </div>
                 </div>
             </div>
+            @Html.Partial("_ProductTemplatesPartial");
             <div class="modal-footer" style="padding-left:0px;padding-right:0px;">
                 <div style="padding-right:8px;">
-                    @*<button type="button" class="btn btn-primary" data-bind="click: $root.exportProductTemplates">Export</button>*@
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.exportExcel">Export to Excel</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.exportPdf">Export to PDF</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left:0;">Close</button>
                 </div>
 
@@ -46,7 +40,12 @@
 </div>
 <script id="templateList" type="text/html">
     <tr>
-        <td></td>
+        <td>
+            <span data-bind="text: ParentCategory"></span>
+        </td>
+        <td>
+            <span data-bind="text: CategoryName"></span>
+        </td>
         <td>
             <span data-bind="text: ProductCode"></span>
         </td>
@@ -55,7 +54,7 @@
         </td>
 
         <td>
-            <img data-bind="attr: { src: '@Url.Content("~/")' + ThumbnailPath }" alt=""></img>
+            <img data-bind="attr: { src: '@Url.Content("~/")' + TemplatePath }" alt=""></img>
 
         </td>
     </tr>

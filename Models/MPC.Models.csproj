@@ -504,6 +504,7 @@
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
+    <Compile Include="RequestModels\TemplateListRequestModel.cs" />
     <Compile Include="RequestModels\UpdateSectionCostCentersRequest.cs" />
     <Compile Include="ResponseModels\DashBoardChartsResponse.cs" />
     <Compile Include="ResponseModels\DiscountVoucherListViewResponse.cs" />
@@ -565,6 +566,7 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
+    <Compile Include="ResponseModels\ProductTemplateListResponseModel.cs" />
     <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
     <Compile Include="ResponseModels\RealEstateListViewResponse.cs" />

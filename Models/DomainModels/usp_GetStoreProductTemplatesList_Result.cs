@@ -10,9 +10,13 @@ namespace MPC.Models.DomainModels
     {
         public long ItemId { get; set; }
         public string ProductName { get; set; }
+        public string ProductCode { get; set; }
         public long? Templateid { get; set; }
         public string CategoryName { get; set; }
         public string ParentCategory { get; set; }
         public string TemplatePath { get; set; }
+        public long CategoryId { get; set; }
+        public int? ParentCategoryId { get; set; }
+        
     }
 }

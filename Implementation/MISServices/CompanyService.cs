@@ -29,6 +29,8 @@ using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
 using MPC.Common;
 using Newtonsoft.Json.Linq;
+using WebSupergoo.ABCpdf8;
+using Xero.Api.Infrastructure.ThirdParty.ServiceStack.Text;
 using Scope = System.IdentityModel.Scope;
 using System.Text;
 using GrapeCity.ActiveReports;
@@ -118,6 +120,7 @@ namespace MPC.Implementation.MISServices
         private readonly IVariableExtensionRespository variableExtensionRespository;
         private readonly ICurrencyRepository currencySymbol;
         private readonly ISectionRepository _sectionRepository;
+        private readonly IExportReportHelper exportReportHelper;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3017,7 +3020,7 @@ namespace MPC.Implementation.MISServices
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
             IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol,
-            ISectionRepository sectionRepository)
+            ISectionRepository sectionRepository, IExportReportHelper reportHelper)
         {
             if (bannerSetRepository == null)
             {
@@ -3102,6 +3105,7 @@ namespace MPC.Implementation.MISServices
             this.variableExtensionRespository = variableExtensionRespository;
             this.currencySymbol = currencySymbol;
             this._sectionRepository = sectionRepository;
+            this.exportReportHelper = reportHelper;
 
         }
         #endregion
@@ -10148,20 +10152,78 @@ namespace MPC.Implementation.MISServices
             };
         }
 
-        public List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStoreId(long storeId)
+       
+
+        public ProductTemplateListResponseModel GetProductTemplateBase(long storeId, long categoryId)
         {
-            return itemRepository.GetProductTemplatesListByStore(storeId);
+            return new ProductTemplateListResponseModel
+            {
+                ParentCategories = productCategoryRepository.GetParentCategories(storeId).ToList(),
+                SubCategories = productCategoryRepository.GetAllStoreChildCategories(storeId),
+                ProductTemplateList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, 0)
+            };
+        }
+        public ProductTemplateListResponseModel GetFilteredProductTemplates(long storeId, long categoryId, long parentCategoryId)
+        {
+            return new ProductTemplateListResponseModel
+            {
+                ParentCategories = null,
+                SubCategories = parentCategoryId > 0 ? productCategoryRepository.GetChildCategoriesByParentId(parentCategoryId) : null,
+                ProductTemplateList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId)
+            };
         }
 
-        public string ExportProductTemplates(string html)
+        public string ExportProductTemplates(long storeId, long categoryId, long parentCategoryId, bool isPdf)
         {
-            string sHtml = "<html><head><title>Product Templates Export</title></head><body>" + html + "</body></html>";
-            byte[] rptBytes = null;
-            rptBytes = System.Text.Encoding.Unicode.GetBytes(sHtml);
-            string savePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationRepository.OrganisationId + "/ProductTemplateExport.xls");
-            // Encoding must be done
-            File.WriteAllBytes(savePath, rptBytes);
-            return "/" + ImagePathConstants.ReportPath + organisationRepository.OrganisationId + "/ProductTemplateExport.xls"; 
+            var list = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId);
+            list.ForEach(a => a.TemplatePath = System.Web.HttpContext.Current.Server.MapPath(a.TemplatePath));
+            string sst = exportReportHelper.ExportProductTemplateReportPdf(3439, list, isPdf, itemRepository.OrganisationId);
+            
+            //string FileName = "ProductTemplatesList.pdf";
+            //string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
+            //string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
+            //Doc theDoc = new Doc();
+            //try
+            //{
+            //    string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/mis/Stores/Stores/ProductTemplatesIndex?storeId=" + storeId + "&categoryId=" + categoryId + "&parentCategoryId=" + parentCategoryId;
+             
+            //    string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
+            //    if (AddGeckoKey == "1")
+            //    {
+            //        theDoc.HtmlOptions.Engine = EngineType.Gecko;
+            //    }
+
+            //    theDoc.FontSize = 22;
+            //    int objid = theDoc.AddImageUrl(URl);
+            //    while (true)
+            //    {
+            //        theDoc.FrameRect();
+            //        if (!theDoc.Chainable(objid))
+            //            break;
+            //        theDoc.Page = theDoc.AddPage();
+            //        objid = theDoc.AddImageToChain(objid);
+            //    }
+            //    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
+            //    if (!Directory.Exists(physicalFolderPath))
+            //        Directory.CreateDirectory(physicalFolderPath);
+            //    theDoc.Save(FilePath);
+            //    theDoc.Clear();
+               
+            //}
+            //catch (Exception e)
+            //{
+            //    theDoc.Clear();
+            //    return null;
+            //}
+            //finally
+            //{
+            //    theDoc.Dispose();
+            //}
+
+            //if (System.IO.File.Exists(FilePath))
+            //    return AttachmentPath;
+            //else
+            return sst;
         }
     }
 }

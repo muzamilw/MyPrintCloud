@@ -2642,11 +2642,27 @@ function togglePage(pId) {
             },
             active: function () {
                 d5(TP[0].ProductPageID, true);
+                console.log("All fonts has been rendered.");
             },
             inactive: function () {
-                alert("Error while loading fonts,please refresh the browser window.");
+                //alert("Error while loading fonts,please refresh the browser window.");
+                console.log("Error while loading fonts,please refresh the browser window.");
                 d5(TP[0].ProductPageID, true);
-            }
+            },
+            loading: function() {
+                console.log("All fonts has been requested.");
+            },
+            
+            fontloading: function(familyName, fvd) {
+                console.log("font " + familyName + " Loaded.");
+            },
+            fontactive: function(familyName, fvd) {
+                console.log("font " + familyName + " Rendered.");
+            },
+            fontinactive: function(familyName, fvd) {
+                console.log("font " + familyName + " could not be Rendered.");
+            },
+            timeout: 10000
         };
         var wf = document.createElement('script');
         // wf.src = "js/webfont.js"

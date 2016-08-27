@@ -16,7 +16,7 @@
     <AssemblyName>MPC.MIS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
@@ -354,6 +354,7 @@
     <Compile Include="Areas\Api\Models\RoleRight.cs" />
     <Compile Include="Areas\Api\Models\SystemUsersResponse.cs" />
     <Compile Include="Areas\Api\Models\UserRoleResponse.cs" />
+    <Compile Include="Areas\Stores\Controllers\ExportTemplateController.cs" />
     <Compile Include="Properties\App_Start\BundleConfig.cs" />
     <Compile Include="Properties\App_Start\CustomRazorViewEngine.cs" />
     <Compile Include="Properties\App_Start\FilterConfig.cs" />
@@ -2366,6 +2367,8 @@
     <Content Include="Areas\Settings\Views\MIS\_ClickChargeZoneDialog.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_CostCenterZoneVariableDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_ProductTemplatesList.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\ProductTemplatesIndex.cshtml" />
+    <Content Include="Areas\Stores\Views\Stores\_ProductTemplatesPartial.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3625,6 +3628,7 @@
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
+    <Folder Include="Areas\Stores\Views\ExportTemplate\" />
     <Folder Include="Content\Images\gallery\" />
     <Folder Include="Content\Images\patterns\body\" />
     <Folder Include="Content\Images\patterns\header\" />
@@ -3703,7 +3707,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>30630</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

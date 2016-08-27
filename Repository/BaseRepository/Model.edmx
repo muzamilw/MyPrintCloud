@@ -6711,6 +6711,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrderID" Type="int" Mode="In" />
           <Parameter Name="CreatedBy" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="usp_GetChildCategoriesById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ParentId" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_GetChildFoldersById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FolderId" Type="bigint" Mode="In" />
         </Function>
@@ -6719,7 +6722,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="ContactCompanyID" Type="int" Mode="In" />
         </Function>
         <Function Name="usp_GetStoreProductTemplatesList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="SotreId" Type="bigint" Mode="In" />
+          <Parameter Name="StoreId" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_importCRMCompanyContacts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
@@ -8951,7 +8954,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Roleright" EntitySet="Rolerights" />
           </AssociationSet>
           <FunctionImport Name="usp_GetStoreProductTemplatesList" ReturnType="Collection(DomainModels.usp_GetStoreProductTemplatesList_Result)">
-            <Parameter Name="SotreId" Mode="In" Type="Int64" />
+          <Parameter Name="StoreId" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetChildCategoriesById" ReturnType="Collection(Int64)">
+          <Parameter Name="ParentId" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Company">
@@ -16480,6 +16486,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ParentCategory" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="TemplatePath" Nullable="true" MaxLength="252" />
+          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="CategoryId" Nullable="true" />
+          <Property Type="Int32" Name="ParentCategoryId" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -21883,9 +21892,13 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="ParentCategory" ColumnName="ParentCategory" />
                 <ScalarProperty Name="TemplatePath" ColumnName="TemplatePath" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetChildCategoriesById" FunctionName="DomainModels.Store.usp_GetChildCategoriesById" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -4994,12 +4994,30 @@ namespace MPC.Repository.Repositories
         //              };
         //    return qry.ToList();
         //}
-        public List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStore(long storeId)
+        public List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStore(long storeId, long categoryId, long parentId)
         {
-            return db.usp_GetStoreProductTemplatesList(storeId).ToList();
+            List<long> childList = null;
+
+            if (parentId > 0)
+            {
+                childList = db.usp_GetChildCategoriesById(parentId).ToList();
+            }
+            if(categoryId > 0)
+            return db.usp_GetStoreProductTemplatesList(storeId).ToList().Where(a => a.CategoryId == categoryId).ToList();
+            else
+            {
+                var tempList = db.usp_GetStoreProductTemplatesList(storeId).ToList();
+                if (childList != null)
+                {
+                    return tempList.Where(c => childList.Contains(c.CategoryId) || childList.Contains(Convert.ToInt64(c.ParentCategoryId))).ToList();
+                }
+                else
+                {
+                    return tempList;
+                }
+            }
         }
-      
-   
+        
     }
 }
 

@@ -7,6 +7,7 @@ using System.Web.Http;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Models.DomainModels;
+using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
 using MPC.WebBase.Mvc;
@@ -32,8 +33,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         #endregion
         #region Public
-        
-        public string Get()
+
+        public string Get(long id)
         {
             return string.Empty;
         }
@@ -41,17 +42,26 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public List<usp_GetStoreProductTemplatesList_Result> Get(long id)
+        public ProductTemplateListResponseModel Get([FromUri] TemplateListRequestModel request)
         {
-           return _companyService.GetProductTemplatesListByStoreId(id);
+            if (request == null || !ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+            if(request.CategoryId == 0 && request.ParentCategoryId == 0)
+                return _companyService.GetProductTemplateBase(request.StoreId, request.CategoryId);
+            else
+            {
+                return _companyService.GetFilteredProductTemplates(request.StoreId, request.CategoryId, request.ParentCategoryId);
+            }
         }
 
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [CompressFilterAttribute]
-        public string Post(HtmlData htm)
+        public string Post(TemplateListRequestModel htm)
         {
-            return _companyService.ExportProductTemplates(htm.Html);
+            return _companyService.ExportProductTemplates(htm.StoreId, htm.CategoryId, htm.ParentCategoryId, htm.IsPdf);
 
         }
 
@@ -67,8 +77,5 @@ namespace MPC.MIS.Areas.Api.Controllers
         
     }
 
-    public class HtmlData
-    {
-        public string Html { get; set; }
-    }
+    
 }
