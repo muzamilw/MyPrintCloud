@@ -1,6 +1,7 @@
 ﻿using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.ResponseModels;
 using MPC.WebBase.Mvc;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,13 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return companyService.ArchiveSpotColor(request.SpotColorId).CreateFrom();
             
+        }
+
+        public SpotColorsResponseModel Get([FromUri] SpotColorArchiveRequestModel request)
+        {
+            var response = companyService.GetTemplateColorStyles(request.StoreId, request.TerritoryId,
+                request.IsStoreColors);
+            return response != null ? new SpotColorsResponseModel {SpotColors = response} : null;
         }
 
     }

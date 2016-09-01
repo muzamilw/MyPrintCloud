@@ -3556,10 +3556,10 @@ namespace MPC.Implementation.MISServices
         public void DeleteOrderPermanently(long orderId, string Comment)
         {
 
+            Estimate order = orderRepository.GetOrderByID(orderId);
+            Comment += string.Format(" Order Code: {0} Order Total: {1} Order Date: {2}", order.Order_Code, order.Estimate_Total, order.Order_Date);
             if (companyRepository.SaveUserActionLog(Comment, orderId, "Order"))
             {
-
-                Estimate order = orderRepository.GetOrderByID(orderId);
                 //Company company = companyRepository.Find(companyId);
 
                 if (order == null)

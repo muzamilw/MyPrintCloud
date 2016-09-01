@@ -15,5 +15,6 @@ namespace MPC.Interfaces.Repository
         string UpdateCorpColor(long id, string type);
 
         TemplateColorStyle ArchiveSpotColor(long SpotColorId);
+        List<TemplateColorStyle> GetTemplateColorStylesByStore(long storeId, long territoryId, bool isStore);
     }
 }

@@ -494,6 +494,12 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to get Spot Colors
+                    amplify.request.define('getSpotColors', 'ajax', {
+                        url: ist.siteUrl + '/Api/SpotColor',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -1211,7 +1217,15 @@
                  data: params
              });
          },
-        
+        getSpotColors = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getSpotColors',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
         exportProductTemplates = function (param, callbacks) {
             initialize();
             return amplify.request({
@@ -1304,7 +1318,8 @@
             saveTemplateFont: saveTemplateFont,
             deleteTemplateFont: deleteTemplateFont,
             getProductTemplates: getProductTemplates,
-            exportProductTemplates : exportProductTemplates
+            exportProductTemplates: exportProductTemplates,
+            getSpotColors: getSpotColors
         };
     })();
 

@@ -118,6 +118,7 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<Address> GetAllAddressByStoreId(long storeId)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.Addesses.Where(s => s.CompanyId == storeId && s.isArchived != true);
         }
         public Address GetAddressByID(long AddressID)

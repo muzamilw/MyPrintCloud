@@ -31,9 +31,15 @@ namespace MPC.Web.Reports
 
         private void detail_Format(object sender, EventArgs e)
         {
-            if (File.Exists(txtImagePath.Text))
+            string sFileJpg = txtImagePath.Text;
+            string sFilePng = txtImagePath.Text.Replace(".jpg", ".png");
+            if (File.Exists(sFileJpg))
             {
-                Picture1.Image = Image.FromFile(txtImagePath.Text);
+                Picture1.Image = Image.FromFile(sFileJpg);
+            }
+            else if (File.Exists(sFilePng))
+            {
+                Picture1.Image = Image.FromFile(sFilePng);
             }
             else
             {

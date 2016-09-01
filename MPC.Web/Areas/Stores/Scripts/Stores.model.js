@@ -916,15 +916,16 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 store.addresses.push(Address.Create(item));
             });
         }
-        if (source.TemplateColorStyles) {
-            _.each(source.TemplateColorStyles, function (item) {
-                if(item.TerritoryId == null)
-                    store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
-                else {
-                    store.companyTerritoryColors.push(CompanyCMYKColor.Create(item));
-                }
-            });
-        }
+        
+        //if (source.TemplateColorStyles) {
+        //    _.each(source.TemplateColorStyles, function (item) {
+        //        if(item.TerritoryId == null)
+        //            store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
+        //        else {
+        //            store.companyTerritoryColors.push(CompanyCMYKColor.Create(item));
+        //        }
+        //    });
+        //}
         //if (source.CompanyTemplateFonts) {
         //    _.each(source.CompanyTemplateFonts, function (item) {
         //        if (item.TerritoryId == null)

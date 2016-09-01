@@ -10676,6 +10676,15 @@ Begin
 End
 ------
 
+
+/****** Object:  StoredProcedure [dbo].[usp_GetStoreProductTemplatesList]    Script Date: 8/29/2016 3:41:55 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
 --exec [usp_GetStoreProductTemplatesList] 33474
 ALTER procedure [dbo].[usp_GetStoreProductTemplatesList]
  @StoreId bigint
@@ -10683,7 +10692,7 @@ ALTER procedure [dbo].[usp_GetStoreProductTemplatesList]
 AS
 Begin
 
-	select i.ItemId, i.ProductName, i.ProductCode, i.Templateid, itp.CategoryId, itp.CategoryName, itp.ParentCategory, itp.ParentCategoryId,
+	select i.ItemId, i.ProductName, i.ProductCode, i.Templateid, itp.CategoryId, itp.CategoryName, itp.ParentCategory,itp.ParentCategoryId,
 		case when i.Templateid is null then null
 			else '/MPC_Content/Designer/Organisation'+ cast(i.OrganisationId as varchar(100)) +'/Templates/' + cast( i.TemplateID as varchar(100)) + '/P1.jpg'
 			end as TemplatePath
@@ -10695,7 +10704,7 @@ Begin
 						from productcategoryitem pci 
 								inner join productcategory pc on pc.productcategoryid = pci.categoryid
 								left join productcategory pcp on pcp.productcategoryid = pc.parentCategoryid)itp on itp.itemid = i.itemid
-		where i.companyid = @StoreId and i.estimateid is null and i.templateid is not null
+		where i.companyid = @StoreId and i.estimateid is null and i.templateid is not null and (i.isArchived = 0 or i.isArchived is null)
 
 End
 

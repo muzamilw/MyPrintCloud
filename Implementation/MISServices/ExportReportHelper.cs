@@ -1704,6 +1704,7 @@ namespace MPC.Implementation.MISServices
                     sFileName = "ProductTemplate.xls";
                     GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
                     xls.MinColumnWidth = 1;
+                   
 
                     sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/") + sFileName;
                     InternalPath = "/" + ImagePathConstants.ReportPath + organisationId + "/" + sFileName;

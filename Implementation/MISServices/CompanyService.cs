@@ -10156,20 +10156,36 @@ namespace MPC.Implementation.MISServices
 
         public ProductTemplateListResponseModel GetProductTemplateBase(long storeId, long categoryId)
         {
+            var tempList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, 0);
+            tempList.ForEach(a => UpdateTemplatePath(a));
+            
             return new ProductTemplateListResponseModel
             {
                 ParentCategories = productCategoryRepository.GetParentCategories(storeId).ToList(),
                 SubCategories = productCategoryRepository.GetAllStoreChildCategories(storeId),
-                ProductTemplateList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, 0)
+                ProductTemplateList = tempList
             };
+        }
+
+        private usp_GetStoreProductTemplatesList_Result UpdateTemplatePath(usp_GetStoreProductTemplatesList_Result template)
+        {
+            if (File.Exists(System.Web.HttpContext.Current.Server.MapPath(template.TemplatePath)))
+                return template;
+            else
+            {
+                template.TemplatePath = template.TemplatePath.Replace(".jpg", ".png");
+                return template;
+            }
         }
         public ProductTemplateListResponseModel GetFilteredProductTemplates(long storeId, long categoryId, long parentCategoryId)
         {
+            var tempList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId);
+            tempList.ForEach(a => UpdateTemplatePath(a));
             return new ProductTemplateListResponseModel
             {
                 ParentCategories = null,
                 SubCategories = parentCategoryId > 0 ? productCategoryRepository.GetChildCategoriesByParentId(parentCategoryId) : null,
-                ProductTemplateList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId)
+                ProductTemplateList = tempList
             };
         }
 
@@ -10178,52 +10194,12 @@ namespace MPC.Implementation.MISServices
             var list = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId);
             list.ForEach(a => a.TemplatePath = System.Web.HttpContext.Current.Server.MapPath(a.TemplatePath));
             string sst = exportReportHelper.ExportProductTemplateReportPdf(3439, list, isPdf, itemRepository.OrganisationId);
-            
-            //string FileName = "ProductTemplatesList.pdf";
-            //string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
-            //string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
-            //Doc theDoc = new Doc();
-            //try
-            //{
-            //    string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/mis/Stores/Stores/ProductTemplatesIndex?storeId=" + storeId + "&categoryId=" + categoryId + "&parentCategoryId=" + parentCategoryId;
-             
-            //    string AddGeckoKey = ConfigurationManager.AppSettings["AddEngineTypeGecko"];
-            //    if (AddGeckoKey == "1")
-            //    {
-            //        theDoc.HtmlOptions.Engine = EngineType.Gecko;
-            //    }
-
-            //    theDoc.FontSize = 22;
-            //    int objid = theDoc.AddImageUrl(URl);
-            //    while (true)
-            //    {
-            //        theDoc.FrameRect();
-            //        if (!theDoc.Chainable(objid))
-            //            break;
-            //        theDoc.Page = theDoc.AddPage();
-            //        objid = theDoc.AddImageToChain(objid);
-            //    }
-            //    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
-            //    if (!Directory.Exists(physicalFolderPath))
-            //        Directory.CreateDirectory(physicalFolderPath);
-            //    theDoc.Save(FilePath);
-            //    theDoc.Clear();
-               
-            //}
-            //catch (Exception e)
-            //{
-            //    theDoc.Clear();
-            //    return null;
-            //}
-            //finally
-            //{
-            //    theDoc.Dispose();
-            //}
-
-            //if (System.IO.File.Exists(FilePath))
-            //    return AttachmentPath;
-            //else
             return sst;
+        }
+
+        public List<TemplateColorStyle> GetTemplateColorStyles(long storeId, long territoryId, bool isStore)
+        {
+            return templateColorStylesRepository.GetTemplateColorStylesByStore(storeId, territoryId, isStore);
         }
     }
 }

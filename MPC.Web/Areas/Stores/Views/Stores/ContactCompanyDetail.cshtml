@@ -82,7 +82,7 @@
                             <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
                             <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Shipping Options</a></li>
                             @*<li><a href="#tab-specialoffer" data-toggle="tab">Discount & Loyalty Points</a></li>*@
-                            <li><a href="#tab-CMYKColors" data-toggle="tab">Spot Colors</a></li>
+                            <li><a href="#tab-CMYKColors" data-bind="click:$root.selectedStore().companyCMYKColors().length == 0 ? getStoreSpotColors : null" data-toggle="tab">Spot Colors</a></li>
                             <li><a href="#tab-VariableDef" data-toggle="tab">Custom CRM Fields</a></li>
                             <li><a href="#tab-SystemCRMField" data-toggle="tab" data-bind="click:$root.onClickSystemVaribaleTab">System CRM Fields</a></li>
                             <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>

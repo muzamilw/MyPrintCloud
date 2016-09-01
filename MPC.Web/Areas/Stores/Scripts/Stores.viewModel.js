@@ -1073,6 +1073,7 @@ define("stores/stores.viewModel",
                             getCompanyContactVariableForEditContact(selectedCompanyTerritory().territoryId(), scope);
 
                         }
+                        getSpotColors(false);
                         getTerritoryTemplateFonts();
                         selectedCompanyTerritory().reset();
                         view.showCompanyTerritoryDialog();
@@ -7720,9 +7721,7 @@ define("stores/stores.viewModel",
                         });
                     }),
                     
-                
                     territorySpotColors = ko.computed(function(){
-
                         if (selectedStore().companyTerritoryColors().length === 0) {
                             return [];
                         }
@@ -7730,17 +7729,6 @@ define("stores/stores.viewModel",
                         return selectedStore().companyTerritoryColors().filter(function (color) {
                             return color.territoryId() === territoryId;
                         });
-
-
-                        //colors = [];
-                        //if (selectedStore().companyTerritoryColors().length > 0 && selectedCompanyTerritory() != undefined) {
-                        //    _.each(selectedStore().companyTerritoryColors(), function (color) {
-                        //        if (color.territoryId() == selectedCompanyTerritory().territoryId())
-                        //            colors.push(color);
-                        //    });
-                        //}
-                        //return colors;
-
                     }),
                    //// Products Date
                    // ProductDate = ko.computed(function () {
@@ -8280,6 +8268,34 @@ define("stores/stores.viewModel",
                             }
                         });
                 },
+                getSpotColors = function(isStoreColors) {
+                    dataservice.getSpotColors({
+                        TerritoryId: !isStoreColors ? selectedCompanyTerritory().territoryId() : 0,
+                        StoreId: isStoreColors?  selectedStore().companyId() : 0,
+                        IsStoreColors: isStoreColors
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    if (isStoreColors) {
+                                        _.each(data.SpotColors, function (item) {
+                                            selectedStore().companyCMYKColors.push(model.CompanyCMYKColor.Create(item));
+                                        });
+                                    } else {
+                                        _.each(data.SpotColors, function (item) {
+                                            selectedStore().companyTerritoryColors.push(model.CompanyCMYKColor.Create(item));
+                                        });
+                                    }
+                                       
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load template spot colors " + response, "", ist.toastrOptions);
+                            }
+                        });
+                },
+                getStoreSpotColors = function() {
+                    getSpotColors(true);
+                },
                 
                     //Delete company variable icon
                 onDeleteCompanyVariableIcon = function(variableIcon) {
@@ -8777,7 +8793,9 @@ define("stores/stores.viewModel",
                     parenCategoriesList: parenCategoriesList,
                     childCategoriesList: childCategoriesList,
                     exportPdf: exportPdf,
-                    exportExcel: exportExcel
+                    exportExcel: exportExcel,
+                    getStoreSpotColors: getStoreSpotColors
+                    
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

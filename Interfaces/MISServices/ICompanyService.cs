@@ -202,6 +202,7 @@ namespace MPC.Interfaces.MISServices
         string ExportProductTemplates(long storeId, long categoryId, long parentCategoryId, bool isPdf);
         ProductTemplateListResponseModel GetProductTemplateBase(long storeId, long categoryId);
         ProductTemplateListResponseModel GetFilteredProductTemplates(long storeId, long categoryId, long parentCategoryId);
+        List<TemplateColorStyle> GetTemplateColorStyles(long storeId, long territoryId, bool isStore);
 
     }
 }
