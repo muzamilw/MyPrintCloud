@@ -34,7 +34,9 @@
                         <button class="btn btn-danger" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Delete</button>
                     </div>
 
-                    <div style="text-align: right; padding-right:0px;margin-top:-10px; ">
+                    <div style="text-align: right; padding-right:0;margin-top:-10px; ">
+                        <button type="button" class="btn btn-success" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible: $root.selectedProduct().productType()!==3,click:$root.onPrintSectionReport">Section(s) Summary Report</button>
+                       
                         <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
                         <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible: ($root.selectedOrder().statusId() === 6 || $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10)&& !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>
                         <!--/ko-->
@@ -42,7 +44,7 @@
                         <button data-bind="visible:$root.showSectionDetail,click:$root.closeSectionDetailEditor" class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
 
-                  
+
                 </div>
             </div>
         </div>
@@ -115,7 +117,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            
+
                                                         </div>
                                                         <div class="txtBox-contentAlignRight" style="margin-right: 34px">
                                                             <label class="control-label">
@@ -135,7 +137,7 @@
                                                             <div class="col-sm-10">
                                                                 <label class="control-label" style="color: red" data-bind=" text:couponCode"></label>
                                                             </div>
-                                                            
+
                                                         </div>
 
                                                         <div class="col-sm-4">
@@ -174,7 +176,7 @@
                                                                 <label class="control-label">Tax</label>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="col-sm-3">
                                                             <div class="col-sm-10">
                                                                 <input type="text" style="" class="form-control text-right" name="Tax Rate should be a valid number" id="txtTax" data-bind="disable:taxRateIsDisabled, autoNumeric:tax1, settings:{mDec:2}">
@@ -228,6 +230,7 @@
                                                 <!--ko if:$root.selectedOrder() && ($root.selectedOrder().statusId === undefined || $root.selectedOrder().statusId() !== 6)-->
                                                 <div style="height: 35px;">&nbsp;</div>
                                                 <!--/ko-->
+
                                                 <div style="float: left" data-bind="visible:$root.selectedProduct().productType()!==3">
                                                     <div class="btn btn-success" data-bind="click:$root.onCreateNewItemSection">
                                                         Add New Section
@@ -402,7 +405,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                       
+
                                         <div class="col-sm-2">
                                             <label class="control-label tooltip-float">Invoice Description</label>
                                         </div>
@@ -416,7 +419,7 @@
                                     <div class="col-sm-12 form-horizontal">
                                         <div class="form-group">
                                             <div class="col-sm-2">
-                                              
+
                                             </div>
                                             <div class="col-sm-8" style="padding-left:5px;">
                                                 <a href="#" class="btn btn-primary pull-left" data-bind="click:$root.copyJobCards" style="margin-left: -3px;">
@@ -426,7 +429,7 @@
                                         </div>
                                     </div>
 
-                                   
+
 
                                 </div>
                             </div>
@@ -559,13 +562,13 @@
                                         <div class="form-group" data-bind="visible:isDigitalDownload()">
                                             <div class="col-sm-12">
                                                 <label class="font20px" style="color:red;">This is a digital download product and high res artwork has already been sent to the customer via email.<br /> No production is required for this product .</label>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-4 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
-                                                    
+
                                                 </div>
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload Attachment files</label>
                                             </div>
@@ -618,7 +621,7 @@
         @Html.Partial("~/Areas/Common/Views/Shared/_CostCenterQuantity.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
         @Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
-        
+
     </div>
 </div>
 <script id="orderItemAttachmentTemplate" type="text/html">
@@ -671,13 +674,13 @@
             <div style="float: left;">
                 @using (Ajax.BeginForm("FileDownload", "Home", new AjaxOptions { HttpMethod = "POST" }, new { target = "_blank" }))
                 {
-                <input type="hidden" id="item" name="item" data-bind="value:id" />
-                <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
-                    <span class="fa-stack">
-                        <i class="fa fa-square-o fa-stack-2x"></i>
-                        <i class="fa fa-download fa-stack-1x"></i>
-                    </span>
-                </button>
+                    <input type="hidden" id="item" name="item" data-bind="value:id" />
+                    <button type="submit" class="table-link" title="Donwload" data-bind="enable:id()>0" style=" padding-left: 0px;border-left-width: 0px;padding-right: 0px;border-right-width: 0px; border-top-width: 0px;padding-bottom: 0px;background-color: transparent;border-bottom: none;height: 31px;">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-download fa-stack-1x"></i>
+                        </span>
+                    </button>
                 }
             </div>
             <a href="#" class="table-link danger" style="float: right;" title="Delete" data-bind="click:$root.deleteItemAttachment">
@@ -719,6 +722,6 @@
 @section Scripts{
     <script>
         require(["common/reportManager.view"]);
-      
+
     </script>
 } 

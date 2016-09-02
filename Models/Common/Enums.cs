@@ -531,7 +531,8 @@ namespace MPC.Models.Common
         Invoice = 13,
         GRN = 15,
         Inventory = 7,
-        JobCard = 9
+        JobCard = 9,
+        SectionReport = 10
 
     }
 

@@ -2306,7 +2306,9 @@ define("common/itemDetail.viewModel",
                     selectedSection().itemSizeWidth(itemHeight);
                     getPtvCalculation(getSectionSystemCostCenters);
                 },
+                onPrintSectionReport = function() {
                     
+                },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -2444,7 +2446,8 @@ define("common/itemDetail.viewModel",
                     onCreateNewItemSection: onCreateNewItemSection,
                     isPress1Perfecting: isPress1Perfecting,
                     swapSectionHeightWidth: swapSectionHeightWidth,
-                    swapItemHeightWidth: swapItemHeightWidth
+                    swapItemHeightWidth: swapItemHeightWidth,
+                    onPrintSectionReport: onPrintSectionReport
                     //#endregion
                 };
             })()

@@ -136,7 +136,7 @@ namespace MPC.Implementation.MISServices
                         OrganisationID = org.OrganisationId;
                     }
                 }
-                if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
+                if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105 || iReportID == 4439)
                 {
 
                     currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID, OrganisationID);
@@ -1722,9 +1722,7 @@ namespace MPC.Implementation.MISServices
             return InternalPath;
                 
         }
-
-       
-
+        
 
     }
 }
