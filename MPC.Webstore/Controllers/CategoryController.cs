@@ -203,7 +203,15 @@ namespace MPC.Webstore.Controllers
                                 {// corp
                                     if (includeVAT)
                                     {
-                                        Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
+                                        if (product.DefaultItemTax != null)
+                                        {
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                        }
+                                        else
+                                        {
+                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));   
+                                        }
+                                        
                                     }
                                     else
                                     {
@@ -262,7 +270,15 @@ namespace MPC.Webstore.Controllers
                                         if (includeVAT)
                                         {
 
-                                            Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));
+                                            if (product.DefaultItemTax != null)
+                                            {
+                                                Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), Convert.ToDouble(product.DefaultItemTax))));
+                                            }
+                                            else
+                                            {
+                                                Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrix.PricePaperType1), TaxRate)));    
+                                            }
+                                            
 
                                         }
                                         else

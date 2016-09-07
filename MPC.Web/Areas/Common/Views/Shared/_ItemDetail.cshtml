@@ -35,7 +35,7 @@
                     </div>
 
                     <div style="text-align: right; padding-right:0;margin-top:-10px; ">
-                        <button type="button" class="btn btn-success" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible: $root.selectedProduct().productType()!==3,click:$root.onPrintSectionReport">Section(s) Summary Report</button>
+                        <button type="button" class="btn btn-success" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible: $root.selectedProduct().productType()!==3 && !$root.showSectionDetail(),click:$root.onPrintSectionReport">Section(s) Summary Report</button>
                        
                         <!--ko if:$root.selectedOrder() &&   $root.selectedOrder().statusId !==undefined -->
                         <button type="button" class="btn btn-primary" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" data-bind="visible: ($root.selectedOrder().statusId() === 6 || $root.selectedOrder().statusId() === 7 || $root.selectedOrder().statusId() === 10)&& !$root.showSectionDetail(),click:$root.openExternalReportsJob">Print Job Card</button>

@@ -366,9 +366,17 @@ function g1_(D1AO) {
 
     if (D1AO.IsPositionLocked) {
         $("#LockPositionImg").prop('checked', true);
+        $("#inputObjectWidth").spinner("option", "disabled", true);
+        $("#inputObjectHeight").spinner("option", "disabled", true);
+        $("#inputPositionX").spinner("option", "disabled", true);
+        $("#inputPositionY").spinner("option", "disabled", true);
     }
     else {
         $("#LockPositionImg").prop('checked', false);
+        $("#inputObjectWidth").spinner("option", "disabled", false);
+        $("#inputObjectHeight").spinner("option", "disabled", false);
+        $("#inputPositionX").spinner("option", "disabled", false);
+        $("#inputPositionY").spinner("option", "disabled", false);
     }
     if (D1AO.IsHidden) {
         $("#BtnPrintImage").prop('checked', true);
@@ -404,10 +412,10 @@ function g1_(D1AO) {
         $("#BtnImgCanvasAlignCenter").removeAttr("disabled");
         $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
         $("#BtnImgCanvasAlignRight").removeAttr("disabled");
-        $("#inputObjectWidth").spinner("option", "disabled", false);
-        $("#inputObjectHeight").spinner("option", "disabled", false);
-        $("#inputPositionX").spinner("option", "disabled", false);
-        $("#inputPositionY").spinner("option", "disabled", false);
+        //$("#inputObjectWidth").spinner("option", "disabled", false);
+        //$("#inputObjectHeight").spinner("option", "disabled", false);
+        //$("#inputPositionX").spinner("option", "disabled", false);
+        //$("#inputPositionY").spinner("option", "disabled", false);
         $('.inputObjectAlphaSlider').slider('enable');
         if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom ==4) ) {
             $(".BtnTxtarrangeOrder1").removeAttr("disabled");
@@ -461,10 +469,10 @@ function g1_(D1AO) {
             $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
             $("#BtnImgCanvasAlignRight").removeAttr("disabled");
         }
-        $("#inputObjectWidth").spinner("option", "disabled", true);
-        $("#inputObjectHeight").spinner("option", "disabled", true);
-        $("#inputPositionX").spinner("option", "disabled", true);
-        $("#inputPositionY").spinner("option", "disabled", true);
+        //$("#inputObjectWidth").spinner("option", "disabled", true);
+        //$("#inputObjectHeight").spinner("option", "disabled", true);
+        //$("#inputPositionX").spinner("option", "disabled", true);
+        //$("#inputPositionY").spinner("option", "disabled", true);
         $('.inputObjectAlphaSlider').slider('disable');
         $(".positioningControls").css("display", "block");
     }

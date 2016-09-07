@@ -26,7 +26,8 @@ var ist = {
         Invoice: 13,
         GRN: 15,
         Inventory: 7,
-        JobCards: 9
+        JobCards: 9,
+        Sections : 10
     },
 
     

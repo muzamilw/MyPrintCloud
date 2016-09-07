@@ -1347,6 +1347,16 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long>("usp_GetChildCategoriesById", idParameter);
         }
+        public ObjectResult<usp_SectionSummaryReport_Result> usp_SectionSummaryReport(long organisationId, long orderId, long itemId)
+        
+        {
+            var orgaIdParam = new ObjectParameter("organisationId", organisationId);
+            var orderIdParam = new ObjectParameter("OrderID", orderId);
+            var itemIdParam = new ObjectParameter("ItemID", itemId);
+              
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SectionSummaryReport_Result>("usp_SectionSummaryReport", orgaIdParam, orderIdParam, itemIdParam);
+
+        }
         #endregion
     }
 }

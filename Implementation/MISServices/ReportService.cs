@@ -74,8 +74,16 @@ namespace MPC.Implementation.MISServices
                 {
                     OrganisationID = org.OrganisationId;
                 }
-
-                if(iReportID == 165 || iReportID == 100 || iReportID  == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
+                /*
+                 165 = Job Card Report
+                 100 = Purchase Order Report
+                 103 = Order Report
+                 48 = Estimate Report
+                 105 = Invoice Report
+                 4439 = Section Summary Report
+                 * */
+                
+                if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105 || iReportID == 4439)
                 {
                     
                     currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID);
@@ -131,7 +139,7 @@ namespace MPC.Implementation.MISServices
                         }
                         else if (currentReport.CategoryId == (int)ReportCategoryEnum.SectionReport)
                         {
-                            currReport.DataSource = ReportRepository.getJobCardReportResult(OrganisationID, 0, itemid);
+                            currReport.DataSource = ReportRepository.GetSectionSummaryReport(OrganisationID, 0, itemid);
                         }
                         else
                         {

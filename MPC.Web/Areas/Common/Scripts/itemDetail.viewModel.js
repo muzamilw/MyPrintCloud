@@ -1933,6 +1933,15 @@ define("common/itemDetail.viewModel",
                         reportManager.outputTo("preview");
                         reportManager.OpenExternalReport(ist.reportCategoryEnums.JobCards, 1, selectedProduct().id());
                     },
+                    
+                    onPrintSectionReport = function () {
+                        saveFrom("itemJob");
+                        saveOrderFromSection(printSectionReport);
+                    },
+                    printSectionReport = function() {
+                        reportManager.outputTo("preview");
+                        reportManager.OpenExternalReport(ist.reportCategoryEnums.Sections, 1, selectedProduct().id());
+                    },
                     // Open Phrase Library
                     openPhraseLibrary = function() {
                         phraseLibrary.isOpenFromPhraseLibrary(false);
@@ -2306,9 +2315,7 @@ define("common/itemDetail.viewModel",
                     selectedSection().itemSizeWidth(itemHeight);
                     getPtvCalculation(getSectionSystemCostCenters);
                 },
-                onPrintSectionReport = function() {
-                    
-                },
+                
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;

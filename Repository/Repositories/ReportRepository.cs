@@ -749,7 +749,17 @@ namespace MPC.Repository.Repositories
         
         }
 
-
+        public List<usp_SectionSummaryReport_Result> GetSectionSummaryReport(long organisationId, long orderId, long itemId)
+        {
+            try
+            {
+                return db.usp_SectionSummaryReport(organisationId, orderId, itemId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         // GetReportsByOrganisationID
     }
