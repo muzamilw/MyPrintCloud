@@ -49,7 +49,7 @@ namespace MPC.Repository.Repositories
             var query = from addOns in db.ItemAddonCostCentres
                         join costcenter in db.CostCentres on addOns.CostCentreId equals costcenter.CostCentreId
                         join options in db.ItemStockOptions on addOns.ItemStockOptionId equals options.ItemStockOptionId
-                        where options.ItemId == itemId// && options.CompanyId == companyId
+                        where options.ItemId == itemId && costcenter.IsDisabled != true // && options.CompanyId == companyId
                         select new AddOnCostsCenter()
                         {
                             ProductAddOnID = addOns.ProductAddOnId,

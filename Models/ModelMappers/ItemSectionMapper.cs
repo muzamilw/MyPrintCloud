@@ -59,6 +59,13 @@ namespace MPC.Models.ModelMappers
             target.ImpressionQty1 = source.ImpressionQty1;
             target.ImpressionQty2 = source.ImpressionQty2;
             target.ImpressionQty3 = source.ImpressionQty3;
+            target.PrintSheetQty1 = source.PrintSheetQty1;
+            target.PrintSheetQty2 = source.PrintSheetQty2;
+            target.PrintSheetQty3 = source.PrintSheetQty3;
+            target.SetupSpoilage = source.SetupSpoilage;
+            target.RunningSpoilage = source.RunningSpoilage;
+            target.RunningSpoilageValue = source.RunningSpoilageValue;
+            target.IsBooklet = source.IsBooklet;
         }
 
         /// <summary>
@@ -118,6 +125,20 @@ namespace MPC.Models.ModelMappers
             target.CostCentreQueue = source.CostCentreQueue;
             target.InputQueue = source.InputQueue;
             target.StockQueue = source.StockQueue;
+            target.QuestionQueue = source.QuestionQueue;
+            target.PressSpeed1 = source.PressSpeed1;
+            target.PressSpeed2 = source.PressSpeed2;
+            target.PressSpeed3 = source.PressSpeed3;
+            target.ImpressionQty1 = source.ImpressionQty1;
+            target.ImpressionQty2 = source.ImpressionQty2;
+            target.ImpressionQty3 = source.ImpressionQty3;
+            target.PrintSheetQty1 = source.PrintSheetQty1;
+            target.PrintSheetQty2 = source.PrintSheetQty2;
+            target.PrintSheetQty3 = source.PrintSheetQty3;
+            target.SetupSpoilage = source.SetupSpoilage;
+            target.RunningSpoilage = source.RunningSpoilage;
+            target.RunningSpoilageValue = source.RunningSpoilageValue;
+            target.IsBooklet = source.IsBooklet;
         }
 
         #endregion

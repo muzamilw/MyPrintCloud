@@ -147,34 +147,35 @@ namespace MPC.Implementation.MISServices
                             {
                                 if (param.ControlType == 1)// means drop down
                                 {
-                                    if (ReportName == "Order Report By Store") // for retail store orders
+                                    if (param.ComboTableName == "Company") // for two combos
                                     {
-                                        if(param.ComboTableName == "Company") // for two combos
+                                        if (ComboValue > 0)
                                         {
-                                            if (ComboValue > 0)
+                                            bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
+                                            if (isCorporate)
                                             {
-                                                bool isCorporate = ReportRepository.isCorporateCustomer(ComboValue);
-                                                if (isCorporate)
-                                                {
-                                                    CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
-                                                }
-                                                else
-                                                {
-                                                    CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
-                                                }
+                                                CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                            }
+                                            else
+                                            {
+                                                CriteriaField = CriteriaField + " and " + "Company.StoreId = " + ComboValue + " ";
                                             }
                                         }
-                                        else
-                                        {
-                                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue2 + " ";
-                                        }
-                                       
-
                                     }
                                     else
                                     {
-                                        CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                        if (ReportName == "Order Report By Store") // for retail store orders
+                                        {
+                                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue2 + " ";
+                                        }
+                                        else
+                                        {
+                                            CriteriaField = CriteriaField + " and " + param.ComboIDFieldName + " = " + ComboValue + " ";
+                                        }
+                                        
                                     }
+                                    
+                                    
                                     
                                 }
                                 else if (param.ControlType == 2 && !CriteriaField.Contains("Date"))// means date ranges

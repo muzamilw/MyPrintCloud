@@ -139,6 +139,18 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public List<TemplateColorStyle> GetTemplateColorStylesByStore(long storeId, long territoryId, bool isStore)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            if(isStore)
+                return DbSet.Where(c => c.CustomerId == storeId && c.TerritoryId == null).ToList();
+            else
+            {
+                return DbSet.Where(c => c.TerritoryId == territoryId).ToList();
+            }
+        }
+        
         #endregion
     }
 }

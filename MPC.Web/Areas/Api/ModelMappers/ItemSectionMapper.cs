@@ -94,7 +94,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
                 SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
 
-                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
+                IsBooklet = source.IsBooklet
             };
 
             if (source.Machine != null)
@@ -199,7 +200,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
                 SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
 
-                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
+                IsBooklet = source.IsBooklet
             };
         }
 
@@ -302,7 +304,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
                 SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
 
-                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
+                IsBooklet = source.IsBooklet
             };
 
             if (source.Machine != null)
@@ -425,7 +428,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionPaperWeightExSelfQty1 = source.SectionPaperWeightExSelfQty1,
                 SectionPaperWeightExSelfQty2 = source.SectionPaperWeightExSelfQty2,
 
-                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3
+                SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
+                IsBooklet = source.IsBooklet
             };
         }
 

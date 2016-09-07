@@ -1,6 +1,7 @@
 ﻿using FaceSharp.Api.Extensions;
 using GrapeCity.ActiveReports;
 using GrapeCity.ActiveReports.Export.Pdf.Section;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -14,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
+using MPC.Web.Reports;
 
 namespace MPC.Implementation.MISServices
 {
@@ -137,7 +139,7 @@ namespace MPC.Implementation.MISServices
                 if (iReportID == 165 || iReportID == 100 || iReportID == 103 || iReportID == 48 || iReportID == 30 || iReportID == 105)
                 {
 
-                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID);
+                    currentReport = ReportRepository.CheckCustomReportOfOrg(iReportID, OrganisationID);
 
                     if (currentReport == null)
                     {
@@ -192,7 +194,7 @@ namespace MPC.Implementation.MISServices
                     else if (type == ReportType.PurchaseOrders)
                     {
                         sFileName = iRecordID + "PurchaseReport.pdf";
-                        List<usp_PurchaseOrderReport_Result> rptInvoiceSource = ReportRepository.GetPOReport(iRecordID);
+                        List<usp_PurchaseOrderReport_Result> rptInvoiceSource = ReportRepository.GetPOReport(iRecordID, OrganisationID);
                         currReport.DataSource = rptInvoiceSource;
                     }
                     else if (type == ReportType.DeliveryNotes)
@@ -236,7 +238,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception e)
             {
-                throw e;
+                throw new MPCException("Unable to generate report. " + e.Message, OrganisationID);
             }
             if (isFromExternal)
                 return sFilePath;
@@ -1670,6 +1672,58 @@ namespace MPC.Implementation.MISServices
             else
                 return InternalPath;
         }
+
+        public string ExportProductTemplateReportPdf(int reportId, List<usp_GetStoreProductTemplatesList_Result> dataSource, bool isPdf, long organisationId )
+        {
+            string sFilePath = string.Empty;
+            string InternalPath = string.Empty;
+            string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/");
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+            }
+            try
+            {
+                SectionReport currReport = new ExportProductTemplateList();
+                   
+                    string sFileName = reportId + "ProductTemplatesList.pdf";
+                    currReport.DataSource = dataSource;
+                    currReport.Run();
+                if (isPdf)
+                {
+                    PdfExport pdf = new PdfExport();
+                    pdf.ImageQuality = ImageQuality.Highest;
+                    sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/") + sFileName;
+                    InternalPath = "/" + ImagePathConstants.ReportPath + organisationId + "/" + sFileName;
+                    pdf.Export(currReport.Document, sFilePath);
+                    currReport.Document.Dispose();
+                    pdf.Dispose();
+                }
+                else
+                {
+                    sFileName = "ProductTemplate.xls";
+                    GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
+                    xls.MinColumnWidth = 1;
+                   
+
+                    sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/") + sFileName;
+                    InternalPath = "/" + ImagePathConstants.ReportPath + organisationId + "/" + sFileName;
+                    xls.Export(currReport.Document, sFilePath);
+
+                    currReport.Document.Dispose();
+                    xls.Dispose();   
+                }
+                    
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return InternalPath;
+                
+        }
+
+       
 
 
     }

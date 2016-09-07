@@ -57,6 +57,11 @@ define("stores/stores.viewModel",
 
                       // for company variable icons
                     companyVariableIcons = ko.observableArray([]),
+                    productTemplatesList = ko.observableArray([]),
+                    parenCategoriesList = ko.observableArray([]),
+                    childCategoriesList = ko.observableArray([]),
+                    categoryFilter = ko.observable(),
+                    subcategoryFilter = ko.observable(),
                     // Count of Users
                     userCount = ko.observable(0),
                     // Count of Orders
@@ -1068,6 +1073,7 @@ define("stores/stores.viewModel",
                             getCompanyContactVariableForEditContact(selectedCompanyTerritory().territoryId(), scope);
 
                         }
+                        getSpotColors(false);
                         getTerritoryTemplateFonts();
                         selectedCompanyTerritory().reset();
                         view.showCompanyTerritoryDialog();
@@ -1345,6 +1351,7 @@ define("stores/stores.viewModel",
                                 _.each(selectedStore().companyCMYKColors(), function (color) {
                                     var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
                                     territoryColor.territoryId(selectedCompanyTerritory().territoryId());
+                                    territoryColor.isActive(false);
                                     territoryColor.colorId(counter);
                                     selectedStore().companyTerritoryColors.push(territoryColor);
                                     counter--;
@@ -1379,6 +1386,7 @@ define("stores/stores.viewModel",
                                 territoryFont.territoryId(selectedCompanyTerritory().territoryId());
                                 territoryFont.customerId(selectedStore().companyId());
                                 territoryFont.productFontId(counter);
+                                territoryFont.isEnable(false);
                                 selectedStore().territoryTemplateFonts.push(territoryFont);
                                 counter--;
                             });
@@ -1598,6 +1606,38 @@ define("stores/stores.viewModel",
                         isTerritoryFont(true);
                         companyTemplateFontViewModel.selectItem(templateFont);
                         view.showCompanyTemplateFontDialog();
+                    },
+                    onDeleteTemplateFont = function (font) {
+                        confirmation.messageText("WARNING - Are you sure you want to delete this font?");
+                        confirmation.afterProceed(function () {
+                            var currentFont = font != undefined ? font : (selectedCompanyTemplateFont() != undefined ? selectedCompanyTemplateFont() : undefined);
+                            if (currentFont != undefined) {
+                                dataservice.deleteTemplateFont(currentFont.convertToServerData(), {
+                                    success: function (data) {
+                                        if (data == true) {
+                                            if (!isTerritoryFont()) {
+                                                var delFont = selectedStore().companyTemplateFonts.find(function (font) {
+                                                    return font.productFontId() === currentFont.productFontId();
+                                                });
+                                                selectedStore().companyTemplateFonts.remove(delFont);
+                                            } else {
+                                                var terDelFont = selectedStore().territoryTemplateFonts.find(function (font) {
+                                                    return font.productFontId() === currentFont.productFontId();
+                                                });
+                                                selectedStore().territoryTemplateFonts.remove(terDelFont);
+                                            }
+                                            
+                                        }
+                                        view.hideCompanyTemplateFontDialog();
+                                    },
+                                    error: function (response) {
+                                        toastr.error("Error: Failed to save template font " + response, "", ist.toastrOptions);
+                                    }
+                                });
+                                
+                            }
+                        });
+                        confirmation.show();
                     },
                     // Get Company CMYK Colors By Id
                     getCompanyCMYKColorsByIdFromListView = function(id) {
@@ -7681,9 +7721,7 @@ define("stores/stores.viewModel",
                         });
                     }),
                     
-                
                     territorySpotColors = ko.computed(function(){
-
                         if (selectedStore().companyTerritoryColors().length === 0) {
                             return [];
                         }
@@ -7691,17 +7729,6 @@ define("stores/stores.viewModel",
                         return selectedStore().companyTerritoryColors().filter(function (color) {
                             return color.territoryId() === territoryId;
                         });
-
-
-                        //colors = [];
-                        //if (selectedStore().companyTerritoryColors().length > 0 && selectedCompanyTerritory() != undefined) {
-                        //    _.each(selectedStore().companyTerritoryColors(), function (color) {
-                        //        if (color.territoryId() == selectedCompanyTerritory().territoryId())
-                        //            colors.push(color);
-                        //    });
-                        //}
-                        //return colors;
-
                     }),
                    //// Products Date
                    // ProductDate = ko.computed(function () {
@@ -8148,6 +8175,128 @@ define("stores/stores.viewModel",
                     });
                     // discountVoucherpager().totalCount(data.RowCount);
                 },
+                openProductTempaltesList = function () {
+                    categoryFilter.subscribe(function (value) {
+                        filterTemplatesList(value, true);
+                    });
+                    subcategoryFilter.subscribe(function (value) {
+                        filterTemplatesList(value, false);
+                    });
+                    dataservice.getProductTemplates(
+                        {
+                            ParentCategoryId: 0,
+                            CategoryId: 0,
+                            SearchString : "",
+                            StoreId: selectedStore().companyId(),
+                        }, {
+                        success: function (data) {
+                            productTemplatesList.removeAll();
+                            parenCategoriesList.removeAll();
+                            childCategoriesList.removeAll();
+                            if (data != null) {
+                                _.each(data.ProductTemplateList, function (item) {
+                                    productTemplatesList.push(item);
+                                });
+                                _.each(data.ParentCategories, function (item) {
+                                    parenCategoriesList.push(item);
+                                });
+                                _.each(data.SubCategories, function (item) {
+                                    childCategoriesList.push(item);
+                                });
+                                view.showCompanyProductTemplatesDialog();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Error: Failed To load templates " + response, "", ist.toastrOptions);
+                        }
+                    });
+                },
+                
+                filterTemplatesList = function (categoryId, isParent) {
+                    
+                    dataservice.getProductTemplates(
+                        {
+                            ParentCategoryId: isParent == true ? categoryId : 0,
+                            CategoryId: isParent != true ? categoryId : 0,
+                            SearchString: "",
+                            StoreId: selectedStore().companyId(),
+                        }, {
+                            success: function (data) {
+                                productTemplatesList.removeAll();
+                                if (isParent == true) {
+                                    childCategoriesList.removeAll();
+                                    _.each(data.SubCategories, function (item) {
+                                        childCategoriesList.push(item);
+                                    });
+                                }
+                                if (data != null) {
+                                    _.each(data.ProductTemplateList, function (item) {
+                                        productTemplatesList.push(item);
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load templates " + response, "", ist.toastrOptions);
+                            }
+                        });
+                },
+                exportPdf = function() {
+                    exportProductTemplates(true);
+                },
+                exportExcel = function() {
+                    exportProductTemplates(false);
+                },
+                exportProductTemplates = function (isPdf) {
+                  
+                    dataservice.exportProductTemplates(
+                        {
+                            ParentCategoryId: categoryFilter(),
+                            CategoryId: subcategoryFilter(),
+                            SearchString: "",
+                            StoreId: selectedStore().companyId(),
+                            IsPdf: isPdf
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank download");
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To export templates " + response, "", ist.toastrOptions);
+                            }
+                        });
+                },
+                getSpotColors = function(isStoreColors) {
+                    dataservice.getSpotColors({
+                        TerritoryId: !isStoreColors ? selectedCompanyTerritory().territoryId() : 0,
+                        StoreId: isStoreColors?  selectedStore().companyId() : 0,
+                        IsStoreColors: isStoreColors
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    if (isStoreColors) {
+                                        _.each(data.SpotColors, function (item) {
+                                            selectedStore().companyCMYKColors.push(model.CompanyCMYKColor.Create(item));
+                                        });
+                                    } else {
+                                        _.each(data.SpotColors, function (item) {
+                                            selectedStore().companyTerritoryColors.push(model.CompanyCMYKColor.Create(item));
+                                        });
+                                    }
+                                       
+                                }
+                            },
+                            error: function (response) {
+                                toastr.error("Error: Failed To load template spot colors " + response, "", ist.toastrOptions);
+                            }
+                        });
+                },
+                getStoreSpotColors = function() {
+                    getSpotColors(true);
+                },
+                
                     //Delete company variable icon
                 onDeleteCompanyVariableIcon = function(variableIcon) {
                     confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
@@ -8635,7 +8784,18 @@ define("stores/stores.viewModel",
                     onEditTerritoryTemplateFont: onEditTerritoryTemplateFont,
                     isMisEmail: isMisEmail,
                     onCloseCampaignEditor: onCloseCampaignEditor,
-                    openGlobalDesigner: openGlobalDesigner
+                    openGlobalDesigner: openGlobalDesigner,
+                    onDeleteTemplateFont: onDeleteTemplateFont,
+                    openProductTempaltesList: openProductTempaltesList,
+                    productTemplatesList: productTemplatesList,
+                    categoryFilter: categoryFilter,
+                    subcategoryFilter: subcategoryFilter,
+                    parenCategoriesList: parenCategoriesList,
+                    childCategoriesList: childCategoriesList,
+                    exportPdf: exportPdf,
+                    exportExcel: exportExcel,
+                    getStoreSpotColors: getStoreSpotColors
+                    
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog
             };

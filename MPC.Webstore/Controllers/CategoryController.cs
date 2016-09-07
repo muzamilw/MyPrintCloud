@@ -204,7 +204,6 @@ namespace MPC.Webstore.Controllers
                                     if (includeVAT)
                                     {
                                         Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(_myCompanyService.CalculateVATOnPrice(Convert.ToDouble(matrixlist[0].PricePaperType1), TaxRate)));
-
                                     }
                                     else
                                     {

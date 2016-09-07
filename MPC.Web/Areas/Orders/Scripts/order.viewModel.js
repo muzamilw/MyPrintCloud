@@ -1476,7 +1476,7 @@ define("order/order.viewModel",
                                     }
                                     if (isOpenReportEmail() == true) {
                                         if (selectedOrder().isEstimate() == true) {
-                                            reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                                            reportManager.SetOrderData(selectedOrder().reportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
                                             reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
                                         } else {
                                             reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
@@ -2799,7 +2799,7 @@ define("order/order.viewModel",
                         }
                         else {
                             if (selectedOrder().isEstimate() == true) {
-                                reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
+                                reportManager.SetOrderData(selectedOrder().reportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 3, selectedOrder().id(), "");
                                 reportManager.OpenExternalReport(ist.reportCategoryEnums.Estimate, 1, selectedOrder().id());
                             } else {
                                 reportManager.SetOrderData(selectedOrder().orderReportSignedBy(), selectedOrder().contactId(), selectedOrder().id(), 2, selectedOrder().id(), "");
@@ -3414,6 +3414,7 @@ define("order/order.viewModel",
                              return;
                          }
                          var item = itemModel.Item.Create({ EstimateId: selectedOrder().id() });
+                         item.tax1(selectedCompanyTaxRate());
                          selectedShippingItem(item);
                          view.showShippingChargeDialog();
                      },

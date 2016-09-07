@@ -1332,6 +1332,21 @@ namespace MPC.Repository.BaseRepository
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("usp_GetChildFoldersById", folderIdParameter);
         }
+        
+        public ObjectResult<usp_GetStoreProductTemplatesList_Result> usp_GetStoreProductTemplatesList(long storeId)
+        // ReSharper restore InconsistentNaming
+        {
+            var storeIdParameter = new ObjectParameter("StoreId", storeId);
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetStoreProductTemplatesList_Result>("usp_GetStoreProductTemplatesList", storeIdParameter);
+
+        }
+        public ObjectResult<long> usp_GetChildCategoriesById(long categoryId)
+        {
+            var idParameter = new ObjectParameter("ParentId", categoryId);
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<long>("usp_GetChildCategoriesById", idParameter);
+        }
         #endregion
     }
 }

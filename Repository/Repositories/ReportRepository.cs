@@ -95,7 +95,8 @@ namespace MPC.Repository.Repositories
                 if (item.ControlType == 1)
                 {
                     string queryString = string.Empty;
-                    if (Id == 519 || ReportName == "Order Report By Store" ) // stock report hard code id because of organisation id check
+                    bool isOrgId = item.CriteriaFieldName.EndsWith("organisationid = ");
+                    if (Id == 519 || ReportName == "Order Report By Store" || isOrgId) // stock report hard code id because of organisation id check
                     {
                     
                         if(item.ComboTableName == "Company")
@@ -529,11 +530,12 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// SP for PO Report
         /// </summary>
-        public List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId)
+        public List<usp_PurchaseOrderReport_Result> GetPOReport(long PurchaseId, long organisationId = 0)
         {
             try
             {
-                return db.usp_PurchaseOrderReport(OrganisationId, PurchaseId).ToList();
+                long orgId = organisationId > 0 ? organisationId : this.OrganisationId;
+                return db.usp_PurchaseOrderReport(orgId, PurchaseId).ToList();
             }
             catch (Exception ex)
             {
@@ -635,33 +637,34 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Report CheckCustomReportOfOrg(long ReportId)
+        public Report CheckCustomReportOfOrg(long ReportId, long organisationId = 0)
         {
             try
             {
+                long orgId = organisationId > 0 ? organisationId : this.OrganisationId;
                 if (ReportId == 165) // JOB card
                 {
-                    return db.Reports.Where(c => c.ReportCode == "JCR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                    return db.Reports.Where(c => c.ReportCode == "JCR" && c.OrganisationId == orgId).FirstOrDefault();
                 }
                 else if (ReportId == 100) // purchase order 
                 {
-                    return db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                    return db.Reports.Where(c => c.ReportCode == "POR" && c.OrganisationId == orgId).FirstOrDefault();
                 }
                 else if(ReportId == 103) // order report
                 {
-                    return db.Reports.Where(c => c.ReportCode == "OR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                    return db.Reports.Where(c => c.ReportCode == "OR" && c.OrganisationId == orgId).FirstOrDefault();
                 }
                 else if(ReportId == 30) // delivery note report
                 {
-                    return db.Reports.Where(c => c.ReportCode == "DNR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                    return db.Reports.Where(c => c.ReportCode == "DNR" && c.OrganisationId == orgId).FirstOrDefault();
                 }
                 else if (ReportId == 105) // invoice report
                 {
-                    return db.Reports.Where(c => c.ReportCode == "IR" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                    return db.Reports.Where(c => c.ReportCode == "IR" && c.OrganisationId == orgId).FirstOrDefault();
                 }
                 else if (ReportId == 48) // estimate report
                 {
-                    return db.Reports.Where(c => c.ReportCode == "ER" && c.OrganisationId == OrganisationId).FirstOrDefault();
+                    return db.Reports.Where(c => c.ReportCode == "ER" && c.OrganisationId == orgId).FirstOrDefault();
                 } 
                 else
                 {

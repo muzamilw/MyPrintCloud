@@ -194,7 +194,6 @@ namespace MPC.Repository.Repositories
                         }
 
                         string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ErrorLog.txt");
-
                         using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
                         {
                             writer.WriteLine("Message : EmailbodyMesg notificationEmails" + "<br/>" + Environment.NewLine + "StackTrace :" + notificationEmails +
@@ -1049,7 +1048,7 @@ namespace MPC.Repository.Repositories
                 string ToName = oEmailBody.ToName;
                 string MailTo = oEmailBody.To;
                 string CC = oEmailBody.Cc;
-
+                long maxAttachmentSize = 0;//15728640 = 15MB 
 
                 Attachment data = null;
                 if (oEmailBody.FileAttachment != null)
@@ -1074,6 +1073,12 @@ namespace MPC.Repository.Repositories
                             string FilePath = context.Server.MapPath(temp);
                             if (File.Exists(FilePath))
                             {
+                               FileInfo fi = new FileInfo(FilePath);
+                               maxAttachmentSize += fi.Length;
+                               if (maxAttachmentSize > 15728640) //15728640 = 15MB if attachment size is more than 15MB then skip this attachment.
+                                {
+                                    continue;
+                                }
                                 data = new Attachment(FilePath, MediaTypeNames.Application.Octet);
                                 ContentDisposition disposition = data.ContentDisposition;
                                 disposition.CreationDate = System.IO.File.GetCreationTime(FilePath);
@@ -1081,6 +1086,7 @@ namespace MPC.Repository.Repositories
                                 disposition.ReadDate = System.IO.File.GetLastAccessTime(FilePath);
                                 disposition.FileName = fname;
                                 objMail.Attachments.Add(data);
+                                
                             }
                             else
                             {
@@ -1280,7 +1286,7 @@ namespace MPC.Repository.Repositories
         }
 
 
-        public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr, Company objCompany)
+        public void POEmailToSalesManager(long orderID, long companyID, long contactID, int reportNotesID, long supplierCompanyID, string AttachmentListStr, Company objCompany, long organisationId = 0)
         {
             Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
@@ -1289,22 +1295,28 @@ namespace MPC.Repository.Repositories
             {
                 AttachmentList.Add(item);
             }
+            long orgId = organisationId > 0 ? organisationId : this.OrganisationId;
 
             CompanyContact user = db.CompanyContacts.Where(c => c.ContactId == contactID).FirstOrDefault();
             //tbl_company_sites ServerSettings = CompanySiteManager.GetCompanySite();
-            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
+            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == orgId).FirstOrDefault();
             SystemUser SalesManager = null;
-
+            long storeId = 0; // to get campaign either from retail or corporate
             db.Configuration.LazyLoadingEnabled = false;
 
             if (objCompany.IsCustomer == 3)// corporate
             {
                 saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
+                storeId = objCompany.CompanyId;
             }
             else
             {
                 // if retail
-                var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
+
+
+                var retailStore = db.Companies.FirstOrDefault(c => c.CompanyId == objCompany.StoreId);
+                var manageriD = retailStore != null ? retailStore.SalesAndOrderManagerId1 : null;
+                storeId = retailStore != null ? retailStore.CompanyId : 0;
                 saleManagerId = manageriD ?? Guid.NewGuid();
             }
 
@@ -1313,13 +1325,13 @@ namespace MPC.Repository.Repositories
             {
 
                 CampaignEmailParams CEP = new CampaignEmailParams();
-                Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, OrganisationId, companyID);
+                Campaign EventCampaign = GetCampaignRecordByEmailEvent((long)Events.PO_Notification_To_SalesManager, orgId, storeId);
                 CEP.EstimateId = orderID;
                 CEP.CompanyId = companyID;
                 CEP.ContactId = contactID;
-                CEP.StoreId = companyID;
+                CEP.StoreId = storeId;
                 CEP.SalesManagerContactID = contactID;
-                CEP.OrganisationId = OrganisationId;
+                CEP.OrganisationId = orgId;
                 CEP.AddressId = companyID;
                 CEP.SystemUserId = SalesManager.SystemUserId;
                 CEP.Id = reportNotesID;
@@ -1338,7 +1350,7 @@ namespace MPC.Repository.Repositories
 
             }
         }
-        public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation)
+        public void POEmailToSupplier(long orderID, long companyID, long contactID, int reportNotesID, long supplierContactID, string AttachmentListStr, Company objCompany, bool isCancellation, long organisationId = 0)
         {
             Guid saleManagerId = new Guid();
             List<string> AttachmentList = new List<string>();
@@ -1348,22 +1360,26 @@ namespace MPC.Repository.Repositories
                 AttachmentList.Add(item);
             }
             //UsersManager usermgr = new UsersManager();
-
+            long orgId = organisationId > 0 ? organisationId : this.OrganisationId;
             // here is problem supplier user is null .. bcox in parameter we are sendin
             Campaign EventCampaign = new Campaign();
             CompanyContact supplieruser = db.CompanyContacts.Where(c => c.CompanyId == supplierContactID && c.IsDefaultContact == 1).FirstOrDefault();
-            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == OrganisationId).FirstOrDefault();
+            Organisation ServerSettings = db.Organisations.Where(c => c.OrganisationId == orgId).FirstOrDefault();
 
             SystemUser SalesManager = null;
+            long storeId = 0; // to get campaign either from retail or corporate
 
             if (objCompany.IsCustomer == 3)// corporate
             {
                 saleManagerId = objCompany.SalesAndOrderManagerId1 ?? Guid.NewGuid();
+                storeId = objCompany.CompanyId;
             }
             else
             {
                 // if retail
-                var manageriD = db.Companies.Where(c => c.CompanyId == objCompany.StoreId).Select(c => c.SalesAndOrderManagerId1).FirstOrDefault();
+                var retailStore = db.Companies.FirstOrDefault(c => c.CompanyId == objCompany.StoreId);
+                var manageriD = retailStore != null? retailStore.SalesAndOrderManagerId1 : null;
+                storeId = retailStore != null? retailStore.CompanyId : 0;
                 saleManagerId = manageriD ?? Guid.NewGuid();
             }
 
@@ -1376,19 +1392,19 @@ namespace MPC.Repository.Repositories
                     CampaignEmailParams CEP = new CampaignEmailParams();
                     if (isCancellation)
                     {
-                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), OrganisationId, companyID);
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_CancellationEmail_To_Supplier), orgId, storeId);
                     }
                     else
                     {
-                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), OrganisationId, companyID);
+                        EventCampaign = GetCampaignRecordByEmailEvent(Convert.ToInt16(Events.PO_Notification_To_Supplier), orgId, storeId);
                     }
 
                     CEP.EstimateId = orderID;
                     CEP.CompanyId = companyID;
                     CEP.ContactId = contactID;
-                    CEP.StoreId = companyID;
+                    CEP.StoreId = storeId;
                     CEP.SalesManagerContactID = contactID;
-                    CEP.OrganisationId = OrganisationId;
+                    CEP.OrganisationId = orgId;
                     CEP.AddressId = companyID;
                     CEP.Id = reportNotesID;
                     CEP.EstimateId = orderID;

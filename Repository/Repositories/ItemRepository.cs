@@ -4979,8 +4979,45 @@ namespace MPC.Repository.Repositories
             }
             return false;
         }
-      
-   
+
+        //public List<ExportProductTemplateResponseModel> GetProductTemplatesListByStore(long storeId)
+        //{
+        //    var qry = from item in db.Items
+        //              join template in db.Templates on item.TemplateId equals template.ProductId
+        //              where item.CompanyId == storeId && item.EstimateId == null && item.TemplateId != null
+
+        //              select new ExportProductTemplateResponseModel()
+        //              {
+        //                  ProductCode = item.ProductCode,
+        //                  ProductName = item.ProductName,
+        //                  ThumbnailPath = "/MPC_Content/Designer/Organisation" + item.OrganisationId + "/Templates/" + template.ProductId + "/P1.jpg"
+        //              };
+        //    return qry.ToList();
+        //}
+        public List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStore(long storeId, long categoryId, long parentId)
+        {
+            List<long> childList = null;
+
+            if (parentId > 0)
+            {
+                childList = db.usp_GetChildCategoriesById(parentId).ToList();
+            }
+            if(categoryId > 0)
+            return db.usp_GetStoreProductTemplatesList(storeId).ToList().Where(a => a.CategoryId == categoryId).ToList();
+            else
+            {
+                var tempList = db.usp_GetStoreProductTemplatesList(storeId).ToList();
+                if (childList != null)
+                {
+                    return tempList.Where(c => childList.Contains(c.CategoryId) || childList.Contains(Convert.ToInt64(c.ParentCategoryId))).ToList();
+                }
+                else
+                {
+                    return tempList;
+                }
+            }
+        }
+        
     }
 }
 

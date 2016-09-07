@@ -2429,7 +2429,7 @@
                                             <header class="main-box-header clearfix" style="padding-right:0px;">
                                                 <div class="filter-block pull-right">
 
-                                                    <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual">
+                                                    <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual, visible: isCreatedManualUi">
                                                         Add Page
                                                     </a>
                                                 </div>
@@ -2924,15 +2924,15 @@
     <script id="templatePageTemplate" type="text/html">
         <tr>
             <td style="width:25%;">
-                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName">
+                <input type="text" style="width:200px;" maxlength="15" class="form-control" id="txtPages" placeholder="Enter Page Name" data-bind="value: pageName, validationTooltip: pageName, validationOnElement: pageName, enable: $parent.isCreatedManual() || $parent.canChangePageTitle()">
             </td>
             <td>
-                <input type="text" style="width:120px;text-align:right;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="numberValue: height,numberFormat: ist.lengthFormat">
+                <input type="text" style="width:120px;text-align:right;" class="form-control" id="txtPages" placeholder="Enter Height" data-bind="numberValue: height,numberFormat: ist.lengthFormat, enable: $parent.actualCreatedManual()=== true && $parent.isCreatedManualUi()">
             </td>
             <td>
-                <input type="text" style="width:120px;text-align:right;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="numberValue: width,numberFormat: ist.lengthFormat">
+                <input type="text" style="width:120px;text-align:right;" class="form-control" id="txtPages" placeholder="Enter Width" data-bind="numberValue: width,numberFormat: ist.lengthFormat, enable: $parent.actualCreatedManual() === true && $parent.isCreatedManualUi()">
             </td>
-            <td class="text-center">
+            <td class="text-center" data-bind="visible: $parent.actualCreatedManual()=== true && $parent.isCreatedManualUi()">
                 <!-- ko if: $index() < $parent.templatePages().length - 1 -->
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowDown.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveTemplatePageDown" />
                 <!-- /ko-->
@@ -2940,7 +2940,9 @@
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/ArrowUp.png")" style="width: 30px;" alt="" data-bind="click: $parent.moveTemplatePageUp" />
                 <!-- /ko-->
             </td>
-            <td class="text-center">
+            <td class="text-center" style="width: 30px;" data-bind="visible: !$parent.isCreatedManualUi() && $parent.actualCreatedManual()=== false"></td>
+            <td class="text-center" style="width: 30px;" data-bind="visible: !$parent.isCreatedManualUi() && $parent.actualCreatedManual()=== false"></td>
+            <td class="text-center" data-bind="visible: $parent.actualCreatedManual()=== true && $parent.isCreatedManualUi()">
                 <a class="table-link danger" data-bind="click: $root.onDeleteTemplatePage.bind($data)">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>

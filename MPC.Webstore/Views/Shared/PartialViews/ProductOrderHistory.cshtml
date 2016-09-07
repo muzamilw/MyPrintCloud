@@ -10,6 +10,7 @@
     var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
     grid.Pager(WebGridPagerModes.NextPrevious);
     string Result = ViewBag.res;
+    string s = string.Empty;
 }
 
 <div class="content_area container" id="all-orderHistory-pg">
@@ -84,12 +85,12 @@
                                 <div class="search-order-clear" style="">
                                     <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="GoBack();" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnClear",UserCookieManager.WBStoreId,"Clear"))" />
                                 </div>
-                                   @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
-                                    {
-                                        <div class="search-order-clear" style="">
-                                            <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
-                                        </div>
-                                    }
+                                @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                {
+                                    <div class="search-order-clear" style="">
+                                        <input type="button" id="btnDwn_Report" style="width:130px;" class="order_history_btn rounded_corners5" onclick="DownloadReport(@ViewBag.ReporTID,@ViewBag.StoreID);" value="Download Report" />
+                                    </div>
+                                }
                                 <div class="clearBoth">
 
                                 </div>
@@ -124,29 +125,29 @@
     grid.Column("YourRef",@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlYourPoReference", UserCookieManager.WBStoreId, "Your PO reference")).ToString(),style:"hidden-xs visible-lg"),
     grid.Column("SOrderDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblOrderDateHeadingTxt", UserCookieManager.WBStoreId, "Order Date")).ToString(),style:"hidden-xs  visible-lg"),
 
-    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs  visible-lg"),
+    grid.Column("SOrderDeliveryDate",@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivDateHeadingTxt", UserCookieManager.WBStoreId, "Estimated Delivery")).ToString(),style:"hidden-xs  visible-lg", format:@<text><span>@item.DeliveryDate</span></text>),
 
-    grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs  visible-lg"),
+        grid.Column("StatusName",@Html.Raw(Html.GetKeyValueFromResourceFile("gvlblstatusname", UserCookieManager.WBStoreId, "Status")).ToString(),style:"hidden-xs  visible-lg", format:@<text><span>@item.StatusName</span></text>),
+
 
         grid.Column("View Reason", format:@<text>@if (item.StatusID == 35)
         {
             string reason = item.RejectionReason;
             if (!string.IsNullOrEmpty(reason))
             {
-              reason=  reason.Replace("'", " ").Trim();
-              //  reason.Replace("&#39;", " ");
-                
-              
-                                                     }
-            
+                reason = reason.Replace("'", " ").Trim();
+                //  reason.Replace("&#39;", " ");
+
+            }
 
 
+            <span>@reason</span>
             <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('/Content/Images/eye_preview.png'); background-size:100%;" class="rounded_corners" onclick="ShowRejectionPopUpOrderHistory('Rejected Reason',' @reason')" />
 
         }
         </text>),
 
-      grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+      grid.Column("Download",@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download")).ToString(), format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
         <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
           background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
@@ -161,10 +162,13 @@
         <button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ReOrderBtn", UserCookieManager.WBStoreId, "ReOrder"))" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
     }
     </text>),
+        grid.Column("Total", header:null, format:@<text>@if (ViewBag.IsShowPrices == true)
+        {
+            <span>@item.OrderTotal</span>
+        }</text>)
 
           }
-
-                                                                                                        )
+     )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
@@ -518,6 +522,8 @@
 
         $("#txtFromDate").datepicker();
         $("#txtToDate").datepicker();
+
+
 
     });
 
@@ -901,7 +907,7 @@
         document.cookie = name + "=" + value + expires + "; path=/";
     }
 
-  
+
     function GoBack()
     {
         window.location.href = "/ProductOrderHistory";

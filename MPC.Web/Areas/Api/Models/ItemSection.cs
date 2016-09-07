@@ -119,5 +119,6 @@ namespace MPC.MIS.Areas.Api.Models
         public double? SectionPaperWeightExSelfQty1 { get; set; }
         public double? SectionPaperWeightExSelfQty2 { get; set; }
         public double? SectionPaperWeightExSelfQty3 { get; set; }
+        public bool? IsBooklet { get; set; }
     }
 }

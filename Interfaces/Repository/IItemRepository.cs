@@ -207,6 +207,7 @@ namespace MPC.Interfaces.Repository
         List<GetCategoryProduct> GetRetailFeaturedPublishedProducts();
 
         bool HasDigitalItem(long EstimateId);
+        List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStore(long storeId, long categoryId, long parentId);
     }
 
 }

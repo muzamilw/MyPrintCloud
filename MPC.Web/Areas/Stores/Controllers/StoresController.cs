@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Models.Common;
+using MPC.Models.ResponseModels;
 using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Stores.Controllers
@@ -69,6 +70,12 @@ namespace MPC.MIS.Areas.Stores.Controllers
             companyService.SaveFile(savePath, companyId);
         }
 
+        public ActionResult ProductTemplatesIndex(long storeId, long categoryId, long parentCategoryId)
+        {
+            ProductTemplateListResponseModel responseModel = companyService.GetFilteredProductTemplates(storeId,
+                categoryId, parentCategoryId);
+            return View(responseModel);
+        }
      
     }
 }

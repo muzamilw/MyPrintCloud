@@ -56,10 +56,27 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return DbSet.Where(
-              cmspage =>
-              cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
-              cmspage.CompanyId == companyId).OrderBy(c => c.PageTitle).ToList();
+                var pages = DbSet.Where(
+                    cmspage =>
+                        cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
+                        cmspage.CompanyId == companyId).OrderBy(c => c.PageTitle).ToList();
+
+                return pages.ToList().Select(p => new CmsPage
+                {
+                    PageId = p.PageId,
+                    CmsPageTags = p.CmsPageTags,
+                    CategoryId = p.CategoryId,
+                    CompanyId = p.CompanyId,
+                    MenuTitle = p.MenuTitle,
+                    PageName = p.PageName,
+                    Meta_Title = p.Meta_Title,
+                    PageBanner = p.PageBanner,
+                    PageTitle = p.PageTitle
+                }).ToList();
+                //  return DbSet.Where(
+                //cmspage =>
+                //cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
+                //cmspage.CompanyId == companyId).OrderBy(c => c.PageTitle).ToList();
             }
             catch (Exception ex)
             {

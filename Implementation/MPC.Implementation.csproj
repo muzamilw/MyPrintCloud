@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABCpdf, Version=9.1.2.3, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
+    <Reference Include="ABCpdf, Version=9.1.2.5, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\ABCpdf.dll</HintPath>
     </Reference>
     <Reference Include="Aurigma.GraphicsMill">
       <HintPath>..\MPC.Common\Externaldlls\Aurigma.GraphicsMill.dll</HintPath>
@@ -219,6 +219,12 @@
     <Compile Include="MISServices\DashboardService.cs" />
     <Compile Include="MISServices\DeliveryCarrierService.cs" />
     <Compile Include="MISServices\DeliveryNotesService.cs" />
+    <Compile Include="MISServices\ExportProductTemplateList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MISServices\ExportProductTemplateList.Designer.cs">
+      <DependentUpon>ExportProductTemplateList.cs</DependentUpon>
+    </Compile>
     <Compile Include="MISServices\ExportReportHelper.cs" />
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\InquiryService.cs" />
@@ -399,6 +405,10 @@
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="MISServices\ExportProductTemplateList.resx">
+      <DependentUpon>ExportProductTemplateList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

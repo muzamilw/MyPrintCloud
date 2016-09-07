@@ -454,7 +454,7 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
-                    // Define request to delete Store
+                    // Define request to delete Store spot color
                     amplify.request.define('archiveSpotColor', 'ajax', {
                         url: ist.siteUrl + '/Api/SpotColor',
                         dataType: 'json',
@@ -473,6 +473,32 @@
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
+                    });
+                    // Define request to delete Store Template Font
+                    amplify.request.define('deleteTemplateFont', 'ajax', {
+                        url: ist.siteUrl + '/Api/TemplateFont',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Delete'
+                    });
+                    // Define request to get Items For Widgets
+                    amplify.request.define('getProductTemplates', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductTemplateList',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to save Discount Voucher
+                    amplify.request.define('exportProductTemplates', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductTemplateList',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to get Spot Colors
+                    amplify.request.define('getSpotColors', 'ajax', {
+                        url: ist.siteUrl + '/Api/SpotColor',
+                        dataType: 'json',
+                        type: 'GET'
                     });
                     isInitialized = true;
                 }
@@ -1172,7 +1198,43 @@
                     data: param
                 });
             },
-
+            
+            deleteTemplateFont = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteTemplateFont',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+         getProductTemplates = function (params, callbacks) {
+             initialize();
+             return amplify.request({
+                 resourceId: 'getProductTemplates',
+                 success: callbacks.success,
+                 error: callbacks.error,
+                 data: params
+             });
+         },
+        getSpotColors = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getSpotColors',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        exportProductTemplates = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'exportProductTemplates',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
         // save Store saveCustomWidget
         saveStore = function (param, callbacks) {
             initialize();
@@ -1253,7 +1315,11 @@
             saveCustomWidget: saveCustomWidget,
             deleteCustomWidget: deleteCustomWidget,
             getTemplateFonts : getTemplateFonts,
-            saveTemplateFont: saveTemplateFont
+            saveTemplateFont: saveTemplateFont,
+            deleteTemplateFont: deleteTemplateFont,
+            getProductTemplates: getProductTemplates,
+            exportProductTemplates: exportProductTemplates,
+            getSpotColors: getSpotColors
         };
     })();
 

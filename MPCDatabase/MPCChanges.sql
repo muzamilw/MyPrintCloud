@@ -10644,3 +10644,97 @@ END
 alter table MachineClickChargeZone add IsCostCenterZone bit
 alter table MachineClickChargeZone add OrganisationId bigint
 alter table MachineClickChargeZone add ZoneName nvarchar(200)
+
+--------------Deployed on All Servers---------------
+alter table Organisation add IsAutoPushPurchaseOrder bit
+
+alter table itemSection add IsBooklet bit
+
+
+--------------------------Deployed on All servers-----------
+--exec [usp_GetStoreProductTemplatesList] 33474
+create procedure [dbo].[usp_GetStoreProductTemplatesList]
+ @SotreId bigint
+
+AS
+Begin
+
+	select i.ItemId, i.ProductName, i.Templateid, itp.CategoryName, itp.ParentCategory,
+		case when itp.ParentCategory is null then null
+			else '/MPC_Content/Designer/Organisation'+ cast(i.OrganisationId as varchar(100)) +'/Templates/' + cast( i.TemplateID as varchar(100)) + '/P1.jpg'
+			end as TemplatePath
+	from items i 
+			inner join template t on t.productid = i.templateid 
+			inner join (
+						select pci.ItemId, pci.CategoryId, pc.CategoryName, 
+						pcp.CategoryName As ParentCategory, pc.parentCategoryId 
+						from productcategoryitem pci 
+								inner join productcategory pc on pc.productcategoryid = pci.categoryid
+								left join productcategory pcp on pcp.productcategoryid = pc.parentCategoryid)itp on itp.itemid = i.itemid
+		where i.companyid = @SotreId and i.estimateid is null and i.templateid is not null
+
+End
+------
+
+
+/****** Object:  StoredProcedure [dbo].[usp_GetStoreProductTemplatesList]    Script Date: 8/29/2016 3:41:55 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+--exec [usp_GetStoreProductTemplatesList] 33474
+ALTER procedure [dbo].[usp_GetStoreProductTemplatesList]
+ @StoreId bigint
+
+AS
+Begin
+
+	select i.ItemId, i.ProductName, i.ProductCode, i.Templateid, itp.CategoryId, itp.CategoryName, itp.ParentCategory,itp.ParentCategoryId,
+		case when i.Templateid is null then null
+			else '/MPC_Content/Designer/Organisation'+ cast(i.OrganisationId as varchar(100)) +'/Templates/' + cast( i.TemplateID as varchar(100)) + '/P1.jpg'
+			end as TemplatePath
+	from items i 
+			inner join template t on t.productid = i.templateid 
+			inner join (
+						select pci.ItemId, pci.CategoryId, pc.CategoryName, 
+						pcp.CategoryName As ParentCategory, pc.parentCategoryId 
+						from productcategoryitem pci 
+								inner join productcategory pc on pc.productcategoryid = pci.categoryid
+								left join productcategory pcp on pcp.productcategoryid = pc.parentCategoryid)itp on itp.itemid = i.itemid
+		where i.companyid = @StoreId and i.estimateid is null and i.templateid is not null and (i.isArchived = 0 or i.isArchived is null)
+
+End
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--exec [usp_GetChildCategoriesById] 11589
+create PROCEDURE [dbo].usp_GetChildCategoriesById
+	@ParentId bigint
+AS
+BEGIN
+		
+		WITH CTE(ProductCategoryId, ParentCategoryId,level)  
+			AS (SELECT   p2.ProductCategoryId, p2.ParentCategoryId, 0 as level  
+		                             
+			from ProductCategory p2
+			where 
+				p2.ProductCategoryId = @ParentId 
+			UNION ALL        
+			SELECT    PC.ProductCategoryId, pc.ParentCategoryId, level - 1  
+			from ProductCategory PC  
+			Inner join CTE on CTE.ProductCategoryId = PC.ParentCategoryId
+		    
+			) 			 
+			
+			 SELECT     distinct ProductCategoryId
+			 FROM CTE AS CTE_1 
+return
+END
+
+
+

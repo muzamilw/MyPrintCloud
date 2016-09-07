@@ -29,8 +29,11 @@ using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
 using MPC.Common;
 using Newtonsoft.Json.Linq;
+using WebSupergoo.ABCpdf8;
+using Xero.Api.Infrastructure.ThirdParty.ServiceStack.Text;
 using Scope = System.IdentityModel.Scope;
 using System.Text;
+using GrapeCity.ActiveReports;
 
 
 namespace MPC.Implementation.MISServices
@@ -117,6 +120,7 @@ namespace MPC.Implementation.MISServices
         private readonly IVariableExtensionRespository variableExtensionRespository;
         private readonly ICurrencyRepository currencySymbol;
         private readonly ISectionRepository _sectionRepository;
+        private readonly IExportReportHelper exportReportHelper;
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -3016,7 +3020,7 @@ namespace MPC.Implementation.MISServices
             ITemplateColorStylesRepository templateColorStylesRepository, IStagingImportCompanyContactAddressRepository stagingImportCompanyContactRepository,
             ICostCentersService CostCentreService, IDiscountVoucherRepository discountVoucherRepository, ICampaignImageRepository campaignImageRepository, ICmsSkinPageWidgetParamRepository cmsSkinPageWidgetParamRepository, ITemplateVariableRepository templateVariableRepository,
             IActivityRepository activityRepository, IProductCategoryVoucherRepository productcategoryvoucherRepository, ItemsVoucherRepository itemsVoucherRepository, ICMSOfferRepository cmsofferRepository, IReportNoteRepository reportNoteRepository, IVariableExtensionRespository variableExtensionRespository, ICurrencyRepository currencySymbol,
-            ISectionRepository sectionRepository)
+            ISectionRepository sectionRepository, IExportReportHelper reportHelper)
         {
             if (bannerSetRepository == null)
             {
@@ -3101,6 +3105,7 @@ namespace MPC.Implementation.MISServices
             this.variableExtensionRespository = variableExtensionRespository;
             this.currencySymbol = currencySymbol;
             this._sectionRepository = sectionRepository;
+            this.exportReportHelper = reportHelper;
 
         }
         #endregion
@@ -10145,6 +10150,56 @@ namespace MPC.Implementation.MISServices
                 CampaignSections = _sectionRepository.GetCampaignSections().ToList()
 
             };
+        }
+
+       
+
+        public ProductTemplateListResponseModel GetProductTemplateBase(long storeId, long categoryId)
+        {
+            var tempList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, 0);
+            tempList.ForEach(a => UpdateTemplatePath(a));
+            
+            return new ProductTemplateListResponseModel
+            {
+                ParentCategories = productCategoryRepository.GetParentCategories(storeId).ToList(),
+                SubCategories = productCategoryRepository.GetAllStoreChildCategories(storeId),
+                ProductTemplateList = tempList
+            };
+        }
+
+        private usp_GetStoreProductTemplatesList_Result UpdateTemplatePath(usp_GetStoreProductTemplatesList_Result template)
+        {
+            if (File.Exists(System.Web.HttpContext.Current.Server.MapPath(template.TemplatePath)))
+                return template;
+            else
+            {
+                template.TemplatePath = template.TemplatePath.Replace(".jpg", ".png");
+                return template;
+            }
+        }
+        public ProductTemplateListResponseModel GetFilteredProductTemplates(long storeId, long categoryId, long parentCategoryId)
+        {
+            var tempList = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId);
+            tempList.ForEach(a => UpdateTemplatePath(a));
+            return new ProductTemplateListResponseModel
+            {
+                ParentCategories = null,
+                SubCategories = parentCategoryId > 0 ? productCategoryRepository.GetChildCategoriesByParentId(parentCategoryId) : null,
+                ProductTemplateList = tempList
+            };
+        }
+
+        public string ExportProductTemplates(long storeId, long categoryId, long parentCategoryId, bool isPdf)
+        {
+            var list = itemRepository.GetProductTemplatesListByStore(storeId, categoryId, parentCategoryId);
+            list.ForEach(a => a.TemplatePath = System.Web.HttpContext.Current.Server.MapPath(a.TemplatePath));
+            string sst = exportReportHelper.ExportProductTemplateReportPdf(3439, list, isPdf, itemRepository.OrganisationId);
+            return sst;
+        }
+
+        public List<TemplateColorStyle> GetTemplateColorStyles(long storeId, long territoryId, bool isStore)
+        {
+            return templateColorStylesRepository.GetTemplateColorStylesByStore(storeId, territoryId, isStore);
         }
     }
 }

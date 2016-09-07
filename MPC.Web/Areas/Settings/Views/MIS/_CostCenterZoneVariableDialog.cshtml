@@ -15,7 +15,7 @@
                                     A run-time variable
                                 </label>
                             </div>
-                            <div class="col-lg-1 text-right radio" style="padding-left:0;">
+                            <div class="col-lg-1 text-right radio" style="padding-left:0;" data-bind="visible: false">
                                 <input type="radio" name="optionsinputQtyZone" id="rdioVariableInputQtyZone" value="1" style="margin:0" data-bind="checked: $root.isZoneVariableType">
                                 <label for="rdioVariableInputQtyZone">
                                     &nbsp;
@@ -25,7 +25,7 @@
                                 <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value: $root.selectedZoneVariableId, visible: $root.isZoneVariableType() === '1'"></select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" data-bind="visible: false">
                             <div class="col-lg-4 text-right">
                                 <label for="rdioPromptInputQtyZone" style="margin-top: 9px;">
                                     Prompting a Question

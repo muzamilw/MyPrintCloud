@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
@@ -53,7 +54,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         // POST api/<controller>
         public TemplateFont Post(TemplateFont value)
         {
-           return _templateFontService.SaveTemplateFont(value.CreateFrom()).CreateFrom();
+            if (value == null || !ModelState.IsValid)
+            {
+                throw new MPCException("Invalid Font Data ", 0);
+            }
+            return _templateFontService.SaveTemplateFont(value.CreateFrom()).CreateFrom();
         }
 
         // PUT api/<controller>/5
@@ -61,9 +66,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
         }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
+        public bool Delete(TemplateFont font)
         {
+            return _templateFontService.DeleteTemplateFont(font.ProductFontId);
         }
         #endregion
         

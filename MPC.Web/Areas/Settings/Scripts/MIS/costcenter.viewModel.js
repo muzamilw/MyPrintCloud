@@ -910,7 +910,19 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //Do Before Save
             doBeforeSave = function () {
                 var flag = true;
-
+                if (!selectedCostCenter().costCenterInstructions()[0].isValid())
+                {
+                    selectedCostCenter().costCenterInstructions()[0].errors.showAllMessages();
+                    flag = false;
+                }
+                if (selectedCostCenter().costCenterInstructions()[0].instruction().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction()!="") {
+                    _.each(selectedCostCenter().costCenterInstructions(), function (item) {
+                        if (!item.workInstructionChoices()[0].isValid()) {
+                            item.workInstructionChoices()[0].errors.showAllMessages();
+                            flag = false;
+                        }
+                    });
+                }
                 if (selectedCostCenter().type() == 11) {
 
                 }
@@ -1087,22 +1099,64 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
             },
             createWorkInstruction = function () {
-                var wi = new model.NewCostCenterInstruction();
-                selectedInstruction(wi);
-                selectedCostCenter().costCenterInstructions.splice(0, 0, wi);
+
+                if (!selectedCostCenter().costCenterInstructions()[0].isValid())
+                {
+                    selectedCostCenter().costCenterInstructions()[0].errors.showAllMessages();
+                }
+                else {
+                    var wi = new model.NewCostCenterInstruction();
+                    selectedInstruction(wi);
+                    selectedCostCenter().costCenterInstructions.splice(0, 0, wi);
+                }
             },
             deleteWorkInstruction = function (instruction) {
-                instruction.workInstructionChoices.removeAll();
-                selectedCostCenter().costCenterInstructions.remove(instruction);
+
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.afterProceed(function () {
+                    instruction.workInstructionChoices.removeAll();
+                    selectedCostCenter().costCenterInstructions.remove(instruction);
+                });
+                confirmation.show();
+                //instruction.workInstructionChoices.removeAll();
+                //selectedCostCenter().costCenterInstructions.remove(instruction);
             },
             createWorkInstructionChoice = function (oWorkInstruction) {
-                var wic = new model.NewInstructionChoice();
-                selectedChoice(wic);
-                selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == oWorkInstruction.instructionId() })[0].workInstructionChoices.splice(0, 0, wic);
-                // selectedInstruction().workInstructionChoices.splice(0, 0, wic);
+                if (oWorkInstruction.workInstructionChoices().length > 0) {
+                    if (!oWorkInstruction.workInstructionChoices()[0].isValid()) {
+                        oWorkInstruction.workInstructionChoices()[0].errors.showAllMessages();
+                    }
+                    else {
+                        var wic = new model.NewInstructionChoice();
+                        selectedChoice(wic);
+                        selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == oWorkInstruction.instructionId() })[0].workInstructionChoices.splice(0, 0, wic);
+                    }
+                }
+                else {
+                    var wic = new model.NewInstructionChoice();
+                    selectedChoice(wic);
+                    selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == oWorkInstruction.instructionId() })[0].workInstructionChoices.splice(0, 0, wic);
+
+                }
             },
             deleteWorkInstructionChoice = function (choice) {
-                selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == choice.instructionId() })[0].workInstructionChoices.remove(choice);
+
+                confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
+                confirmation.afterProceed(function () {
+                   // selectedCostCenter().costCenterInstructions()[0].workInstructionChoices.remove(choice)
+                    _.each(selectedCostCenter().costCenterInstructions(), function (resource) {
+
+                        resource.workInstructionChoices.remove(choice);
+
+                    });
+
+
+                    
+
+                });
+                confirmation.show();
+
+               // selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == choice.instructionId() })[0].workInstructionChoices.remove(choice);
                 //selectedInstruction().workInstructionChoices.remove(choice);
             },
             //On Edit Click Of Cost Center
@@ -1155,6 +1209,18 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             // close CostCenter Editor
             closeCostCenterDetail = function () {
+
+                if (selectedCostCenter().hasChanges()) {
+                    confirmation.messageText("Do you want to save changes?");
+                    confirmation.afterProceed(saveCostCenter);
+                    confirmation.afterCancel(function () {
+
+                        isEditorVisible(false);
+                    });
+                    confirmation.show();
+                    return;
+                }
+
                 isEditorVisible(false);
             },
             // Show CostCenter Editor
@@ -1565,7 +1631,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             selectClickChargeZoneVariable = function () {
                 var question = isZoneVariableType() === "1" ? selectedZoneName() : selectedZonePromptQuestion();
                 var varVal = isZoneVariableType() === "1" ? selectedZoneVariableId() : 1;
-                var vstring = "{cinput, ID=\"" + selectedZoneId() + "\",question=\"" + question + "\",type=\"1\",InputType=\"" + isZoneVariableType() + "\",value=\"" + varVal + "\"}";
+                var vstring = "{cinput, ID=\"" + selectedZoneId() + "\",question=\"" + question + "\",type=\"2\",InputType=\"" + isZoneVariableType() + "\",value=\"" + varVal + "\"}";
                 var currentText = selectedCostCenter().strPriceLabourUnParsed();
                 if (selectedCostCenter().isEditLabourQuote()) {
                     currentText += vstring;

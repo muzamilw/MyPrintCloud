@@ -50,7 +50,8 @@ define("common/itemDetail.viewModel",
                     allPresses = ko.observableArray([]),
                     selectedPressInstructions = ko.observable(),
                     prePressOrPostPress = ko.observable(),
-                    
+                    isSectionSwap = ko.observable(),
+                    isItemSwap = ko.observable(),
                     // Impression Coverages
                     impressionCoverages = ko.observableArray([
                         {
@@ -734,8 +735,10 @@ define("common/itemDetail.viewModel",
 
                             if (!selectedSection().isSectionSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
+                            } else if(isSectionSwap()) {
+                                return;
                             }
-
+                            
                             getPtvCalculation(getSectionSystemCostCenters);
                         });
 
@@ -748,7 +751,9 @@ define("common/itemDetail.viewModel",
                             if (!selectedSection().isSectionSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
                             }
-
+                            else if (isSectionSwap()) {
+                                return;
+                            }
                             getPtvCalculation(getSectionSystemCostCenters);
                         });
 
@@ -783,9 +788,11 @@ define("common/itemDetail.viewModel",
 
                             if (!selectedSection().isItemSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
+                            } else if (isItemSwap()) {
+                                return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // item Width
@@ -796,9 +803,11 @@ define("common/itemDetail.viewModel",
 
                             if (!selectedSection().isItemSizeCustom() || selectedSection().printingTypeUi() === '2') {
                                 return;
+                            } else if (isItemSwap()) {
+                                return;
                             }
 
-                            getPtvCalculation();
+                            getPtvCalculation(getSectionSystemCostCenters);
                         });
 
                         // Include Gutter
@@ -1013,7 +1022,13 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
+                        selectedSection().isBooklet.subscribe(function (value) {
+                            if (value !== selectedSection().isBooklet()) {
+                                selectedSection().isBooklet(value);
+                            }
+                            getSectionSystemCostCenters();
 
+                        });
 
                     },
                     // Get Press By Id
@@ -1393,6 +1408,8 @@ define("common/itemDetail.viewModel",
                                     if (data != null) {
                                         selectedSection().printViewLayoutLandscape(data.LandscapePTV || 0);
                                         selectedSection().printViewLayoutPortrait(data.PortraitPTV || 0);
+                                        isItemSwap(undefined);
+                                        isSectionSwap(undefined);
                                         // selectedSection().printViewLayout = data.LandscapePTV > data.PortraitPTV ? 1 : 0;
                                     }
                                     isPtvCalculationInProgress(false);
@@ -2273,6 +2290,22 @@ define("common/itemDetail.viewModel",
                        }
                        view.hideInksDialog();
                     },
+                    // Swap Section Height and Width
+                swapSectionHeightWidth = function () {
+                    isSectionSwap(true);
+                    var sectionHeight = selectedSection().sectionSizeHeight();
+                    selectedSection().sectionSizeHeight(selectedSection().sectionSizeWidth());
+                    selectedSection().sectionSizeWidth(sectionHeight);
+                    getPtvCalculation(getSectionSystemCostCenters);
+                },
+                // Swap Item Size Height and Width
+                swapItemHeightWidth = function () {
+                    isItemSwap(true);
+                    var itemHeight = selectedSection().itemSizeHeight();
+                    selectedSection().itemSizeHeight(selectedSection().itemSizeWidth());
+                    selectedSection().itemSizeWidth(itemHeight);
+                    getPtvCalculation(getSectionSystemCostCenters);
+                },
                     
                 //Initialize
                 initialize = function (specifiedView) {
@@ -2409,7 +2442,9 @@ define("common/itemDetail.viewModel",
                     onSectionInkCoverageSave: onSectionInkCoverageSave,
                     selectedCostCenterCategory: selectedCostCenterCategory,
                     onCreateNewItemSection: onCreateNewItemSection,
-                    isPress1Perfecting: isPress1Perfecting
+                    isPress1Perfecting: isPress1Perfecting,
+                    swapSectionHeightWidth: swapSectionHeightWidth,
+                    swapItemHeightWidth: swapItemHeightWidth
                     //#endregion
                 };
             })()

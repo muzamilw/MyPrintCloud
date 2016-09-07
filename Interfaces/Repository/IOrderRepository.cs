@@ -154,6 +154,7 @@ namespace MPC.Interfaces.Repository
         void RemoveAllDeAttachedItem();
         List<Item> GetDigitalOrderedItems(long OrderId);
         bool CheckOtherCustomerHasSameVoucher(long StoreId, long DiscountVoucherId);
+        Estimate GetOrderByIdWithCompany(long orderId);
     }
 }
 

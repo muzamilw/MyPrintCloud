@@ -39,9 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABCpdf, Version=8.1.0.3, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
+    <Reference Include="ABCpdf, Version=9.1.2.5, Culture=neutral, PublicKeyToken=a7a0b3f5184f2169, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MPC.Common\ExternalDlls\ABCpdf.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\ABCpdf.dll</HintPath>
     </Reference>
     <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,6 +70,26 @@
     </Reference>
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.3.1.45\lib\net40\FluentScheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Web.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Web.v7.dll</HintPath>
+    </Reference>
+    <Reference Include="GrapeCity.LicenseService.ActiveReports.v7, Version=1.0.2012.8081, Culture=neutral, PublicKeyToken=e069e20ca422f015, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter.AspNet">
       <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitter.AspNet.dll</HintPath>
@@ -507,6 +527,12 @@
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
     <Compile Include="ModelMappers\OrganisationMapper.cs" />
     <Compile Include="ModelMappers\PageCategoryMapper.cs" />
+    <Compile Include="testinghtml\EstimateReportCostCenters.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="testinghtml\EstimateReportCostCenters.Designer.cs">
+      <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
+    </Compile>
     <Compile Include="Twitter\TwitterEx.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\CmsPageModel.cs" />
@@ -1369,6 +1395,12 @@
       <LastGenOutput>1.fr-FR.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="testinghtml\EstimateReportCostCenters.resx">
+      <DependentUpon>EstimateReportCostCenters.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

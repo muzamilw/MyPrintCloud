@@ -167,6 +167,31 @@ namespace MPC.MIS.Controllers
            return scont;
 
        }
+       [System.Web.Http.AcceptVerbs("POST")]
+       [HttpPost]
+       [AllowAnonymous]
+       public string ExportProductTemplatesList(string html)
+       {
+           String content = html;
+           string scont = string.Empty;
+           using (StreamReader reader = new StreamReader(HttpContext.Request.GetBufferedInputStream()))
+           {
+              scont = reader.ReadToEndAsync().Result;
+           }
+          // var org = _organizationService.GetOrganisation();
+           string sFileName = "ProductTemplateExport.xls";  //HttpContext.Request.MapPath("~/" + ImagePathConstants.ReportPath + 1 + "/ProductTemplateExport.xls");
+           Response.Clear();
+           Response.AddHeader("Content-Disposition", "attachment;filename=" + sFileName);
+           Response.ContentType = "application/vnd.xls";
+           //Response.Cache.SetCacheability(HttpCacheability.NoCache); // not necessarily required
+           Response.Charset = "";
+           Response.Output.Write(scont);
+           Response.Flush();
+           Response.End();
+
+           return "/" + ImagePathConstants.ReportPath + 1 + "/ProductTemplateExport.xls";
+
+       }
 
     }
 }

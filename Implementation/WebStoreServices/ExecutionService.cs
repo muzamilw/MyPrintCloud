@@ -840,6 +840,7 @@ namespace MPC.Implementation.WebStoreServices
 	            int MultipleQutantities = Convert.ToInt32(oParamsArray[4]);
 	            InputQueue InputQueue = oParamsArray[7] as InputQueue;
                 double dblReturn = 0;
+                string connectionString = Convert.ToString(oParamsArray[10]);
 
 	        try 
             {
@@ -879,12 +880,12 @@ namespace MPC.Implementation.WebStoreServices
 							        }
                                     else if (QuestionITEM.ItemInputType == 1) 
                                     {
-                                        return obj.CalculateLookup(Convert.ToInt32(QuestionITEM.ID), ExecuteVariable(ref oParamsArray, Convert.ToInt32(QuestionITEM.Value)), (ClickChargeReturnType)QuestionITEM.ItemType);
+                                        return obj.CalculateLookup(Convert.ToInt32(QuestionITEM.ID), ExecuteVariable(ref oParamsArray, Convert.ToInt32(QuestionITEM.Value)), (ClickChargeReturnType)QuestionITEM.ItemType, connectionString);
 								        //its a click charge formulae with Question Input
 							        }
                                     else if (QuestionITEM.ItemInputType == 2) 
                                     {
-                                        return obj.CalculateLookup(Convert.ToInt32(QuestionITEM.ID), QuestionITEM.Qty1Answer, (ClickChargeReturnType)QuestionITEM.ItemType);
+                                        return obj.CalculateLookup(Convert.ToInt32(QuestionITEM.ID), QuestionITEM.Qty1Answer, (ClickChargeReturnType)QuestionITEM.ItemType, connectionString);
 							        }
 
 							        break;

@@ -368,7 +368,7 @@
         var
              self,
              instructionId = ko.observable(specifiedInstructionId),
-             instruction = ko.observable(specifiedInstruction),
+             instruction = ko.observable(specifiedInstruction).extend({ required: true }),
              costCenterOption = ko.observable(specifiedcostCenterOption),
              costCenterId = ko.observable(specifiedCostCentreId),
              workInstructionChoices = ko.observableArray([]),
@@ -376,6 +376,12 @@
                   instruction: instruction,
                   workInstructionChoices: workInstructionChoices,
               }),
+                    errors = ko.validation.group({
+                        instruction: instruction
+                    }),
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;;
+        }),
              // Has Changes
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
@@ -395,7 +401,9 @@
             workInstructionChoices: workInstructionChoices,
             convertToServerData: convertToServerData,
             dirtyFlag: dirtyFlag,
-            hasChanges: hasChanges
+            hasChanges: hasChanges,
+            isValid: isValid,
+            errors: errors
         };
         return self;
 
@@ -439,11 +447,17 @@
         var
              self,
              choiceId = ko.observable(specifiedChoiceId),
-             choice = ko.observable(specifiedChoice),
+             choice = ko.observable(specifiedChoice).extend({ required: true }),
              instructionId = ko.observable(specifiedInstructionId),
               dirtyFlag = new ko.dirtyFlag({
                   choice: choice
               }),
+                   errors = ko.validation.group({
+                       choice: choice
+                   }),
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;;
+        }),
              // Has Changes
              hasChanges = ko.computed(function () {
                  return dirtyFlag.isDirty();
@@ -461,7 +475,10 @@
             instructionId: instructionId,
             convertToServerData: convertToServerData,
             dirtyFlag: dirtyFlag,
-            hasChanges: hasChanges
+            hasChanges: hasChanges,
+            isValid: isValid,
+            errors: errors
+
         };
         return self;
 
@@ -1464,7 +1481,11 @@
             isaccumulativecharge = ko.observable(),
             IsRoundUp = ko.observable(),
             TimePerHour = ko.observable(),
-            ZoneName = ko.observable('Default Zone').extend({ required: true, message: 'Zone title is requird' })
+            ZoneName = ko.observable('Default Zone').extend({ required: true, message: 'Zone title is requird' }),
+            VariableString = ko.computed(function () {
+                return "{clickchargezone,caption=&quot;" + ZoneName() + "&quot;}";
+
+            }, this)
         }
 
         errors = ko.validation.group({

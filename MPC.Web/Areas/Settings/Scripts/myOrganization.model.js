@@ -91,6 +91,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              xeroConsumerSecret = ko.observable(),
              isXeroActive = ko.observable(),
              isAutoCreatePurchaseOrder = ko.observable(),
+             isAutoPushPurchaseOrder = ko.observable(),
+             isAutoPushPurchaseOrderUi = ko.computed({
+                 read: function () {
+                     return isAutoPushPurchaseOrder();
+                 },
+                 write: function (value) {
+                     var isAutoPush = value;
+                     if (isAutoPush === isAutoPushPurchaseOrder()) {
+                         return;
+                     }
+                     if (isAutoPush === true) {
+                         isAutoCreatePurchaseOrder(true);
+                     }
+
+                     isAutoPushPurchaseOrder(isAutoPush);
+                 }
+             }),
             //Language Editor List
             languageEditors = ko.observableArray([]),
              // Errors
@@ -153,7 +170,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                  xeroConsumerKey: xeroConsumerKey,
                  xeroConsumerSecret: xeroConsumerSecret,
                  isXeroActive: isXeroActive,
-                 isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder
+                 isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder,
+                 isAutoPushPurchaseOrder: isAutoPushPurchaseOrder
              }),
              // Has Changes
              hasChanges = ko.computed(function () {
@@ -221,7 +239,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              xeroConsumerKey: xeroConsumerKey,
              xeroConsumerSecret: xeroConsumerSecret,
              isXeroActive: isXeroActive,
-             isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder
+             isAutoCreatePurchaseOrder: isAutoCreatePurchaseOrder,
+             isAutoPushPurchaseOrder: isAutoPushPurchaseOrder,
+             isAutoPushPurchaseOrderUi: isAutoPushPurchaseOrderUi
          };
          return self;
      };
@@ -341,13 +361,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return rate();
                 },
                 write: function(value) {
-                    if (value < 0 || value === rate()) {
-                        if (value < 0) {
-                            rate(value);
-                            rate(0);
-                        }
-                        return;
-                    }
+                    //if (value < 0 || value === rate()) {
+                    //    if (value < 0) {
+                    //        rate(value);
+                    //        rate(0);
+                    //    }
+                    //    return;
+                    //}
                     rate(value);
                 }
             }),
@@ -438,6 +458,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.xeroConsumerSecret(source.XeroConsumerSecret);
         companySites.isXeroActive(source.IsXeroActive);
         companySites.isAutoCreatePurchaseOrder(source.IsAutoCreatePurchaseOrder);
+        companySites.isAutoPushPurchaseOrder(source.IsAutoPushPurchaseOrder);
         
         
         return companySites;
@@ -509,6 +530,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         result.XeroConsumerSecret = source.xeroConsumerSecret() === undefined ? null : source.xeroConsumerSecret();
         result.IsXeroActive = source.isXeroActive() === undefined ? null : source.isXeroActive();
         result.IsAutoCreatePurchaseOrder = source.isAutoCreatePurchaseOrder() === undefined ? null : source.isAutoCreatePurchaseOrder();
+        result.IsAutoPushPurchaseOrder = source.isAutoPushPurchaseOrder() === undefined ? null : source.isAutoPushPurchaseOrder();
         
         
         //Markup

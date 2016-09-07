@@ -2433,8 +2433,15 @@ $("#btnImagePlaceHolderUser").click(function () {
     d1PlaceHoldToCanvas();
 });
 $("#Homebtn2").click(function () {
+    debugger;
     if (confirm("Are you sure you want to leave? Any changes you have made will be lost.")) {
-        window.location.href = "/";
+        var host = window.location.hostname;
+        if (host.indexOf("instaprint") > -1)
+            window.location.href = "http://www.instaprint.pk/";
+        else {
+             window.location.href = "/";
+        }
+       
     }
    
 });

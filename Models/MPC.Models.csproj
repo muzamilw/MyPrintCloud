@@ -267,6 +267,7 @@
     <Compile Include="DomainModels\usp_ExportPurchaseOrder_Result.cs" />
     <Compile Include="DomainModels\usp_ExportStoreProductsAndPrices_Result.cs" />
     <Compile Include="DomainModels\usp_GetLiveStores_Result.cs" />
+    <Compile Include="DomainModels\usp_GetStoreProductTemplatesList_Result.cs" />
     <Compile Include="DomainModels\usp_InvoiceReport_Result.cs" />
     <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
     <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
@@ -503,6 +504,7 @@
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
+    <Compile Include="RequestModels\TemplateListRequestModel.cs" />
     <Compile Include="RequestModels\UpdateSectionCostCentersRequest.cs" />
     <Compile Include="ResponseModels\DashBoardChartsResponse.cs" />
     <Compile Include="ResponseModels\DiscountVoucherListViewResponse.cs" />
@@ -525,6 +527,7 @@
     <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\DeliveryNoteBaseResponse.cs" />
     <Compile Include="ResponseModels\EmailsResponse.cs" />
+    <Compile Include="ResponseModels\ExportProductTemplateResponseModel.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\FolderSearchResponse.cs" />
     <Compile Include="ResponseModels\GetDeliveryNoteResponse.cs" />
@@ -563,6 +566,7 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
+    <Compile Include="ResponseModels\ProductTemplateListResponseModel.cs" />
     <Compile Include="ResponseModels\PurchaseBaseResponse.cs" />
     <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
     <Compile Include="ResponseModels\RealEstateListViewResponse.cs" />
@@ -573,6 +577,7 @@
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\SmartFormResponse.cs" />
     <Compile Include="ResponseModels\SmartFormWebstoreResponse.cs" />
+    <Compile Include="ResponseModels\SpotColorsResponseModel.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\StoresListResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />

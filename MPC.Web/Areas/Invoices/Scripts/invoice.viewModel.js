@@ -1537,6 +1537,7 @@ define("invoice/invoice.viewModel",
                              return;
                          }
                          var item = itemModel.Item.Create({ EstimateId: selectedInvoice().id() });
+                         item.tax1(selectedCompanyTaxRate());
                          selectedShippingItem(item);
                          view.showShippingChargeDialog();
                      },

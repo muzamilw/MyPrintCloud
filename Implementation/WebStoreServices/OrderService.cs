@@ -1,4 +1,9 @@
-﻿using MPC.Interfaces.Repository;
+﻿using System.Data;
+using GrapeCity.ActiveReports;
+using GrapeCity.ActiveReports.Export.Pdf.Section;
+using MPC.ExceptionHandling;
+using MPC.Interfaces.MISServices;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -12,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
+using IOrderService = MPC.Interfaces.WebStoreServices.IOrderService;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -26,6 +33,10 @@ namespace MPC.Implementation.WebStoreServices
         private readonly ICompanyContactRepository _myCompanyContact;
         private readonly IPrefixRepository _prefixRepository;
         private readonly IItemRepository _ItemRepository;
+        private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IReportRepository _reportRepository;
+        //private readonly IExportReportHelper _reportHelper;
+        private readonly ICampaignRepository _campaignRepository;
        
           #region Constructor
 
@@ -33,8 +44,8 @@ namespace MPC.Implementation.WebStoreServices
         ///  Constructor
         /// </summary>
         public OrderService(IOrderRepository OrderRepository, IWebstoreClaimsHelperService myClaimHelper, ICompanyService myCompanyService, ICompanyContactRepository myCompanyContact, IPrefixRepository prefixRepository, ICountryRepository CountryRepository,
-            IStateRepository StateRepository, IAddressRepository AddressRepository, IItemRepository ItemRepository
-            )
+            IStateRepository StateRepository, IAddressRepository AddressRepository, IItemRepository ItemRepository, IPurchaseRepository purchaseRepository,
+            IReportRepository reportRepository, ICampaignRepository campaignRepository)
         {
             this._OrderRepository = OrderRepository;
             this._myClaimHelper = myClaimHelper;
@@ -45,7 +56,10 @@ namespace MPC.Implementation.WebStoreServices
             this._StateRepository = StateRepository;
             this._AddressRepository = AddressRepository;
             this._ItemRepository = ItemRepository;
-          
+            this._purchaseRepository = purchaseRepository;
+            this._reportRepository = reportRepository;
+            //this._reportHelper = reportHelper;
+            this._campaignRepository = campaignRepository;
         }
 
 
@@ -396,7 +410,31 @@ namespace MPC.Implementation.WebStoreServices
         }
         public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds, long StoreId)
         {
-            return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds, StoreId);
+            bool isOrderUpdated = _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds, StoreId);
+            //Code By Naveed 20160721 To Auto create and Push Purchase order based on flag
+            //if (isOrderUpdated && Org.IsAutoPushPurchaseOrder == true)
+            //{
+            //    var isPoGenerated = _purchaseRepository.GeneratePO(OrderID, ManagerIds[0]);
+            //    if (isPoGenerated)
+            //        PurchaseOrderEmail(OrderID, Org);
+            //}
+            //--------------------------------------------
+            return isOrderUpdated;
+        }
+
+        public bool IsPoGenerated(long orderId, Guid managerId)
+        {
+            return _purchaseRepository.GeneratePO(orderId, managerId);
+        }
+
+        public Dictionary<int, long> GetPurchasesListByOrderId(long orderId)
+        {
+            return _purchaseRepository.GetPurchasesList(orderId);
+        }
+
+        public Estimate GetOrderByIdWithCompany(long orderId)
+        {
+            return _OrderRepository.GetOrderByIdWithCompany(orderId);
         }
         public double UpdateORderGrandTotal(long OrderID)
         {
@@ -613,5 +651,33 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _OrderRepository.GetOrderItems(OrderId);
        }
+       public void PurchaseOrderEmail(long orderId, long companyId, long supplierContactId, Company objCompany, int purchaseId, long organisationId, string fileName)
+       {
+
+           string salesManagerFile = "/" + ImagePathConstants.ReportPath + organisationId + "/" + purchaseId + "PurchaseReport.pdf";
+           _campaignRepository.POEmailToSalesManager(orderId, companyId, 0, 250, supplierContactId, salesManagerFile, objCompany);
+
+           string sourceFile = fileName;
+           string destinationFileSupplier = "/" + ImagePathConstants.ReportPath + organisationId + "/" + supplierContactId + "/" + purchaseId + "_PurchaseOrder.pdf";
+
+           string oDirectory = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + organisationId + "/" + supplierContactId);
+
+           string destinationPhysicalFileSupplier = HttpContext.Current.Server.MapPath("~/" + destinationFileSupplier);
+
+           if (!Directory.Exists(oDirectory))
+           {
+               Directory.CreateDirectory(oDirectory);
+           }
+
+           if (File.Exists(sourceFile))
+           {
+               File.Copy(sourceFile, destinationPhysicalFileSupplier);}
+
+           _campaignRepository.POEmailToSupplier(orderId, objCompany.CompanyId, 0, 250, supplierContactId, destinationFileSupplier, objCompany, false);
+           
+           
+       }
+
+       
     }
 }
