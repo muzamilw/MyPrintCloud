@@ -819,7 +819,7 @@ namespace MPC.Implementation.MISServices
                         campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToShipping), estimate);
                     else if (estimate.StatusId == (int)OrderStatus.Invoice)
                         campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderInvoiced), estimate);
-                    else
+                    else if (estimate.StatusId == (int)OrderStatus.CancelledOrder)
                         campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderCancelled), estimate);
                 }
             }

@@ -2058,12 +2058,20 @@ namespace MPC.Repository.Repositories
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             //Code by Naveed for auto push Purchase order 20160721
-            if (Org.IsAutoPushPurchaseOrder == true)
-                tblOrder.StatusId = (short) OrderStatus.InProduction;
+            if (orderStatus != OrderStatus.PendingCorporateApprovel)
+            {
+                if (Org.IsAutoPushPurchaseOrder == true)
+                    tblOrder.StatusId = (short)OrderStatus.InProduction;
+                else
+                {
+                    tblOrder.StatusId = (short)orderStatus;
+                }
+            }
             else
             {
                 tblOrder.StatusId = (short)orderStatus;
             }
+            
 
             //--------------
 
@@ -2916,6 +2924,7 @@ namespace MPC.Repository.Repositories
         {
             long result = 0;
             Estimate tblOrder = null;
+            
             //string CacheKeyName = "CompanyBaseResponse";
             //ObjectCache cache = MemoryCache.Default;
 
@@ -2929,7 +2938,23 @@ namespace MPC.Repository.Repositories
 
                 if (tblOrder != null)
                 {
-                    tblOrder.StatusId = orderStatusID;
+                    Organisation org = db.Organisations.FirstOrDefault(o => o.OrganisationId == tblOrder.OrganisationId);
+                    if (orderStatus == OrderStatus.PendingOrder)
+                    {
+                        if (org != null && org.IsAutoPushPurchaseOrder == true)
+                            tblOrder.StatusId = (short)OrderStatus.InProduction;
+                        else
+                        {
+                            tblOrder.StatusId = orderStatusID;
+                        }
+                    }
+                    else
+                    {
+                        tblOrder.StatusId = orderStatusID;
+                    }
+                    
+                    
+                    //tblOrder.StatusId = orderStatusID;
 
                     tblOrder.OrderManagerId = OrdermangerID;
                     tblOrder.RejectionReason = RejectionReason;

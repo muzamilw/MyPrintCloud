@@ -10652,28 +10652,7 @@ alter table itemSection add IsBooklet bit
 
 
 --------------------------Deployed on All servers-----------
---exec [usp_GetStoreProductTemplatesList] 33474
-create procedure [dbo].[usp_GetStoreProductTemplatesList]
- @SotreId bigint
 
-AS
-Begin
-
-	select i.ItemId, i.ProductName, i.Templateid, itp.CategoryName, itp.ParentCategory,
-		case when itp.ParentCategory is null then null
-			else '/MPC_Content/Designer/Organisation'+ cast(i.OrganisationId as varchar(100)) +'/Templates/' + cast( i.TemplateID as varchar(100)) + '/P1.jpg'
-			end as TemplatePath
-	from items i 
-			inner join template t on t.productid = i.templateid 
-			inner join (
-						select pci.ItemId, pci.CategoryId, pc.CategoryName, 
-						pcp.CategoryName As ParentCategory, pc.parentCategoryId 
-						from productcategoryitem pci 
-								inner join productcategory pc on pc.productcategoryid = pci.categoryid
-								left join productcategory pcp on pcp.productcategoryid = pc.parentCategoryid)itp on itp.itemid = i.itemid
-		where i.companyid = @SotreId and i.estimateid is null and i.templateid is not null
-
-End
 ------
 
 
@@ -10735,6 +10714,138 @@ BEGIN
 			 FROM CTE AS CTE_1 
 return
 END
+
+--------------------
+
+/****** Object:  StoredProcedure [dbo].[usp_SectionSummaryReport]    Script Date: 9/8/2016 12:48:04 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+--exec [usp_SectionSummaryReport] 1, 327249,432213
+ALTER procedure [dbo].[usp_SectionSummaryReport]
+ @organisationId bigint,
+ @OrderID bigint,
+ @ItemID bigint = 0
+AS
+Begin
+
+
+if (@OrderID = 0)
+begin
+	
+SELECT @OrderID = estimateid from items where itemid = @ItemID
+	
+end
+	
+SELECT    dbo.Estimate.EstimateID, dbo.Items.ItemID, dbo.Company.Name AS CompanyName, dbo.CompanyContact.Email, dbo.CompanyContact.Mobile,
+					isnull(dbo.CompanyContact.FirstName,'') + ' ' + isnull(dbo.CompanyContact.LastName,'') As ContactFullName,
+					 dbo.Items.JobDescription1 as JobDescription1,dbo.Items.JobDescription2 as JobDescription2,dbo.Items.JobDescription3 as JobDescription3,
+					 dbo.Items.JobDescription4 as JobDescription4,dbo.Items.JobDescription5 as JobDescription5,
+					 dbo.Items.JobDescription6 as JobDescription6, dbo.Items.JobDescription7 as JobDescription7,
+					 
+					  CASE 
+						  WHEN dbo.Items.JobDescription1 is null then null
+						  WHEN dbo.Items.JobDescription1 is not null THEN  dbo.Items.JobDescriptionTitle1
+				       END As JobDescriptionTitle1,
+				        CASE 
+						  WHEN dbo.Items.JobDescription2 is null THEN Null
+						  WHEN dbo.Items.JobDescription2 is not null THEN  dbo.Items.JobDescriptionTitle2
+				       END As JobDescriptionTitle2,
+				        CASE 
+						  WHEN dbo.Items.JobDescription3 is null THEN Null
+						  WHEN dbo.Items.JobDescription3 is not null THEN  dbo.Items.JobDescriptionTitle3
+				       END As JobDescriptionTitle3,
+				        CASE 
+						  WHEN dbo.Items.JobDescription4 is null THEN Null
+						  WHEN dbo.Items.JobDescription4 is not null THEN  dbo.Items.JobDescriptionTitle4
+				       END As JobDescriptionTitle4,
+				        CASE 
+						  WHEN dbo.Items.JobDescription5 is null THEN Null
+						  WHEN dbo.Items.JobDescription5 is not null THEN  dbo.Items.JobDescriptionTitle5
+				       END As JobDescriptionTitle5,
+				        CASE 
+						  WHEN dbo.Items.JobDescription6 is null THEN Null
+						  WHEN dbo.Items.JobDescription6 is not null THEN  dbo.Items.JobDescriptionTitle6
+				       END As JobDescriptionTitle6,
+				        CASE 
+						  WHEN dbo.Items.JobDescription7 is null THEN Null
+						  WHEN dbo.Items.JobDescription7 is not null THEN  dbo.Items.JobDescriptionTitle7
+				       END As JobDescriptionTitle7,
+					 
+					  dbo.Items.Qty1,  dbo.Items.ProductCode,
+                      dbo.Items.WebDescription, dbo.Items.JobDescription, 
+					  dbo.itemsection.SectionName, dbo.itemsection.SectionNo,                       
+                      dbo.Estimate.Order_Date, dbo.sectioncostcentre.Qty1WorkInstructions,
+                      dbo.sectioncostcentre.Name AS CostCenterName,dbo.Items.ItemNotes, dbo.Items.Qty1NetTotal, 
+					  dbo.Items.Qty1Tax1Value,(dbo.Items.Qty1NetTotal + dbo.Items.Qty1Tax1Value) as GrossTotal,
+                      dbo.Items.ProductName as FullProductName,                
+                                  		 
+                       (select c.CurrencySymbol from Currency c inner join Organisation o on o.CurrencyId = c.CurrencyId where o.OrganisationId = @organisationId)as CurrencySymbol,
+					   dbo.sectioncostcentre.Qty1NetTotal as CostCenterChargeQty1,
+					   dbo.itemsection.IsDoubleSided, dbo.itemsection.IsBooklet, dbo.itemsection.isWorknTurn,dbo.itemsection.Qty1 as SectionQty1,
+					   dbo.itemsection.ItemSectionId, cast(isnull(dbo.itemsection.ItemSizeHeight, 0) as varchar(200)) + 'x' + cast(isnull(dbo.itemsection.ItemSizeWidth, 0) as varchar(200)) as ItemSize
+					   ,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 1),0) As InkTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 6),0) As PressTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 2),0) As StockTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 4),0) As PlatesTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 5),0) As MakeReadyTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 7),0) As WashupTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and sc.SystemCostCentreType = 8),0) As GuillotineTotal
+						,isnull((select sum(sc.Qty1NetTotal) from ItemSection c
+							inner join SectionCostcentre sc on c.ItemSectionId = sc.ItemSectionId
+							inner join items i on i.ItemId = c.ItemId
+							 where c.ItemId = dbo.Items.ItemId
+							and (sc.SystemCostCentreType > 8 or sc.SystemCostCentreType is null)),0) As OtherCostCenterTotal
+
+FROM         dbo.Estimate inner JOIN
+
+                      dbo.Items ON dbo.Estimate.EstimateID = dbo.Items.EstimateID inner JOIN
+                      dbo.itemsection ON dbo.Items.ItemID = dbo.itemsection.ItemID Inner JOIN
+                      dbo.Company ON dbo.Estimate.CompanyId = dbo.Company.CompanyId Inner JOIN
+                      dbo.CompanyContact ON dbo.Estimate.ContactID = dbo.CompanyContact.ContactID 
+                      Left JOIN dbo.sectioncostcentre ON dbo.itemsection.ItemSectionID = dbo.sectioncostcentre.ItemSectionID                       
+                      left JOIN dbo.CostCentre ON dbo.sectioncostcentre.CostCentreID = dbo.CostCentre.CostCentreID						
+					  where estimate.organisationid = @organisationId and estimate.EstimateId = @OrderID and Items.itemid = @ItemId
+
+
+
+
+End
+
+
+
 
 
 

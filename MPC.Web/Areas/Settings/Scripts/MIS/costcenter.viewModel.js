@@ -910,12 +910,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //Do Before Save
             doBeforeSave = function () {
                 var flag = true;
-                if (!selectedCostCenter().costCenterInstructions()[0].isValid())
+                if (selectedCostCenter().type() != 11 && (selectedCostCenter().costCenterInstructions().length > 0 && !selectedCostCenter().costCenterInstructions()[0].isValid()))
                 {
                     selectedCostCenter().costCenterInstructions()[0].errors.showAllMessages();
                     flag = false;
                 }
-                if (selectedCostCenter().costCenterInstructions()[0].instruction().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction()!="") {
+                if (selectedCostCenter().type() != 11 && (selectedCostCenter().costCenterInstructions().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction() != "")) {
                     _.each(selectedCostCenter().costCenterInstructions(), function (item) {
                         if (!item.workInstructionChoices()[0].isValid()) {
                             item.workInstructionChoices()[0].errors.showAllMessages();
@@ -1100,7 +1100,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             createWorkInstruction = function () {
 
-                if (!selectedCostCenter().costCenterInstructions()[0].isValid())
+                if (selectedCostCenter().costCenterInstructions().length > 0 && !selectedCostCenter().costCenterInstructions()[0].isValid())
                 {
                     selectedCostCenter().costCenterInstructions()[0].errors.showAllMessages();
                 }

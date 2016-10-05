@@ -3583,7 +3583,8 @@ namespace MPC.Implementation.MISServices
             double ReelLength = 0;
             double ReelWidth = 0;
             Organisation org = organisationRepository.GetOrganizatiobByID();
-            int defaultMarkupId = Convert.ToInt32(org.Markups.Select(a => a.IsDefault == true));
+            //int defaultMarkupId = Convert.ToInt32(org.Markups.Select(a => a.IsDefault == true));
+            int defaultMarkupId = Convert.ToInt32(_markupRepository.GetOrganisationDefaultMarkupId());
 
             CostCentre oPaperCostCentreDTO = itemsectionRepository.GetCostCenterBySystemType((int)SystemCostCenterTypes.Paper);
             StockItem oPaperDTO = itemsectionRepository.GetStockById(Convert.ToInt64(oItemSection.StockItemID1));
@@ -6219,6 +6220,7 @@ namespace MPC.Implementation.MISServices
                         gs2.FillRectangle(new SolidBrush(Color.SeaGreen), Convert.ToInt32(vPageWidth - PrintGutter), 0, Convert.ToInt32(PrintGutter), Convert.ToInt32(vPageHeight));
                         //'drawing grip on right side
                         vPageWidth = vPageWidth - (PrintGutter * 2);
+                        
                     }
                     else
                     {
@@ -6327,9 +6329,11 @@ namespace MPC.Implementation.MISServices
                 vIWidth = Convert.ToInt32(vIWidth - vRightPad);
                 vIHeight = Convert.ToInt32(vIHeight - vTopPad);
 
+
                 x2 = Convert.ToInt32((vColumnCount) * (vIWidth + vRightPad));
                 y2 = Convert.ToInt32((vRowCount + Convert.ToDouble((vRowSwing > 0 | vColSwing > 0 ? 0.5 : 0))) * (vIHeight + vTopPad));
 
+               
 
                 //'Start printing images
                 for (i = 0; i <= vRowCount - 1; i++)
@@ -6340,7 +6344,8 @@ namespace MPC.Implementation.MISServices
                     }
                     else
                     {
-                        yFactor = Convert.ToInt32(yFactor + vTopPad + vIHeight);
+                        yFactor = Convert.ToInt32(yFactor + vTopPad + vIHeight); 
+                        
                     }
 
                     for (j = 0; j <= vColumnCount - 1; j++)
@@ -6351,7 +6356,8 @@ namespace MPC.Implementation.MISServices
                         }
                         else
                         {
-                            xFactor = Convert.ToInt32(xFactor + vRightPad + vIWidth);
+                            xFactor = Convert.ToInt32(xFactor + vRightPad + vIWidth); 
+                           
                         }
 
 
@@ -6447,9 +6453,9 @@ namespace MPC.Implementation.MISServices
                             }
 
                             //Short Side                        
-                            gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - 1), Convert.ToInt32(vIHeight - 1));
+                            gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - (PrintGutter == 0 ? 1 : PrintGutter)), Convert.ToInt32(vIHeight - (PrintGutter == 0 ? 1 : PrintGutter)));
                             gs2.DrawImage(imgApplyBack, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - 1), Convert.ToInt32(vIHeight - 1));
-
+                            
                         }
 
                     }
@@ -8080,6 +8086,7 @@ namespace MPC.Implementation.MISServices
                     if (Convert.ToInt32(section.Qty1) > 0)
                     {
                         _CostCentreParamsArray[5] = 1;
+                        _CostCentreParamsArray[4] = 1;
                         double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty1), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
                         cc.Qty1Charge = dblResult;
                         cc.Qty1NetTotal = dblResult;
@@ -8087,6 +8094,7 @@ namespace MPC.Implementation.MISServices
                     if (Convert.ToInt32(section.Qty2) > 0)
                     {
                         _CostCentreParamsArray[5] = 2;
+                        _CostCentreParamsArray[4] = 2;
                         double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty2), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
                         cc.Qty2Charge = dblResult;
                         cc.Qty2NetTotal = dblResult;
@@ -8094,6 +8102,7 @@ namespace MPC.Implementation.MISServices
                     if (Convert.ToInt32(section.Qty3) > 0)
                     {
                         _CostCentreParamsArray[5] = 3;
+                        _CostCentreParamsArray[4] = 3;
                         double dblResult = GetCostCenterPrice(Convert.ToString(cc.CostCentreId), Convert.ToString(section.Qty3), "UpdateAllCostCentreOnQuantityChange", queues, ref _CostCentreParamsArray, newSection);
                         cc.Qty3Charge = dblResult;
                         cc.Qty3NetTotal = dblResult;
@@ -8242,7 +8251,7 @@ namespace MPC.Implementation.MISServices
 
 
                     //CostCentreQueue
-                    _CostCentreParamsArray[4] = 1;
+                    //_CostCentreParamsArray[4] = 1;
 
                     //_CostCentreParamsArray[5] = 1;
                     //MultipleQuantities

@@ -191,7 +191,7 @@
                 <br />
                 <div>
                     <span class="user-subhead">
-                        <span data-bind="text: 'Ref # ' + customerPo() "></span>
+                        <span data-bind="text: 'Ref # ' + customerPo(), visible: customerPo() != null && customerPo() != ''"></span>
                         <span data-bind="text: name"></span>
                         <span data-bind="text: ' '"></span>
                         <span data-bind="text: noOfItemsUi"></span>

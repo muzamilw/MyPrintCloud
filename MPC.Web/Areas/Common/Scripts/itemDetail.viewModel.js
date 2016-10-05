@@ -619,9 +619,9 @@ define("common/itemDetail.viewModel",
                             PrintHeight: selectedSection().sectionSizeHeight(),
                             PrintWidth: selectedSection().sectionSizeWidth(),
                             Grip: 1,
-                            GripDepth: 0,
-                            HeadDepth: 0,
-                            PrintGutter: selectedSection().itemGutterHorizontal(),
+                            GripDepth: 1,
+                            HeadDepth: 1,
+                            PrintGutter: 1,
                             ItemHorizentalGutter: selectedSection().itemGutterHorizontal(),
                             ItemVerticalGutter: selectedSection().itemGutterHorizontal()
                             }, {
@@ -1398,8 +1398,8 @@ define("common/itemDetail.viewModel",
                                 PrintHeight: selectedSection().sectionSizeHeight(),
                                 PrintWidth: selectedSection().sectionSizeWidth(),
                                 Grip: 1,
-                                GripDepth: 0,
-                                HeadDepth: 0,
+                                GripDepth: 1,
+                                HeadDepth: 1,
                                 PrintGutter: selectedSection().itemGutterHorizontal(),
                                 ItemHorizentalGutter: selectedSection().itemGutterHorizontal(),
                                 ItemVerticalGutter: selectedSection().itemGutterHorizontal()
@@ -1583,6 +1583,10 @@ define("common/itemDetail.viewModel",
                             toastr.info("Please select stock.");
                             return;
                         }
+                        if (selectedSection().isPortrait() == null && selectedSection().printViewLayoutPortrait() == 1)
+                            selectedSection().isPortrait(true);
+                        if (selectedSection().isPortrait() == null && selectedSection().printViewLayoutLandscape() == 1)
+                            selectedSection().isPortrait(false);
                         if (selectedSection().isWorknTurn() && selectedSection().pressIdSide2() == undefined)
                             selectedSection().pressIdSide2(selectedSection().pressId());
                             

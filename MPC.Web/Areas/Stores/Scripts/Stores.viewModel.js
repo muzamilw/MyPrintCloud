@@ -1346,24 +1346,29 @@ define("stores/stores.viewModel",
                         confirmation.messageText("WARNING - Are you sure you want to overwrite store spot colors to the territory?");
                         confirmation.afterProceed(function () {
                             if (selectedStore().companyCMYKColors().length > 0) {
-                                selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
-                                var counter = -1;
-                                _.each(selectedStore().companyCMYKColors(), function (color) {
-                                    var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
-                                    territoryColor.territoryId(selectedCompanyTerritory().territoryId());
-                                    territoryColor.isActive(false);
-                                    territoryColor.colorId(counter);
-                                    selectedStore().companyTerritoryColors.push(territoryColor);
-                                    counter--;
-                                });
+                                copyGlobalColors();
                                 confirmation.hide();
                                 selectedCompanyTerritory().isUseTerritoryColor('true');
+                            } else {
+                                getSpotColors(true, copyGlobalColors);
                             }
                         });
                         confirmation.afterCancel(function () {
                             selectedCompanyTerritory().isUseTerritoryColor('false');
                         });
                         confirmation.show();
+                    },
+                    copyGlobalColors = function() {
+                        selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
+                        var counter = -1;
+                        _.each(selectedStore().companyCMYKColors(), function (color) {
+                            var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
+                            territoryColor.territoryId(selectedCompanyTerritory().territoryId());
+                            territoryColor.isActive(false);
+                            territoryColor.colorId(counter);
+                            selectedStore().companyTerritoryColors.push(territoryColor);
+                            counter--;
+                        });
                     },
                     copyGlobalFontsToTerritory = function () {
                         confirmation.messageText("WARNING - Are you sure you want to overwrite store fonts to the territory?");
@@ -4745,7 +4750,7 @@ define("stores/stores.viewModel",
                             var productCategoryToSave = selectedProductCategoryForEditting().convertToServerData();
                             productCategoryToSave.CategoryTerritories = [];
                             _.each(addressTerritoryList(), function (territory) {
-                                if (territory.isSelected()) {
+                                if (territory.isSelected() && territory.hasChanges()) {
                                     productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
                                 }
                             });
@@ -8268,7 +8273,7 @@ define("stores/stores.viewModel",
                             }
                         });
                 },
-                getSpotColors = function(isStoreColors) {
+                getSpotColors = function(isStoreColors, callback) {
                     dataservice.getSpotColors({
                         TerritoryId: !isStoreColors ? selectedCompanyTerritory().territoryId() : 0,
                         StoreId: isStoreColors?  selectedStore().companyId() : 0,
@@ -8286,6 +8291,9 @@ define("stores/stores.viewModel",
                                         });
                                     }
                                        
+                                }
+                                if (callback && typeof callback === "function") {
+                                    callback();
                                 }
                             },
                             error: function (response) {

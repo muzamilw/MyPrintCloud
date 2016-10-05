@@ -89,6 +89,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             ItemSection section = paramRequest.CurrentItemSection ?? null;
            
             _CostCentreParamsArray[5] = 1;
+            _CostCentreParamsArray[4] = 1;
             dblResult1 = GetCostCenterPrice(paramRequest.CostCentreId, paramRequest.OrderedQuantity, paramRequest.CallMode, Queues, ref _CostCentreParamsArray, section);
             oResult.TotalPrice = dblResult1;
 
@@ -97,12 +98,14 @@ namespace MPC.MIS.Areas.Api.Controllers
                 if (Convert.ToInt32(section.Qty2) > 0)
                 {
                     _CostCentreParamsArray[5] = 2;
+                    _CostCentreParamsArray[4] = 2;
                     dblResult2 = GetCostCenterPrice(paramRequest.CostCentreId, Convert.ToString(section.Qty2), "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, section);
                     oResult.TotalPriceQty2 = dblResult2;
                 }
                 if (Convert.ToInt32(section.Qty3) > 0)
                 {
                     _CostCentreParamsArray[5] = 3;
+                    _CostCentreParamsArray[4] = 3;
                     dblResult3 = GetCostCenterPrice(paramRequest.CostCentreId, Convert.ToString(section.Qty3), "UpdateAllCostCentreOnQuantityChange", Queues, ref _CostCentreParamsArray, section);
                     oResult.TotalPriceQty3 = dblResult3;
                 }
@@ -598,7 +601,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
                     //CostCentreQueue
-                    _CostCentreParamsArray[4] = 1;
+                   // _CostCentreParamsArray[4] = 1;
 
                    // _CostCentreParamsArray[5] = 1;
                     //MultipleQuantities
