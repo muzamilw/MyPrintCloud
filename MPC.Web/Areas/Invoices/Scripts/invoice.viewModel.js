@@ -890,7 +890,7 @@ define("invoice/invoice.viewModel",
                     // Get Invoices
                     getInvoices = function (currentTab) {
                         isLoading(true);
-                        currentScreen(currentTab);
+                        currentScreen(currentTab != undefined ? currentTab : currentScreen());
                         dataservice.getInvoices({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),

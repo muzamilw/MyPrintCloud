@@ -86,7 +86,7 @@ namespace MPC.Implementation.MISServices
             }
 
 
-            return DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter);
+            return DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter, request.BleedArea);
         }
 
 
@@ -6105,7 +6105,8 @@ namespace MPC.Implementation.MISServices
         /// <param name="ItemHorizontalGutter"></param>
         /// <param name="ItemVerticalGutter"></param>
         /// <returns></returns>
-        public PtvDTO DrawPTV(PrintViewOrientation strOrient, int ReversePTVRows, int ReversePTVCols, bool IsDoubleSided, bool IsWorknTurn, bool IsWorknTumble, bool ApplyPressRestrict, double ItemHeight, double ItemWidth, double PrintHeight, double PrintWidth, GripSide Grip, double GripDepth, double HeadDepth, double PrintGutter, double ItemHorizontalGutter, double ItemVerticalGutter)
+        public PtvDTO DrawPTV(PrintViewOrientation strOrient, int ReversePTVRows, int ReversePTVCols, bool IsDoubleSided, bool IsWorknTurn, bool IsWorknTumble, bool ApplyPressRestrict, double ItemHeight, double ItemWidth, double PrintHeight, double PrintWidth, GripSide Grip, 
+            double GripDepth, double HeadDepth, double PrintGutter, double ItemHorizontalGutter, double ItemVerticalGutter, double bleedArea = 0)
         {
             Image imgCardL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-up.gif"));
             Image imgCardBackL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-up.gif"));
@@ -6275,6 +6276,37 @@ namespace MPC.Implementation.MISServices
                         vPageWidth = vPageWidth - GripDepth;
                     }
                 }
+                // Bleed
+                if (bleedArea > 0)
+                {
+                    if (Grip == GripSide.LongSide)
+                    {
+                        vPageWidth = vPageWidth - (bleedArea * 2);
+                        //For Side 1
+                        //Left Side
+                        gs.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32(PrintGutter), Convert.ToInt32(PrintGutter), Convert.ToInt32(bleedArea), Convert.ToInt32(vPageHeight));
+                        //Right Side
+                        gs.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32((vPageWidth + PrintGutter + bleedArea)), Convert.ToInt32(PrintGutter), Convert.ToInt32(bleedArea), Convert.ToInt32(vPageHeight));
+                        //Bottom Side
+                        gs.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32(PrintGutter), Convert.ToInt32(HeadDepth + (vPageHeight - (bleedArea))), Convert.ToInt32(vPageWidth + bleedArea), Convert.ToInt32(bleedArea));
+                        //Top Side
+                        gs.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32(PrintGutter), Convert.ToInt32(PrintGutter), Convert.ToInt32(vPageWidth+ bleedArea), Convert.ToInt32(bleedArea));
+
+                        if (IsDoubleSided)
+                        {
+                            //For Side 2
+                            gs2.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32(PrintGutter), Convert.ToInt32(PrintGutter), Convert.ToInt32(bleedArea), Convert.ToInt32(vPageHeight));
+                            //Right Side
+                            gs2.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32((vPageWidth + PrintGutter + bleedArea)), Convert.ToInt32(PrintGutter), Convert.ToInt32(bleedArea), Convert.ToInt32(vPageHeight));
+                            //Bottom Side
+                            gs2.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32(PrintGutter), Convert.ToInt32(HeadDepth + (vPageHeight - (bleedArea))), Convert.ToInt32(vPageWidth + bleedArea), Convert.ToInt32(bleedArea));
+                            //Top Side
+                            gs2.FillRectangle(new SolidBrush(Color.DarkMagenta), Convert.ToInt32(PrintGutter), Convert.ToInt32(PrintGutter), Convert.ToInt32(vPageWidth + bleedArea), Convert.ToInt32(bleedArea));
+                        }
+                        
+                        vPageHeight = vPageHeight - (bleedArea * 2);
+                    }
+                }
 
 
                 ///''''''''''''''''''''''''''''''
@@ -6328,7 +6360,7 @@ namespace MPC.Implementation.MISServices
 
                 vIWidth = Convert.ToInt32(vIWidth - vRightPad);
                 vIHeight = Convert.ToInt32(vIHeight - vTopPad);
-
+               
 
                 x2 = Convert.ToInt32((vColumnCount) * (vIWidth + vRightPad));
                 y2 = Convert.ToInt32((vRowCount + Convert.ToDouble((vRowSwing > 0 | vColSwing > 0 ? 0.5 : 0))) * (vIHeight + vTopPad));
@@ -6340,7 +6372,8 @@ namespace MPC.Implementation.MISServices
                 {
                     if (i == 0)
                     {
-                        yFactor = Convert.ToInt32((vPageHeight - y2) / 2);
+                       yFactor = Convert.ToInt32((vPageHeight - y2) / 2);
+                       
                     }
                     else
                     {
@@ -6356,7 +6389,7 @@ namespace MPC.Implementation.MISServices
                         }
                         else
                         {
-                            xFactor = Convert.ToInt32(xFactor + vRightPad + vIWidth); 
+                           xFactor = Convert.ToInt32(xFactor + vRightPad + vIWidth); 
                            
                         }
 
@@ -6396,7 +6429,7 @@ namespace MPC.Implementation.MISServices
                             }
 
 
-                            gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - 1), Convert.ToInt32(vIHeight - 1));
+                            gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - (PrintGutter == 0 ? 1 : PrintGutter)), Convert.ToInt32(vIHeight - (PrintGutter == 0 ? 1 : PrintGutter)));
                             //checks performed horizontal :)
 
                         }
@@ -6432,7 +6465,7 @@ namespace MPC.Implementation.MISServices
                             }
 
 
-                            gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - 1), Convert.ToInt32(vIHeight - 1));
+                            gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - (PrintGutter == 0 ? 1 : PrintGutter)), Convert.ToInt32(vIHeight - (PrintGutter == 0 ? 1 : PrintGutter)));
 
                             //double sided case. where simple drawing is required..
 
@@ -6452,9 +6485,10 @@ namespace MPC.Implementation.MISServices
                                 imgApplyBack = imgCardBackL;
                             }
 
-                            //Short Side                        
+                            //Short Side 
+                           
                             gs.DrawImage(imgApply, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - (PrintGutter == 0 ? 1 : PrintGutter)), Convert.ToInt32(vIHeight - (PrintGutter == 0 ? 1 : PrintGutter)));
-                            gs2.DrawImage(imgApplyBack, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - 1), Convert.ToInt32(vIHeight - 1));
+                            gs2.DrawImage(imgApplyBack, Convert.ToInt32(xFactor + PrintGutter), Convert.ToInt32(yFactor + HeadDepth), Convert.ToInt32(vIWidth - (PrintGutter == 0 ? 1 : PrintGutter)), Convert.ToInt32(vIHeight - (PrintGutter == 0 ? 1 : PrintGutter)));
                             
                         }
 
@@ -8058,8 +8092,8 @@ namespace MPC.Implementation.MISServices
                     .ToList();
             if (additionalCostCenterList.Count > 0)
             {
-                string scont = section.QuestionQueue;
-                string sinputcont = section.InputQueue;
+                string scont = string.IsNullOrEmpty(section.QuestionQueue) ? "[]" : section.QuestionQueue;
+                string sinputcont = string.IsNullOrEmpty(section.InputQueue)? "[]" : section.InputQueue;
                 object[] _CostCentreParamsArray = new object[12];
                 List<QuestionQueueItem> ccQueue = null;
                 List<InputQueueItem> inputQueue = null;

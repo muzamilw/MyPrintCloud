@@ -66,6 +66,8 @@ namespace MPC.Models.ModelMappers
             target.RunningSpoilage = source.RunningSpoilage;
             target.RunningSpoilageValue = source.RunningSpoilageValue;
             target.IsBooklet = source.IsBooklet;
+            target.BleedArea = source.BleedArea;
+            target.SimilarSections = source.SimilarSections;
         }
 
         /// <summary>

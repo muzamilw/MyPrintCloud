@@ -25,5 +25,6 @@ namespace MPC.Models.RequestModels
         public double PrintGutter { get; set; }
         public double ItemHorizentalGutter { get; set; }
         public double ItemVerticalGutter { get; set; }
+        public double BleedArea { get; set; }
     }
 }

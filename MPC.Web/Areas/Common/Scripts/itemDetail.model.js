@@ -615,7 +615,7 @@
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
             specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedSpeed1, specifiedSpeed2, specifiedSpeed3,
             specifiedImpressions1, specifiedImpressions2, specifiedImpressions3, specifiedPaperGsm, specifiedPrintSheetQty1, specifiedPrintSheetQty2, specifiedPrintSheetQty3,
-            specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue, specifiedIsBooklet) {
+            specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue, specifiedIsBooklet, specifiedBleedArea) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -907,6 +907,26 @@
                 inputQueue = ko.observable(),
                 stockQueue = ko.observable(),
                 costCenterQueue = ko.observable(),
+                bleedArea = ko.observable(specifiedBleedArea || 3).extend({ number: true, min: 0, max: 99 }),
+                
+                guterAreaUi = ko.computed({
+                    
+                    read: function () {
+                        var guter = bleedArea() * 2;
+                        if (itemGutterHorizontal() < guter) {
+                            if (numberUp() <= 1)
+                                itemGutterHorizontal(1);
+                            else {
+                                itemGutterHorizontal(guter);
+                            }
+                            
+                            return itemGutterHorizontal();
+                        }
+                        return itemGutterHorizontal();
+                    }
+                    
+                }),
+                
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -962,7 +982,8 @@
                     costCenterQueue: costCenterQueue,
                     inputQueue: inputQueue,
                     questionQueue: questionQueue,
-                    isBooklet: isBooklet
+                    isBooklet: isBooklet,
+                    bleedArea: bleedArea
                 }),
                 // SectionCostCentres Has Changes
                 sectionCostCentresHasChanges = function () {
@@ -1058,7 +1079,8 @@
                         IsBooklet: isBooklet(),
                         SetupSpoilage : SetupSpoilage(),
                         RunningSpoilage : RunningSpoilage(),
-                        RunningSpoilageValue : RunningSpoilageValue(),
+                        RunningSpoilageValue: RunningSpoilageValue(),
+                        BleedArea : bleedArea(),
                         
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
                         // #endregion
@@ -1173,13 +1195,14 @@
                 RunningSpoilage: RunningSpoilage,
                 RunningSpoilageValue: RunningSpoilageValue,
                 isBooklet : isBooklet,
-
+                bleedArea : bleedArea,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
                 hasChanges: hasChanges,
                 reset: reset,
-                convertToServerData: convertToServerData
+                convertToServerData: convertToServerData,
+                guterAreaUi: guterAreaUi
             };
         },
         //#endregion
@@ -2384,7 +2407,7 @@
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType,
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
             source.ItemGutterHorizontal, source.PressSpeed1, source.PressSpeed2, source.PressSpeed3, source.ImpressionQty1, source.ImpressionQty2, source.ImpressionQty3,
-            source.PaperGsm, source.PrintSheetQty1, source.PrintSheetQty2, source.PrintSheetQty3, source.SetupSpoilage, source.RunningSpoilage, source.RunningSpoilageValue, source.IsBooklet);
+            source.PaperGsm, source.PrintSheetQty1, source.PrintSheetQty2, source.PrintSheetQty3, source.SetupSpoilage, source.RunningSpoilage, source.RunningSpoilageValue, source.IsBooklet, source.BleedArea);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {

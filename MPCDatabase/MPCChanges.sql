@@ -10846,6 +10846,7 @@ End
 
 
 
+--------------------------
 
 
-
+alter table ItemSection add BleedArea float

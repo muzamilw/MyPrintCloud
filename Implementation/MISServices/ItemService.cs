@@ -2459,7 +2459,18 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public InventorySearchResponse GetStockItems(StockItemRequestModel request)
         {
-            return stockItemRepository.GetStockItemsForProduct(request);
+            var stock = stockItemRepository.GetStockItemsForProduct(request);
+            foreach (var itm in stock.StockItems)
+            {
+                if (itm.ItemSizeCustom == 1)
+                    itm.SizeName = itm.ItemSizeHeight + " x " + itm.ItemSizeWidth;
+                else
+                {
+                    itm.SizeName = paperSizeRepository.GetPaperNameById(itm.ItemSizeId ?? 0);
+                }
+
+            }
+            return stock;
         }
 
 

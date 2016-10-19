@@ -86,10 +86,13 @@ define("common/addCostCenter.viewModel",
                         currentSection(section);
                         itemId(productId || "");
                         if (isCostCenterDialogForShipping()) {
+                            costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
                             getCostCenters();
                         } else {
+                            costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
                             getCostCentersForProduct();
                         }
+                        
                     },
                     // On Select Cost Center
                     onSelectCostCenter = function (costCenter) {
@@ -211,6 +214,7 @@ define("common/addCostCenter.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         costCentreDialogPager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
+                        
                     },
                     onSaveProductCostCenter = function () {
                         if ($root.isCostCenterDialogForShipping()) {

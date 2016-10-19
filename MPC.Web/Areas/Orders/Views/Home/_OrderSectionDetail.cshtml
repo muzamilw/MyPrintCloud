@@ -62,7 +62,7 @@
                                                 <label style="float:left;margin-left: 0;" class="control-label text-left tooltip-float">Bleed</label>
                                             </div>
                                             <div class="col-sm-5 col-md-5 col-lg-5" style="padding-left: 10px; padding-right: 0">
-                                                <input style="width: 100%;text-align: right;" type="text" id="itemBleedTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99">
+                                                <input style="width: 100%;text-align: right;" type="text" id="itemBleedTextBox" class="form-control font20px" data-bind="value: bleedArea, validationOnElement: bleedArea" min="0" max="99">
                                             </div>
                                         </div>
                                     </div>
@@ -117,10 +117,10 @@
                                 <div class="col-sm-2 col-lg-3 col-md-2" style="padding-left: 0; padding-right: 0">
                                     <div class="col-sm-12 col-lg-12" style="padding-right: 0;padding-left: 0;">
                                         <div class="col-sm-7" style="padding-right: 0;">
-                                            <label style="float:left;margin-left: 0;" class="control-label text-left tooltip-float">Gutter</label>
+                                            <label style="float:left;margin-left: 0;" data-bind="visible: numberUp() > 1" class="control-label text-left tooltip-float">Gutter</label>
                                         </div>
                                         <div class="col-sm-5 col-md-5 col-lg-5" style="padding-left: 0; padding-right: 0">
-                                            <input style="width: 85%;text-align: right;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99">
+                                            <input style="width: 85%;text-align: right;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal,visible: numberUp() > 1" min="0" max="99">
                                         </div>
                                     </div>
                                 </div>
