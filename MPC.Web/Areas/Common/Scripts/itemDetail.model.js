@@ -615,7 +615,7 @@
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
             specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedSpeed1, specifiedSpeed2, specifiedSpeed3,
             specifiedImpressions1, specifiedImpressions2, specifiedImpressions3, specifiedPaperGsm, specifiedPrintSheetQty1, specifiedPrintSheetQty2, specifiedPrintSheetQty3,
-            specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue, specifiedIsBooklet, specifiedBleedArea) {
+            specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue, specifiedIsBooklet, specifiedBleedArea, specifiedInputQueue, specifiedStockQueue, specifiedCostCenterQueue, specifiedQuestoinQueue) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -903,10 +903,10 @@
                 flagForAdd = ko.observable(false),
                 // Has Deleted Section Cost Center
                 hasDeletedSectionCostCentres = ko.observable(false),
-                questionQueue = ko.observable(),
-                inputQueue = ko.observable(),
-                stockQueue = ko.observable(),
-                costCenterQueue = ko.observable(),
+                questionQueue = ko.observable(specifiedQuestoinQueue),
+                inputQueue = ko.observable(specifiedInputQueue),
+                stockQueue = ko.observable(specifiedStockQueue),
+                costCenterQueue = ko.observable(specifiedCostCenterQueue),
                 bleedArea = ko.observable(specifiedBleedArea || 3).extend({ number: true, min: 0, max: 99 }),
                 
                 guterAreaUi = ko.computed({
@@ -2407,7 +2407,8 @@
             source.PressIdSide2, source.ImpressionCoverageSide1, source.ImpressionCoverageSide2, source.PassesSide1, source.PassesSide2, source.PrintingType,
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
             source.ItemGutterHorizontal, source.PressSpeed1, source.PressSpeed2, source.PressSpeed3, source.ImpressionQty1, source.ImpressionQty2, source.ImpressionQty3,
-            source.PaperGsm, source.PrintSheetQty1, source.PrintSheetQty2, source.PrintSheetQty3, source.SetupSpoilage, source.RunningSpoilage, source.RunningSpoilageValue, source.IsBooklet, source.BleedArea);
+            source.PaperGsm, source.PrintSheetQty1, source.PrintSheetQty2, source.PrintSheetQty3, source.SetupSpoilage, source.RunningSpoilage, source.RunningSpoilageValue,
+            source.IsBooklet, source.BleedArea, source.InputQueue, source.StockQueue, source.CostCentreQueue, source.QuestionQueue);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {

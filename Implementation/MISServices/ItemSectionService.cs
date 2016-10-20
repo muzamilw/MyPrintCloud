@@ -8093,8 +8093,9 @@ namespace MPC.Implementation.MISServices
             if (additionalCostCenterList.Count > 0)
             {
                 string scont = string.IsNullOrEmpty(section.QuestionQueue) ? "[]" : section.QuestionQueue;
-                string sinputcont = string.IsNullOrEmpty(section.InputQueue)? "[]" : section.InputQueue;
-                object[] _CostCentreParamsArray = new object[12];
+                string sinputcont = string.IsNullOrEmpty(section.InputQueue) ? "[]" : section.InputQueue;
+
+               object[] _CostCentreParamsArray = new object[12];
                 List<QuestionQueueItem> ccQueue = null;
                 List<InputQueueItem> inputQueue = null;
                 if (!string.IsNullOrEmpty(scont))
@@ -8354,11 +8355,19 @@ namespace MPC.Implementation.MISServices
                             {
                                 InputQueue inputQueueObj = new InputQueue();
                                 List<InputQueueItem> Items = Queues.InputQueues.ToList();
-                                foreach (InputQueueItem obj in Items)
+                                if (Items.Count > 0)
                                 {
-                                    inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                                    foreach (InputQueueItem obj in Items)
+                                    {
+                                        inputQueueObj.addItem(obj.ID, obj.VisualQuestion, obj.CostCentreID, obj.ItemType, obj.ItemInputType, obj.VisualQuestion, obj.Value, obj.Qty1Answer);
+                                    }
+                                    _CostCentreParamsArray[7] = inputQueueObj.Items;
                                 }
-                                _CostCentreParamsArray[7] = inputQueueObj.Items;
+                                else
+                                {
+                                    _CostCentreParamsArray[7] = inputQueueObj;
+                                }
+                                
                             }
                             else
                             {
