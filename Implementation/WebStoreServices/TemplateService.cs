@@ -1212,8 +1212,8 @@ namespace MPC.Implementation.WebStoreServices
                         // oPdf.TextStyle.Bold = true;
                         oPdf.TextStyle.Italic = false;
                         oPdf.TextStyle.CharSpacing = 0;
-                        oPdf.TextStyle.Size = 6;
-                        oPdf.Rect.Position(((pgWidth / 2) - 20), pgHeight + 5);
+                        oPdf.TextStyle.Size = 30/mrg;
+                        oPdf.Rect.Position(((pgWidth / 2) - 20), pgHeight + (7));
                         oPdf.Rect.Resize(200, 10);
                         oPdf.AddHtml("" + pageName + " " + DateTime.Now.ToString());
                         oPdf.Transform.Reset();
@@ -2661,7 +2661,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
             p = new PDFlib();
-
+           
             try
             {
                 p.set_option("errorpolicy=return");
