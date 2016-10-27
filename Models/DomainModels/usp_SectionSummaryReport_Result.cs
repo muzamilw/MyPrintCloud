@@ -50,6 +50,7 @@ namespace MPC.Models.DomainModels
         public Nullable<int> SectionQty1 { get; set; }
         public long ItemSectionId { get; set; }
         public string ItemSize { get; set; }
+        public int SimilarSections { get; set; }
         public double InkTotal { get; set; }
         public double PressTotal { get; set; }
         public double StockTotal { get; set; }
@@ -58,5 +59,6 @@ namespace MPC.Models.DomainModels
         public double WashupTotal { get; set; }
         public double GuillotineTotal { get; set; }
         public double OtherCostCenterTotal { get; set; }
+      
     }
 }

@@ -4573,6 +4573,7 @@ define("stores/stores.viewModel",
                             _.each(addressTerritoryList(), function (territory) {
                                 if (territory.territoryId() == categoryTerritory.TerritoryId) {
                                     territory.isSelected(true);
+                                    territory.categoryTerritoryId(categoryTerritory.CategoryTerritoryId);
                                     territory.reset();
                                 }
                             });
@@ -4768,7 +4769,8 @@ define("stores/stores.viewModel",
                             productCategoryToSave.CategoryTerritories = [];
                             _.each(addressTerritoryList(), function (territory) {
                                 if (territory.isSelected()) {
-                                    productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                                    // productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                                    productCategoryToSave.CategoryTerritories.push(model.CategoryTerritoryToServerMapper(territory));
                                 }
                             });
                             //#endregion

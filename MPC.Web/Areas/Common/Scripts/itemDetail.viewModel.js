@@ -1820,6 +1820,9 @@ define("common/itemDetail.viewModel",
 
                         sectionCostCenter.qty3Charge(selectedCostCentre().setupCost3());
                         sectionCostCenter.qty3NetTotal(selectedCostCentre().setupCost3());
+                        sectionCostCenter.qty1WorkInstructions(selectedCostCentre().workInstructions1());
+                        sectionCostCenter.qty2WorkInstructions(selectedCostCentre().workInstructions1());
+                        sectionCostCenter.qty3WorkInstructions(selectedCostCentre().workInstructions1());
                         
                         sectionCostCenter.calculationMethodType(selectedCostCentre().calculationMethodType());
                         selectedSectionCostCenter(sectionCostCenter);

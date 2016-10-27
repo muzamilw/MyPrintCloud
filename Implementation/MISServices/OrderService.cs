@@ -1316,9 +1316,43 @@ namespace MPC.Implementation.MISServices
                 target.Estimate_Total = source.Items.ToList().Sum(a => a.Qty1NetTotal);
                 // Clone Item Sections
                 CloneItemSections(item, targetItem);
+                CloneItemAttachments(item, targetItem);
             }
         }
 
+
+        
+        private void CloneItemAttachments(Item source, Item target)
+        {
+            if (source.ItemAttachments == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemAttachments == null)
+            {
+                target.ItemAttachments = new List<ItemAttachment>();
+            }
+
+            foreach (ItemAttachment itemAttachment in source.ItemAttachments.ToList())
+            {
+                ItemAttachment targetItemAttachment = itemAttachmentRepository.Create();
+                itemAttachmentRepository.Add(targetItemAttachment);
+                targetItemAttachment.ApproveDate = itemAttachment.ApproveDate;
+                targetItemAttachment.Comments = itemAttachment.Comments;
+                targetItemAttachment.CompanyId = itemAttachment.CompanyId;
+                targetItemAttachment.ContactId = itemAttachment.ContactId;
+                targetItemAttachment.ContentType = itemAttachment.ContentType;
+                targetItemAttachment.FileName = itemAttachment.FileName;
+                targetItemAttachment.FileSource = itemAttachment.FileSource;
+                targetItemAttachment.FileTitle = itemAttachment.FileTitle;
+                targetItemAttachment.FileType = itemAttachment.FileType;
+                targetItemAttachment.FolderPath = itemAttachment.FolderPath;
+                targetItemAttachment.UploadDate = itemAttachment.UploadDate;
+                target.ItemAttachments.Add(targetItemAttachment);
+            }
+        }
         /// <summary>
         /// Copy Item Sections
         /// </summary>
@@ -1662,7 +1696,11 @@ namespace MPC.Implementation.MISServices
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
 
-                    orderRepository.UpdateItemAttachmentPath(ItemsList);
+                    if (oOrder.isDirectSale != true)
+                    {
+                        orderRepository.UpdateItemAttachmentPath(ItemsList);
+                    }
+                    
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }

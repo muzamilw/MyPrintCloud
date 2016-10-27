@@ -45,6 +45,7 @@
             inputQueue = ko.observable(),
             questionQueue = ko.observable(),
             costCenterQueue = ko.observable(),
+            workInstructions1 = ko.observable(),
             errors = ko.validation.group({
 
             }),
@@ -113,7 +114,8 @@
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            reset: reset
+            reset: reset,
+            workInstructions1: workInstructions1
         };
         return self;
     };

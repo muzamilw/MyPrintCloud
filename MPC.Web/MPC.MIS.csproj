@@ -349,6 +349,7 @@
     <Compile Include="Areas\Api\ModelMappers\RoleMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SystemUserMapper.cs" />
     <Compile Include="Areas\Api\Models\AccessRight.cs" />
+    <Compile Include="Areas\Api\Models\CategoryTerritory.cs" />
     <Compile Include="Areas\Api\Models\EmailsResponse.cs" />
     <Compile Include="Areas\Api\Models\Role.cs" />
     <Compile Include="Areas\Api\Models\RoleRight.cs" />

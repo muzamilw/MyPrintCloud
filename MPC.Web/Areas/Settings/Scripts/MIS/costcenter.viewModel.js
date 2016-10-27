@@ -1659,6 +1659,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                   // $("#createNewCostCenterId").html("Add New Post Press Cost Center");
                    $("#idcostcentertypename").html("Post Press Cost Centers");
                }
+               else if (CostCenterType == "4") {
+                   $("#idcostcentertypename").html("Web Store Cost Centers");
+               }
                getCostCenters();
                // getCostCentersBaseData();
            };
