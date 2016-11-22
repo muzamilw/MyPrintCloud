@@ -757,13 +757,17 @@ define("common/itemDetail.viewModel",
                                 selectedSection().sectionSizeHeight(value);
                             }
 
-                            if (!selectedSection().isSectionSizeCustom() || selectedSection().printingTypeUi() === '2') {
+                            if (!selectedSection().isSectionSizeCustom() && selectedSection().printingTypeUi() !== '2') {
                                 return;
                             } else if(isSectionSwap()) {
                                 return;
                             }
                             
-                            getPtvCalculation(getSectionSystemCostCenters);
+                            if (selectedSection().printingTypeUi() === '2')
+                                getSectionSystemCostCenters();
+                            else {
+                                getPtvCalculation(getSectionSystemCostCenters);
+                            }
                         });
 
                         // Section Width
@@ -2100,6 +2104,9 @@ define("common/itemDetail.viewModel",
                         confirmation.show();
                         return;
                     },
+                    onCreateNewNonPrintSection = function() {
+                        
+                    },
                     // Delete Section Cost Center
                     onDeleteSectionCostCenter = function(costCenter) {
                         // Ask for confirmation
@@ -2489,7 +2496,8 @@ define("common/itemDetail.viewModel",
                     swapSectionHeightWidth: swapSectionHeightWidth,
                     swapItemHeightWidth: swapItemHeightWidth,
                     onPrintSectionReport: onPrintSectionReport,
-                    guterAreaUi: guterAreaUi
+                    guterAreaUi: guterAreaUi,
+                    onCreateNewNonPrintSection: onCreateNewNonPrintSection
                     //#endregion
                 };
             })()

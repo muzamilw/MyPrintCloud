@@ -129,6 +129,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDigitalPress = source.IsDigitalPress,
                 IsPressUseInks = source.IsPressUseInks,
                 IsSetupCostForDoubleSided = source.IsSetupCostForDoubleSided,
+                PricePerMeter = source.PricePerMeter,
                 MachineInkCoverages = source.MachineInkCoverages == null ? null : source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList(),
                 LookupMethod = source.LookupMethod == null ? null : source.LookupMethod.CreateFrom(),
             };
@@ -211,6 +212,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDigitalPress = source.IsDigitalPress,
                 IsPressUseInks = source.IsPressUseInks,
                 IsSetupCostForDoubleSided = source.IsSetupCostForDoubleSided,
+                PricePerMeter = source.PricePerMeter,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
             };
         }

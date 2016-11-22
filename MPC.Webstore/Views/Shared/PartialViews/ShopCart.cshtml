@@ -448,13 +448,13 @@
                               
                             }
                            <a href="/">
-                            <button id="btn_ContinueShopping" type="button" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+                               <button id="btn_ContinueShopping" type="button" onclick="return BackToShopping()" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                            </a> 
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
                         </div>
-
+                         
                     </div>
                     <div class="clearBoth">
                         &nbsp;
@@ -836,7 +836,12 @@
             ShowLoader();
         }
     }
+    function BackToShopping()
+    {
 
+        window.location.href = "/";
+        return false;
+    }
     function ApplyDiscountVouchers() {
         var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
         if(txtDiscountVoucher == ""){
@@ -877,6 +882,7 @@
             });
         }
     }
+        
     $("#txtDiscountVoucherCode").keydown(function(event){
 
         if(event.keyCode == 13){

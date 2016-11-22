@@ -3139,6 +3139,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     <div style="background-color:gainsboro; border-radius:3px;margin-right:2px;">
                                         <header class="main-box-header clearfix">
                                             <div style="float:left;margin-left: 2px;"><span style="font-size:24px">CRM Variables</span></div>
+                                            <form data-bind="submit:$root.searchFieldVariable ">
+                                                <div style="padding-right: 0; margin-right: 0;float:right !important">
+                                                    <input type="text" class="form-control clearfix" placeholder="Search ..." data-bind="value: $root.searchFieldVariableText, validationOnElement: $root.searchFieldVariableText">
+                                                    @*<i class="fa fa-search search-icon" data-bind="click:$root.searchFieldVariable"></i>*@
+                                                </div>
+                                            </form>
                                         </header>
                                         <div class="main-box-body clearfix">
                                             <div class="table-responsive">

@@ -64,7 +64,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 8, Text: '8' },
             { Id: 9, Text: '9' }
             ]),
-
+            CalculateCostType = ko.observableArray([
+            { Id: 'perunit', Text: 'Per Unit' },
+            { Id: 'perpack', Text: 'Per Package' }
+            ]),
             variablesTreePrent = ko.observableArray([
             { Id: 2, Text: 'Variables' },
             //{ Id: 4, Text: 'Questions' },
@@ -1748,7 +1751,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 DeleteMatrixVariable: DeleteMatrixVariable,
                 SelectedStockVariable: SelectedStockVariable,
                 openStockItemDialog: openStockItemDialog,
-                //CalculateCostType: CalculateCostType,
+                CalculateCostType: CalculateCostType,
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,

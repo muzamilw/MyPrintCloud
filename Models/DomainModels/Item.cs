@@ -413,7 +413,7 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public int? TemplateTypeMode { get; set; }
-
+        public bool? IsNotifyTemplate { get; set; }
         #endregion
 
         #region Reference Properties

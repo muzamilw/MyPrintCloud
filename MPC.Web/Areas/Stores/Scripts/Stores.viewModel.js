@@ -124,6 +124,7 @@ define("stores/stores.viewModel",
                        CompanyVariableName = ko.observable(),
                        isIconLoading = ko.observable(true),
                        CompanyVariableRowCount = ko.observable(),
+                    searchFieldVariableText = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -2674,7 +2675,7 @@ define("stores/stores.viewModel",
                     //Secondary Page Pager
                     systemPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Variable Page
-                    fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 25 }, ko.observableArray([]), null)),
                     // System variable Pager
                     systemVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Smart Form Pager
@@ -4156,6 +4157,10 @@ define("stores/stores.viewModel",
                         contactCompanyPager().reset();
                         searchCompanyContact();
                     },
+                    searchFieldVariable = function () {
+                        fieldVariablePager().reset();
+                        getFieldVariables();
+                    },
                     // #endregion
 
                     // #region _________P A Y M E N T    G A T E W A Y _________________
@@ -5560,7 +5565,7 @@ define("stores/stores.viewModel",
 
                                     //Field VariableF or Field variable List View
                                     fieldVariables.removeAll();
-                                    fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                                    fieldVariablePager(new pagination.Pagination({ PageSize: 25 }, fieldVariables, getFieldVariables));
                                     if (data.FieldVariableResponse && data.FieldVariableResponse.FieldVariables) {
                                         _.each(data.FieldVariableResponse.FieldVariables, function (item) {
                                             var field = model.FieldVariable();
@@ -5830,7 +5835,7 @@ define("stores/stores.viewModel",
                         companyBanners.removeAll();
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
-                        fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        fieldVariablePager(new pagination.Pagination({ PageSize: 25 }, fieldVariables, getFieldVariables));
                         smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
                         companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                         secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
@@ -6754,7 +6759,8 @@ define("stores/stores.viewModel",
                             PageSize: fieldVariablePager().pageSize(),
                             PageNo: fieldVariablePager().currentPage(),
                             SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
+                            IsAsc: sortIsAsc(),
+                            SearchString: searchFieldVariableText()
                         }, {
                             success: function (data) {
 
@@ -8834,7 +8840,9 @@ define("stores/stores.viewModel",
                     exportPdf: exportPdf,
                     exportExcel: exportExcel,
                     getStoreSpotColors: getStoreSpotColors,
-                    isTerritorySelectAll: isTerritorySelectAll
+                    isTerritorySelectAll: isTerritorySelectAll,
+                    searchFieldVariableText: searchFieldVariableText,
+                    searchFieldVariable: searchFieldVariable
                     
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog

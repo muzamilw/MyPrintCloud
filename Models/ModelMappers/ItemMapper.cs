@@ -1286,6 +1286,7 @@ namespace MPC.Models.ModelMappers
             target.ItemWidth = source.ItemWidth;
             target.SmartFormId = source.SmartFormId;
             target.Title = source.Title;
+            target.IsNotifyTemplate = source.IsNotifyTemplate;
             // Update Images
             UpdateImages(source, target);
 

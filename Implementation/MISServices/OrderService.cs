@@ -1406,6 +1406,7 @@ namespace MPC.Implementation.MISServices
                     
                 }
                 CloneSectionCostCenter(itemSection, targetItemSection);
+                CloneSectionInkCoverage(itemSection, targetItemSection);
             }
         }
         private void CloneSectionCostCenter(ItemSection source, ItemSection target)
@@ -1487,6 +1488,31 @@ namespace MPC.Implementation.MISServices
                 sectionCostCentreDetail.Qty2 = 0;
                 sectionCostCentreDetail.Qty3 = 0;
                 sectionCostCentreDetail.Clone(targetSectionCostCentreDetail);
+            }
+        }
+
+        private void CloneSectionInkCoverage(ItemSection source, ItemSection target)
+        {
+            if (source.SectionInkCoverages == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionInkCoverages == null)
+            {
+                target.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+            foreach (SectionInkCoverage sectionInkCoverage in source.SectionInkCoverages.ToList())
+            {
+                SectionInkCoverage targetSectionInkCoverage = sectionInkCoverageRepository.Create();
+                sectionInkCoverageRepository.Add(targetSectionInkCoverage);
+                targetSectionInkCoverage.SectionId = target.ItemSectionId;
+                targetSectionInkCoverage.InkId = sectionInkCoverage.InkId;
+                targetSectionInkCoverage.InkOrder = sectionInkCoverage.InkOrder;
+                targetSectionInkCoverage.Side = sectionInkCoverage.Side;
+                targetSectionInkCoverage.CoverageRate = sectionInkCoverage.CoverageRate;
+                target.SectionInkCoverages.Add(targetSectionInkCoverage);
             }
         }
 

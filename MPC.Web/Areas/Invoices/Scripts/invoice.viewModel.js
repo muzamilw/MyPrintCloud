@@ -274,12 +274,12 @@ define("invoice/invoice.viewModel",
                         
                          dataservice.archiveInvoicePermanently({ InvoiceId: id }, {
                              success: function () {
-                                 toastr.success("Invoice Archive successfully!");
+                                 toastr.success("Invoice cancelled successfully!");
                                  isDetailsVisible(false);
                                  getInvoicesOnTabChange(currentTabid());
                              },
                              error: function (response) {
-                                 toastr.error("Failed to archive invoice. Error: " + response, "", ist.toastrOptions);
+                                 toastr.error("Failed to cancel invoice. Error: " + response, "", ist.toastrOptions);
                              }
                          });
                      },
@@ -318,7 +318,7 @@ define("invoice/invoice.viewModel",
                         return;
                     } 
                     removeItemSectionWithAddFlagTrue();
-                    confirmation.messageText("Are you sure you want to revert Posted invoice to Awaiting.");
+                    confirmation.messageText("Are you sure you want to revert invoice to Awaiting.");
                     confirmation.afterProceed(function () {
                         selectedInvoice().invoiceStatus(19); //Awaiting Invoice                              
                         selectedInvoice().invoicePostedBy(undefined);
@@ -331,7 +331,7 @@ define("invoice/invoice.viewModel",
                 },
                 // On Archive
                 onArchiveInvoice = function () {
-                    confirmation.messageText("WARNING - This item will be archived from the system and you won't be able to use it");
+                    confirmation.messageText("WARNING - Are you sure you want to cancel this invoice?");
                     confirmation.afterProceed(function () {
                         archiveInvoice(selectedInvoice().id());
                     });

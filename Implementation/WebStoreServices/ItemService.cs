@@ -2438,7 +2438,7 @@ namespace MPC.Implementation.WebStoreServices
             if (!string.IsNullOrEmpty(ImagePAth))
             {
                 string[] path = ImagePath.Split('/');
-
+                ///mpc_content/DigitalAssets/2305/95092/Assets/39/29717_BusinessCards_Thumbnail.png
                 properPath = path[1] + "/" + path[2] + "/" + path[3] + "/" + path[4] + "/" + path[5] + "/" + path[6] + "/" + path[7];
             }
            

@@ -654,6 +654,7 @@
                         if (printingValue === 2) { // Hide Number Up and set it as 1
                             printViewLayoutPortrait(0);
                             printViewLayoutLandscape(1);
+                            sectionSizeWidth(1);
                             // If Initialized
                             if (isDoubleSidedUi) {
                                 isDoubleSidedUi(false);

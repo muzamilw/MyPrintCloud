@@ -47,7 +47,7 @@
                                             <li id="awaitingInvoices"><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(19);}">Awaiting</a></li>
                                             <li id="postedInvoices"><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(20);}">Posted</a></li>
                                             @*<li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(21);}">Cancelled</a></li>*@
-                                            <li id="archivedInvoices"><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Archived</a></li>
+                                            <li id="archivedInvoices"><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(22);}">Cancelled</a></li>
                                             @*<li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(30);}">Proforma</a></li>*@
                                         </ul>
                                         <div class="tab-content">
@@ -160,7 +160,7 @@
                             </tr>
                             <!-- /ko -->
                             <!-- ko if: status()=="Archived" -->
-                            <tr>
+                            <tr data-bind=" click: $root.editInvoice" style="cursor: pointer">
 
                                 <td>
                                     <!-- ko if: isDirectSale()==true -->

@@ -10850,3 +10850,11 @@ End
 
 
 alter table ItemSection add BleedArea float
+------------------deployed on all instances--------------
+
+alter table Machine add PricePerMeter float
+
+alter table items add IsNotifyTemplate bit
+-------------
+insert into emailevent (EventName, Description, EventType)
+values('New Product Template Created', 'New Prdouct Template Crated', 1)-- Check if Id generate as 43 then all good otherwise set identity to create ID = 43

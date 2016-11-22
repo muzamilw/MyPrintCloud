@@ -111,7 +111,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 source.ProductMarketBriefQuestions.Select(questions => questions.CreateFrom()).ToList().OrderBy(q => q.SortOrder) : null,
                 Qty1CostCentreProfit = source.Qty1CostCentreProfit,
                 Qty2CostCentreProfit = source.Qty2CostCentreProfit,
-                DiscountVoucherID = source.DiscountVoucherID
+                DiscountVoucherID = source.DiscountVoucherID,
+                IsNotifyTemplate = source.IsNotifyTemplate
             };
 
             // Load Thumbnail Image
@@ -434,7 +435,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<DomainModels.ProductMarketBriefQuestion>(),
                 Qty1CostCentreProfit = source.Qty1CostCentreProfit,
                 Qty2CostCentreProfit = source.Qty2CostCentreProfit,
-                DiscountVoucherID = source.DiscountVoucherID
+                DiscountVoucherID = source.DiscountVoucherID,
+                IsNotifyTemplate =  source.IsNotifyTemplate
             };
         }
 
@@ -524,6 +526,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File4Name = source.File4Name,
                 File5Byte = source.File5,
                 File5Name = source.File5Name,
+                IsNotifyTemplate = source.IsNotifyTemplate,
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
                 new List<DomainModels.ProductCategoryItemCustom>()
             };

@@ -70,7 +70,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-machineBasic" data-toggle="tab">Name & Description</a></li>
-                            <li class="PressControls"><a href="#tab-lookup" data-toggle="tab" data-bind="click: $root.onLookupMethodTabClick">Lookup Methods</a></li>
+                            <li class="PressControls"><a href="#tab-lookup" data-toggle="tab" data-bind="click: $root.onLookupMethodTabClick, visible:isSheetFed() === 'true'">Lookup Methods</a></li>
                             <li><a href="#tab-feed" data-toggle="tab">Feed Restriction</a></li>
                             @*<li class="PressControls" data-bind="visible:isDigitalPress() == 'false'"><a href="#tab-properties" data-toggle="tab">Properties</a></li>*@
                             @*<li class="PressControls" data-bind="visible:isDigitalPress() == 'false'"><a href="#tab-setup" data-toggle="tab">Setup & Running Charges</a></li>*@
@@ -238,13 +238,33 @@
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Minimum Charge</label>
+                                                <label class="control-label text-right tooltip-float">Minimum Charge</label>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="input-group">
                                                     <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
                                                     <div class="col-xs-4" style="padding:0">
-                                                        <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
+                                                        <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Minimum Charge" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible: isSheetFed() !== 'true'">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="When the press feed type is roll then price per meter is applied while calculating press cost in estimation" data-html="true" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtPerMeterCharge" class="control-label text-right tooltip-float">Price Per Sq.Meter</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <span data-bind="text:CurrencySymbol" class="input-group-addon"></span>
+                                                    <div class="col-xs-4" style="padding:0">
+                                                        <input type="text" id="txtPerMeterCharge" class="form-control txtBox-contentAlignRight" placeholder="Price Per Meter" data-bind="autoNumeric: pricePerMeter, settings:{mDec:2}">
                                                     </div>
                                                 </div>
 

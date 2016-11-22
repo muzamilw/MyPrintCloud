@@ -136,7 +136,8 @@ namespace MPC.Models.Common
         OrderInvoiced = 40,
         OrderCancelled = 41,
         OrderStatusReverted = 42,
-        UnOrderedItems = -1
+        UnOrderedItems = -1,
+        NewProductTemplateCreated = 43
     }
     public enum ScheduledStatus
     {

@@ -3606,9 +3606,9 @@ namespace MPC.Implementation.MISServices
             //roll length is always going into meters
             ReelLength = Convert.ToDouble(oPaperDTO.RollLength);
 
-            SectionHeight = ConvertLength(Convert.ToDouble(oItemSection.SectionSizeHeight), (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
+            SectionHeight = Convert.ToDouble(oItemSection.SectionSizeHeight); //ConvertLength(Convert.ToDouble(oItemSection.SectionSizeHeight), (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
 
-            SectionWidth = ConvertLength(Convert.ToDouble(oItemSection.SectionSizeWidth), (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
+            SectionWidth = Convert.ToDouble(oItemSection.SectionSizeWidth);//ConvertLength(Convert.ToDouble(oItemSection.SectionSizeWidth), (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
 
             if (oItemSection.PrintViewLayout == 1) // 1 is for Landscape 0 is for portrait
             {
@@ -3657,12 +3657,14 @@ namespace MPC.Implementation.MISServices
                     SectionQtyWithSpoilage += Spoilage[i];
                 }
                 //calculating paper required in meters
-                OrderPaperLengthWithoutSpoilage[i] = SectionQtyWithoutSpoilage * SectionHeight / 1000;
+                //OrderPaperLengthWithoutSpoilage[i] = SectionQtyWithoutSpoilage * SectionHeight / 1000; // Naveed 20161116: commented line by removing divide by 1000 as we are taking size in meters
+                OrderPaperLengthWithoutSpoilage[i] = SectionQtyWithoutSpoilage * SectionHeight;
                 OrderPaperLengthWithSpoilage[i] = SectionQtyWithSpoilage * SectionHeight / 1000;
                 //OrderPaperLengthWithSpoilage(i) = Model.Common.RoundUp(OrderPaperLengthWithSpoilage(i) / ReelLength)
                 //OrderPaperLengthWithoutSpoilage(i) = Model.Common.RoundUp(OrderPaperLengthWithoutSpoilage(i) / ReelLength)
                 OrderPaperLengthWithSpoilageSqMeters[i] = (OrderPaperLengthWithSpoilage[i] * SectionWidth / 1000) / 100;
-                OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i] * SectionWidth / 1000) / 100;
+               // OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i] * SectionWidth / 1000) / 100;
+                OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i] * SectionWidth);
 
                 OrderPaperReelsWithSpoilageQty[i] = (OrderPaperLengthWithSpoilage[i] / ReelLength);
                 OrderPaperReelsWithoutSpoilageQty[i] = (OrderPaperLengthWithoutSpoilage[i] / ReelLength);
@@ -3730,10 +3732,13 @@ namespace MPC.Implementation.MISServices
             oItemSectionCostCenter.IsPrintable = Convert.ToInt16(oJobCardOptionsDTO.IsDefaultStockDetail);
 
             //if paper is not supplied and we have to use it ourself then add the prices :)
+            //as stock paper price is per Roll then we need to get price per meter then apply with section i.e Role = 45 Meter price = 200 so Per Meter will be : 45/200 = 0.225
+            double perMeterPrice = UnitPrice/(oPaperDTO.ItemSizeHeight ?? 1);
 
             if (oItemSection.IsPaperSupplied != true)
             {
-                oItemSectionCostCenter.Qty1Charge = OrderPaperLengthWithSpoilageSqMeters[0] * UnitPrice;
+                //oItemSectionCostCenter.Qty1Charge = OrderPaperLengthWithSpoilageSqMeters[0] * UnitPrice;
+                oItemSectionCostCenter.Qty1Charge = OrderPaperLengthWithoutSpoilageSqMeters[0] * perMeterPrice;
 
                 if (oItemSectionCostCenter.Qty1Charge < oPaperCostCentreDTO.MinimumCost)
                 {
@@ -3750,31 +3755,33 @@ namespace MPC.Implementation.MISServices
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
 
-                oItemSectionCostCenter.Qty1EstimatedStockCost = OrderPaperLengthWithSpoilageSqMeters[0] * UnitCost;
+                //oItemSectionCostCenter.Qty1EstimatedStockCost = OrderPaperLengthWithSpoilageSqMeters[0] * UnitCost;
+                oItemSectionCostCenter.Qty1EstimatedStockCost = OrderPaperLengthWithoutSpoilage[0] * perMeterPrice;
 
                 if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultStockDetail == true)
                 {
                     if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                     {
-                        oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithSpoilage[0].ToString() + " Meters(s)" + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithoutSpoilage[0] + " Meter(s)" + Environment.NewLine;
                     }
 
-                    if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
-                    {
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[0] + " Sheets" + Environment.NewLine;
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[0] - OrderPaperLengthWithoutSpoilage[0]).ToString() + " Meters" + Environment.NewLine;
-                    }
+                    //if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
+                    //{
+                    //    oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[0] + " Sheets" + Environment.NewLine;
+                    //    oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[0] - OrderPaperLengthWithoutSpoilage[0]).ToString() + " Meters" + Environment.NewLine;
+                    //}
 
                     if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                     {
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth.ToString() + "mm x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth + " x " + ReelLength + " Meter(s) " + Environment.NewLine;
                     }
 
-                    oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + oItemSection.ItemSizeHeight.ToString() + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                    //oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.SectionSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.SectionSizeWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                    oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + OrderPaperLengthWithoutSpoilageSqMeters[0] + " Sq. Meter" + Environment.NewLine;
 
                     if (oJobCardOptionsDTO.IsPaperWeight == true)
                     {
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[0], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithoutSpoilage[0], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
                     }
                     oItemSectionCostCenter.Qty1WorkInstructions += "Paper Supplied = No ";
                 }
@@ -3782,7 +3789,7 @@ namespace MPC.Implementation.MISServices
 
                 if (oItemSection.Qty2 > 0)
                 {
-                    oItemSectionCostCenter.Qty2Charge = OrderPaperLengthWithSpoilageSqMeters[1] * UnitPrice;
+                    oItemSectionCostCenter.Qty2Charge = OrderPaperLengthWithoutSpoilageSqMeters[1] * perMeterPrice;
 
                     if (oItemSectionCostCenter.Qty2Charge < oPaperCostCentreDTO.MinimumCost)
                     {
@@ -3798,41 +3805,42 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty2MarkUpValue = oItemSectionCostCenter.Qty2Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty2NetTotal = oItemSectionCostCenter.Qty2Charge + oItemSectionCostCenter.Qty2MarkUpValue;
 
-                    oItemSectionCostCenter.Qty2EstimatedStockCost = OrderPaperLengthWithSpoilageSqMeters[1] * UnitCost;
+                    oItemSectionCostCenter.Qty2EstimatedStockCost = OrderPaperLengthWithoutSpoilage[1] * perMeterPrice;
 
                     if (IsWorkInstructionsLocked == false && oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithSpoilage[1].ToString() + " Meters(s)" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithoutSpoilage[1] + " Meter(s)" + Environment.NewLine;
                         }
 
-                        if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
-                        {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[1] + " Sheets" + Environment.NewLine;
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[1] - OrderPaperLengthWithoutSpoilage[1]).ToString() + " Meters" + Environment.NewLine;
-                        }
+                        //if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
+                        //{
+                        //    oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Spoilage = " + Spoilage[1] + " Sheets" + Environment.NewLine;
+                        //    oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[1] - OrderPaperLengthWithoutSpoilage[1]).ToString() + " Meters" + Environment.NewLine;
+                        //}
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth.ToString() + "mm x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Reel Size = " + ReelWidth + " x " + ReelLength + " Meter(s) " + Environment.NewLine;
                         }
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        //oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.SectionSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.SectionSizeWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat) = " + Convert.ToString(OrderPaperLengthWithoutSpoilageSqMeters[1]) + " Sq.Meter " + Environment.NewLine;
 
                         if (oJobCardOptionsDTO.IsPaperWeight == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[1], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithoutSpoilage[1], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
                         }
 
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Paper Supplied = No ";
+                        oItemSectionCostCenter.Qty2WorkInstructions += "Paper Supplied = No ";
 
                     }
                 }
                 if (oItemSection.Qty3 > 0)
                 {
-                    oItemSectionCostCenter.Qty3Charge = OrderPaperLengthWithSpoilageSqMeters[2] * UnitPrice;
+                    oItemSectionCostCenter.Qty3Charge = OrderPaperLengthWithoutSpoilageSqMeters[2] * perMeterPrice;
 
                     if (oItemSectionCostCenter.Qty3Charge < oPaperCostCentreDTO.MinimumCost)
                     {
@@ -3848,35 +3856,36 @@ namespace MPC.Implementation.MISServices
                     oItemSectionCostCenter.Qty3MarkUpValue = oItemSectionCostCenter.Qty3Charge * ProfitMargin / 100;
                     oItemSectionCostCenter.Qty3NetTotal = oItemSectionCostCenter.Qty3Charge + oItemSectionCostCenter.Qty3MarkUpValue;
 
-                    oItemSectionCostCenter.Qty3EstimatedStockCost = OrderPaperLengthWithSpoilageSqMeters[2] * UnitCost;
+                    oItemSectionCostCenter.Qty3EstimatedStockCost = OrderPaperLengthWithoutSpoilage[2] * perMeterPrice;
 
                     if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultStockDetail == true)
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithSpoilage[2].ToString() + " Meters(s)" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithoutSpoilage[2] + " Meter(s)" + Environment.NewLine;
                         }
 
-                        if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
-                        {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[2] + " Sheets" + Environment.NewLine;
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[2] - OrderPaperLengthWithoutSpoilage[2]).ToString() + " Meters" + Environment.NewLine;
-                        }
+                        //if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
+                        //{
+                        //    oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Spoilage = " + Spoilage[2] + " Sheets" + Environment.NewLine;
+                        //    oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[2] - OrderPaperLengthWithoutSpoilage[2]).ToString() + " Meters" + Environment.NewLine;
+                        //}
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth.ToString() + "mm x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Reel Size = " + ReelWidth + " x " + ReelLength + " Meter(s) " + Environment.NewLine;
                         }
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        //oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.SectionSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.SectionSizeWidth) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat) = " + Convert.ToString(OrderPaperLengthWithoutSpoilageSqMeters[2]) + " Sq.Meter" + Environment.NewLine;
 
                         if (oJobCardOptionsDTO.IsPaperWeight == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[2], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithoutSpoilage[2], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
                         }
 
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Paper Supplied = No ";
+                        oItemSectionCostCenter.Qty3WorkInstructions += "Paper Supplied = No ";
 
                     }
 
@@ -3896,21 +3905,21 @@ namespace MPC.Implementation.MISServices
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithSpoilage[0].ToString() + " Meters(s)" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithoutSpoilage[0] + " Meter(s)" + Environment.NewLine;
                         }
 
-                        if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
-                        {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[0] + " Sheets" + Environment.NewLine;
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[0] - OrderPaperLengthWithoutSpoilage[0]).ToString() + " Meters" + Environment.NewLine;
-                        }
+                        //if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
+                        //{
+                        //    oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[0] + " Sheets" + Environment.NewLine;
+                        //    oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[0] - OrderPaperLengthWithoutSpoilage[0]).ToString() + " Meters" + Environment.NewLine;
+                        //}
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth.ToString() + "mm x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth + " x " + ReelLength + " Meter(s) " + Environment.NewLine;
                         }
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + OrderPaperLengthWithoutSpoilageSqMeters[0] + " Sq. Meter" + Environment.NewLine;
 
                         if (oJobCardOptionsDTO.IsPaperWeight == true)
                         {
@@ -3934,29 +3943,29 @@ namespace MPC.Implementation.MISServices
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithSpoilage[1].ToString() + " Meters(s)" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithoutSpoilage[1].ToString() + " Meter(s)" + Environment.NewLine;
                         }
 
-                        if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
-                        {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[1] + " Sheets" + Environment.NewLine;
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[1] - OrderPaperLengthWithoutSpoilage[1]).ToString() + " Meters" + Environment.NewLine;
-                        }
+                        //if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
+                        //{
+                        //    oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Spoilage = " + Spoilage[1] + " Sheets" + Environment.NewLine;
+                        //    oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[1] - OrderPaperLengthWithoutSpoilage[1]).ToString() + " Meters" + Environment.NewLine;
+                        //}
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth.ToString() + "mm x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Reel Size = " + ReelWidth.ToString() + " x " + ReelLength.ToString() + " Meter(s) " + Environment.NewLine;
                         }
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat) = " + OrderPaperLengthWithoutSpoilageSqMeters[1] + "Sq. Meter" + Environment.NewLine;
 
                         if (oJobCardOptionsDTO.IsPaperWeight == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[1], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[1], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
                         }
 
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Paper Supplied = Yes ";
+                        oItemSectionCostCenter.Qty2WorkInstructions += "Paper Supplied = Yes ";
 
                     }
                 }
@@ -3972,29 +3981,29 @@ namespace MPC.Implementation.MISServices
                     {
                         if (oJobCardOptionsDTO.IsPaperSheetQty == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithSpoilage[2].ToString() + " Meters(s)" + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions = "Paper Length Required = " + OrderPaperLengthWithoutSpoilage[2].ToString() + " Meter(s)" + Environment.NewLine;
                         }
 
-                        if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
-                        {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + Spoilage[2] + " Sheets" + Environment.NewLine;
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[2] - OrderPaperLengthWithoutSpoilage[2]).ToString() + " Meters" + Environment.NewLine;
-                        }
+                        //if (oJobCardOptionsDTO.IsSpoilageAllowed == true)
+                        //{
+                        //    oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Spoilage = " + Spoilage[2] + " Sheets" + Environment.NewLine;
+                        //    oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Spoilage = " + (OrderPaperLengthWithSpoilage[2] - OrderPaperLengthWithoutSpoilage[2]).ToString() + " Meters" + Environment.NewLine;
+                        //}
 
                         if (oJobCardOptionsDTO.IsOrderSheetSize == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Reel Size = " + ReelWidth.ToString() + "mm x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Reel Size = " + ReelWidth.ToString() + " x " + ReelLength.ToString() + " Meters " + Environment.NewLine;
                         }
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + " x " + Convert.ToString(oItemSection.ItemSizeHeight) + itemsectionRepository.GetLengthUnitName((int)CompanyGeneralSettings().SystemLengthUnit) + Environment.NewLine;
+                        oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat) = " + OrderPaperLengthWithoutSpoilageSqMeters[2] + "Sq. Meter" + Environment.NewLine;
 
                         if (oJobCardOptionsDTO.IsPaperWeight == true)
                         {
-                            oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[2], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Total Paper Weight = " + Math.Round(OrderPaperWeightWithSpoilage[2], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
                         }
 
 
-                        oItemSectionCostCenter.Qty1WorkInstructions += "Paper Supplied = Yes ";
+                        oItemSectionCostCenter.Qty3WorkInstructions += "Paper Supplied = Yes ";
 
                     }
                 }
@@ -4021,20 +4030,20 @@ namespace MPC.Implementation.MISServices
             }
             if (oItemSection.Qty1 > 0)
             {
-                oItemSectionCostCenterDetail.Qty1 = OrderPaperLengthWithSpoilageSqMeters[0];
+                oItemSectionCostCenterDetail.Qty1 = OrderPaperLengthWithoutSpoilageSqMeters[0];
             }
             if (oItemSection.Qty2 > 0)
             {
-                oItemSectionCostCenterDetail.Qty2 = OrderPaperLengthWithSpoilageSqMeters[1];
+                oItemSectionCostCenterDetail.Qty2 = OrderPaperLengthWithoutSpoilageSqMeters[1];
             }
             if (oItemSection.Qty3 > 0)
             {
-                oItemSectionCostCenterDetail.Qty3 = OrderPaperLengthWithSpoilageSqMeters[2];
+                oItemSectionCostCenterDetail.Qty3 = OrderPaperLengthWithoutSpoilageSqMeters[2];
             }
 
             if (oItemSection.IsPaperSupplied != true)
             {
-                oItemSectionCostCenterDetail.CostPrice = UnitPrice;
+                oItemSectionCostCenterDetail.CostPrice = perMeterPrice;
             }
             else
             {
@@ -7092,8 +7101,8 @@ namespace MPC.Implementation.MISServices
                 double SectionHeight = 0;
                 double SectionWidth = 0;
 
-                //double ReelLength = 0;
-                //double ReelWidth = 0;
+                double ReelLength = 0;
+                double ReelWidth = 0;
 
                 ////convert reel width from whatever standard into mm
                 //if (oPaperDTO.RollStandards == (int)lengthunit.Cm)
@@ -7101,9 +7110,9 @@ namespace MPC.Implementation.MISServices
                 //else if (oPaperDTO.RollStandards == (int)lengthunit.Inch)
                 //    ReelWidth = ConvertLength(Convert.ToDouble(oPaperDTO.RollWidth), lengthunit.Inch, lengthunit.Mm);
                 //else
-                //    ReelWidth = Convert.ToDouble(oPaperDTO.RollWidth);
+                    ReelWidth = Convert.ToDouble(oPaperDTO.RollWidth);
                 ////roll length is always going into meters
-                //ReelLength = oPaperDTO.RollLength ?? 1;
+                ReelLength = oPaperDTO.RollLength ?? 1;
 
                 SectionHeight = oItemSection.SectionSizeHeight ?? 1;
 
@@ -7164,7 +7173,8 @@ namespace MPC.Implementation.MISServices
 
                     //calculating paper required in meters
 
-                    OrderPaperLengthWithoutSpoilage[i] = SectionQtyWithoutSpoilage[i]*SectionHeight/1000;
+                    //OrderPaperLengthWithoutSpoilage[i] = SectionQtyWithoutSpoilage[i]*SectionHeight/1000; removed divide by 1000 as input is already in meters
+                    OrderPaperLengthWithoutSpoilage[i] = SectionQtyWithoutSpoilage[i] * SectionHeight;
                     OrderPaperLengthWithSpoilage[i] = SectionQtyWithSpoilage[i]*SectionHeight/1000;
 
 
@@ -7172,8 +7182,9 @@ namespace MPC.Implementation.MISServices
                     //OrderPaperLengthWithoutSpoilage(i) = Model.Common.RoundUp(OrderPaperLengthWithoutSpoilage(i) / ReelLength)
 
                     OrderPaperLengthWithSpoilageSqMeters[i] = (OrderPaperLengthWithSpoilage[i]*SectionWidth/1000)/100;
-                    OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i]*SectionWidth/1000)/
-                                                                 100;
+                    //OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i]*SectionWidth/1000)/
+                    //                                             100;
+                    OrderPaperLengthWithoutSpoilageSqMeters[i] = (OrderPaperLengthWithoutSpoilage[i]*SectionWidth);
 
                     OrderPaperWeightWithSpoilage[i] =
                         (ConvertWeight((double) oPaperDTO.ItemWeight, WeightUnits.GSM, WeightUnits.lbs)*100*
@@ -7521,6 +7532,12 @@ namespace MPC.Implementation.MISServices
                 }
                 //End LookUp Calculations
 
+                //Naveed 20161116: as we are not using lookup method for roll fed press but using Per Meter charge so regardless of above calculation we are setting prices as below code.
+                dblPrintPrice[0] = ((oPressDTO.PricePerMeter ?? 0)* OrderPaperLengthWithoutSpoilageSqMeters[0]) + (oPressDTO.SetupCharge?? 0);
+                dblPrintPrice[1] = ((oPressDTO.PricePerMeter ?? 0) * OrderPaperLengthWithoutSpoilageSqMeters[1]) + (oPressDTO.SetupCharge ?? 0);
+                dblPrintPrice[2] = ((oPressDTO.PricePerMeter ?? 0) * OrderPaperLengthWithoutSpoilageSqMeters[2]) + (oPressDTO.SetupCharge ?? 0);
+
+                //---------------------
 
                 for (int i = temp; i <= temp2; i++)
                 {
@@ -7610,57 +7627,62 @@ namespace MPC.Implementation.MISServices
 
                         if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultPressInstruction == true)
                         {
+                            oItemSectionCostCenter.Qty1WorkInstructions = "Working Size = " +
+                                                                              ReelLength + " x " + ReelWidth + " Meter(s) " + Environment.NewLine;
                             if (oJobCardOptionsDTO.IsWorkingSize == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions = "Working Size = " +
-                                                                              oItemSection.SectionSizeHeight +
-                                                                              itemsectionRepository.GetLengthUnitName(
-                                                                                  (int)
-                                                                                      CompanyGeneralSettings()
-                                                                                          .SystemLengthUnit) + " x " +
-                                                                              oItemSection.SectionSizeWidth +
-                                                                              itemsectionRepository.GetLengthUnitName(
-                                                                                  (int)
-                                                                                      CompanyGeneralSettings()
-                                                                                          .SystemLengthUnit) + " " +
-                                                                              Environment.NewLine;
+                                //oItemSectionCostCenter.Qty1WorkInstructions = "Working Size = " +
+                                //                                              oItemSection.SectionSizeHeight +
+                                //                                              itemsectionRepository.GetLengthUnitName(
+                                //                                                  (int)
+                                //                                                      CompanyGeneralSettings()
+                                //                                                          .SystemLengthUnit) + " x " +
+                                //                                              oItemSection.SectionSizeWidth +
+                                //                                              itemsectionRepository.GetLengthUnitName(
+                                //                                                  (int)
+                                //                                                      CompanyGeneralSettings()
+                                //                                                          .SystemLengthUnit) + " " +
+                                //                                              Environment.NewLine;
+                                
                             }
                             if (oJobCardOptionsDTO.IsItemSize == true)
                             {
+                                //oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " +
+                                //                                               oItemSection.ItemSizeHeight +
+                                //                                               itemsectionRepository.GetLengthUnitName(
+                                //                                                   (int)
+                                //                                                       CompanyGeneralSettings()
+                                //                                                           .SystemLengthUnit) + " x " +
+                                //                                               oItemSection.ItemSizeWidth +
+                                //                                               itemsectionRepository.GetLengthUnitName(
+                                //                                                   (int)
+                                //                                                       CompanyGeneralSettings()
+                                //                                                           .SystemLengthUnit) + " " +
+                                //                                               Environment.NewLine;
                                 oItemSectionCostCenter.Qty1WorkInstructions += "Item Size (Flat) = " +
-                                                                               oItemSection.ItemSizeHeight +
-                                                                               itemsectionRepository.GetLengthUnitName(
-                                                                                   (int)
-                                                                                       CompanyGeneralSettings()
-                                                                                           .SystemLengthUnit) + " x " +
-                                                                               oItemSection.ItemSizeWidth +
-                                                                               itemsectionRepository.GetLengthUnitName(
-                                                                                   (int)
-                                                                                       CompanyGeneralSettings()
-                                                                                           .SystemLengthUnit) + " " +
-                                                                               Environment.NewLine;
+                                                                              OrderPaperLengthWithoutSpoilageSqMeters[0] + " Sq. Meter" + Environment.NewLine;
                             }
-                            if (oJobCardOptionsDTO.IsPrintSheetQty == true)
-                            {
-                                oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty = " +
-                                                                               SectionQtyWithSpoilage[0];
-                            }
+                            //if (oJobCardOptionsDTO.IsPrintSheetQty == true)
+                            //{
+                            //    oItemSectionCostCenter.Qty1WorkInstructions += "Print Sheet Qty = " +
+                            //                                                   SectionQtyWithSpoilage[0];
+                            //}
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += " ;  Number of Passes = " +
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Number of Passes = " +
                                                                                (PassesBack + PassesFront) +
                                                                                Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsImpressionCount == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += " Impression Count = " +
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Impression Count = " +
                                                                                oItemSection.ImpressionQty1 +
                                                                                Environment.NewLine;
                             }
 
                             if (oJobCardOptionsDTO.IsPressEstTime == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += " Estimated Time:= " +
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Estimated Time:= " +
                                                                                oItemSectionCostCenter.Qty1EstimatedTime
                                                                                    .ToString("f") + " hours";
                             }
@@ -7720,7 +7742,7 @@ namespace MPC.Implementation.MISServices
                             }
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
-                                oItemSectionCostCenter.Qty1WorkInstructions += " ;  Number of Passes = " +
+                                oItemSectionCostCenter.Qty1WorkInstructions += "Number of Passes = " +
                                                                                (PassesBack + PassesFront) +
                                                                                Environment.NewLine;
                             }
@@ -7760,57 +7782,62 @@ namespace MPC.Implementation.MISServices
 
                         if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultPressInstruction == true)
                         {
+                            oItemSectionCostCenter.Qty2WorkInstructions = "Working Size = " +
+                                                                             ReelLength + " x " + ReelWidth + " Meter(s) " + Environment.NewLine;
                             if (oJobCardOptionsDTO.IsWorkingSize == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions = "Working Size = " +
-                                                                              oItemSection.SectionSizeHeight +
-                                                                              itemsectionRepository.GetLengthUnitName(
-                                                                                  (int)
-                                                                                      CompanyGeneralSettings()
-                                                                                          .SystemLengthUnit) + " x " +
-                                                                              oItemSection.SectionSizeWidth +
-                                                                              itemsectionRepository.GetLengthUnitName(
-                                                                                  (int)
-                                                                                      CompanyGeneralSettings()
-                                                                                          .SystemLengthUnit) + " " +
-                                                                              Environment.NewLine;
+                                //oItemSectionCostCenter.Qty2WorkInstructions = "Working Size = " +
+                                //                                              oItemSection.SectionSizeHeight +
+                                //                                              itemsectionRepository.GetLengthUnitName(
+                                //                                                  (int)
+                                //                                                      CompanyGeneralSettings()
+                                //                                                          .SystemLengthUnit) + " x " +
+                                //                                              oItemSection.SectionSizeWidth +
+                                //                                              itemsectionRepository.GetLengthUnitName(
+                                //                                                  (int)
+                                //                                                      CompanyGeneralSettings()
+                                //                                                          .SystemLengthUnit) + " " +
+                                //                                              Environment.NewLine;
+                                
                             }
                             if (oJobCardOptionsDTO.IsItemSize == true)
                             {
+                                //oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat) = " +
+                                //                                               oItemSection.ItemSizeHeight +
+                                //                                               itemsectionRepository.GetLengthUnitName(
+                                //                                                   (int)
+                                //                                                       CompanyGeneralSettings()
+                                //                                                           .SystemLengthUnit) + " x " +
+                                //                                               oItemSection.ItemSizeWidth +
+                                //                                               itemsectionRepository.GetLengthUnitName(
+                                //                                                   (int)
+                                //                                                       CompanyGeneralSettings()
+                                //                                                           .SystemLengthUnit) + " " +
+                                //                                               Environment.NewLine;
                                 oItemSectionCostCenter.Qty2WorkInstructions += "Item Size (Flat) = " +
-                                                                               oItemSection.ItemSizeHeight +
-                                                                               itemsectionRepository.GetLengthUnitName(
-                                                                                   (int)
-                                                                                       CompanyGeneralSettings()
-                                                                                           .SystemLengthUnit) + " x " +
-                                                                               oItemSection.ItemSizeWidth +
-                                                                               itemsectionRepository.GetLengthUnitName(
-                                                                                   (int)
-                                                                                       CompanyGeneralSettings()
-                                                                                           .SystemLengthUnit) + " " +
-                                                                               Environment.NewLine;
+                                                                            OrderPaperLengthWithoutSpoilageSqMeters[1] + " Sq. Meter" + Environment.NewLine;
                             }
-                            if (oJobCardOptionsDTO.IsPrintSheetQty == true)
-                            {
-                                oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty = " +
-                                                                               SectionQtyWithSpoilage[1];
-                            }
+                            //if (oJobCardOptionsDTO.IsPrintSheetQty == true)
+                            //{
+                            //    oItemSectionCostCenter.Qty2WorkInstructions += "Print Sheet Qty = " +
+                            //                                                   SectionQtyWithSpoilage[1];
+                            //}
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += " ;  Number of Passes = " +
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Number of Passes = " +
                                                                                (PassesBack + PassesFront) +
                                                                                Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsImpressionCount == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += " Impression Count = " +
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Impression Count = " +
                                                                                oItemSection.ImpressionQty2 +
                                                                                Environment.NewLine;
                             }
 
                             if (oJobCardOptionsDTO.IsPressEstTime == true)
                             {
-                                oItemSectionCostCenter.Qty2WorkInstructions += " Estimated Time = " +
+                                oItemSectionCostCenter.Qty2WorkInstructions += "Estimated Time = " +
                                                                                oItemSectionCostCenter.Qty2EstimatedTime
                                                                                    .ToString("f") + " hours";
                             }
@@ -7909,56 +7936,36 @@ namespace MPC.Implementation.MISServices
 
                         if (IsWorkInstructionsLocked == false & oJobCardOptionsDTO.IsDefaultPressInstruction == true)
                         {
-                            if (oJobCardOptionsDTO.IsWorkingSize == true)
-                            {
-                                oItemSectionCostCenter.Qty3WorkInstructions = "Working Size = " +
-                                                                              oItemSection.SectionSizeHeight +
-                                                                              itemsectionRepository.GetLengthUnitName(
-                                                                                  (int)
-                                                                                      CompanyGeneralSettings()
-                                                                                          .SystemLengthUnit) + " x " +
-                                                                              oItemSection.SectionSizeWidth +
-                                                                              itemsectionRepository.GetLengthUnitName(
-                                                                                  (int)
-                                                                                      CompanyGeneralSettings()
-                                                                                          .SystemLengthUnit) + " " +
-                                                                              Environment.NewLine;
-                            }
+                            oItemSectionCostCenter.Qty3WorkInstructions = "Working Size = " +
+                                                                              ReelLength + " x " + ReelWidth + "Meter(s)" + Environment.NewLine;
+                            //if (oJobCardOptionsDTO.IsWorkingSize == true)
+                            //{
+                                
+                            //}
                             if (oJobCardOptionsDTO.IsItemSize == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat) = " +
-                                                                               oItemSection.ItemSizeHeight +
-                                                                               itemsectionRepository.GetLengthUnitName(
-                                                                                   (int)
-                                                                                       CompanyGeneralSettings()
-                                                                                           .SystemLengthUnit) + " x " +
-                                                                               oItemSection.ItemSizeWidth +
-                                                                               itemsectionRepository.GetLengthUnitName(
-                                                                                   (int)
-                                                                                       CompanyGeneralSettings()
-                                                                                           .SystemLengthUnit) + " " +
-                                                                               Environment.NewLine;
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Item Size (Flat) = " + OrderPaperLengthWithoutSpoilageSqMeters[2] + "Sq. Meter" + Environment.NewLine;
                             }
-                            if (oJobCardOptionsDTO.IsPrintSheetQty == true)
-                            {
-                                oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty = " +
-                                                                               SectionQtyWithSpoilage[2];
-                            }
+                            //if (oJobCardOptionsDTO.IsPrintSheetQty == true)
+                            //{
+                            //    oItemSectionCostCenter.Qty3WorkInstructions += "Print Sheet Qty = " +
+                            //                                                   SectionQtyWithSpoilage[2];
+                            //}
                             if (oJobCardOptionsDTO.IsNumberOfPasses == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += " ;  Number of Passes = " +
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Number of Passes = " +
                                                                                (PassesBack + PassesFront) +
                                                                                Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsImpressionCount == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += " Impression Count = " +
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Impression Count = " +
                                                                                oItemSection.ImpressionQty3 +
                                                                                Environment.NewLine;
                             }
                             if (oJobCardOptionsDTO.IsPressEstTime == true)
                             {
-                                oItemSectionCostCenter.Qty3WorkInstructions += " Estimated Time = " +
+                                oItemSectionCostCenter.Qty3WorkInstructions += "Estimated Time = " +
                                                                                oItemSectionCostCenter.Qty3EstimatedTime
                                                                                    .ToString("f") + " hours";
                             }
@@ -8054,10 +8061,12 @@ namespace MPC.Implementation.MISServices
                 SectionCostCentreDetail oItemSectionCostCenterDetail = new SectionCostCentreDetail();
 
                 oItemSectionCostCenterDetail.StockId = oItemSection.StockItemID1;
-                oItemSectionCostCenterDetail.CostPrice = dblPrintCost[0];
+                oItemSectionCostCenterDetail.CostPrice = oPressDTO.PricePerMeter;
 
                 oItemSectionCostCenter.Name = "Press ( " + oPressDTO.MachineName + " )";
-
+                oItemSectionCostCenter.Qty4WorkInstructions = "Press ( " + oPressDTO.MachineName + " )" + Environment.NewLine;
+                oItemSectionCostCenter.Qty4WorkInstructions += "Price Per Sq. Meter : " +  oPressDTO.PricePerMeter + Environment.NewLine;
+                
                 oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
                 oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
                 oItemSectionCostCenter.Qty3 = oItemSection.Qty3;

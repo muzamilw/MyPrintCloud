@@ -83,7 +83,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDigitalPress { get; set; }
         public bool? IsPressUseInks { get; set; }
         public bool? IsSetupCostForDoubleSided { get; set; }
-
+        public double? PricePerMeter { get; set; }
         public virtual LookupMethod LookupMethod { get; set; }
         public IEnumerable<MachineInkCoverage> MachineInkCoverages { get; set; }
     }

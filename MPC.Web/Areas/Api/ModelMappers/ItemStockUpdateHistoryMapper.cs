@@ -57,6 +57,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     return "Threshold Order";
                 case 4:
                     return "Back Order";
+                case 5:
+                    return "Removed";
             }
             return "";
         }

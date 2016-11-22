@@ -128,7 +128,7 @@
                             </div>
                             <div class="form-group" style="margin-bottom: 2px;">
                                 <div class="col-sm-5 text-right">
-                                    <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;">Press feed size</label>
+                                    <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;" data-bind="text: printingTypeUi() !== '2' ? 'Press feed size' : 'Required Item Size '"></label>
                                 </div>
 
                                 <div class=" col-sm-5">
@@ -158,7 +158,7 @@
                                                     <span data-bind="text: printingTypeUi() !== '2' ? 'Height ' : 'Length '"></span>
                                                     (
                                                     <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
-                                                    <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
+                                                    <span data-bind="visible: printingTypeUi() === '2'">Meter @*<sup>2</sup>*@</span>
                                                     )
                                                 </label>
                                             </div>
@@ -166,16 +166,18 @@
                                                 <button style="margin-left: -45%;" data-bind="click: $root.swapSectionHeightWidth" class="btn btn-primary btn-Toggle">
                                                     <i class="fa fa-sm"></i>&nbsp;< >
                                                 </button>
+
                                             </div>
-                                            <div class="col-sm-5" style="padding-right: 0px;">
+                                            <div class="col-sm-5" style="padding-right: 0;">
                                                 <input type="text" id="sectionSizeWidthTextbox" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, validationTooltip: sectionSizeWidth, validationDependsOn: sectionSizeWidth, validationOnElement: sectionSizeWidth" />
                                                 <label class="help-block">
                                                     Width
                                                     (
                                                     <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
-                                                    <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
+                                                    <span data-bind="visible: printingTypeUi() === '2'">Meter</span>
                                                     )
                                                 </label>
+
                                             </div>
                                         </div>
                                         <div class="col-sm-4" style="width: 24%; margin-top: 7px;">
