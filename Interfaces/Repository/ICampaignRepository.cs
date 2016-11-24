@@ -34,5 +34,7 @@ namespace MPC.Interfaces.Repository
         void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid, long StockItemId, long orderID);
         List<Campaign> GetOrganisationCampaigns();
         void OrderProcessingNotificationEmail(long eventId, Estimate order);
+        void ProductTemplateNotificationEmail(long eventId, string emails, long itemId);
+        Campaign GetMisCampaignEmailByEvent(long emailEvent);
     }
 }

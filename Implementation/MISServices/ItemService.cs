@@ -65,6 +65,8 @@ namespace MPC.Implementation.MISServices
         private readonly IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository;
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
         private readonly IStagingImportProductsRepository stagingImportProductRepository;
+        private readonly ICompanyContactRepository _companyContactRepository;
+        private readonly ICampaignRepository _campaignRepository;
 
         /// <summary>
         /// Create ProductMarketBriefQuestion
@@ -1928,7 +1930,8 @@ namespace MPC.Implementation.MISServices
             IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
             ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository, 
             IProductMarketBriefQuestionRepository productMarketBriefQuestionRepository, IProductMarketBriefAnswerRepository productMarketBriefAnswerRepository,
-            ISectionInkCoverageRepository sectionInkCoverageRepository, IStagingImportProductsRepository stagingImportProductRepository)
+            ISectionInkCoverageRepository sectionInkCoverageRepository, IStagingImportProductsRepository stagingImportProductRepository,
+            ICompanyContactRepository companyContactRepository, ICampaignRepository campaignRepository)
         {
             if (itemRepository == null)
             {
@@ -2066,6 +2069,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionInkCoverageRepository");
             }
+            if (companyContactRepository == null)
+            {
+                throw new ArgumentNullException("companyContactRepository");
+            }
+            if (campaignRepository == null)
+            {
+                throw new ArgumentNullException("campaignRepository");
+            }
 
             this.organizationRepository = organizationRepository;
             this.smartFormRepository = smartFormRepository;
@@ -2102,6 +2113,8 @@ namespace MPC.Implementation.MISServices
             this.itemSectionRepository = itemSectionRepository;
             this.itemImageRepository = itemImageRepository;
             this.stagingImportProductRepository = stagingImportProductRepository;
+            this._companyContactRepository = companyContactRepository;
+            this._campaignRepository = campaignRepository;
         }
 
         #endregion
@@ -3175,6 +3188,24 @@ namespace MPC.Implementation.MISServices
             return true;
         }
 
-       
+        public void ProductTemplateNotificationEmail(long itemId)
+        {
+            var territories = itemRepository.GetProductTerritories(itemId);
+            var emailsList = _companyContactRepository.GetContactEmailsByTerritories(territories);
+            if (emailsList != null && emailsList.Count > 0)
+            {
+                string emails = string.Empty;
+                emailsList.ForEach(a => emails += a + ",");
+                if (emails.EndsWith(","))
+                    emails = emails.Substring(0, emails.Length - 1);
+
+                _campaignRepository.ProductTemplateNotificationEmail(Convert.ToInt64(Events.NewProductTemplateCreated), emails, itemId);
+            }
+            else
+            {
+                throw new MPCException("No users found for the category associated with this product.", itemRepository.OrganisationId);
+            }
+            
+        }
     }
 }

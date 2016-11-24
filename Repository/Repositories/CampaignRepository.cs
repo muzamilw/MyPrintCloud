@@ -1471,13 +1471,15 @@ namespace MPC.Repository.Repositories
                          c.CampaignId,
                          c.CampaignName,
                          c.CampaignImages,
-                         c.CampaignEmailEvent
+                         c.CampaignEmailEvent,
+                         c.IsEnabled
                      }).ToList().Select(c => new Campaign
                      {
                          CampaignId = c.CampaignId,
                          CampaignImages = c.CampaignImages,
                          CampaignName = c.CampaignName,
-                         CampaignEmailEvent = c.CampaignEmailEvent
+                         CampaignEmailEvent = c.CampaignEmailEvent,
+                         IsEnabled = c.IsEnabled
                      }).ToList();
             return campaign;
         }
@@ -1503,6 +1505,31 @@ namespace MPC.Repository.Repositories
                 Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
                 emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", SalesManager != null ? SalesManager.Email : "", "", "", null);
             }
+
+        }
+        public void ProductTemplateNotificationEmail(long eventId, string emails, long itemId)
+        {
+            CampaignEmailParams cempaignEmailParams = new CampaignEmailParams
+            {
+                CompanyId =  0,
+                StoreId =  0,
+                OrganisationId = OrganisationId,
+                SalesManagerContactID = 1,
+                ItemId = itemId
+            };
+            if (!string.IsNullOrEmpty(emails))
+            {
+                Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
+
+                if (evetCampaign != null && evetCampaign.IsEnabled == true)
+                {
+                    evetCampaign.NotificationEmailIds = emails;
+                    SaveChanges();
+                    Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
+                    emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", "", "", "", null);
+                }
+            }
+            
 
         }
         public Campaign GetMisCampaignEmailByEvent(long emailEvent)

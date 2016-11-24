@@ -2163,6 +2163,16 @@ define("product/product.viewModel",
 
                         }
                     },
+                    notifyUserForTemplate = function() {
+                        dataservice.notifyUsersTemplateCreation({ id: selectedProduct().id() }, {
+                            success: function () {
+                                toastr.success("Notification sent to users successfully!");
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to send notification. Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    },
                 // Delete Product
                     deleteProduct = function (id) {
                         dataservice.deleteItem({ ItemId: id }, {
@@ -2298,7 +2308,8 @@ define("product/product.viewModel",
                     exportProduct: exportProduct,
                     selectedCsvFileForProduct: selectedCsvFileForProduct,
                     onSectionInkCoverageSave: onSectionInkCoverageSave,
-                    onSelectTemplateFile: onSelectTemplateFile
+                    onSelectTemplateFile: onSelectTemplateFile,
+                    notifyUserForTemplate: notifyUserForTemplate
                     // For Store
                     // Utility Methods
                 };

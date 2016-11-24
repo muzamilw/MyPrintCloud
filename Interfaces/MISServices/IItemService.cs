@@ -102,6 +102,7 @@ namespace MPC.Interfaces.MISServices
         string ExportCompanyIrems(long CompanyId);
 
         bool SaveImportedProducts(IEnumerable<StagingProductPriceImport> stagingImportProducts,long CompanyId);
+        void ProductTemplateNotificationEmail(long itemId);
 
     }
 }

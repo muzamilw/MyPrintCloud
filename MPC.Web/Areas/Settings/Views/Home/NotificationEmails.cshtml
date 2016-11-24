@@ -30,8 +30,9 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th style="width: 435px"><span>Title</span></th>
-                                        <th style="width: 432px"><span>Event</span></th>
+                                        <th class="col-lg-4"><span>Title</span></th>
+                                        <th class="col-lg-4"><span>Event</span></th>
+                                        <th class="col-lg-2"><span>Status</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +56,8 @@
 <script id="listEmailsTemplate" type="text/html">
     <tr data-bind=" click: $root.onEditEmail" style="cursor: pointer">
         <td><a href="#" class="store-user-link" data-bind="text: campaignName"></a></td>
-        <td data-bind="text:eventName"></td>       
+        <td data-bind="text:eventName"></td>
+        <td><span class="label label-success" data-bind="text: isEnabled() ? 'Enabled' : 'Disabled' , css: { 'label-success':  isEnabled() === true, 'label-danger' : isEnabled() === false }">Live</span></td>
     </tr>
 </script>
 

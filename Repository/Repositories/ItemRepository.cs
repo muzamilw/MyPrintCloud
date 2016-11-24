@@ -5017,6 +5017,24 @@ namespace MPC.Repository.Repositories
                 }
             }
         }
+
+        public List<long?> GetProductTerritories(long itemId)
+        {
+            var qryIds = from item in db.ProductCategoryItems
+                join categoryItems in db.ProductCategories on item.CategoryId equals categoryItems.ProductCategoryId
+                join territry in db.CategoryTerritories on categoryItems.ProductCategoryId equals
+                    territry.ProductCategoryId
+                where item.ItemId == itemId
+                select territry.TerritoryId;
+           
+            return qryIds.ToList();
+        }
+
+        public bool? IsNotificationEnabled(long itemId)
+        {
+            var item = DbSet.FirstOrDefault(i => i.ItemId == itemId);
+            return item != null ? item.IsNotifyTemplate : false;
+        }
         
     }
 }

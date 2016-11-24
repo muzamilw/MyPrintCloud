@@ -93,6 +93,7 @@ define("emails/emails.viewModel",
                                        selectedEmail(undefined);
                                        selectedEmailListViewItem().eventName(data.EventName);
                                        selectedEmailListViewItem().campaignName(data.CampaignName);
+                                       selectedEmailListViewItem().isEnabled(data.IsEnabled);
                                        view.hideEmailCamapaignDialog();
                                        toastr.success("Campaign saved successfully.");
                                    }

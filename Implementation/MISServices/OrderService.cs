@@ -1427,6 +1427,9 @@ namespace MPC.Implementation.MISServices
                 SectionCostcentre targetSectionCostcentre = sectionCostCentreRepository.Create();
                 sectionCostCentreRepository.Add(targetSectionCostcentre);
                 targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
+                targetSectionCostcentre.CostCentreType = sectionCostcentre.CostCentreType;
+                targetSectionCostcentre.SystemCostCentreType = sectionCostcentre.SystemCostCentreType;
+                
                 target.SectionCostcentres.Add(targetSectionCostcentre);
                 sectionCostcentre.Clone(targetSectionCostcentre);
                 if (source.Item.JobSelectedQty != null && target.Item.ItemType != 2)
@@ -1437,6 +1440,7 @@ namespace MPC.Implementation.MISServices
                         targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty1Charge;
                         targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty1MarkUpID;
                         targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty1NetTotal;
+                        targetSectionCostcentre.Qty1WorkInstructions = sectionCostcentre.Qty1WorkInstructions;
 
                     }
                     else if (source.Item.JobSelectedQty == 2)
@@ -1445,6 +1449,7 @@ namespace MPC.Implementation.MISServices
                         targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty2Charge;
                         targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty2MarkUpID;
                         targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty2NetTotal;
+                        targetSectionCostcentre.Qty1WorkInstructions = sectionCostcentre.Qty2WorkInstructions;
                     }
                     else if (source.Item.JobSelectedQty == 3)
                     {
@@ -1452,6 +1457,7 @@ namespace MPC.Implementation.MISServices
                         targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty3Charge;
                         targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty3MarkUpID;
                         targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty3NetTotal;
+                        targetSectionCostcentre.Qty1WorkInstructions = sectionCostcentre.Qty3WorkInstructions;
                     }
 
                 }

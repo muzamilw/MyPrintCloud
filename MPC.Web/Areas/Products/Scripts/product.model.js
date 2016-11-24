@@ -1763,7 +1763,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 productCategoryItems: productCategoryItems,
                 itemSections: itemSections,
                 itemImages: itemImages,
-                productMarketBriefQuestions: productMarketBriefQuestions
+                productMarketBriefQuestions: productMarketBriefQuestions,
+                isNotifyTemplate: isNotifyTemplate
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {

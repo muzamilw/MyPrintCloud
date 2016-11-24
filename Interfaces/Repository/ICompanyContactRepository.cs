@@ -160,5 +160,6 @@ namespace MPC.Interfaces.Repository
         CompanyContact GetContactBySocialNameAndEmail(string FName, long StoreId, long OrganisationId, int WebStoreMode, string Email);
         CompanyContact GetCompanyContactByNameAndEmail(string sFirstName, string sEmail, long organisationId);
         long GetRetailStoreId(long organisationId);
+        List<string> GetContactEmailsByTerritories(List<long?> territories);
     }
 }

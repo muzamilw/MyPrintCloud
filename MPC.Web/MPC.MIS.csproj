@@ -341,6 +341,7 @@
     <Compile Include="Areas\Api\Controllers\ClickChargeZoneController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterExecutionMisController.cs" />
     <Compile Include="Areas\Api\Controllers\DigitalArtworkDownloadController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductTemplateNotificationController.cs" />
     <Compile Include="Areas\Api\Controllers\SystemUserListController.cs" />
     <Compile Include="Areas\Api\Controllers\UserRoleController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductTemplateListController.cs" />
