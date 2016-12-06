@@ -3545,6 +3545,67 @@ namespace MPC.Implementation.WebStoreServices
         {
            return _templateRepository.updatecontactId(templateId, contactId);
         }
+
+        public string GetGemplateWithoutCropMarks(long itemId)
+        {
+            Item item = _itemRepository.GetItemByIdDesigner(itemId);
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + item.OrganisationId + "/ReadyTemplates/");
+            string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/");
+            string spdfPath = string.Empty;
+           
+            if (!Directory.Exists(drURL + item.ItemId))
+            {
+                Directory.CreateDirectory(drURL + item.ItemId);
+            }
+
+            
+            long TemplateID = item.TemplateId ?? 0;
+            bool printCropMarks = false;
+            bool printWaterMark = false;
+            bool isMultiplageProduct = true;
+            long organisationId = item.OrganisationId??0;
+            if (item.drawWaterMarkTxt.HasValue)
+                printWaterMark = item.drawWaterMarkTxt.Value;
+            //if (item.isMultipagePDF.HasValue)
+            //    isMultiplageProduct = item.isMultipagePDF.Value;
+           
+            List<TemplatePage> oTemplatePages = new List<TemplatePage>();
+            List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
+            Template objProduct = _templateRepository.GetTemplate(TemplateID, out oTemplatePages, out oTemplateObjects);
+           double bleedareaSize = DesignerUtils.PointToMM(objProduct.CuttingMargin.Value);
+
+
+           if (isMultiplageProduct)
+           {
+               bool hasOverlayObject = false;
+               byte[] PDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, printCropMarks, printWaterMark, out hasOverlayObject, false, organisationId, bleedareaSize, false);
+               //writing the PDF to FS
+               System.IO.File.WriteAllBytes(drURL + item.ItemId + "/proof.pdf", PDFFile);
+               spdfPath = "/MPC_Content/Designer/Organisation" + item.OrganisationId + "/ReadyTemplates/"+ item.ItemId + "/proof.pdf";
+               //gernating 
+               // generatePagePreviewMultiplage(PDFFile, drURL + TemplateID + "/", bleedareaSize, 150, false);
+               //if (hasOverlayObject)
+               //{
+               //    byte[] overlayPDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, false, printCropMarks, printWaterMark, out hasOverlayObject, true, organisationId, bleedareaSize, true);
+               //    System.IO.File.WriteAllBytes(drURL + TemplateID + "/pagesoverlay.pdf", PDFFile);
+               //   // generatePagePreviewMultiplage(overlayPDFFile, drURL + productID + "/", bleedareaSize, 150, isroundCorners);
+               //}
+
+           }
+           //else
+           //    foreach (TemplatePage objPage in oTemplatePages)
+           //    {
+           //        bool hasOverlayObject = false;
+             //      byte[] PDFFile = generateSinglePDF(objProduct, objPage, oTemplateObjects, drURL, fontsUrl, false, false, printCropMarks, printWaterMark, out hasOverlayObject, false, organisationId, bleedareaSize, true);
+           //        //writing the PDF to FS
+           //        System.IO.File.WriteAllBytes(drURL + TemplateID + "/p" + objPage.PageNo + ".pdf", PDFFile);
+           //        //generate and write overlay image to FS 
+           //       // generatePagePreview(PDFFile, drURL, productID + "/p" + objPage.PageNo, bleedareaSize, 150, isroundCorners);
+
+
+           //    }
+           return spdfPath;
+        }
         #endregion
     }
 

@@ -222,7 +222,7 @@ namespace MPC.Models.DomainModels
         public double? SectionPaperWeightExSelfQty1 { get; set; }
         public double? SectionPaperWeightExSelfQty2 { get; set; }
         public double? SectionPaperWeightExSelfQty3 { get; set; }
-        
+        public string SectionStockSummary { get; set; }
 
         #region Public
 
@@ -260,6 +260,7 @@ namespace MPC.Models.DomainModels
             target.IsDoubleSided = IsDoubleSided;
             target.isWorknTurn = isWorknTurn;
             target.IsPortrait = IsPortrait;
+
         }
 
         /// <summary>
@@ -286,6 +287,14 @@ namespace MPC.Models.DomainModels
             target.PassesSide2 = PassesSide2;
             target.IsFirstTrim = IsFirstTrim;
             target.IsSecondTrim = IsSecondTrim;
+            target.CostCentreQueue = CostCentreQueue;
+            target.InputQueue = InputQueue;
+            target.QuestionQueue = QuestionQueue;
+            target.SetupSpoilage = SetupSpoilage;
+            target.RunningSpoilage = RunningSpoilage;
+            target.PrintSheetQty1 = PrintSheetQty1;
+            target.PrintSheetQty2 = PrintSheetQty2;
+            target.PrintSheetQty3 = PrintSheetQty3;
         }
 
         #endregion

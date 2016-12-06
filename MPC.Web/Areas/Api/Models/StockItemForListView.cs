@@ -149,5 +149,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double CostPrice { get; set; }
         public string SupplierCode { get; set; }
         public string SizeName { get; set; }
+        public int PaperType { get; set; }
+        public long CategoryId { get; set; }
     }
 }

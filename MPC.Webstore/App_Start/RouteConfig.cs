@@ -633,7 +633,7 @@ namespace MPC.Webstore
             routes.MapRoute(
 "StripeGateway",
 "StripeGateway/{OrderID}",
-new { controller = "Stripe", action = "Index", OrderID = UrlParameter.Optional }
+new { controller = "StripeGateway", action = "Index", OrderID = UrlParameter.Optional }
 );
 
             routes.MapRoute(

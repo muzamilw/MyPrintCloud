@@ -49,12 +49,13 @@
                                                             <table class="table user-list table-striped table-hover">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="col-lg-1"></th>
+                                                                        <th class="col-lg-1" style="width: 5%;"></th>
+                                                                        <th class="col-lg-1" style="width: 5%;"><span></span></th>
                                                                         <th class="col-lg-3"><span>Machine Name</span></th>
                                                                         <th class="col-lg-2"><span>Max Sheet Size</span></th>
                                                                         <th class="col-lg-2"><span>Min Sheet Size</span></th>
                                                                         <th class="col-lg-2"><span>Type</span></th>
-                                                                        <th class="col-lg-2"><span>Feed Type</span></th>
+                                                                        
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -90,10 +91,10 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th class="col-lg-1"></th>
+                                                                        <th class="col-lg-1"></th>
                                                                         <th class="col-lg-3"><span>Machine Name</span></th>
                                                                         <th class="col-lg-2"><span>Max Sheet Size</span></th>
                                                                         <th class="col-lg-2"><span>Min Sheet Size</span></th>
-                                                                        <th class="col-lg-2"></th>
                                                                         <th class="col-lg-2"></th>
                                                                     </tr>
                                                                 </thead>
@@ -134,10 +135,16 @@
         <!-- /ko -->
         <!-- ko ifnot: MachineCatId()=== 4 -->
         <!-- ko if: isSpotColor() -->
-        <td><img src="@Url.Content("~/Content/Images/Section_spotColor.jpeg")" style="  width: 100%; float: left;" /></td>
+        <td><img src="@Url.Content("~/Content/Images/Section_spotColor.png")" style="  width: 100%; float: left;" /></td>
         <!-- /ko -->
         <!-- ko ifnot: isSpotColor() -->
-        <td><img src="@Url.Content("~/Content/Images/Order_Section_CMYK_circle.jpeg")" style="  width: 100%; float: left;" /></td>
+        <td><img src="@Url.Content("~/Content/Images/Order_Section_CMYK_circle.png")" style="  width: 100%; float: left;" /></td>
+        <!-- /ko -->
+        <!-- ko if: isSheetFed() -->
+        <td><img src="@Url.Content("~/Content/Images/Sheet_Fed.png")" style="  width: 100%; float: left;" /></td>
+        <!-- /ko -->        
+        <!-- ko ifnot: isSheetFed() -->
+        <td><img src="@Url.Content("~/Content/Images/Roll_fed.png")" style="  width: 100%; float: left;" /></td>
         <!-- /ko -->
         <!-- /ko -->
         <td>
@@ -147,7 +154,7 @@
         <td><span data-bind="text: maximumsheetwidth"> </span><span> x </span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span> x </span> <span data-bind="text: minimumsheetheight"> </span>  </td>        
         <td><span data-bind="text: isDigital() ? 'Digital' : 'Litho', visible:!$root.isGuillotineList()"></span> </td>
-        <td><span data-bind="text: isSheetFed() ? 'Sheet Fed' : 'Roll Fed', visible:!$root.isGuillotineList()"> </span></td>
+        @*<td><span data-bind="text: isSheetFed() ? 'Sheet Fed' : 'Roll Fed', visible:!$root.isGuillotineList()"> </span></td>*@
        
     </tr>
 </script>

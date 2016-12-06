@@ -59,6 +59,7 @@ namespace MPC.Models.DomainModels
         public double WashupTotal { get; set; }
         public double GuillotineTotal { get; set; }
         public double OtherCostCenterTotal { get; set; }
+        public string SectionStockSummary { get; set; }
       
     }
 }

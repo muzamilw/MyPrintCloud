@@ -2838,6 +2838,10 @@ namespace MPC.Implementation.MISServices
                 else
                     oItemSectionCostCenter.Qty1WorkInstructions = "Plate Qty:= " + platesQty[0] + Environment.NewLine + "Plate Supplied:= Yes";
             }
+            if (oItemSection.SimilarSections > 1)
+            {
+                oItemSection.SectionStockSummary += "Total Plates Required : " + platesQty[0] * oItemSection.SimilarSections + Environment.NewLine;
+            }
 
             if (oItemSection.Qty2 > 0)
             {
@@ -3040,6 +3044,10 @@ namespace MPC.Implementation.MISServices
                     {
                         //oItemSectionCostCenter.Qty1WorkInstructions += " Estimated Time:= " + Math.Round(oItemSectionCostCenter.Qty1EstimatedTime, 2).ToString() + " hours";
                     }
+                }
+                if (oItemSection.SimilarSections > 1)
+                {
+                    oItemSection.SectionStockSummary += "Total WashUp : " + oItemSection.WashupQty * oItemSection.SimilarSections + Environment.NewLine;
                 }
 
                 if (oItemSection.Qty2 > 0)
@@ -3430,6 +3438,11 @@ namespace MPC.Implementation.MISServices
                         //oItemSectionCostCenter.Qty1WorkInstructions += "Estimated Time := " + Math.Round(oItemSectionCostCenter.Qty1EstimatedTime, 2).ToString() + " hours";
                     }
                 }
+                if (oItemSection.SimilarSections > 1)
+                {
+                    oItemSection.SectionStockSummary += "Total Plate Makereadies : " + oItemSection.MakeReadyQty * oItemSection.SimilarSections + Environment.NewLine;
+                }
+                
                 oItemSectionCostCenter.Qty1EstimatedPlantCost = dblMakeReadyCost;
 
                 if (oItemSection.Qty2 > 0)
@@ -4740,6 +4753,10 @@ namespace MPC.Implementation.MISServices
                         oItemSectionCostCenter.Qty1WorkInstructions += "Total Paper Weight:=" + Math.Round(OrderSheetWeight[0], 2) + " " + itemsectionRepository.GetWeightUnitName((int)CompanyGeneralSettings().SystemWeightUnit) + Environment.NewLine;
                     }
                     oItemSectionCostCenter.Qty1WorkInstructions += "Paper Supplied:=No ";
+                }
+                if (oItemSection.SimilarSections > 1)
+                {
+                    oItemSection.SectionStockSummary = "Total Paper Required : " + Math.Ceiling(OrderSheetQuantity[0]) * oItemSection.SimilarSections + " Sheets" + Environment.NewLine;
                 }
 
                 if (oItemSection.Qty2 > 0)

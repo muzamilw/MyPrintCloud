@@ -96,7 +96,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
                 IsBooklet = source.IsBooklet,
-                SimilarSections = source.SimilarSections
+                SimilarSections = source.SimilarSections,
+                SectionStockSummary = source.SectionStockSummary
             };
 
             if (source.Machine != null)
@@ -203,7 +204,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
                 IsBooklet = source.IsBooklet,
-                SimilarSections = source.SimilarSections
+                SimilarSections = source.SimilarSections,
+                SectionStockSummary = source.SectionStockSummary
             };
         }
 
@@ -308,7 +310,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
                 SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
                 IsBooklet = source.IsBooklet,
-                BleedArea = source.BleedArea
+                BleedArea = source.BleedArea,
+                SectionStockSummary = source.SectionStockSummary
             };
 
             if (source.Machine != null)
@@ -434,7 +437,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionPaperWeightExSelfQty3 = source.SectionPaperWeightExSelfQty3,
                 IsBooklet = source.IsBooklet,
                 BleedArea = source.BleedArea,
-                SimilarSections = source.SimilarSections
+                SimilarSections = source.SimilarSections,
+                SectionStockSummary = source.SectionStockSummary
             };
         }
 

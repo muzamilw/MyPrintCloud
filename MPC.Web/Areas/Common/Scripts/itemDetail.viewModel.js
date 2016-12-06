@@ -1057,6 +1057,15 @@ define("common/itemDetail.viewModel",
                             getSectionSystemCostCenters();
 
                         });
+                        selectedSection().similarSections.subscribe(function (value) {
+                            if (value !== selectedSection().similarSections()) {
+                                selectedSection().similarSections(value);
+                            }
+                            if (selectedSection().similarSections() <= 1) {
+                                return;
+                            }
+                            getSectionSystemCostCenters();
+                        });
 
                     },
                     // Get Press By Id
@@ -1645,7 +1654,7 @@ define("common/itemDetail.viewModel",
                                     selectedSection().impressionCountQty1(data.impressionCountQty1);
                                     selectedSection().impressionCountQty2(data.impressionCountQty2);
                                     selectedSection().impressionCountQty3(data.impressionCountQty3);
-                                    
+                                    selectedSection().sectionStockSummary(data.SectionStockSummary);
                                     
 
                                     // Map Section Cost Centres if Any

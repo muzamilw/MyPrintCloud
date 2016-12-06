@@ -2004,6 +2004,7 @@
           <Property Name="PassesSide2" Type="int" />
           <Property Name="IsBooklet" Type="bit" />
           <Property Name="BleedArea" Type="float" />
+          <Property Name="SectionStockSummary" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -10542,6 +10543,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="ItemSection" ToRole="StockItem" />
           <Property Name="IsBooklet" Type="Boolean" />
           <Property Name="BleedArea" Type="Double" />
+          <Property Name="SectionStockSummary" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -16558,6 +16560,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Double" Name="GuillotineTotal" Nullable="false" />
           <Property Type="Double" Name="OtherCostCenterTotal" Nullable="false" />
           <Property Type="Int32" Name="SimilarSections" Nullable="false" />
+          <Property Type="String" Name="SectionStockSummary" Nullable="true" MaxLength="1000" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -17685,6 +17688,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ItemSections">
             <EntityTypeMapping TypeName="DomainModels.ItemSection">
               <MappingFragment StoreEntitySet="ItemSection">
+                <ScalarProperty Name="SectionStockSummary" ColumnName="SectionStockSummary" />
                 <ScalarProperty Name="BleedArea" ColumnName="BleedArea" />
                 <ScalarProperty Name="IsBooklet" ColumnName="IsBooklet" />
                 <ScalarProperty Name="ImpressionCoverageSide2" ColumnName="ImpressionCoverageSide2" />
@@ -22024,6 +22028,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="GuillotineTotal" ColumnName="GuillotineTotal" />
                 <ScalarProperty Name="OtherCostCenterTotal" ColumnName="OtherCostCenterTotal" />
                 <ScalarProperty Name="SimilarSections" ColumnName="SimilarSections" />
+                <ScalarProperty Name="SectionStockSummary" ColumnName="SectionStockSummary" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -68,6 +68,7 @@ namespace MPC.Models.ModelMappers
             target.IsBooklet = source.IsBooklet;
             target.BleedArea = source.BleedArea;
             target.SimilarSections = source.SimilarSections;
+            target.SectionStockSummary = source.SectionStockSummary;
         }
 
         /// <summary>
@@ -141,6 +142,8 @@ namespace MPC.Models.ModelMappers
             target.RunningSpoilage = source.RunningSpoilage;
             target.RunningSpoilageValue = source.RunningSpoilageValue;
             target.IsBooklet = source.IsBooklet;
+            target.SectionStockSummary = source.SectionStockSummary;
+            target.BleedArea = source.BleedArea;
         }
 
         #endregion

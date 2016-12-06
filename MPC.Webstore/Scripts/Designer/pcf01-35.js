@@ -2245,7 +2245,7 @@ function l2(event) {
                         canvas.remove(OPT);
                     });
                 }
-            } else if (D1AO) {
+            } else if (D1AO && D1AO.IsPositionLocked != true) {
                 if (confirm("Are you sure you want to Remove this Object from the canvas.")) {
                     c2_del(D1AO);
                     canvas.remove(D1AO);

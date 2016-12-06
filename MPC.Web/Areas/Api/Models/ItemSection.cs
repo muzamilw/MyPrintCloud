@@ -121,5 +121,6 @@ namespace MPC.MIS.Areas.Api.Models
         public double? SectionPaperWeightExSelfQty3 { get; set; }
         public bool? IsBooklet { get; set; }
         public double? BleedArea { get; set; }
+        public string SectionStockSummary { get; set; }
     }
 }

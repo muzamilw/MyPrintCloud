@@ -615,7 +615,8 @@
             specifiedPassesSide1, specifiedPassesSide2, specifiedPrintingType, specifiedPressSide1ColourHeads, specifiedPressSide1IsSpotColor,
             specifiedPressSide2ColourHeads, specifiedPressSide2IsSpotColor, specifiedStockItemPackageQty, specifiedItemGutterHorizontal, specifiedSpeed1, specifiedSpeed2, specifiedSpeed3,
             specifiedImpressions1, specifiedImpressions2, specifiedImpressions3, specifiedPaperGsm, specifiedPrintSheetQty1, specifiedPrintSheetQty2, specifiedPrintSheetQty3,
-            specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue, specifiedIsBooklet, specifiedBleedArea, specifiedInputQueue, specifiedStockQueue, specifiedCostCenterQueue, specifiedQuestoinQueue) {
+            specifiedSetupSpoilage, specifiedRunningSpoilage, specifiedRunningSpoilageValue, specifiedIsBooklet, specifiedBleedArea, specifiedInputQueue, specifiedStockQueue,
+            specifiedCostCenterQueue, specifiedQuestoinQueue,specifiedStockSummary) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId),
@@ -909,7 +910,7 @@
                 stockQueue = ko.observable(specifiedStockQueue),
                 costCenterQueue = ko.observable(specifiedCostCenterQueue),
                 bleedArea = ko.observable(specifiedBleedArea || 3).extend({ number: true, min: 0, max: 99 }),
-                
+                sectionStockSummary = ko.observable(specifiedStockSummary),
                 guterAreaUi = ko.computed({
                     
                     read: function () {
@@ -1082,7 +1083,7 @@
                         RunningSpoilage : RunningSpoilage(),
                         RunningSpoilageValue: RunningSpoilageValue(),
                         BleedArea : bleedArea(),
-                        
+                        SectionStockSummary : sectionStockSummary(),
                         // to be used in Default Section, that will be used to create new sections // For Client Side Only
                         // #endregion
                         ItemGutterHorizontal: itemGutterHorizontal(),
@@ -1186,7 +1187,7 @@
                 questionQueue: questionQueue,
                 inputQueue: inputQueue,
                 stockQueue: stockQueue,
-                costCenterQueue : costCenterQueue,
+                costCenterQueue: costCenterQueue,
                 hasDeletedSectionCostCentres: hasDeletedSectionCostCentres,
                 PaperGsm: PaperGsm,
                 PrintSheetQty1: PrintSheetQty1,
@@ -1195,16 +1196,17 @@
                 SetupSpoilage: SetupSpoilage,
                 RunningSpoilage: RunningSpoilage,
                 RunningSpoilageValue: RunningSpoilageValue,
-                isBooklet : isBooklet,
-                bleedArea : bleedArea,
+                isBooklet: isBooklet,
+                bleedArea: bleedArea,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
                 hasChanges: hasChanges,
                 reset: reset,
                 convertToServerData: convertToServerData,
-                guterAreaUi: guterAreaUi
-            };
+                guterAreaUi: guterAreaUi,
+                sectionStockSummary: sectionStockSummary
+        };
         },
         //#endregion
         //#region Section Cost Centre Entity
@@ -2409,7 +2411,7 @@
             source.PressSide1ColourHeads, source.PressSide1IsSpotColor, source.PressSide2ColourHeads, source.PressSide2IsSpotColor, source.StockItemPackageQty,
             source.ItemGutterHorizontal, source.PressSpeed1, source.PressSpeed2, source.PressSpeed3, source.ImpressionQty1, source.ImpressionQty2, source.ImpressionQty3,
             source.PaperGsm, source.PrintSheetQty1, source.PrintSheetQty2, source.PrintSheetQty3, source.SetupSpoilage, source.RunningSpoilage, source.RunningSpoilageValue,
-            source.IsBooklet, source.BleedArea, source.InputQueue, source.StockQueue, source.CostCentreQueue, source.QuestionQueue);
+            source.IsBooklet, source.BleedArea, source.InputQueue, source.StockQueue, source.CostCentreQueue, source.QuestionQueue, source.SectionStockSummary);
 
         // Map Section Cost Centres if Any
         if (source.SectionCostcentres && source.SectionCostcentres.length > 0) {

@@ -112,7 +112,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ActualPackCost = objCost != null ? (objCost.CostPrice / source.PerQtyQty) * source.PackageQty : 0,
                 SupplierCode = source.BarCode,
                 InkChargePerSquare = source.ChargePerSquareUnit ?? 0.00,
-                SizeName = source.SizeName
+                SizeName = source.SizeName,
+                PaperType = source.PaperType ?? 0,
+                CategoryId = source.CategoryId??0
             };
 
         }

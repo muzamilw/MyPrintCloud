@@ -561,12 +561,12 @@
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" data-bind="autoNumeric:minimumsheetwidth, settings:{mDec:3} " />
                                                     <span class="help-block text-right">Width (<span data-bind="text:LengthUnit"></span>)</span>
                                                 </div>
-                                                <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
+                                                <div class="col-xs-2" style="text-align: center;margin-top: 8px;" data-bind="visible: isSheetFed() === 'true'">
                                                     X
 
 
                                                 </div>
-                                                <div class="col-xs-5">
+                                                <div class="col-xs-5" data-bind="visible: isSheetFed() === 'true'">
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" data-bind="autoNumeric:minimumsheetheight, settings:{mDec:3}" />
                                                     <span class="help-block text-right">Height (<span data-bind="text:LengthUnit"></span>)</span>
                                                 </div>
@@ -587,12 +587,12 @@
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" data-bind="autoNumeric:maximumsheetwidth, settings:{mDec:3} " />
                                                     <span class="help-block text-right">Width (<span data-bind="text:LengthUnit"></span>)</span>
                                                 </div>
-                                                <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
+                                                <div class="col-xs-2" style="text-align: center;margin-top: 8px;" data-bind="visible: isSheetFed() === 'true'">
                                                     X
 
 
                                                 </div>
-                                                <div class="col-xs-5">
+                                                <div class="col-xs-5" data-bind="visible: isSheetFed() === 'true'">
                                                     <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" data-bind="autoNumeric:maximumsheetheight, settings:{mDec:3}" />
                                                     <span class="help-block text-right">Height (<span data-bind="text:LengthUnit"></span>)</span>
                                                 </div>

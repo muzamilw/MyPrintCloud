@@ -2,7 +2,7 @@
     var
     InventoryListView = function (specifiedStockItemId, specifiedName, specifiedWeight, specifiedPerQtyQty, specifiedSizecolour, specifiedCategoryName,
                             specifiedSubCategoryName, specifiedWeightUnitName, specifiedFullCategoryName, specifiedSupplierCompanyName
-                            , specifiedRegion, specifiedInkCharge) {
+                            , specifiedRegion, specifiedInkCharge, specifiedPaperType, specifiedCategoryId) {
         var
             self,
             //Unique ID
@@ -30,6 +30,8 @@
             packCostPrice = ko.observable(specifiedFullCategoryName || 0).extend({ numberInput: ist.numberFormat }),
             ///Supplier Company Name
             supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
+            paperTypeId = ko.observable(specifiedPaperType),
+            categoryId = ko.observable(specifiedCategoryId),
             convertToServerData = function () {
                 return {
                     StockItemId: itemId(),
@@ -49,6 +51,8 @@
             inkChargePerSquare : inkChargePerSquare,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
+            paperTypeId: paperTypeId,
+            categoryId: categoryId
         };
         return self;
     };
@@ -516,7 +520,7 @@
     //Create Factory 
     InventoryListView.Create = function (source) {
         var obj = new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
-                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region, source.InkChargePerSquare);
+                              source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region, source.InkChargePerSquare, source.PaperType, source.CategoryId);
         obj.packCostPrice(source.PackCostPrice);
         return obj;
     };

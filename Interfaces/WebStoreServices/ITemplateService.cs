@@ -48,5 +48,6 @@ namespace MPC.Interfaces.WebStoreServices
         string OrderConfirmationPDF(long OrderId, long StoreId);
 
         bool updatecontactId(long templateId, long contactId);
+        string GetGemplateWithoutCropMarks(long itemId);
     }
 }
