@@ -10861,3 +10861,45 @@ values('New Product Template Created', 'New Prdouct Template Crated', 1)-- Check
 
 ------------------
 alter table ItemSection add SectionStockSummary nvarchar(1000)
+insert into CampaignEmailVariable (VariableName, RefTableName, RefFieldName, CriteriaFieldName, Description, SectionId, VariableTag, [Key], OrganisationId)
+values('Proof Without Cropmarks', 'Estimate', 'EstimateId','EstimateId', 'Proof Without Cropmarks', 54, '«ProofWithoutCrop:7»', '@EstimateId',null)
+
+
+alter table items add DigitalDownloadPrice float
+
+alter table items add IsDigitalDownloadOrder bit
+
+
+/****** Object:  View [dbo].[GetCategoryProducts]    Script Date: 12/8/2016 1:33:27 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER view [dbo].[GetCategoryProducts] as
+SELECT  p.CompanyId,p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.Title as ItemFriendlyName, p.ProductCode,tempp.PDFTemplateHeight,tempp.PDFTemplateWidth,tempp.IsAllowCustomSize,
+ (select 
+STUFF((select ', ' + pc.CategoryName
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+
+        ,1,2,'')) as ProductCategoryName,
+   
+                         ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+                         p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+       p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage,CAST ( p.isTemplateDesignMode as int) as isTemplateDesignMode, p.DefaultItemTax, p.isUploadImage,p.isMarketingBrief,pcat.ProductCategoryId,p.TemplateId,p.DesignerCategoryId,
+	   p.IsDigitalDownload, p.DigitalDownloadPrice
+FROM            dbo.Items p
+inner join dbo.ProductCategoryItem pc2 on p.ItemId = pc2.ItemId
+inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+left outer join dbo.Template tempp on tempp.ProductId = p.TemplateId
+
+GO
+
+insert into CampaignEmailVariable (VariableName, RefTableName, RefFieldName, CriteriaFieldName, Description, SectionId, VariableTag, [Key], OrganisationId)
+values('Product Category', 'ProductCategory', 'CategoryName','ItemId', 'Product Category', 83, '«ProductCategoryName:7»', '@ItemID',null)

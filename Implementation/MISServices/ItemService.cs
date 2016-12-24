@@ -3192,6 +3192,7 @@ namespace MPC.Implementation.MISServices
         {
             var territories = itemRepository.GetProductTerritories(itemId);
             var emailsList = _companyContactRepository.GetContactEmailsByTerritories(territories);
+            
             if (emailsList != null && emailsList.Count > 0)
             {
                 string emails = string.Empty;

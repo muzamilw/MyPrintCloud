@@ -1829,6 +1829,8 @@
           <Property Name="UploadTypeByUser" Type="int" />
           <Property Name="IsSavedDesign" Type="bit" />
           <Property Name="IsNotifyTemplate" Type="bit" />
+          <Property Name="DigitalDownloadPrice" Type="float" />
+          <Property Name="IsDigitalDownloadOrder" Type="bit" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -4237,6 +4239,8 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="ProductCategoryId" Type="bigint" Nullable="false" />
           <Property Name="TemplateId" Type="bigint" />
           <Property Name="DesignerCategoryId" Type="int" />
+          <Property Name="IsDigitalDownload" Type="bit" />
+          <Property Name="DigitalDownloadPrice" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -6984,7 +6988,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief], 
     [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId], 
     [GetCategoryProducts].[TemplateId] AS [TemplateId], 
-    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId]
+    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId], 
+    [GetCategoryProducts].[IsDigitalDownload] AS [IsDigitalDownload], 
+    [GetCategoryProducts].[DigitalDownloadPrice] AS [DigitalDownloadPrice]
     FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -10362,6 +10368,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="UploadTypeByUser" Type="Int32" />
           <Property Name="IsSavedDesign" Type="Boolean" />
           <Property Name="IsNotifyTemplate" Type="Boolean" />
+          <Property Name="DigitalDownloadPrice" Type="Double" />
+          <Property Name="IsDigitalDownloadOrder" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -12416,6 +12424,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PDFTemplateHeight" Type="Double" />
           <Property Name="PDFTemplateWidth" Type="Double" />
           <Property Name="IsAllowCustomSize" Type="Boolean" />
+          <Property Name="IsDigitalDownload" Type="Boolean" />
+          <Property Name="DigitalDownloadPrice" Type="Double" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -17459,6 +17469,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="IsDigitalDownloadOrder" ColumnName="IsDigitalDownloadOrder" />
+                <ScalarProperty Name="DigitalDownloadPrice" ColumnName="DigitalDownloadPrice" />
                 <ScalarProperty Name="IsNotifyTemplate" ColumnName="IsNotifyTemplate" />
                 <ScalarProperty Name="IsSavedDesign" ColumnName="IsSavedDesign" />
                 <ScalarProperty Name="UploadTypeByUser" ColumnName="UploadTypeByUser" />
@@ -19082,6 +19094,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="DigitalDownloadPrice" ColumnName="DigitalDownloadPrice" />
+                <ScalarProperty Name="IsDigitalDownload" ColumnName="IsDigitalDownload" />
                 <ScalarProperty Name="IsAllowCustomSize" ColumnName="IsAllowCustomSize" />
                 <ScalarProperty Name="PDFTemplateWidth" ColumnName="PDFTemplateWidth" />
                 <ScalarProperty Name="PDFTemplateHeight" ColumnName="PDFTemplateHeight" />

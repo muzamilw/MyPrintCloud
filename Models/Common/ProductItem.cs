@@ -39,7 +39,7 @@ namespace MPC.Models.Common
         public string _StockName;
         public double? _DiscountedAmount;
         public long? _DiscountedVoucherId;
-    
+        private bool? _IsDigitalDownloadOrder;
 
         #region Primitive Properties
 
@@ -476,6 +476,12 @@ namespace MPC.Models.Common
         {
             get;
             set;
+        }
+
+        public bool? IsDigitalDownloadOrdered
+        {
+            get { return _IsDigitalDownloadOrder??false; }
+            set { _IsDigitalDownloadOrder = value; }
         }
     }
 

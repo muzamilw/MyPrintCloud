@@ -669,7 +669,7 @@ namespace MPC.Implementation.WebStoreServices
 
         }
         public bool UpdateCloneItemService(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, bool isInculdeTax, long ItemstockOptionID,
-            long StoreId, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "")
+            long StoreId, int CountOfUploads = 0, string QuestionQueue = "", string CostCentreQueue = "", string InputQueue = "", bool isDigitalDownloadOrder = false)
         {
             // return _ItemRepository.UpdateCloneItem(clonedItemID, orderedQuantity, itemPrice, addonsPrice, stockItemID, newlyAddedCostCenters, Mode, OrganisationId, TaxRate, ItemMode, isInculdeTax, ItemstockOptionID, CountOfUploads, QuestionQueue, CostCentreQueue, InputQueue);
             bool result = false;
@@ -739,7 +739,7 @@ namespace MPC.Implementation.WebStoreServices
                 clonedItem.IsOrderedItem = true;
 
                 clonedItem.ItemLastUpdateDateTime = DateTime.Now;
-
+                clonedItem.IsDigitalDownloadOrder = isDigitalDownloadOrder;
 
                 if (isInculdeTax == true)
                 {
@@ -2580,6 +2580,10 @@ namespace MPC.Implementation.WebStoreServices
        public bool typeFourItemsStatus(long OrderID)
        {
            return _ItemRepository.typeFourItemsStatus(OrderID);
+       }
+       public bool IsDigitalDownloadOrder(long orderId)
+       {
+           return _ItemRepository.IsDigitalDownloadOrder(orderId);
        }
         #region PrivateFunctions
         public T Clone<T>(T source)

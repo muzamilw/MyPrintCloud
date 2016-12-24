@@ -26,24 +26,26 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         #endregion
 
          [CompressFilterAttribute]
-         [ApiException]
-        public string Get(int itemId)
+         
+        public HttpResponseMessage Get(int itemId, int isWaterMark)
         {
             if (itemId <= 0)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            string path = _templateService.GetGemplateWithoutCropMarks(itemId);
+            string path = _templateService.GetGemplateWithoutCropMarks(itemId, isWaterMark);
             if (!string.IsNullOrEmpty(path))
             {
                 string sFilePath = Request.RequestUri.Scheme + "://" + Request.RequestUri.Host + "/" + path;
-                //var response = Request.CreateResponse(HttpStatusCode.Found);
-                //response.Headers.Location = new Uri(sFilePath);
-                return sFilePath;
+                var response = Request.CreateResponse(HttpStatusCode.Found);
+                response.Headers.Location = new Uri(sFilePath);
+               // return sFilePath;
+                return response;
             }
             else
             {
-                return string.Empty;
+                //return string.Empty;
+                return Request.CreateResponse(HttpStatusCode.NotFound);
             } 
            //  return _templateService.GetGemplateWithoutCropMarks(itemId);
         }

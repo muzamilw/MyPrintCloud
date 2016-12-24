@@ -260,7 +260,7 @@ namespace MPC.Models.DomainModels
             target.IsDoubleSided = IsDoubleSided;
             target.isWorknTurn = isWorknTurn;
             target.IsPortrait = IsPortrait;
-
+            target.SimilarSections = SimilarSections;
         }
 
         /// <summary>
@@ -295,6 +295,24 @@ namespace MPC.Models.DomainModels
             target.PrintSheetQty1 = PrintSheetQty1;
             target.PrintSheetQty2 = PrintSheetQty2;
             target.PrintSheetQty3 = PrintSheetQty3;
+            target.SimilarSections = SimilarSections;
+
+            //target.SectionSizeHeight = SectionSizeHeight;
+            //target.SectionSizeWidth = SectionSizeWidth;
+            //target.IsSectionSizeCustom = IsSectionSizeCustom;
+            //target.ItemSizeHeight = ItemSizeHeight;
+            //target.ItemSizeWidth = ItemSizeWidth;
+            //target.IsItemSizeCustom = IsItemSizeCustom;
+            //target.IsMainSection = IsMainSection;
+            //target.ItemSizeId = ItemSizeId;
+            //target.PrintingType = PrintingType;
+            //target.PressIdSide2 = PressIdSide2;
+            //target.ImpressionCoverageSide1 = ImpressionCoverageSide1;
+            //target.ImpressionCoverageSide2 = ImpressionCoverageSide2;
+            //target.PrintViewLayout = PrintViewLayout;
+            //target.PrintViewLayoutLandScape = PrintViewLayoutLandScape;
+            //target.PrintViewLayoutPortrait = PrintViewLayoutPortrait;
+            //target.IsDoubleSided = IsDoubleSided;
         }
 
         #endregion

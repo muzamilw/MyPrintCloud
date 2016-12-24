@@ -96,5 +96,7 @@ namespace MPC.Models.Common
             get;
             set;
         }
+
+        public bool IsDownloadOrder { get; set; }
     }
 }

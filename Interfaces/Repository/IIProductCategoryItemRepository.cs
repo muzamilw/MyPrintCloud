@@ -8,5 +8,6 @@ namespace MPC.Interfaces.Repository
     public interface IProductCategoryItemRepository : IBaseRepository<ProductCategoryItem, long>
     {
         long? GetCategoryId(long ItemId);
+        
     }
 }

@@ -671,6 +671,22 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
+                                        <div class="form-group" data-bind="visible:isDigitalDownload">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right" for="switchIsDigitalDownload">Digital Download Price</label>
+
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="input-group">
+                                                    <span data-bind="text:$root.currencyUnit" class="input-group-addon">$</span>
+                                                    <div class="col-xs-8 col-lg-8" style="padding:0">
+                                                        <input type="text" class="form-control" id="txtDigitalPrice" style="text-align:right;" placeholder="Enter Price" data-bind="autoNumeric: digitalDownloadPrice, settings:{mDec:2}">
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">

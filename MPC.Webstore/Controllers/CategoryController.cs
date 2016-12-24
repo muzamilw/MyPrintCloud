@@ -230,7 +230,15 @@ namespace MPC.Webstore.Controllers
                                 ppm.Price = Price;
 
                                 ProductPriceMatrix.Add(ppm);
+                                if (product.IsDigitalDownload == true)
+                                {
+                                    ProductPriceMatrixViewModel digiPm = new ProductPriceMatrixViewModel();
+                                    digiPm.Quantity = "Download PDF";
+                                    digiPm.ItemID = (int)product.ItemId;
 
+                                    digiPm.Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(product.DigitalDownloadPrice);// Convert.ToString(product.DigitalDownloadPrice);
+                                    ProductPriceMatrix.Add(digiPm);
+                                }
                                 ViewData["PriceMatrix"] = ProductPriceMatrix;
 
                             }
@@ -297,10 +305,17 @@ namespace MPC.Webstore.Controllers
                                     ppm.Price =  Price;
                                     ProductPriceMatrix.Add(ppm);
 
-                                    ViewData["PriceMatrix"] = ProductPriceMatrix;
-
                                 }
+                                if (product.IsDigitalDownload == true)
+                                {
+                                    ProductPriceMatrixViewModel digiPm = new ProductPriceMatrixViewModel();
+                                    digiPm.Quantity = "Download PDF";
+                                    digiPm.ItemID = (int)product.ItemId;
 
+                                    digiPm.Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(product.DigitalDownloadPrice??0);
+                                    ProductPriceMatrix.Add(digiPm);
+                                }
+                                ViewData["PriceMatrix"] = ProductPriceMatrix;
                             }
                         }
                         else

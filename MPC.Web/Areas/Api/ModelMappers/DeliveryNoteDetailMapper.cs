@@ -17,6 +17,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 DeliveryDetailid = source.DeliveryDetailid,
                 Description = source.Description,
+                ItemQty = source.ItemQty,
+                ItemId = source.ItemId,
+                GrossItemTotal = source.GrossItemTotal
             };
         }
 
@@ -30,6 +33,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 DeliveryDetailid = source.DeliveryDetailid,
                 Description = source.Description,
+                ItemQty = source.ItemQty,
+                ItemId = source.ItemId,
+                GrossItemTotal = source.GrossItemTotal
             };
         }
     }

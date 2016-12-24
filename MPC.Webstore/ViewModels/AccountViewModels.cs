@@ -65,6 +65,8 @@ namespace MPC.Webstore.Models
 
         public string ItemStockOptionId { get; set; }
         public string ProductName { get; set; }
+        public bool IsDigitalDownloadOrder { get; set; }
+        public double DigitalDownloadPrice { get; set; }
     }
 
 

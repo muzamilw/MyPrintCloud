@@ -909,7 +909,7 @@
                 inputQueue = ko.observable(specifiedInputQueue),
                 stockQueue = ko.observable(specifiedStockQueue),
                 costCenterQueue = ko.observable(specifiedCostCenterQueue),
-                bleedArea = ko.observable(specifiedBleedArea || 3).extend({ number: true, min: 0, max: 99 }),
+                bleedArea = ko.observable(specifiedBleedArea || 0.125).extend({ number: true, min: 0, max: 99 }),
                 sectionStockSummary = ko.observable(specifiedStockSummary),
                 guterAreaUi = ko.computed({
                     
@@ -917,7 +917,7 @@
                         var guter = bleedArea() * 2;
                         if (itemGutterHorizontal() < guter) {
                             if (numberUp() <= 1)
-                                itemGutterHorizontal(1);
+                                itemGutterHorizontal(0);
                             else {
                                 itemGutterHorizontal(guter);
                             }

@@ -66,6 +66,7 @@ namespace MPC.Webstore.Controllers
             OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
             ViewBag.Company = StoreBaseResopnse.Company;
+            ViewBag.IsDigitalDownloadOrder = order.IsDownloadOrder;
            
             AddressViewModel oStoreDefaultAddress = null;
 

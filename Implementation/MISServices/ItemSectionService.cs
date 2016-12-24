@@ -2967,6 +2967,10 @@ namespace MPC.Implementation.MISServices
 
             dblWashUpCost = Convert.ToDouble(oItemSection.WashupQty * oPressDTO.WashupCost);
             dblWashupPrice = Convert.ToDouble(oItemSection.WashupQty * oPressDTO.WashupPrice);
+            if (oItemSection.IsBooklet == true && dblWashupPrice > 0)
+            {
+                dblWashupPrice = dblWashupPrice / 2;
+            }
             if (IsReRun == false)
             {
                 oItemSectionCostCenter = new SectionCostcentre();
@@ -3014,6 +3018,7 @@ namespace MPC.Implementation.MISServices
             if (oItemSection.IsWashup != false)
             {
                 oItemSectionCostCenter.Qty1Charge = dblWashupPrice;
+                
                 if (oItemSectionCostCenter.Qty1Charge < oWashupCostCentreDTO.MinimumCost && oItemSection.WashupQty > 0)
                 {
                     oItemSectionCostCenter.Qty1Charge = oWashupCostCentreDTO.MinimumCost;
@@ -3049,11 +3054,15 @@ namespace MPC.Implementation.MISServices
                 {
                     oItemSection.SectionStockSummary += "Total WashUp : " + oItemSection.WashupQty * oItemSection.SimilarSections + Environment.NewLine;
                 }
+                if (oItemSection.IsBooklet == true && dblWashupPrice > 0)
+                {
+                    oItemSectionCostCenter.Qty1WorkInstructions += "Washup Cost reduced to 50% for booklet." ;
+                }
 
                 if (oItemSection.Qty2 > 0)
                 {
                     oItemSectionCostCenter.Qty2Charge = dblWashupPrice;
-
+                    
                     if (oItemSectionCostCenter.Qty2Charge < oWashupCostCentreDTO.MinimumCost & oItemSection.WashupQty > 0)
                     {
                         oItemSectionCostCenter.Qty2Charge = oWashupCostCentreDTO.MinimumCost;
@@ -3077,12 +3086,20 @@ namespace MPC.Implementation.MISServices
                         {
                             //oItemSectionCostCenter.Qty2WorkInstructions += " Estimated Time:= " + Math.Round(oItemSectionCostCenter.Qty2EstimatedTime, 2).ToString() + " hours";
                         }
+                        if (oItemSection.IsBooklet == true && dblWashupPrice > 0)
+                        {
+                            oItemSectionCostCenter.Qty2WorkInstructions += "Washup Cost reduced to 50% for booklet.";
+                        }
                     }
+                    
                 }
                 if (oItemSection.Qty3 > 0)
                 {
                     oItemSectionCostCenter.Qty3Charge = dblWashupPrice;
-
+                    if (oItemSection.IsBooklet == true && dblWashupPrice > 0)
+                    {
+                        oItemSectionCostCenter.Qty3Charge = dblWashupPrice / 2;
+                    }
                     if (oItemSectionCostCenter.Qty3Charge < oWashupCostCentreDTO.MinimumCost && oItemSection.WashupQty > 0)
                     {
                         oItemSectionCostCenter.Qty3Charge = oWashupCostCentreDTO.MinimumCost;
@@ -3104,6 +3121,10 @@ namespace MPC.Implementation.MISServices
                         if (oJobCardOptionsDTO.IsPressEstTime == true)
                         {
                             // oItemSectionCostCenter.Qty3WorkInstructions += " Estimated Time:= " + Math.Round(oItemSectionCostCenter.Qty3EstimatedTime, 2).ToString() + " hours";
+                        }
+                        if (oItemSection.IsBooklet == true && dblWashupPrice > 0)
+                        {
+                            oItemSectionCostCenter.Qty3WorkInstructions += "Washup Cost reduced to 50% for booklet.";
                         }
                     }
                 }

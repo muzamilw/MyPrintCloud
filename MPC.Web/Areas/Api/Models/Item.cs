@@ -901,7 +901,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ItemImage> ItemImages { get; set; }
 
         public IEnumerable<ProductMarketBriefQuestion> ProductMarketBriefQuestions { get; set; }
-        
+        public double? DigitalDownloadPrice { get; set; }
         #endregion
     }
 }

@@ -112,7 +112,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1CostCentreProfit = source.Qty1CostCentreProfit,
                 Qty2CostCentreProfit = source.Qty2CostCentreProfit,
                 DiscountVoucherID = source.DiscountVoucherID,
-                IsNotifyTemplate = source.IsNotifyTemplate
+                IsNotifyTemplate = source.IsNotifyTemplate,
+                DigitalDownloadPrice = source.DigitalDownloadPrice
             };
 
             // Load Thumbnail Image
@@ -436,7 +437,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty1CostCentreProfit = source.Qty1CostCentreProfit,
                 Qty2CostCentreProfit = source.Qty2CostCentreProfit,
                 DiscountVoucherID = source.DiscountVoucherID,
-                IsNotifyTemplate =  source.IsNotifyTemplate
+                IsNotifyTemplate =  source.IsNotifyTemplate,
+                DigitalDownloadPrice = source.DigitalDownloadPrice
             };
         }
 
@@ -528,7 +530,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 File5Name = source.File5Name,
                 IsNotifyTemplate = source.IsNotifyTemplate,
                 ProductCategoryCustomItems = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.CreateFrom()).ToList() :
-                new List<DomainModels.ProductCategoryItemCustom>()
+                new List<DomainModels.ProductCategoryItemCustom>(),
+                DigitalDownloadPrice = source.DigitalDownloadPrice
             };
         }
 
@@ -619,7 +622,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DiscountVoucherID = source.DiscountVoucherID,
                 ActualValue = source.ActualValue,
                 CouponCode = source.CouponCode,
-                IsDigitalDownload = source.IsDigitalDownload
+                IsDigitalDownload = source.IsDigitalDownload,
+                DigitalDownloadPrice = source.DigitalDownloadPrice
             };
             return item;
         }
@@ -694,7 +698,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null,
                 Qty1CostCentreProfit = source.Qty1CostCentreProfit,
                 Qty2CostCentreProfit = source.Qty2CostCentreProfit,
-                DiscountVoucherID = source.DiscountVoucherID
+                DiscountVoucherID = source.DiscountVoucherID,
+                DigitalDownloadPrice = source.DigitalDownloadPrice
                 
             };
             return item;

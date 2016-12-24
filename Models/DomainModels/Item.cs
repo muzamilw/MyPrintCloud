@@ -406,7 +406,8 @@ namespace MPC.Models.DomainModels
         public string CouponCode { get; set; }
         [NotMapped]
         public double ActualValue { get; set; }
-
+        public double? DigitalDownloadPrice { get; set; }
+        public bool? IsDigitalDownloadOrder { get; set; }
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
         /// existing template object else removes

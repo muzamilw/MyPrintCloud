@@ -206,7 +206,7 @@
                                                         if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
                                                         {
                                                             string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath + "?" + DateTime.Now;
-                                                            pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                            pdfLinkBtn = completeImgPath; // ImageDisplayScript(completeImgPath);
                                                             imgToShowURL = completeImgPath;
                                                         }
                                                         else
@@ -219,14 +219,14 @@
                                                             // from file table
                                                             //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
-                                                            pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
+                                                            pdfLinkBtn = ""; // completeImgPath;//ImageDisplayScript(completeImgPath);
                                                             if (FolderPathOfAttachment[0] == '/')
                                                             {
-                                                                imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
+                                                                imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now; // completeImgPath;
                                                             }
                                                             else
                                                             {
-                                                                imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
+                                                                imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now; // completeImgPath;
                                                             }
 
                                                         }
@@ -236,7 +236,7 @@
                                                         if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                                         {
                                                             string completeImgPath = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
-                                                            pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                            pdfLinkBtn = completeImgPath; // ImageDisplayScript(completeImgPath);
                                                             imgToShowURL = completeImgPath;
                                                         }
                                                     }
@@ -262,8 +262,12 @@
                                                                 <br>
                                                             }
                                                             <br>
-                                                            <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
-                                                            <br>
+                                                            @if (prod.IsDigitalDownloadOrdered != true)
+                                                            {
+                                                                <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
+                                                                <br>
+                                                            }
+
                                                             <br>
                                                             @{
                                                             string itemAddsOn = string.Empty;
@@ -289,8 +293,12 @@
 
                                                             EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
                                                             }
-                                                            <span id="lblselectedAddOnList" class="ItemdetailDesc">@Html.Raw(itemAddsOn)</span>
-                                                            <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
+                                                            @if (prod.IsDigitalDownloadOrdered != true)
+                                                            {
+                                                                <span id="lblselectedAddOnList" class="ItemdetailDesc">@Html.Raw(itemAddsOn)</span>
+                                                            }
+
+                                                            <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery" />
 
                                                         </td>
                                                         <td class="PadTop5" align="left" style="width:5%;">
@@ -387,19 +395,27 @@
                                                         &nbsp;
                                                     </td>
                                                     <td width="30%" align="left" class="fontWeightNormal Fsize13" id="td2" style="text-align:right;">
-                                                        <span id="spndelivery" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
+                                                        @if (Model.IsDownloadOrder != true)
+                                                        {
+                                                            <span id="spndelivery" class="CartFonts ">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
+                                                        }
+
                                                     </td>
                                                     <td align="right" class="OCnfmtd4">
-                                                        @if (Model.DeliveryDiscountVoucherID == null)
+                                                        @if (Model.IsDownloadOrder != true)
                                                         {
-                                                            <label id="lblDeliveryCostCenter" class="Fsize13 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
-                                                        }
-                                                        else
-                                                        {
-                                                            <label class="Fsize13 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
+                                                            if (Model.DeliveryDiscountVoucherID == null)
+                                                            {
+                                                                <label id="lblDeliveryCostCenter" class="Fsize13 colorBlack">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label class="Fsize13 colorBlack  delivery-OCnfntext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
 
 
+                                                            }
                                                         }
+
 
                                                     </td>
                                                 </tr>
@@ -482,7 +498,7 @@
 
 
                                             </div>
-                                          
+
                                             <div class="clearBoth">
                                                 &nbsp;
                                             </div>
@@ -535,7 +551,7 @@
                                                     if (item.PaymentMethodId == 99)
                                                     {
 
-                                                        <input id="@item.PaymentGatewayId" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@lblPayBy@item.PaymentMethod.MethodName" onclick="return setButtonType('1', '0');" style="margin-bottom:10px;"/>
+                                                        <input id="@item.PaymentGatewayId" class="start_creating_btn_SApp rounded_corners5" type="submit" value="@lblPayBy@item.PaymentMethod.MethodName" onclick="return setButtonType('1', '0');" style="margin-bottom:10px;" />
 
                                                     }
                                                     else
@@ -553,14 +569,14 @@
                                             }
 
                                             @*<div class="float_right">*@
-                                           
-                                            @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
-                                            @*</div>*@
+
+                                                @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
+                                                @*</div>*@
+                                            </div>
+                                            <div class="clearBoth">
+                                                &nbsp;
+                                            </div>
                                         </div>
-                                        <div class="clearBoth">
-                                            &nbsp;
-                                        </div>
-                                    </div>
                                 }
                             }
                         </div>
@@ -569,7 +585,7 @@
             </div>
 
         }
-      
+
     </div>
 </div>
 <script src="/Scripts/jquery-1.10.1.min.js"></script>

@@ -467,6 +467,7 @@ namespace MPC.Repository.Repositories
                             {
                                 prodItem.OtherItemTemplateAttatchments = null;
                             }
+                            prodItem.IsDigitalDownloadOrdered = item.IsDigitalDownloadOrder;
                             productItemsList.Add(prodItem);
                             allItemsAddOnsList.AddRange(this.ExtractAdditionalAddons(item)); //Collects the addons for each item
 

@@ -1287,6 +1287,7 @@ namespace MPC.Models.ModelMappers
             target.SmartFormId = source.SmartFormId;
             target.Title = source.Title;
             target.IsNotifyTemplate = source.IsNotifyTemplate;
+            target.DigitalDownloadPrice = source.DigitalDownloadPrice;
             // Update Images
             UpdateImages(source, target);
 

@@ -204,8 +204,12 @@
                         <label id="lblSpecialInstructions" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
                     </div>
                     <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
-                        <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId, "Estimated dispatch date:"))</span><br />
-                        <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
+                        @if (ViewBag.IsDigitalDownloadOrder != true)
+                        {
+                            <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId, "Estimated dispatch date:"))</span><br />
+                            <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
+                        }
+                        
                     </div>
                     <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt">
                         @*<span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.WBStoreId))</span><br />*@
@@ -372,7 +376,13 @@
                             }
                         </tbody>
                     </table>
-
+                
+                    <div id="divDigitalDownload">
+                        @if (ViewBag.IsDigitalDownloadOrder == true)
+                        {
+                            <input type="button" id="btnDwn_Proof" style="width:185px;" class="order_history_btn rounded_corners5" onclick="downloadProof();" value="Download Hi Res PDF" />
+                        }
+                    </div>
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -413,27 +423,34 @@
                                 <td class="hidden-xs"></td>
                                 <td align="left"><label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label></td>
                                 <td align="right">
-                                   
+                                   @if (Model.IsDownloadOrder != true)
+                                   {
                                     <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId, "Delivery")):</span>
+                                   }
+                                    
                                 </td>
                                 <td >
-                                    @if (Model.DeliveryDiscountVoucherId == null)
+                                    @if (Model.IsDownloadOrder != true)
                                     {
-                                        if (Model.DeliveryCost > 0)
+                                        if (Model.DeliveryDiscountVoucherId == null)
                                         {
-                                            <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                                            if (Model.DeliveryCost > 0)
+                                            {
+                                                <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                                            }
+                                            else
+                                            {
+                                                <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                                            }
                                         }
                                         else
                                         {
-                                            <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                                            <span id="lblCalculatedDelivery" class="lblRecepFreeShipping">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</span>
+
+                                            <span class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</span>
                                         }
                                     }
-                                    else
-                                    {
-                                        <span id="lblCalculatedDelivery" class="lblRecepFreeShipping">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</span>
-
-                                        <span class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</span>
-                                    }
+                                    
 
                                 </td>
                             </tr>
@@ -495,6 +512,11 @@
     function PrintReceipt()
     {
         document.getElementById('iframeReceiptPlain').contentWindow.MyPrint();
-      
+
+    }
+    function downloadProof() {
+        
+        window.open(window.location.protocol + "//" + window.location.host + "/webstoreapi/DownloadArtwork?itemId=" + @ViewBag.OrderId+ "&isWaterMark=0");
+
     }
 </script>
