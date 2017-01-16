@@ -366,9 +366,17 @@ function g1_(D1AO) {
 
     if (D1AO.IsPositionLocked) {
         $("#LockPositionImg").prop('checked', true);
+        $("#inputObjectWidth").spinner("option", "disabled", true);
+        $("#inputObjectHeight").spinner("option", "disabled", true);
+        $("#inputPositionX").spinner("option", "disabled", true);
+        $("#inputPositionY").spinner("option", "disabled", true);
     }
     else {
         $("#LockPositionImg").prop('checked', false);
+        $("#inputObjectWidth").spinner("option", "disabled", false);
+        $("#inputObjectHeight").spinner("option", "disabled", false);
+        $("#inputPositionX").spinner("option", "disabled", false);
+        $("#inputPositionY").spinner("option", "disabled", false);
     }
     if (D1AO.IsHidden) {
         $("#BtnPrintImage").prop('checked', true);
@@ -394,7 +402,7 @@ function g1_(D1AO) {
         $(".BtnTxtarrangeOrder3").removeAttr("disabled");
         $(".BtnTxtarrangeOrder4").removeAttr("disabled");
         $("#AddColorShape").removeAttr("disabled");
-        $("#BtnDeleteTxtObj").removeAttr("disabled");
+        $(".BtnDeleteTxtObj").removeAttr("disabled");
         $("#BtnImgRotateLeft").removeAttr("disabled");
         $("#BtnImgRotateRight").removeAttr("disabled");
         $(".rotateSlider").removeAttr("disabled");
@@ -404,18 +412,24 @@ function g1_(D1AO) {
         $("#BtnImgCanvasAlignCenter").removeAttr("disabled");
         $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
         $("#BtnImgCanvasAlignRight").removeAttr("disabled");
-        $("#inputObjectWidth").spinner("option", "disabled", false);
-        $("#inputObjectHeight").spinner("option", "disabled", false);
-        $("#inputPositionX").spinner("option", "disabled", false);
-        $("#inputPositionY").spinner("option", "disabled", false);
+        //$("#inputObjectWidth").spinner("option", "disabled", false);
+        //$("#inputObjectHeight").spinner("option", "disabled", false);
+        //$("#inputPositionX").spinner("option", "disabled", false);
+        //$("#inputPositionY").spinner("option", "disabled", false);
         $('.inputObjectAlphaSlider').slider('enable');
         if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom ==4) ) {
-            $(".BtnTxtarrangeOrder1").removeAttr("disabled");
-            $(".BtnTxtarrangeOrder2").removeAttr("disabled");
-            $(".BtnTxtarrangeOrder3").removeAttr("disabled");
-            $(".BtnTxtarrangeOrder4").removeAttr("disabled");
+            //$(".BtnTxtarrangeOrder1").removeAttr("disabled");
+            //$(".BtnTxtarrangeOrder2").removeAttr("disabled");
+            //$(".BtnTxtarrangeOrder3").removeAttr("disabled");
+            //$(".BtnTxtarrangeOrder4").removeAttr("disabled");
+            // Naveed Added code below to disable order buttons if position locked on 20161124 also commented 4 lines just above this comment.
+            $(".BtnTxtarrangeOrder1").attr("disabled", "disabled");
+            $(".BtnTxtarrangeOrder2").attr("disabled", "disabled");
+            $(".BtnTxtarrangeOrder3").attr("disabled", "disabled");
+            $(".BtnTxtarrangeOrder4").attr("disabled", "disabled");
+            //----------------------------------------------------Naveed-----------
             $("#AddColorShape").removeAttr("disabled");
-            $("#BtnDeleteTxtObj").removeAttr("disabled");
+            $(".BtnDeleteTxtObj").attr("disabled", "disabled");// set remove button to disable as well while implementing above where as its disable attribute was removed before.
             $("#BtnImgRotateLeft").removeAttr("disabled");
             $("#BtnImgRotateRight").removeAttr("disabled");
             $(".rotateSlider").removeAttr("disabled");
@@ -444,7 +458,7 @@ function g1_(D1AO) {
         $(".BtnTxtarrangeOrder3").attr("disabled", "disabled");
         $(".BtnTxtarrangeOrder4").attr("disabled", "disabled");
         $("#AddColorShape").attr("disabled", "disabled");
-        $("#BtnDeleteTxtObj").attr("disabled", "disabled");
+        $(".BtnDeleteTxtObj").attr("disabled", "disabled");
         $("#BtnImgRotateLeft").attr("disabled", "disabled");
         $("#BtnImgRotateRight").attr("disabled", "disabled");
         $(".rotateSlider").attr("disabled", "disabled");
@@ -461,10 +475,10 @@ function g1_(D1AO) {
             $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
             $("#BtnImgCanvasAlignRight").removeAttr("disabled");
         }
-        $("#inputObjectWidth").spinner("option", "disabled", true);
-        $("#inputObjectHeight").spinner("option", "disabled", true);
-        $("#inputPositionX").spinner("option", "disabled", true);
-        $("#inputPositionY").spinner("option", "disabled", true);
+        //$("#inputObjectWidth").spinner("option", "disabled", true);
+        //$("#inputObjectHeight").spinner("option", "disabled", true);
+        //$("#inputPositionX").spinner("option", "disabled", true);
+        //$("#inputPositionY").spinner("option", "disabled", true);
         $('.inputObjectAlphaSlider').slider('disable');
         $(".positioningControls").css("display", "block");
     }
@@ -1931,6 +1945,8 @@ $("#BtnTxtCanvasAlignRight").click(function (ev) {
 $("#BtnDeleteTxtObj,.BtnDeleteTxtObj").click(function (event) {
     pcL03();
     oldAddFunctionality();
+    $("#objectPanel").removeClass("stage4");
+
 });
 $("#BtnImgScaleIN").click(function (event) {
     pcL14();

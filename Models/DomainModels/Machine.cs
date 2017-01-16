@@ -82,6 +82,7 @@ namespace MPC.Models.DomainModels
         public bool? IsDigitalPress { get; set; }
         public bool? IsPressUseInks { get; set; }
         public bool? IsSetupCostForDoubleSided { get; set; }
+        public double? PricePerMeter { get; set; }
 
         public virtual ICollection<MachineInkCoverage> MachineInkCoverages { get; set; }
         public virtual ICollection<MachineResource> MachineResources { get; set; }

@@ -51,6 +51,7 @@ namespace MPC.Interfaces.Repository
         bool isCorporateCustomer(int StoreId);
 
         string GetReportName(long ReportId);
+        List<usp_SectionSummaryReport_Result> GetSectionSummaryReport(long organisationId, long orderId, long itemId);
 
     }
 }

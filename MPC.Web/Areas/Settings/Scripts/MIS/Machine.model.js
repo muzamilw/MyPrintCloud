@@ -167,6 +167,7 @@
             LengthUnit = ko.observable(),
             IsSpotColor = ko.observable(),
             isSetupCostForDoubleSided = ko.observable(),
+            pricePerMeter = ko.observable(),
             onSelectStockItem = function (ostockItem) {
                 if (ostockItem) {
                     deFaultPlatesName(ostockItem.name);
@@ -263,7 +264,8 @@
                 lookupMethod: lookupMethod,
                 isDigitalPress: isDigitalPress,
                 isPressUseInks: isPressUseInks,
-                isSetupCostForDoubleSided: isSetupCostForDoubleSided
+                isSetupCostForDoubleSided: isSetupCostForDoubleSided,
+                pricePerMeter: pricePerMeter
             }),
             hasChanges = ko.computed(function () {
 
@@ -369,8 +371,8 @@
             isClickChargezoneUi: isClickChargezoneUi,
             isDigitalPress: isDigitalPress,
             isPressUseInks: isPressUseInks,
-            isSetupCostForDoubleSided: isSetupCostForDoubleSided
-          
+            isSetupCostForDoubleSided: isSetupCostForDoubleSided,
+            pricePerMeter : pricePerMeter
         };
         return self;
     };
@@ -733,6 +735,7 @@
         omachine.isDigitalPress(source.machine.IsDigitalPress || source.machine.IsDigitalPress == null ? 'true' : 'false');
         omachine.isPressUseInks(source.machine.IsPressUseInks ? true : false);
         omachine.isSetupCostForDoubleSided(source.machine.IsSetupCostForDoubleSided ? true : false);
+        omachine.pricePerMeter(source.machine.PricePerMeter);
         //omachine.lookupList.removeAll();
         //ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         //omachine.lookupList.valueHasMutated();
@@ -869,6 +872,7 @@
         omachine.IsDigitalPress = machine.isDigitalPress();
         omachine.IsPressUseInks = machine.isPressUseInks();
         omachine.IsSetupCostForDoubleSided = machine.isSetupCostForDoubleSided();
+        omachine.PricePerMeter = machine.pricePerMeter();
         //omachine.LookupMethod = machine.lookupMethod();
         oMeterPerHour = MeterPerHourClickCharge;
         oGuillotineZone = GuillotineClickCharge;

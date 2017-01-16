@@ -1828,6 +1828,9 @@
           <Property Name="DiscountVoucherID" Type="bigint" />
           <Property Name="UploadTypeByUser" Type="int" />
           <Property Name="IsSavedDesign" Type="bit" />
+          <Property Name="IsNotifyTemplate" Type="bit" />
+          <Property Name="DigitalDownloadPrice" Type="float" />
+          <Property Name="IsDigitalDownloadOrder" Type="bit" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -2002,6 +2005,8 @@
           <Property Name="PassesSide1" Type="int" />
           <Property Name="PassesSide2" Type="int" />
           <Property Name="IsBooklet" Type="bit" />
+          <Property Name="BleedArea" Type="float" />
+          <Property Name="SectionStockSummary" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -2486,6 +2491,7 @@
           <Property Name="IsDigitalPress" Type="bit" />
           <Property Name="IsPressUseInks" Type="bit" />
           <Property Name="IsSetupCostForDoubleSided" Type="bit" />
+          <Property Name="PricePerMeter" Type="float" />
         </EntityType>
         <EntityType Name="MachineCategory">
           <Key>
@@ -4233,6 +4239,8 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
           <Property Name="ProductCategoryId" Type="bigint" Nullable="false" />
           <Property Name="TemplateId" Type="bigint" />
           <Property Name="DesignerCategoryId" Type="int" />
+          <Property Name="IsDigitalDownload" Type="bit" />
+          <Property Name="DigitalDownloadPrice" Type="float" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -6752,6 +6760,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="OrganisationId" Type="bigint" Mode="In" />
           <Parameter Name="PurchaseID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_SectionSummaryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="organisationId" Type="bigint" Mode="In" />
+          <Parameter Name="OrderID" Type="bigint" Mode="In" />
+          <Parameter Name="ItemID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_TotalEarnings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="datetime" Mode="In" />
           <Parameter Name="todate" Type="datetime" Mode="In" />
@@ -6975,7 +6988,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetCategoryProducts].[isMarketingBrief] AS [isMarketingBrief], 
     [GetCategoryProducts].[ProductCategoryId] AS [ProductCategoryId], 
     [GetCategoryProducts].[TemplateId] AS [TemplateId], 
-    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId]
+    [GetCategoryProducts].[DesignerCategoryId] AS [DesignerCategoryId], 
+    [GetCategoryProducts].[IsDigitalDownload] AS [IsDigitalDownload], 
+    [GetCategoryProducts].[DigitalDownloadPrice] AS [DigitalDownloadPrice]
     FROM [dbo].[GetCategoryProducts] AS [GetCategoryProducts]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GetItemsListView" EntityType="Self.GetItemsListView" store:Type="Views" store:Schema="dbo">
@@ -8956,6 +8971,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <FunctionImport Name="usp_GetStoreProductTemplatesList" ReturnType="Collection(DomainModels.usp_GetStoreProductTemplatesList_Result)">
           <Parameter Name="StoreId" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="usp_SectionSummaryReport" ReturnType="Collection(DomainModels.usp_SectionSummaryReport_Result)">
+            <Parameter Name="organisationId" Mode="In" Type="Int64" />
+            <Parameter Name="OrderID" Mode="In" Type="Int64" />
+            <Parameter Name="ItemID" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="usp_GetChildCategoriesById" ReturnType="Collection(Int64)">
           <Parameter Name="ParentId" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -10347,6 +10367,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="DiscountVoucherID" Type="Int64" />
           <Property Name="UploadTypeByUser" Type="Int32" />
           <Property Name="IsSavedDesign" Type="Boolean" />
+          <Property Name="IsNotifyTemplate" Type="Boolean" />
+          <Property Name="DigitalDownloadPrice" Type="Double" />
+          <Property Name="IsDigitalDownloadOrder" Type="Boolean" />
         </EntityType>
         <EntityType Name="ItemSection">
           <Key>
@@ -10527,6 +10550,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="MachineSide2" Relationship="DomainModels.FK_ItemSection_Machine2" FromRole="ItemSection" ToRole="Machine" />
           <NavigationProperty Name="StockItem" Relationship="DomainModels.FK_ItemSection_StockItem" FromRole="ItemSection" ToRole="StockItem" />
           <Property Name="IsBooklet" Type="Boolean" />
+          <Property Name="BleedArea" Type="Double" />
+          <Property Name="SectionStockSummary" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ItemStockControl">
           <Key>
@@ -12399,6 +12424,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PDFTemplateHeight" Type="Double" />
           <Property Name="PDFTemplateWidth" Type="Double" />
           <Property Name="IsAllowCustomSize" Type="Boolean" />
+          <Property Name="IsDigitalDownload" Type="Boolean" />
+          <Property Name="DigitalDownloadPrice" Type="Double" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -13251,6 +13278,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsDigitalPress" Type="Boolean" />
           <Property Name="IsPressUseInks" Type="Boolean" />
           <Property Name="IsSetupCostForDoubleSided" Type="Boolean" />
+          <Property Name="PricePerMeter" Type="Double" />
         </EntityType>
         <EntityType Name="MachineInkCoverage">
           <Key>
@@ -16490,6 +16518,60 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="Int64" Name="CategoryId" Nullable="true" />
           <Property Type="Int32" Name="ParentCategoryId" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="usp_SectionSummaryReport_Result">
+          <Property Type="Int64" Name="EstimateID" Nullable="false" />
+          <Property Type="Int64" Name="ItemID" Nullable="false" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="ContactFullName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="JobDescription1" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription2" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription3" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription4" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription5" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription6" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescription7" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle1" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle2" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle3" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle4" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle5" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle6" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="JobDescriptionTitle7" Nullable="true" MaxLength="Max" />
+          <Property Type="Int32" Name="Qty1" Nullable="true" />
+          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="WebDescription" Nullable="true" />
+          <Property Type="String" Name="JobDescription" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="SectionName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SectionNo" Nullable="true" />
+          <Property Type="DateTime" Name="Order_Date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Qty1WorkInstructions" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="CostCenterName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ItemNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="Double" Name="Qty1NetTotal" Nullable="true" />
+          <Property Type="Double" Name="Qty1Tax1Value" Nullable="true" />
+          <Property Type="Double" Name="GrossTotal" Nullable="true" />
+          <Property Type="String" Name="FullProductName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CurrencySymbol" Nullable="true" MaxLength="5" />
+          <Property Type="Double" Name="CostCenterChargeQty1" Nullable="true" />
+          <Property Type="Boolean" Name="IsDoubleSided" Nullable="true" />
+          <Property Type="Boolean" Name="IsBooklet" Nullable="true" />
+          <Property Type="Boolean" Name="isWorknTurn" Nullable="true" />
+          <Property Type="Int32" Name="SectionQty1" Nullable="true" />
+          <Property Type="Int64" Name="ItemSectionId" Nullable="false" />
+          <Property Type="String" Name="ItemSize" Nullable="true" MaxLength="401" />
+          <Property Type="Double" Name="InkTotal" Nullable="false" />
+          <Property Type="Double" Name="PressTotal" Nullable="false" />
+          <Property Type="Double" Name="StockTotal" Nullable="false" />
+          <Property Type="Double" Name="PlatesTotal" Nullable="false" />
+          <Property Type="Double" Name="MakeReadyTotal" Nullable="false" />
+          <Property Type="Double" Name="WashupTotal" Nullable="false" />
+          <Property Type="Double" Name="GuillotineTotal" Nullable="false" />
+          <Property Type="Double" Name="OtherCostCenterTotal" Nullable="false" />
+          <Property Type="Int32" Name="SimilarSections" Nullable="false" />
+          <Property Type="String" Name="SectionStockSummary" Nullable="true" MaxLength="1000" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17387,6 +17469,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="DomainModels.Item">
               <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="IsDigitalDownloadOrder" ColumnName="IsDigitalDownloadOrder" />
+                <ScalarProperty Name="DigitalDownloadPrice" ColumnName="DigitalDownloadPrice" />
+                <ScalarProperty Name="IsNotifyTemplate" ColumnName="IsNotifyTemplate" />
                 <ScalarProperty Name="IsSavedDesign" ColumnName="IsSavedDesign" />
                 <ScalarProperty Name="UploadTypeByUser" ColumnName="UploadTypeByUser" />
                 <ScalarProperty Name="DiscountVoucherID" ColumnName="DiscountVoucherID" />
@@ -17615,6 +17700,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="ItemSections">
             <EntityTypeMapping TypeName="DomainModels.ItemSection">
               <MappingFragment StoreEntitySet="ItemSection">
+                <ScalarProperty Name="SectionStockSummary" ColumnName="SectionStockSummary" />
+                <ScalarProperty Name="BleedArea" ColumnName="BleedArea" />
                 <ScalarProperty Name="IsBooklet" ColumnName="IsBooklet" />
                 <ScalarProperty Name="ImpressionCoverageSide2" ColumnName="ImpressionCoverageSide2" />
                 <ScalarProperty Name="ImpressionCoverageSide1" ColumnName="ImpressionCoverageSide1" />
@@ -19007,6 +19094,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="DigitalDownloadPrice" ColumnName="DigitalDownloadPrice" />
+                <ScalarProperty Name="IsDigitalDownload" ColumnName="IsDigitalDownload" />
                 <ScalarProperty Name="IsAllowCustomSize" ColumnName="IsAllowCustomSize" />
                 <ScalarProperty Name="PDFTemplateWidth" ColumnName="PDFTemplateWidth" />
                 <ScalarProperty Name="PDFTemplateHeight" ColumnName="PDFTemplateHeight" />
@@ -19511,6 +19600,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="DomainModels.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="PricePerMeter" ColumnName="PricePerMeter" />
                 <ScalarProperty Name="IsSetupCostForDoubleSided" ColumnName="IsSetupCostForDoubleSided" />
                 <ScalarProperty Name="IsPressUseInks" ColumnName="IsPressUseInks" />
                 <ScalarProperty Name="IsDigitalPress" ColumnName="IsDigitalPress" />
@@ -21895,6 +21985,64 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_SectionSummaryReport" FunctionName="DomainModels.Store.usp_SectionSummaryReport">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DomainModels.usp_SectionSummaryReport_Result">
+                <ScalarProperty Name="EstimateID" ColumnName="EstimateID" />
+                <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="ContactFullName" ColumnName="ContactFullName" />
+                <ScalarProperty Name="JobDescription1" ColumnName="JobDescription1" />
+                <ScalarProperty Name="JobDescription2" ColumnName="JobDescription2" />
+                <ScalarProperty Name="JobDescription3" ColumnName="JobDescription3" />
+                <ScalarProperty Name="JobDescription4" ColumnName="JobDescription4" />
+                <ScalarProperty Name="JobDescription5" ColumnName="JobDescription5" />
+                <ScalarProperty Name="JobDescription6" ColumnName="JobDescription6" />
+                <ScalarProperty Name="JobDescription7" ColumnName="JobDescription7" />
+                <ScalarProperty Name="JobDescriptionTitle1" ColumnName="JobDescriptionTitle1" />
+                <ScalarProperty Name="JobDescriptionTitle2" ColumnName="JobDescriptionTitle2" />
+                <ScalarProperty Name="JobDescriptionTitle3" ColumnName="JobDescriptionTitle3" />
+                <ScalarProperty Name="JobDescriptionTitle4" ColumnName="JobDescriptionTitle4" />
+                <ScalarProperty Name="JobDescriptionTitle5" ColumnName="JobDescriptionTitle5" />
+                <ScalarProperty Name="JobDescriptionTitle6" ColumnName="JobDescriptionTitle6" />
+                <ScalarProperty Name="JobDescriptionTitle7" ColumnName="JobDescriptionTitle7" />
+                <ScalarProperty Name="Qty1" ColumnName="Qty1" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="WebDescription" ColumnName="WebDescription" />
+                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+                <ScalarProperty Name="SectionName" ColumnName="SectionName" />
+                <ScalarProperty Name="SectionNo" ColumnName="SectionNo" />
+                <ScalarProperty Name="Order_Date" ColumnName="Order_Date" />
+                <ScalarProperty Name="Qty1WorkInstructions" ColumnName="Qty1WorkInstructions" />
+                <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+                <ScalarProperty Name="ItemNotes" ColumnName="ItemNotes" />
+                <ScalarProperty Name="Qty1NetTotal" ColumnName="Qty1NetTotal" />
+                <ScalarProperty Name="Qty1Tax1Value" ColumnName="Qty1Tax1Value" />
+                <ScalarProperty Name="GrossTotal" ColumnName="GrossTotal" />
+                <ScalarProperty Name="FullProductName" ColumnName="FullProductName" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CostCenterChargeQty1" ColumnName="CostCenterChargeQty1" />
+                <ScalarProperty Name="IsDoubleSided" ColumnName="IsDoubleSided" />
+                <ScalarProperty Name="IsBooklet" ColumnName="IsBooklet" />
+                <ScalarProperty Name="isWorknTurn" ColumnName="isWorknTurn" />
+                <ScalarProperty Name="SectionQty1" ColumnName="SectionQty1" />
+                <ScalarProperty Name="ItemSectionId" ColumnName="ItemSectionId" />
+                <ScalarProperty Name="ItemSize" ColumnName="ItemSize" />
+                <ScalarProperty Name="InkTotal" ColumnName="InkTotal" />
+                <ScalarProperty Name="PressTotal" ColumnName="PressTotal" />
+                <ScalarProperty Name="StockTotal" ColumnName="StockTotal" />
+                <ScalarProperty Name="PlatesTotal" ColumnName="PlatesTotal" />
+                <ScalarProperty Name="MakeReadyTotal" ColumnName="MakeReadyTotal" />
+                <ScalarProperty Name="WashupTotal" ColumnName="WashupTotal" />
+                <ScalarProperty Name="GuillotineTotal" ColumnName="GuillotineTotal" />
+                <ScalarProperty Name="OtherCostCenterTotal" ColumnName="OtherCostCenterTotal" />
+                <ScalarProperty Name="SimilarSections" ColumnName="SimilarSections" />
+                <ScalarProperty Name="SectionStockSummary" ColumnName="SectionStockSummary" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

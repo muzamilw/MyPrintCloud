@@ -15,5 +15,6 @@ namespace MPC.Interfaces.Repository
         List<PaperSize> GetPaperByOrganisation(long OrganisationID);
 
         List<PaperSize> GetPaperSizesByID(int PSSID);
+        string GetPaperNameById(int sizeId);
     }
 }

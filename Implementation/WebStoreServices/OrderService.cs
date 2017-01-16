@@ -133,7 +133,9 @@ namespace MPC.Implementation.WebStoreServices
         }
         public ShoppingCart GetShopCartOrderAndDetails(long orderID,OrderStatus Orderstatus)
         {
-            return _OrderRepository.GetShopCartOrderAndDetails(orderID, Orderstatus);
+            var cart = _OrderRepository.GetShopCartOrderAndDetails(orderID, Orderstatus);
+            cart.IsDownloadOrder = _ItemRepository.IsDigitalDownloadOrder(orderID);
+            return cart;
         }
         public DiscountVoucher GetVoucherRecord(int VId)
         {
@@ -348,7 +350,9 @@ namespace MPC.Implementation.WebStoreServices
        }
          public OrderDetail GetOrderReceipt(long orderID)
        {
-           return _OrderRepository.GetOrderReceipt(orderID);
+           var ordDetail = _OrderRepository.GetOrderReceipt(orderID);
+           ordDetail.IsDownloadOrder = _ItemRepository.IsDigitalDownloadOrder(orderID);
+           return ordDetail;
        }
        public List<Country> PopulateBillingCountryDropDown()
        {

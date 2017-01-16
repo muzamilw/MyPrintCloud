@@ -1294,6 +1294,7 @@
     <Content Include="Views\Shared\PartialViews\SocialAnSavedDesignInfo.cshtml" />
     <Content Include="Views\Shared\PartialViews\SliderGallery.cshtml" />
     <Content Include="Views\Shared\PartialViews\ContactForm.cshtml" />
+    <Content Include="Views\Stripe\StripeGateway.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

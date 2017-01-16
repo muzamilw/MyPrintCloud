@@ -248,6 +248,23 @@
                                 </td>
 
                             </tr>
+                            <tr>
+                                <td class="textAlignRight">
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignLeft simpleText">
+                                    <input type="hidden" id="hdOrderId"/>
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignRight">
+                                    @if (ViewBag.LoginContactRoleID == 1 || ViewBag.LoginContactRoleID == 2)
+                                    {
+                                        <input type="button" id="btnDwn_Proof" style="width:130px;" class="order_history_btn rounded_corners5" onclick="downloadProof();" value="Download Proof">
+                                    }
+                                    
+                                </td>
+
+                            </tr>
                         </tbody>
                     </table>
 
@@ -602,6 +619,25 @@
         //    }
         //});
     }
+    function downloadProof() {
+        debugger;
+        var oId = $("#hdOrderId").val();
+        window.open(window.location.protocol + "//" + window.location.host + "/webstoreapi/DownloadArtwork?itemId=" + oId + "&isWaterMark=1");
+      //  ShowLoader();
+        //$.ajax({
+        //    type: "GET",
+        //    url: "/webstoreapi/DownloadArtwork",
+        //    contentType: "application/json",
+        //    data: { itemId: oId },
+        //    async: true,
+        //    success: function(response) {
+        //        var resp = JSON.parse(response);
+        //        window.open(resp, "_blank download");
+        //       // window.location.href = resp;
+        //       // HideLoader();
+        //    }
+        //});
+    }
 
 
     function ViewOrder(orderId) {
@@ -613,7 +649,7 @@
             data: { orderID: orderId },
             async: true,
             success: function (response) {
-
+                $("#hdOrderId").val(orderId);
                 $("#Grandtotal").text(response.GrossTotal);
                 $("#subtotal").text(response.SubTotal);
                 $("#Vat").text(response.VAT);

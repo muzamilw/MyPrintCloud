@@ -21,9 +21,11 @@ namespace MPC.Webstore.Controllers
         private readonly ICompanyService _CompanyService;
         private readonly IUserManagerService _usermanagerService;
         private readonly ICampaignService _campaignService;
+        private readonly MPC.Interfaces.MISServices.IOrderService _MISOrderService;
         // GET: ProductPendingOrders
 
-        public ProductPendingOrdersController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService, ICompanyService _CompanyService, IUserManagerService _usermanagerService, ICampaignService _campaignService)
+        public ProductPendingOrdersController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService, ICompanyService _CompanyService,
+            IUserManagerService _usermanagerService, ICampaignService _campaignService, MPC.Interfaces.MISServices.IOrderService MISOrderService)
         {
             this._myClaimHelper = _myClaimHelper;
             this._StatusService = _StatusService;
@@ -31,6 +33,7 @@ namespace MPC.Webstore.Controllers
             this._CompanyService = _CompanyService;
             this._usermanagerService = _usermanagerService;
             this._campaignService = _campaignService;
+            this._MISOrderService = MISOrderService;
         }
         public ActionResult Index()
         {
@@ -176,6 +179,21 @@ namespace MPC.Webstore.Controllers
             }
              approveOrRejectEmailToUser(ContactID, OrderID, (int)Events.Order_Approval_By_Manager);
              ViewBag.IsShowPrices = _CompanyService.ShowPricesOnStore(UserCookieManager.WEBStoreMode, StoreBaseResopnse.Company.ShowPrices ?? false, _myClaimHelper.loginContactID(), UserCookieManager.ShowPriceOnWebstore);
+             if (ContactID > 0 && StoreBaseResopnse.Organisation.IsAutoPushPurchaseOrder == true)
+             {
+                 PushAutoPurchaseOrder(OrderID, StoreBaseResopnse.Organisation.OrganisationId, EmailOFSM.SystemUserId);
+             }
+        }
+        private void PushAutoPurchaseOrder(long orderId, long organisationId, Guid managerId)
+        {
+            var isPo = _orderService.IsPoGenerated(orderId, managerId);
+            if (isPo)
+            {
+                var objOrder = _orderService.GetOrderByIdWithCompany(orderId);
+                _MISOrderService.ExportPoPdfForWebStore(orderId, objOrder.CompanyId, objOrder.ContactId ?? 0, organisationId);
+               
+            }
+
         }
     }
 }

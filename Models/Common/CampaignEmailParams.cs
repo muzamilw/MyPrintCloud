@@ -31,5 +31,6 @@ namespace MPC.Models.Common
         public long SupplierCompanyID { get; set; }
         public long StockItemId { get; set; }
         public int AssetId { get; set; }
+        public long ProductCategoryId { get; set; }
     }
 }

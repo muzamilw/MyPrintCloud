@@ -124,6 +124,7 @@ define("stores/stores.viewModel",
                        CompanyVariableName = ko.observable(),
                        isIconLoading = ko.observable(true),
                        CompanyVariableRowCount = ko.observable(),
+                    searchFieldVariableText = ko.observable(),
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
@@ -191,6 +192,7 @@ define("stores/stores.viewModel",
                     //Filtered States
                     filteredStates = ko.observableArray([]),
                     priceFlags = ko.observableArray([]),
+                    isTerritorySelectAll = ko.observable(),
                     // List
 
                     discountTypes = [{ id: 1, type: "Amount off a PRODUCT" }, { id: 2, type: "Amount off ENTIRE ORDER " }, { id: 3, type: "Percent off a PRODUCT" }, { id: 4, type: "Percent off ENTIRE ORDER" }, { id: 5, type: "Free Shipping on ENTIRE ORDER" }],
@@ -1346,24 +1348,29 @@ define("stores/stores.viewModel",
                         confirmation.messageText("WARNING - Are you sure you want to overwrite store spot colors to the territory?");
                         confirmation.afterProceed(function () {
                             if (selectedStore().companyCMYKColors().length > 0) {
-                                selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
-                                var counter = -1;
-                                _.each(selectedStore().companyCMYKColors(), function (color) {
-                                    var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
-                                    territoryColor.territoryId(selectedCompanyTerritory().territoryId());
-                                    territoryColor.isActive(false);
-                                    territoryColor.colorId(counter);
-                                    selectedStore().companyTerritoryColors.push(territoryColor);
-                                    counter--;
-                                });
+                                copyGlobalColors();
                                 confirmation.hide();
                                 selectedCompanyTerritory().isUseTerritoryColor('true');
+                            } else {
+                                getSpotColors(true, copyGlobalColors);
                             }
                         });
                         confirmation.afterCancel(function () {
                             selectedCompanyTerritory().isUseTerritoryColor('false');
                         });
                         confirmation.show();
+                    },
+                    copyGlobalColors = function() {
+                        selectedStore().companyTerritoryColors.removeAll(territorySpotColors());
+                        var counter = -1;
+                        _.each(selectedStore().companyCMYKColors(), function (color) {
+                            var territoryColor = model.CompanyCMYKColor.CopyFromClientModel(color);
+                            territoryColor.territoryId(selectedCompanyTerritory().territoryId());
+                            territoryColor.isActive(false);
+                            territoryColor.colorId(counter);
+                            selectedStore().companyTerritoryColors.push(territoryColor);
+                            counter--;
+                        });
                     },
                     copyGlobalFontsToTerritory = function () {
                         confirmation.messageText("WARNING - Are you sure you want to overwrite store fonts to the territory?");
@@ -2668,7 +2675,7 @@ define("stores/stores.viewModel",
                     //Secondary Page Pager
                     systemPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Variable Page
-                    fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 25 }, ko.observableArray([]), null)),
                     // System variable Pager
                     systemVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Smart Form Pager
@@ -4150,6 +4157,10 @@ define("stores/stores.viewModel",
                         contactCompanyPager().reset();
                         searchCompanyContact();
                     },
+                    searchFieldVariable = function () {
+                        fieldVariablePager().reset();
+                        getFieldVariables();
+                    },
                     // #endregion
 
                     // #region _________P A Y M E N T    G A T E W A Y _________________
@@ -4515,6 +4526,9 @@ define("stores/stores.viewModel",
                     },
                     //On Edit Product Category(Parent)
                     onEditProductCategory = function (productCategory) {
+                        isTerritorySelectAll.subscribe(function (value) {
+                            setTerritoriesSelectAll(value);
+                        });
                         if (selectedProductCategory() != productCategory) {
                             selectProductCategory(productCategory);
                         }
@@ -4533,8 +4547,8 @@ define("stores/stores.viewModel",
                                         isSavingNewProductCategory(false);
                                         //Update Product category Territories
                                         UpdateProductCategoryTerritories(data.CategoryTerritories);
-                                        selectedProductCategoryForEditting().reset();
                                         view.showStoreProductCategoryDialog();
+                                        selectedProductCategoryForEditting().reset();
                                     }
                                     isLoadingStores(false);
                                     $("#categoryTabItems li a").first().trigger("click");
@@ -4564,6 +4578,7 @@ define("stores/stores.viewModel",
                             _.each(addressTerritoryList(), function (territory) {
                                 if (territory.territoryId() == categoryTerritory.TerritoryId) {
                                     territory.isSelected(true);
+                                    territory.categoryTerritoryId(categoryTerritory.CategoryTerritoryId);
                                     territory.reset();
                                 }
                             });
@@ -4582,9 +4597,22 @@ define("stores/stores.viewModel",
                     },
                     //On Close Product Category
                     onCloseProductCategory = function () {
-                        view.hideStoreProductCategoryDialog();
-                        //resetProductCategoryCounter();
-                        isSavingNewProductCategory(false);
+                        if (selectedProductCategoryForEditting().hasChanges()) {
+                            confirmation.messageText("Do you want to save changes?");
+                            confirmation.afterProceed(onSaveProductCategory);
+                            confirmation.afterCancel(function () {
+                                view.hideStoreProductCategoryDialog();
+                                //resetProductCategoryCounter();
+                                isSavingNewProductCategory(false);
+                                selectedProductCategoryForEditting().reset();
+                            });
+                            confirmation.show();
+                        } else {
+                            view.hideStoreProductCategoryDialog();
+                            isSavingNewProductCategory(false);
+                            selectedProductCategoryForEditting().reset();
+                        }
+                       
                     },
                     onArchiveCategory = function () {
                         confirmation.messageText("Any sub categories associated with this category will also be archived. Are you sure want to archive?");
@@ -4652,10 +4680,10 @@ define("stores/stores.viewModel",
                     },
                     //Computed To set Product Category dirty Flag 
                     productCategoryHasChanges = ko.computed(function () {
-                        var categoryterritoryHasChanges = _.find(addressTerritoryList(), function (territory) {
+                        var categoryterritoryHasChanges = _.find(addressTerritoryList(), function(territory) {
                             return territory.hasChanges();
-                        }) !== undefined;
-                        var productCategoryHasChangesTemp = selectedProductCategoryForEditting() != undefined ? selectedProductCategoryForEditting().hasChanges() : undefined;
+                        });
+                        var productCategoryHasChangesTemp = selectedProductCategoryForEditting() != undefined ? selectedProductCategoryForEditting().hasChanges() : false;
                         return productCategoryHasChangesTemp || categoryterritoryHasChanges;
                     }),
                     // Save category callback
@@ -4746,7 +4774,8 @@ define("stores/stores.viewModel",
                             productCategoryToSave.CategoryTerritories = [];
                             _.each(addressTerritoryList(), function (territory) {
                                 if (territory.isSelected()) {
-                                    productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                                    // productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                                    productCategoryToSave.CategoryTerritories.push(model.CategoryTerritoryToServerMapper(territory));
                                 }
                             });
                             //#endregion
@@ -5536,7 +5565,7 @@ define("stores/stores.viewModel",
 
                                     //Field VariableF or Field variable List View
                                     fieldVariables.removeAll();
-                                    fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                                    fieldVariablePager(new pagination.Pagination({ PageSize: 25 }, fieldVariables, getFieldVariables));
                                     if (data.FieldVariableResponse && data.FieldVariableResponse.FieldVariables) {
                                         _.each(data.FieldVariableResponse.FieldVariables, function (item) {
                                             var field = model.FieldVariable();
@@ -5806,7 +5835,7 @@ define("stores/stores.viewModel",
                         companyBanners.removeAll();
                         companyBannerSetList.removeAll();
                         fieldVariablesForSmartForm.removeAll();
-                        fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                        fieldVariablePager(new pagination.Pagination({ PageSize: 25 }, fieldVariables, getFieldVariables));
                         smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
                         companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                         secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
@@ -6730,7 +6759,8 @@ define("stores/stores.viewModel",
                             PageSize: fieldVariablePager().pageSize(),
                             PageNo: fieldVariablePager().currentPage(),
                             SortBy: sortOn(),
-                            IsAsc: sortIsAsc()
+                            IsAsc: sortIsAsc(),
+                            SearchString: searchFieldVariableText()
                         }, {
                             success: function (data) {
 
@@ -8268,7 +8298,7 @@ define("stores/stores.viewModel",
                             }
                         });
                 },
-                getSpotColors = function(isStoreColors) {
+                getSpotColors = function(isStoreColors, callback) {
                     dataservice.getSpotColors({
                         TerritoryId: !isStoreColors ? selectedCompanyTerritory().territoryId() : 0,
                         StoreId: isStoreColors?  selectedStore().companyId() : 0,
@@ -8287,6 +8317,9 @@ define("stores/stores.viewModel",
                                     }
                                        
                                 }
+                                if (callback && typeof callback === "function") {
+                                    callback();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Error: Failed To load template spot colors " + response, "", ist.toastrOptions);
@@ -8296,7 +8329,19 @@ define("stores/stores.viewModel",
                 getStoreSpotColors = function() {
                     getSpotColors(true);
                 },
-                
+                setTerritoriesSelectAll = function(value) {
+                    if (addressTerritoryList() != undefined && addressTerritoryList().length > 0) {
+                        if (value == true) {
+                            _.each(addressTerritoryList(), function (item) {
+                                item.isSelected(true);
+                            });
+                        } else {
+                            _.each(addressTerritoryList(), function (item) {
+                                item.isSelected(false);
+                            });
+                        }
+                    }
+                },
                     //Delete company variable icon
                 onDeleteCompanyVariableIcon = function(variableIcon) {
                     confirmation.messageText("WARNING - This item will be removed from the system and you won’t be able to recover.  There is no undo");
@@ -8794,7 +8839,10 @@ define("stores/stores.viewModel",
                     childCategoriesList: childCategoriesList,
                     exportPdf: exportPdf,
                     exportExcel: exportExcel,
-                    getStoreSpotColors: getStoreSpotColors
+                    getStoreSpotColors: getStoreSpotColors,
+                    isTerritorySelectAll: isTerritorySelectAll,
+                    searchFieldVariableText: searchFieldVariableText,
+                    searchFieldVariable: searchFieldVariable
                     
                 //Show RealEstateCompaign VariableIcons Dialog
                 //showcreateVariableDialog: showcreateVariableDialog

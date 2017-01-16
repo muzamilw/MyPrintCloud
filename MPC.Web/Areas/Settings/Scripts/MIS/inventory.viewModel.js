@@ -8,8 +8,7 @@ define("inventory/inventory.viewModel",
         var ist = window.ist || {};
         ist.inventory = {
             viewModel: (function () {
-                var
-                    //View
+                var //View
                     view,
                     //Active Inventory
                     selectedInventory = ko.observable(model.StockItem()),
@@ -69,21 +68,21 @@ define("inventory/inventory.viewModel",
                     lengthUnits = ko.observableArray([]),
                     // is imperical for new Stock
                     OrganisationImpirical = ko.observable(),
-
-                     // is category drop down editable
+                    // is category drop down editable
                     isStockCatEditable = ko.observable(),
-
+                    isStockRemove = ko.observable(false),
                     //Paper Basis Areas
                     paperBasisAreas = ko.observableArray([]),
                     itemStockUpdateHistoryActions = ko.observableArray([
                         { id: 1, name: "Added" },
                         { id: 2, name: "Ordered" },
                         { id: 3, name: "Threshold Order" },
-                        { id: 4, name: "Back Order" }
+                        { id: 4, name: "Back Order" },
+                        { id: 5, name: "Removed" }
                     ]),
                     //units
                     units = ko.observableArray([
-                        { Id: 4, Text: 'Sq Meter' },
+                        { Id: 4, Text: 'Role' },
                         { Id: 1, Text: 'Sheets' },
                         { Id: 2, Text: '100 (lbs)' },
                         { Id: 3, Text: 'Ton' },
@@ -385,7 +384,7 @@ define("inventory/inventory.viewModel",
                             selectedInventory().headerComputedValue("Ton");
                         }
                         if (selectedInventory().perQtyType() === 4) {
-                            selectedInventory().headerComputedValue("Sq Meter)");
+                            selectedInventory().headerComputedValue("Roll");
                         }
                         if (selectedInventory().perQtyType() === 5) {
                             selectedInventory().headerComputedValue("Sq Feet");
@@ -739,6 +738,7 @@ define("inventory/inventory.viewModel",
 
                 // Add Stock Quantity
                 addStockQuantity = function () {
+                    isStockRemove(false);
                     var itemStockUpdateHistory = model.ItemStockUpdateHistory();
                     selectedItemStockUpdateHistory(itemStockUpdateHistory);
                     view.showAddStockQtyDialog();
@@ -746,17 +746,28 @@ define("inventory/inventory.viewModel",
                 // on Save Add Stock Quantity
                 saveAddStockQuantity = function (itemStockUpdateHistory) {
                     if (selectedItemStockUpdateHistory().lastModifiedQty() !== undefined && selectedItemStockUpdateHistory().lastModifiedQty() > 0) {
+                        if (isStockRemove() && selectedItemStockUpdateHistory().lastModifiedQty() > selectedInventory().inStock()) {
+                           toastr.error("Value Cannot be greater than current available stock.");
+                            return;
+                        }
+                        
+                        var currentStock = isStockRemove() ? parseInt(parseInt(selectedInventory().inStock()) - selectedItemStockUpdateHistory().lastModifiedQty()) : parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock());
                         selectedItemStockUpdateHistory().lastModifiedDate(Date());
-                        selectedItemStockUpdateHistory().actionName(itemStockUpdateHistoryActions()[0].name);
-                        selectedItemStockUpdateHistory().modifyEvent(itemStockUpdateHistoryActions()[0].id);
+                        selectedItemStockUpdateHistory().actionName(isStockRemove() ?  itemStockUpdateHistoryActions()[4].name : itemStockUpdateHistoryActions()[0].name);
+                        selectedItemStockUpdateHistory().modifyEvent(isStockRemove() ? itemStockUpdateHistoryActions()[4].id : itemStockUpdateHistoryActions()[0].id);
                         selectedItemStockUpdateHistory().lastModifiedByName(loggedInUserIdentity());
                         selectedItemStockUpdateHistory().lastModifiedBy(loggedInUserId());
-                        selectedInventory().inStock(parseInt(selectedItemStockUpdateHistory().lastModifiedQty()) + parseInt(selectedInventory().inStock()));
+                        selectedInventory().inStock(currentStock);
                         selectedInventory().itemStockUpdateHistories.push(selectedItemStockUpdateHistory());
                         view.hideAddStockQtyDialog();
                     }
                 },
-
+                removeStockQuantity = function () {
+                    isStockRemove(true);
+                    var itemStockUpdateHistory = model.ItemStockUpdateHistory();
+                    selectedItemStockUpdateHistory(itemStockUpdateHistory);
+                    view.showAddStockQtyDialog();
+                },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -839,8 +850,9 @@ define("inventory/inventory.viewModel",
                     formatSelection: formatSelection,
                     formatResult: formatResult,
                     isStockCatEditable: isStockCatEditable,
-                    lengthLabel: lengthLabel
-
+                    lengthLabel: lengthLabel,
+                    removeStockQuantity: removeStockQuantity,
+                    isStockRemove : isStockRemove
 
                 };
             })()

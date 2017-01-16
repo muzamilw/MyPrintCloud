@@ -5017,6 +5017,38 @@ namespace MPC.Repository.Repositories
                 }
             }
         }
+
+        public List<long?> GetProductTerritories(long itemId)
+        {
+            var qryIds = from item in db.ProductCategoryItems
+                join categoryItems in db.ProductCategories on item.CategoryId equals categoryItems.ProductCategoryId
+                join territry in db.CategoryTerritories on categoryItems.ProductCategoryId equals
+                    territry.ProductCategoryId
+                where item.ItemId == itemId
+                select territry.TerritoryId;
+           
+            return qryIds.ToList();
+        }
+
+        public bool? IsNotificationEnabled(long itemId)
+        {
+            var item = DbSet.FirstOrDefault(i => i.ItemId == itemId);
+            return item != null ? item.IsNotifyTemplate : false;
+        }
+
+        public bool IsDigitalDownloadOrder(long orderId)
+        {
+            bool result = false;
+            var orderItems = DbSet.Where(i => i.EstimateId == orderId && i.IsOrderedItem == true).ToList();
+            bool hasDownloadItem = orderItems.Any(i => (i.IsDigitalDownloadOrder ?? false));
+            bool hasPrintItem= orderItems.Any(i => (i.IsDigitalDownloadOrder ?? false) != true);
+            if (hasDownloadItem && !hasPrintItem)
+                result = true;
+            
+            return result;
+        }
+
+       
         
     }
 }

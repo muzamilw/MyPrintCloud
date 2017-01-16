@@ -405,6 +405,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? DiscountVoucherID { get; set; }
         public double ActualValue { get; set; }
         public string CouponCode { get; set; }
+        public bool? IsNotifyTemplate { get; set; }
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves
         /// existing template object else removes
@@ -900,7 +901,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<ItemImage> ItemImages { get; set; }
 
         public IEnumerable<ProductMarketBriefQuestion> ProductMarketBriefQuestions { get; set; }
-        
+        public double? DigitalDownloadPrice { get; set; }
         #endregion
     }
 }

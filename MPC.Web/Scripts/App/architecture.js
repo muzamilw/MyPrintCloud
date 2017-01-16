@@ -26,7 +26,8 @@ var ist = {
         Invoice: 13,
         GRN: 15,
         Inventory: 7,
-        JobCards: 9
+        JobCards: 9,
+        Sections : 10
     },
 
     
@@ -716,7 +717,7 @@ require(["ko", "knockout-validation"], function (ko) {
     // Knockout Extender for Element
     ko.extenders.element = function (target, element) {
         target.domElement = element;
-    }
+    },
 
     // Custom Binding for handling validation elements
     ko.bindingHandlers.validationOnElement = {
@@ -1174,9 +1175,9 @@ function ValidateCostCentreControl(costCentreId, clonedItemId, currency, itemPri
                 });
             }
             if (desriptionOfCostCentre == "") {
-                desriptionOfCostCentre = $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+                desriptionOfCostCentre = $(val).parent().prev().children().text() + ": Answer = " + $(val).val() + ". ";
             } else {
-                desriptionOfCostCentre = desriptionOfCostCentre + "  " + $(val).parent().prev().children().text() + ", Answer:" + $(val).val() + ". ";
+                desriptionOfCostCentre = desriptionOfCostCentre + "\n" + $(val).parent().prev().children().text() + ": Answer = " + $(val).val() + ". ";
             }
         });
 
@@ -1769,7 +1770,7 @@ function SetGlobalCostCentreQueue(globalQuestionQueueItemsList, globalInputQueue
                 costCenter().setupCost(response.TotalPrice);
                 costCenter().setupCost2(response.TotalPriceQty2);
                 costCenter().setupCost3(response.TotalPriceQty3);
-
+                costCenter().workInstructions1(desriptionOfQuestion);
                 // Sets Cost Center Queue Object to save in db
                 SetCostCenterQueueObjectToSaveInDb(costCentreType, updatedGlobalQueueArray, costCentreQueueObjectToSaveInDb, costCentreId);
 

@@ -208,6 +208,9 @@ namespace MPC.Interfaces.Repository
 
         bool HasDigitalItem(long EstimateId);
         List<usp_GetStoreProductTemplatesList_Result> GetProductTemplatesListByStore(long storeId, long categoryId, long parentId);
+        List<long?> GetProductTerritories(long itemId);
+        bool? IsNotificationEnabled(long itemId);
+        bool IsDigitalDownloadOrder(long orderId);
     }
 
 }

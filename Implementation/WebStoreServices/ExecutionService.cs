@@ -852,16 +852,20 @@ namespace MPC.Implementation.WebStoreServices
 			        //use is simple only cast it in double and return..
                     List<InputQueueItem> InputQueueItem = oParamsArray[7] as List<InputQueueItem>;
 			       // InputQueueItem item = null;
-			        foreach (var item in InputQueueItem)
+                    if (InputQueueItem != null)
                     {
-				        //matching
-				        if (item.ID == InputID & item.CostCentreID == CostCentreID & item.ItemType == ItemType) 
+                        foreach (var item in InputQueueItem)
                         {
-					        bFlag = true;
-					        QuestionITEM = item;
-					        break; // TODO: might not be correct. Was : Exit For
-				        }
-			        }
+                            //matching
+                            if (item.ID == InputID & item.CostCentreID == CostCentreID & item.ItemType == ItemType)
+                            {
+                                bFlag = true;
+                                QuestionITEM = item;
+                                break; // TODO: might not be correct. Was : Exit For
+                            }
+                        }
+                    }
+			        
                     MPC.Repository.Repositories.CostCentreExecution obj = new MPC.Repository.Repositories.CostCentreExecution();
 			        //if found question in queue then use its values
 			        if (bFlag == true) {

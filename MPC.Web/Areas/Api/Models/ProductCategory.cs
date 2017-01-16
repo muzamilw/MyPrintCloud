@@ -67,7 +67,7 @@ namespace MPC.MIS.Areas.Api.Models
         //public Guid? ImageStreamId { get; set; }
        // public Guid? ThumbnailStreamId { get; set; }
 
-        public ICollection<CompanyTerritory> CategoryTerritories { get; set; }
+        public ICollection<CategoryTerritory> CategoryTerritories { get; set; }
         public string ImageSource
         {
             get

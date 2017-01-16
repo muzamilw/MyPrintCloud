@@ -59,10 +59,10 @@
                                     <div class="col-sm-6" style="padding-left: 0; padding-right: 0">
                                         <div class="col-sm-12" style="padding-right: 0">
                                             <div class="col-sm-7">
-                                                <label style="float:left;margin-left: 0;" class="control-label text-left tooltip-float">Gutter</label>
+                                                <label style="float:left;margin-left: 0;" class="control-label text-left tooltip-float">Bleed</label>
                                             </div>
                                             <div class="col-sm-5 col-md-5 col-lg-5" style="padding-left: 10px; padding-right: 0">
-                                                <input style="width: 100%;text-align: right;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal, validationOnElement: itemGutterHorizontal" min="0" max="99">
+                                                <input style="width: 100%;text-align: right;" type="text" id="itemBleedTextBox" class="form-control font20px" data-bind="value: bleedArea, validationOnElement: bleedArea" min="0" max="99">
                                             </div>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                             </label>
                                         </div>
                                     </div>
-
+                                   
 
                                     @*<div class="checkbox-nice" data-bind="visible: isDoubleSidedUi() && printingTypeUi() !== '2'">
                <input type="checkbox" id="checkbox-work_turn" data-bind="checked: isWorknTurn" />
@@ -114,11 +114,21 @@
                                     &nbsp;
                                     <!-- /ko -->
                                 </div>
+                                <div class="col-sm-2 col-lg-3 col-md-2" style="padding-left: 0; padding-right: 0">
+                                    <div class="col-sm-12 col-lg-12" style="padding-right: 0;padding-left: 0;">
+                                        <div class="col-sm-7" style="padding-right: 0;">
+                                            <label style="float:left;margin-left: 0;" class="control-label text-left tooltip-float">Gutter</label>
+                                        </div>
+                                        <div class="col-sm-5 col-md-5 col-lg-5" style="padding-left: 0; padding-right: 0">
+                                            <input style="width: 85%;text-align: right;" type="text" id="itemGutterTextBox" class="form-control font20px" data-bind="value: itemGutterHorizontal" min="0" max="99">
+                                        </div>
+                                    </div>
+                                </div>
                                
                             </div>
                             <div class="form-group" style="margin-bottom: 2px;">
                                 <div class="col-sm-5 text-right">
-                                    <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;">Press feed size</label>
+                                    <label for="switchPrintOnBothSides" class="control-label  tooltip-float" style="float: left; padding-left: 4%;" data-bind="text: printingTypeUi() !== '2' ? 'Press feed size' : 'Required Item Size '"></label>
                                 </div>
 
                                 <div class=" col-sm-5">
@@ -148,7 +158,7 @@
                                                     <span data-bind="text: printingTypeUi() !== '2' ? 'Height ' : 'Length '"></span>
                                                     (
                                                     <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
-                                                    <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
+                                                    <span data-bind="visible: printingTypeUi() === '2'">Meter @*<sup>2</sup>*@</span>
                                                     )
                                                 </label>
                                             </div>
@@ -156,16 +166,18 @@
                                                 <button style="margin-left: -45%;" data-bind="click: $root.swapSectionHeightWidth" class="btn btn-primary btn-Toggle">
                                                     <i class="fa fa-sm"></i>&nbsp;< >
                                                 </button>
+
                                             </div>
-                                            <div class="col-sm-5" style="padding-right: 0px;">
+                                            <div class="col-sm-5" style="padding-right: 0;">
                                                 <input type="text" id="sectionSizeWidthTextbox" class="form-control" data-bind="numberValue: sectionSizeWidth,numberFormat: ist.lengthFormat, validationTooltip: sectionSizeWidth, validationDependsOn: sectionSizeWidth, validationOnElement: sectionSizeWidth" />
                                                 <label class="help-block">
                                                     Width
                                                     (
                                                     <span data-bind="visible: printingTypeUi() !== '2', text: $root.lengthUnit"></span>
-                                                    <span data-bind="visible: printingTypeUi() === '2'">/m <sup>2</sup></span>
+                                                    <span data-bind="visible: printingTypeUi() === '2'">Meter</span>
                                                     )
                                                 </label>
+
                                             </div>
                                         </div>
                                         <div class="col-sm-4" style="width: 24%; margin-top: 7px;">

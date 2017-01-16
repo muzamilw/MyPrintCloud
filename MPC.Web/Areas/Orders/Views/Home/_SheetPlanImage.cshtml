@@ -11,15 +11,35 @@
             <div class="col-lg-12 outerDiv-Padding form-horizontal">
 
                 <div id="dialgHeaderPadding">
-                    <h4 class="modal-title">Section Layout</h4>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4 class="modal-title">Section Layout</h4>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div style="background-color:black; height:20px; color:white;" class="col-lg-4">Top Gripper Depth</div>
+                            </div>
+                            <div class="row">
+                                <div style="background-color:DarkSalmon; height:20px; color:white;" class="col-lg-4">Tail Gripper Depth</div>
+                            </div>
+                            <div class="row">
+                                <div style="background-color:SeaGreen; height:20px; color:white;" class="col-lg-4">Guide Depth</div>
+                            </div>
+                            <div class="row">
+                                <div style="background-color:DarkMagenta; height:20px; color:white;" class="col-lg-4">Bleed</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3" id="SectionDetailButtons">
+                            <input type="button" class="btn btn-primary" value="Side1" data-bind="click: $root.side1ButtonClick" />
+                            <!-- ko if : $root.side2Image() != undefined -->
+                            <input type="button" class="btn btn-primary" value="Side2" data-bind="click: $root.side2ButtonClick" />
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-3" id="SectionDetailButtons">
-                        <input type="button" class="btn btn-primary" value="Side1" data-bind="click: $root.side1ButtonClick" />
-                        <!-- ko if : $root.side2Image() != undefined -->
-                        <input type="button" class="btn btn-primary" value="Side2" data-bind="click: $root.side2ButtonClick" />
-                        <!-- /ko -->
-                    </div>
+                   
                 </div>
                 <div class="form-group">
                     <div class="row" id="SectionDetailImage">

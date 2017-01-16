@@ -181,7 +181,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     }
                 }),
                 // Customer Po
-                customerPo = ko.observable(specifiedCustomerPo || undefined),
+                customerPo = ko.observable(specifiedCustomerPo),
                 // Official Order Set By
                 officialOrderSetBy = ko.observable(specifiedOfficialOrderSetBy || undefined),
                 // Official Order Set By For User
@@ -851,7 +851,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         source.ArtworkByDate, source.DataByDate, source.PaperByDate, source.TargetBindDate, source.XeroAccessCode, source.TargetPrintDate,
         source.OrderCreationDateTime, source.OrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
-        source.CustomerPO, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
+        source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime, source.FootNotes, source.EnquiryId, source.RefEstimateId,
         source.OrderReportSignedBy, source.ReportSignedBy, source.InvoiceStatus, source.StoreName, source.EstimateDate, source.UserNotes, source.ContactName);
 
         estimate.statusId(source.StatusId);

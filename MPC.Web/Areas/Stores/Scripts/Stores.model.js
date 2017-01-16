@@ -1375,6 +1375,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isUseTerritoryColor = ko.observable(specifiedIsUseTerritoryColor == true || specifiedIsUseTerritoryColor == 'true' ? 'true' : 'false'),
             isUseTerritoryFont = ko.observable(specifiedIsUseTerritoryFont == true || specifiedIsUseTerritoryFont == 'true' ? 'true' : 'false'),
             hasColorChanges = ko.observable(),
+            categoryTerritoryId = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 territoryName: territoryName,
@@ -1414,7 +1415,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                     IsUserTerritoryFont: isUseTerritoryFont() != undefined && isUseTerritoryFont() == 'true' ? true : false,
                     ScopeVariables: [],
                     TerritorySpotColors: [],
-                    TerritoryFonts: []
+                    TerritoryFonts: [],
+                    CategoryTerritoryId: categoryTerritoryId()
                 }
             },
             // Reset
@@ -1438,7 +1440,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
-            reset: reset
+            reset: reset,
+            categoryTerritoryId: categoryTerritoryId
         };
         return self;
     };
@@ -5873,6 +5876,12 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.TerritoryId
             );
     };
+    CategoryTerritoryToServerMapper = function(source) {
+        return {
+            CategoryTerritoryId: source.categoryTerritoryId(),
+            TerritoryId: source.territoryId()
+        };
+    };
     // #endregion ______________  Template Font   _________________
 
     //#region ______________ R E T U R N ______________
@@ -5930,7 +5939,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         ItemsVouchers: ItemsVouchers,
         StoreCss: StoreCss,
         companyVariableIcons: companyVariableIcons,
-        TemplateFont: TemplateFont
+        TemplateFont: TemplateFont,
+        CategoryTerritoryToServerMapper: CategoryTerritoryToServerMapper
        
     };
     // #endregion 

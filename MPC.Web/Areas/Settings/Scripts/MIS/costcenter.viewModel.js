@@ -64,7 +64,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 8, Text: '8' },
             { Id: 9, Text: '9' }
             ]),
-
+            CalculateCostType = ko.observableArray([
+            { Id: 'perunit', Text: 'Per Unit' },
+            { Id: 'perpack', Text: 'Per Package' }
+            ]),
             variablesTreePrent = ko.observableArray([
             { Id: 2, Text: 'Variables' },
             //{ Id: 4, Text: 'Questions' },
@@ -910,12 +913,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //Do Before Save
             doBeforeSave = function () {
                 var flag = true;
-                if (!selectedCostCenter().costCenterInstructions()[0].isValid())
+                if (selectedCostCenter().type() != 11 && (selectedCostCenter().costCenterInstructions().length > 0 && !selectedCostCenter().costCenterInstructions()[0].isValid()))
                 {
                     selectedCostCenter().costCenterInstructions()[0].errors.showAllMessages();
                     flag = false;
                 }
-                if (selectedCostCenter().costCenterInstructions()[0].instruction().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction()!="") {
+                if (selectedCostCenter().type() != 11 && (selectedCostCenter().costCenterInstructions().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction().length > 0 && selectedCostCenter().costCenterInstructions()[0].instruction() != "")) {
                     _.each(selectedCostCenter().costCenterInstructions(), function (item) {
                         if (!item.workInstructionChoices()[0].isValid()) {
                             item.workInstructionChoices()[0].errors.showAllMessages();
@@ -1100,7 +1103,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             },
             createWorkInstruction = function () {
 
-                if (!selectedCostCenter().costCenterInstructions()[0].isValid())
+                if (selectedCostCenter().costCenterInstructions().length > 0 && !selectedCostCenter().costCenterInstructions()[0].isValid())
                 {
                     selectedCostCenter().costCenterInstructions()[0].errors.showAllMessages();
                 }
@@ -1659,6 +1662,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                   // $("#createNewCostCenterId").html("Add New Post Press Cost Center");
                    $("#idcostcentertypename").html("Post Press Cost Centers");
                }
+               else if (CostCenterType == "4") {
+                   $("#idcostcentertypename").html("Web Store Cost Centers");
+               }
                getCostCenters();
                // getCostCentersBaseData();
            };
@@ -1745,7 +1751,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 DeleteMatrixVariable: DeleteMatrixVariable,
                 SelectedStockVariable: SelectedStockVariable,
                 openStockItemDialog: openStockItemDialog,
-                //CalculateCostType: CalculateCostType,
+                CalculateCostType: CalculateCostType,
                 variableDropdownList: variableDropdownList,
                 AddtoInputControl: AddtoInputControl,
                 RowscolCountList: RowscolCountList,

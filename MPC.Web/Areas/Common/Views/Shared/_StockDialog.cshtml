@@ -97,6 +97,7 @@
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text:$root.currency"></span>
             <span style="font-size: 0.875em; color: lightgray;" data-bind="numberInput: actualprice "></span>
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text: '/ Unit'"></span>
+            <span style="font-size: 0.875em; color: lightgray; margin-left: 5px;" data-bind="text: ', Size :'+ sizeName, visible: $root.stockDialogCatFilter() ===1"></span>
         </td>
     </tr>
 </script>

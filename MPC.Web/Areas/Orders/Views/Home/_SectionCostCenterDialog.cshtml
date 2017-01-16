@@ -28,7 +28,15 @@
                     <h4 class="modal-title">Work Instructions</h4>
                 </div>
                 <div class="form-group col-lg-12 outerDiv-Padding form-horizontal" style="width: 96%;">
-                    <textarea class="form-control" rows="5" data-bind="text: $root.selectedQty() == 1 ? qty1WorkInstructions() :$root.selectedQty() == 2? qty2WorkInstructions() : qty3WorkInstructions()"></textarea>
+                    <!--ko if:  $root.selectedQty() == 1-->
+                    <textarea class="form-control" rows="5" data-bind="value: qty1WorkInstructions"></textarea>
+                    <!--/ko-->
+                    <!--ko if:  $root.selectedQty() == 2-->
+                    <textarea class="form-control" rows="5" data-bind="value: qty2WorkInstructions"></textarea>
+                    <!--/ko-->
+                    <!--ko if:  $root.selectedQty() == 3-->
+                    <textarea class="form-control" rows="5" data-bind="value: qty3WorkInstructions"></textarea>
+                    <!--/ko-->
                 </div>
                 <div class="col-lg-6 outerDiv-Padding form-horizontal">
                     

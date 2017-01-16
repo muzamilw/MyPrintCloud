@@ -1488,8 +1488,16 @@ function g2_1(e) {
         }
         if (D1AO.IsPositionLocked) {
             $("#BtnLockTxtPosition").prop('checked', true);
+            $("#inputObjectWidthTxt").spinner("option", "disabled", true);
+            $("#inputObjectHeightTxt").spinner("option", "disabled", true);
+            $("#inputPositionXTxt").spinner("option", "disabled", true);
+            $("#inputPositionYTxt").spinner("option", "disabled", true);
         } else {
             $("#BtnLockTxtPosition").prop('checked', false);
+            $("#inputObjectWidthTxt").spinner("option", "disabled", false);
+            $("#inputObjectHeightTxt").spinner("option", "disabled", false);
+            $("#inputPositionXTxt").spinner("option", "disabled", false);
+            $("#inputPositionYTxt").spinner("option", "disabled", false);
         }
         if (D1AO.AutoShrinkText) {
             $("#chkboxAutoShrink").prop('checked', true);
@@ -1555,10 +1563,10 @@ function g2_1(e) {
             $("#inputcharSpacing").spinner("option", "disabled", false);
             $("#BtnFontSize").spinner("option", "disabled", false);
             $("#txtLineHeight").spinner("option", "disabled", false);
-            $("#inputObjectWidthTxt").spinner("option", "disabled", false);
-            $("#inputObjectHeightTxt").spinner("option", "disabled", false);
-            $("#inputPositionXTxt").spinner("option", "disabled", false);
-            $("#inputPositionYTxt").spinner("option", "disabled", false);
+            //$("#inputObjectWidthTxt").spinner("option", "disabled", false);
+            //$("#inputObjectHeightTxt").spinner("option", "disabled", false);
+            //$("#inputPositionXTxt").spinner("option", "disabled", false);
+            //$("#inputPositionYTxt").spinner("option", "disabled", false);
             if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
                 $(".positioningControls").css("display", "none");
             } else {
@@ -1620,10 +1628,10 @@ function g2_1(e) {
             }
             $("#BtnFontSize").spinner("option", "disabled", true);
             $("#txtLineHeight").spinner("option", "disabled", true);
-            $("#inputObjectWidthTxt").spinner("option", "disabled", true);
-            $("#inputObjectHeightTxt").spinner("option", "disabled", true);
-            $("#inputPositionXTxt").spinner("option", "disabled", true);
-            $("#inputPositionYTxt").spinner("option", "disabled", true);
+            //$("#inputObjectWidthTxt").spinner("option", "disabled", true);
+            //$("#inputObjectHeightTxt").spinner("option", "disabled", true);
+            //$("#inputPositionXTxt").spinner("option", "disabled", true);
+            //$("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
             $(".positioningControls").css("display", "block");
 
@@ -2237,7 +2245,7 @@ function l2(event) {
                         canvas.remove(OPT);
                     });
                 }
-            } else if (D1AO) {
+            } else if (D1AO && D1AO.IsPositionLocked != true) {
                 if (confirm("Are you sure you want to Remove this Object from the canvas.")) {
                     c2_del(D1AO);
                     canvas.remove(D1AO);

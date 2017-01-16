@@ -1,4 +1,5 @@
 ﻿@model MPC.Models.Common.ShoppingCart
+@using System.Web.UI.WebControls
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
 @using System.Linq;
@@ -127,201 +128,210 @@
                                         @*<th align="left" scope="col" style="color: white !important; border: none; background-color: white"></th>*@
                                     </tr>
                                   
-                                    @{ foreach (var prod in ViewData["ProductItemList"] as List<MPC.Models.Common.ProductItem>)
-                                     {
-                                        <tr class="gridViewRowStyle" align="top">
-                                            <td class="PadTop5 shopCartFirstCol hidden-xs">
-                                                <div class="cart_grid_image_container gallery">
-                                                    @{
-                                         string pdfLinkBtn = string.Empty;
-                                         string imgToShowURL = string.Empty;
-                                         if (prod.ProductType == (int)ProductType.AssetProduct)
-                                         {
-                                             pdfLinkBtn = "/" + prod.ThumbnailPath;
-                                             imgToShowURL = "/" + prod.ThumbnailPath;
-                                         }
-                                         else if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
-                                         {
-                                             string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
-                                             if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
-                                             {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
-                                                 pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
-                                                 imgToShowURL = completeImgPath;
-                                             }
-                                             else
-                                             {
-                                                 string FolderPathOfAttachment = prod.Attatchment.FolderPath;
-                                                 if (FolderPathOfAttachment.Contains("Production") == true)
-                                                 {
-                                                     FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
-                                                 }
-                                                 pdfLinkBtn = "";
-                                                 if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
-                                                 {
-                                                     if (FolderPathOfAttachment[0] == '/')
-                                                     {
-                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png?" + DateTime.Now;// completeImgPath;
-                                                     }
-                                                     else
-                                                     {
-                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png?" + DateTime.Now;// completeImgPath;
-                                                     }
-                                                 }
-                                                 else
-                                                 {
-                                                     if (FolderPathOfAttachment[0] == '/')
-                                                     {
-                                                         imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
-                                                     }
-                                                     else
-                                                     {
-                                                         imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;// completeImgPath;
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                         else
-                                         {
-                                             if (prod.ProductType == (int)ProductType.NonPrintProduct)
-                                             {
-                                                 string completeImgPath = "";
-                                                 if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
-                                                 {
-                                                     if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
-                                                     {
-                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + "?" + DateTime.Now;
-                                                     }
-                                                     else
-                                                     {
-                                                         completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;
-                                                     }
+                                    @{
+                                        foreach (var prod in ViewData["ProductItemList"] as List<MPC.Models.Common.ProductItem>)
+                                        {
+                                            <tr class="gridViewRowStyle" align="top">
+                                                <td class="PadTop5 shopCartFirstCol hidden-xs">
+                                                    <div class="cart_grid_image_container gallery">
+                                                        @{
+                                                            string pdfLinkBtn = string.Empty;
+                                                            string imgToShowURL = string.Empty;
+                                                            if (prod.ProductType == (int) ProductType.AssetProduct)
+                                                            {
+                                                                pdfLinkBtn = "/" + prod.ThumbnailPath;
+                                                                imgToShowURL = "/" + prod.ThumbnailPath;
+                                                            }
+                                                            else if (!string.IsNullOrWhiteSpace(prod.Attatchment.FileName))
+                                                            {
+                                                                string ext = System.IO.Path.GetExtension(prod.Attatchment.FileName);
+                                                                if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
+                                                                {
+                                                                    string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
+                                                                    pdfLinkBtn = completeImgPath; // ImageDisplayScript(completeImgPath);
+                                                                    imgToShowURL = completeImgPath;
+                                                                }
+                                                                else
+                                                                {
+                                                                    string FolderPathOfAttachment = prod.Attatchment.FolderPath;
+                                                                    if (FolderPathOfAttachment.Contains("Production") == true)
+                                                                    {
+                                                                        FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
+                                                                    }
+                                                                    pdfLinkBtn = "";
+                                                                    if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
+                                                                    {
+                                                                        if (FolderPathOfAttachment[0] == '/')
+                                                                        {
+                                                                            imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png?" + DateTime.Now; // completeImgPath;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + ".png?" + DateTime.Now; // completeImgPath;
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (FolderPathOfAttachment[0] == '/')
+                                                                        {
+                                                                            imgToShowURL = FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now; // completeImgPath;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            imgToShowURL = "/" + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now; // completeImgPath;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                if (prod.ProductType == (int) ProductType.NonPrintProduct)
+                                                                {
+                                                                    string completeImgPath = "";
+                                                                    if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
+                                                                    {
+                                                                        if (!string.IsNullOrEmpty(prod.Attatchment.ImageFileType))
+                                                                        {
+                                                                            completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + prod.Attatchment.ImageFileType + "?" + DateTime.Now;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString + "?" + DateTime.Now;
+                                                                        }
 
-                                                 }
-                                                 else
-                                                 {
-                                                     completeImgPath = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
-                                                 }
-                                                 pdfLinkBtn = completeImgPath;
-                                                 imgToShowURL = completeImgPath;
-                                             }
-                                             else
-                                             {
-                                                 pdfLinkBtn = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
-                                                 imgToShowURL = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
-                                             }
-                                         }
-                                                    }
-                                                    <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" /></a>
-                                                </div>
-                                                <div class="BtnTemplateModifyContainer visible-xs hidden-sm">
-                                                    @if (prod.ProductType != (int)ProductType.AssetProduct)
-                                                    {
-                                                        
-                                                      <input type="button" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
-                                                          
-                                                    }
-                                                </div>
-                                            </td>
-
-
-                                            <td style="width:29%;" valign="top" class="PadTop5">
-                                                <span id="lblItemProductName" class="heading_16">
-                                                @if (!string.IsNullOrEmpty(prod.ProductFriendlyName))
-                                                {
-                                                        @prod.ProductFriendlyName
-                                                }
-                                                else
-                                                {
-                                                        @prod.ProductName
-                                                }
-                                                </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
-                                                <br>
-                                                @if (!string.IsNullOrEmpty(prod.ProductCategoryName))
-                                                {
-                                                    <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
-                                                    <br>
-                                                }
-                                                
-                                                <br>
-                                                <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
-                                                <br>
-
-                                                @{
-                                                    string itemAddsOn = string.Empty;
-                                                    ProductProductionTime = prod.EstimateProductionTime ?? 0;
-                                                    if (ViewData["selectedItemsAddonsList"] != null)
-                                                    {
-                                                        List<AddOnCostsCenter> costcenters = ViewData["selectedItemsAddonsList"] as List<AddOnCostsCenter>;
-                                                        foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
-                                                        {
-                                                            itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
-                                                            //noOfCostCentreProdDays += cost.EstimateProductionTime;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        completeImgPath = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
+                                                                    }
+                                                                    pdfLinkBtn = completeImgPath;
+                                                                    imgToShowURL = completeImgPath;
+                                                                }
+                                                                else
+                                                                {
+                                                                    pdfLinkBtn = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
+                                                                    imgToShowURL = "/" + prod.ThumbnailPath + "?" + DateTime.Now;
+                                                                }
+                                                            }
                                                         }
-                                                    }
+                                                        <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL" ></a>
+                                                    </div>
+                                                    <div class="BtnTemplateModifyContainer visible-xs hidden-sm">
+                                                        @if (prod.ProductType != (int) ProductType.AssetProduct)
+                                                        {
 
-                                                    //ProductProductionTime += noOfCostCentreProdDays;
-                                                    //if (_numOfProductionDays < ProductProductionTime)
-                                                    //{
-                                                    //    _numOfProductionDays = ProductProductionTime;
-                                                    //}
-                                                    _numOfProductionDays = Model.TotalProductionTime;
+                                                            <input type="button" name="lnkBtnRedesignTemplate" onclick=" RedirectToConfirmSelect('@prod.TemplateID', '@prod.ProductCategoryID', '@prod.ItemID'); " value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnSide1Modify", UserCookieManager.WBStoreId, "Modify"))" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify" />
 
-                                                    DateTime date = Utils.AddBusinessdays(_numOfProductionDays, DateTime.Now);
+                                                        }
+                                                    </div>
+                                                </td>
 
-                                                    EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
-                                                }
 
-                                                <span id="lblselectedAddOnList" class="ItemdetailDesc">@Html.Raw(itemAddsOn)</span>
-                                                <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
-                                                <br>
-                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
-                                                <br />
-                                                @if (prod.ProductType != (int)ProductType.AssetProduct)
-                                                {
-                                                    <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID', event);" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))">
-                                                }
-                                            </td>
-                                            <td class="PadTop5" align="left" style="width:5%;" valign="top">
-                                                <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
-                                            </td>
-                                            @if (ViewBag.IsShowPrices == true)
-                                            {
-                                                
-                                                _vatTotal += prod.Qty1Tax1Value ?? 0;
-                                                
-                                                double ItemActulVal = 0;
-                                                
-                                                _priceTotal += prod.Qty1BaseCharge1 ?? 0;
-
-                                                _DiscountAmountTotal += prod.DiscountedAmount ?? 0;
-
-                                                if(prod.DiscountedAmount != null)
-                                                {
-                                                    ItemActulVal = prod.Qty1BaseCharge1 + prod.DiscountedAmount ?? 0;
-                                                }
-                                                
-                                                <td class="PadTop5 priceth" valign="top" align="right" style="width:20%;padding-right:0px;">
-
-                                                    @if (prod.DiscountedVoucherId != null)
+                                                <td style="width: 29%;" valign="top" class="PadTop5">
+                                                    <span id="lblItemProductName" class="heading_16">
+                                                        @if (!string.IsNullOrEmpty(prod.ProductFriendlyName))
+                                                        {
+                                                            @prod.ProductFriendlyName
+                                                        }
+                                                        else
+                                                        {
+                                                            @prod.ProductName
+                                                        }
+                                                    </span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
+                                                    <br>
+                                                    @if (!string.IsNullOrEmpty(prod.ProductCategoryName))
                                                     {
-                                                        <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
-                                                        <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency)</span>
+                                                        <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
+                                                        <br />
                                                     }
-                                                    else
+                                                
+                                                    <br>
+                                                    @if (prod.IsDigitalDownloadOrdered != true)
                                                     {
-                                                        <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency)</span>
+                                                        <span id="lblSlectedStockName" class="ItemdetailDesc">@prod.PaperType</span>
+                                                        <br>
                                                     }
+                                                    
+
+                                                    @{
+                                                        string itemAddsOn = string.Empty;
+                                                        ProductProductionTime = prod.EstimateProductionTime ?? 0;
+                                                        if (ViewData["selectedItemsAddonsList"] != null)
+                                                        {
+                                                            List<AddOnCostsCenter> costcenters = ViewData["selectedItemsAddonsList"] as List<AddOnCostsCenter>;
+                                                            foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == prod.ItemID))
+                                                            {
+                                                                itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
+                                                                //noOfCostCentreProdDays += cost.EstimateProductionTime;
+                                                            }
+                                                        }
+
+                                                        //ProductProductionTime += noOfCostCentreProdDays;
+                                                        //if (_numOfProductionDays < ProductProductionTime)
+                                                        //{
+                                                        //    _numOfProductionDays = ProductProductionTime;
+                                                        //}
+                                                        _numOfProductionDays = Model.TotalProductionTime;
+
+                                                        DateTime date = Utils.AddBusinessdays(_numOfProductionDays, DateTime.Now);
+
+                                                        EstimateDispatchTime = date.ToString("MMMM dd, yyyy");
+                                                    }
+                                                    @if (prod.IsDigitalDownloadOrdered != true)
+                                                    {
+                                                        <span id="lblselectedAddOnList" class="ItemdetailDesc">@Html.Raw(itemAddsOn)</span>
+                                                    }
+                                                    
+                                                    <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
+                                                    <br>
+                                                    <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick=" return ConfirmDeleteItem('@prod.ItemID', '@ViewBag.OrderID', event); " value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrremoveproduct", UserCookieManager.WBStoreId, "Remove product from cart"))">
+                                                    <br />
+                                                    @if (prod.ProductType != (int) ProductType.AssetProduct)
+                                                    {
+                                                        <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick=" CopyProduct('@prod.ItemID', event); " value="@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyproduct", UserCookieManager.WBStoreId, "Make a copy of this product in cart"))" />
+                                                    }
+                                                </td>
+                                                <td class="PadTop5" align="left" style="width: 5%;" valign="top">
+                                                    <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight: bold;">@prod.Qty1</span>
+                                                </td>
+                                                @if (ViewBag.IsShowPrices == true)
+                                                {
+
+                                                    _vatTotal += prod.Qty1Tax1Value ?? 0;
+
+                                                    double ItemActulVal = 0;
+
+                                                    _priceTotal += prod.Qty1BaseCharge1 ?? 0;
+
+                                                    _DiscountAmountTotal += prod.DiscountedAmount ?? 0;
+
+                                                    if (prod.DiscountedAmount != null)
+                                                    {
+                                                        ItemActulVal = prod.Qty1BaseCharge1 + prod.DiscountedAmount ?? 0;
+                                                    }
+
+                                                    <td class="PadTop5 priceth" valign="top" align="right" style="width: 20%; padding-right: 0px;">
+
+                                                        @if (prod.DiscountedVoucherId != null)
+                                                        {
+                                                            <span id="spnItemActualPrice" class="fntQtyPrice strikeThrough" style="font-weight: bold; text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((ItemActulVal).ToString(), ViewBag.Currency)</span>
+                                                            <span id="lblItemPrice" class="fntQtyPrice" style="font-weight: bold; text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span id="lblItemPrice" class="fntQtyPrice" style="font-weight: bold; text-align: right !important;">@Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency)</span>
+                                                        }
 
                                                     
-                                                </td>
-                                            }
+                                                    </td>
+                                                }
 
 
-                                        </tr>
+                                            </tr >
 
                                             subtotal = _priceTotal.ToString();
-                                     }
+                                        }
+
 
                                     }
                                     @{
@@ -347,8 +357,11 @@
                                             <label id="lblVoucherDiscPercentageDisplay" class=" LightGrayLabels displayClear clrRed">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVoucherDiscPercentageDisplay", UserCookieManager.WBStoreId, "Discount")):</label>
 
                                         }
+                                        @if (ViewBag.IsDigitalDownloadOrder != true)
+                                        {
+                                            <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
+                                        }
                                         
-                                        <label  class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("tddelivery", UserCookieManager.WBStoreId, "Delivery:"))</label>
                                         <label class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
                                         <label class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("spntotal", UserCookieManager.WBStoreId, "Total:"))</label>
                                     </div>
@@ -358,33 +371,36 @@
                                         {
                                             <label id="lblVoucherCodeDiscAmount_shopCart" class="Fsize13 colorBlack displayClear clrRed">@Utils.FormatDecimalValueToTwoDecimal(_DiscountAmountTotal.ToString(), ViewBag.Currency)</label>
                                         }
+                                        @if (ViewBag.IsDigitalDownloadOrder != true)
+                                        {
+                                            if (Model.DeliveryCostCenterID == 0)
+                                            {
+                                                if (Model.DeliveryDiscountVoucherID == null)
+                                                {
+                                                    <label class="Fsize13 colorBlack displayClear delivery-toBeCaltext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTobeCalculated", UserCookieManager.WBStoreId, "To be calculated"))</label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
+                                                }
+
+
+                                            }
+                                            else
+                                            {
+                                                if (Model.DeliveryDiscountVoucherID == null)
+                                                {
+                                                    <label class="Fsize13 colorBlack displayClear" id="lblCalculatedDelivery">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
+
+
+                                                }
+                                            }
+                                        }
                                         
-                                        @if (Model.DeliveryCostCenterID == 0)
-                                        {
-                                            if (Model.DeliveryDiscountVoucherID == null)
-                                            {
-                                                <label class="Fsize13 colorBlack displayClear delivery-toBeCaltext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlTobeCalculated",UserCookieManager.WBStoreId,"To be calculated"))</label>
-                                            }
-                                            else
-                                            {
-                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblDeliveryToBeCal">@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId,"Free Shipping"))</label>
-                                            }
-
-                                            
-                                        }
-                                        else
-                                        {
-                                            if (Model.DeliveryDiscountVoucherID == null)
-                                            {
-                                                <label class="Fsize13 colorBlack displayClear" id="lblCalculatedDelivery">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
-                                            }
-                                            else
-                                            {
-                                                <label class="Fsize13 colorBlack displayClear delivery-codetext" id="lblCalculatedDelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("freeeshippping", UserCookieManager.WBStoreId, "Free Shipping"))</label>
-
-                                            
-                                            }
-                                        }
                                         
                                         <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
                                         <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
@@ -395,12 +411,19 @@
                             </div>
                             <div class="cntdispatchDelivery">
                                 <div class="tdDispatchDate">
+                                    @if (ViewBag.IsDigitalDownloadOrder != true)
+                                        {
                                     <div class="estimated_dispactch_sec MLeft17 LightGrayLabels">
+                                        
                                         <label id="lbl_EstimatedDispatch">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", UserCookieManager.WBStoreId, "Estimated dispatch date:"))</label>
+                                        
+                                        
+                                        
                                     </div>
-                                    <div class="estimated_dispatch_time MLeft17">
-                                        <label id="lblDeliveryCostCenterDateText" class="heading_h5 colorBlack fontSyleBold">@EstimateDispatchTime</label>  &nbsp;
-                                    </div>
+                                            <div class="estimated_dispatch_time MLeft17">
+                                                <label id="lblDeliveryCostCenterDateText" class="heading_h5 colorBlack fontSyleBold">@EstimateDispatchTime</label>  &nbsp;
+                                            </div>
+                                        }
                                 </div>
                                 <div class="tdDelivery">
                                     <div class="estimated_dilvery_sec  LightGrayLabels" style="display:none;">
@@ -448,13 +471,13 @@
                               
                             }
                            <a href="/">
-                            <button id="btn_ContinueShopping" type="button" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+                               <button id="btn_ContinueShopping" type="button" onclick="return BackToShopping()" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                            </a> 
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
                         </div>
-
+                         
                     </div>
                     <div class="clearBoth">
                         &nbsp;
@@ -778,8 +801,8 @@
         window.location.href = "/ShopCart/ApplyDiscountVoucherCode/DiscountVoucher=" + DiscountVoucher + "/" + OrderID;
     }
 
-    function ConfirmDeleteItem(ItemID,OrderID, e)
-    {
+    function ConfirmDeleteItem(ItemID,OrderID, e) {
+        
         if (e.keyCode == 13) {
 
         }else{
@@ -813,10 +836,14 @@
     }
 
     function ifNoAnEnterKay(event){
+        debugger;
         if (event.keyCode == 13) {
             return false;
         }else{
             $("#hfIsCallFrom").val("Checkout");
+            if ("@ViewBag.IsDigitalDownloadOrder.ToString()" == "True") {
+                $("#hfGrandTotal").val(@GrossTotal);
+            }
             ShowLoader();
             return true;
         }
@@ -836,7 +863,12 @@
             ShowLoader();
         }
     }
+    function BackToShopping()
+    {
 
+        window.location.href = "/";
+        return false;
+    }
     function ApplyDiscountVouchers() {
         var txtDiscountVoucher = $("#txtDiscountVoucherCode").val();
         if(txtDiscountVoucher == ""){
@@ -877,6 +909,7 @@
             });
         }
     }
+        
     $("#txtDiscountVoucherCode").keydown(function(event){
 
         if(event.keyCode == 13){

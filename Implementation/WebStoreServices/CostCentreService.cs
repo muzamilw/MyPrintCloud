@@ -486,7 +486,7 @@ namespace MPC.Implementation.WebStoreServices
                             GetValue = oSpiltTokens[5].Split( '\"');
 
                             if (((GetID.Length == 3 & GetName.Length == 3) & (GetQType.Length == 3 & GetQtyType.Length == 3) & GetValue.Length == 3)) {
-                                return " _CostCentreService.ExecuteStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
+                                return " _CostCentreService.ExecuteUserStockItem(ParamsArray,\"" + GetID[1] + "\",\"" + GetName[1] + "\",\"" + GetQtyType[1] + "\",\"" + GetValue[1] + "\",\"" + GetQType[1] + "\",cint(CostCentreID)) ";
                             } else {
                                 throw new Exception("Invalid Calculation String.");
                                 return "";

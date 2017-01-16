@@ -1,4 +1,5 @@
-﻿using MPC.Common;
+﻿using Ionic.Zip;
+using MPC.Common;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
@@ -1212,8 +1213,8 @@ namespace MPC.Implementation.WebStoreServices
                         // oPdf.TextStyle.Bold = true;
                         oPdf.TextStyle.Italic = false;
                         oPdf.TextStyle.CharSpacing = 0;
-                        oPdf.TextStyle.Size = 6;
-                        oPdf.Rect.Position(((pgWidth / 2) - 20), pgHeight + 5);
+                        oPdf.TextStyle.Size = 30/mrg;
+                        oPdf.Rect.Position(((pgWidth / 2) - 20), pgHeight + (7));
                         oPdf.Rect.Resize(200, 10);
                         oPdf.AddHtml("" + pageName + " " + DateTime.Now.ToString());
                         oPdf.Transform.Reset();
@@ -2661,7 +2662,7 @@ namespace MPC.Implementation.WebStoreServices
 
 
             p = new PDFlib();
-
+           
             try
             {
                 p.set_option("errorpolicy=return");
@@ -3544,6 +3545,80 @@ namespace MPC.Implementation.WebStoreServices
         public bool updatecontactId(long templateId, long contactId)
         {
            return _templateRepository.updatecontactId(templateId, contactId);
+        }
+
+        public string GetGemplateWithoutCropMarks(long orderId, int isWaterMark)
+        {
+            var itemsList = _itemRepository.GetItemsByOrderID(orderId);
+            var nonDeliveryItem = itemsList != null && itemsList.Count > 0 ? itemsList.FirstOrDefault(a => a.ItemType != 2) : null;
+            var organisationId = nonDeliveryItem != null? nonDeliveryItem.OrganisationId  : 0;
+            //Item item = _itemRepository.GetItemByIdDesigner(itemId);
+            string drZipPath = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId + "/ReadyTemplates/");
+            string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId + "/Templates/");
+            string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/");
+            string spdfPath = string.Empty;
+
+            if (!Directory.Exists(drZipPath + orderId))
+            {
+                Directory.CreateDirectory(drZipPath + orderId);
+            }
+
+            
+            long TemplateID = 0;
+            bool printWaterMark = isWaterMark == 1;
+
+
+            if (itemsList != null && itemsList.Count > 0)
+            {
+                using (ZipFile zip = new ZipFile())
+                {
+                    foreach (Item item in itemsList.Where(a => a.ItemType != 2).ToList())
+                    {
+                        TemplateID = item.TemplateId ?? 0;
+                        
+                        List<TemplatePage> oTemplatePages = new List<TemplatePage>();
+                        List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
+                        if (TemplateID > 0)
+                        {
+                            Template objProduct = _templateRepository.GetTemplate(TemplateID, out oTemplatePages, out oTemplateObjects);
+                            double bleedareaSize = DesignerUtils.PointToMM(objProduct.CuttingMargin.Value);
+                            bool hasOverlayObject = false;
+                            byte[] PDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, false, true, out hasOverlayObject, false, organisationId ?? 0, bleedareaSize, false);
+
+                            System.IO.File.WriteAllBytes(drZipPath + orderId + "/proof_" + item.ItemId + ".pdf", PDFFile);
+                            spdfPath = drZipPath + orderId + "/proof_" + item.ItemId + ".pdf";
+
+                            if (System.IO.File.Exists(spdfPath))
+                            {
+                                ZipEntry jcr = zip.AddFile(spdfPath, "");
+                                jcr.Comment = "Artwork Proof added by My Print Cloud";
+                            }
+                            if (!printWaterMark)
+                            {
+                                byte[] PDFFile2 = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, true, false, out hasOverlayObject, false, organisationId ?? 0, bleedareaSize, false);
+
+                                System.IO.File.WriteAllBytes(drZipPath + orderId + "/Artwork_" + item.ItemId + ".pdf", PDFFile2);
+                                spdfPath = drZipPath + orderId + "/Artwork_" + item.ItemId + ".pdf";
+
+                                if (System.IO.File.Exists(spdfPath))
+                                {
+                                    ZipEntry jcr = zip.AddFile(spdfPath, "");
+                                    jcr.Comment = "Artwork added by My Print Cloud";
+                                }
+                            }
+                        }
+                        
+
+                    }
+                    if (Directory.Exists(drURL))
+                    {
+                        zip.Save(drZipPath + "\\" + "ProofWithoutCrop_" + orderId + ".zip");
+                    }
+                    return "/MPC_Content/Designer/Organisation" + organisationId + "/ReadyTemplates/" + "ProofWithoutCrop_" + orderId + ".zip";
+                }
+            }
+            
+            return "";
         }
         #endregion
     }

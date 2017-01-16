@@ -160,7 +160,7 @@ namespace MPC.Web.Reports
             this.Picture1,
             this.TextBox4,
             this.line1});
-            this.detail.Height = 2.111112F;
+            this.detail.Height = 2.048612F;
             this.detail.Name = "detail";
             this.detail.Format += new System.EventHandler(this.detail_Format);
             // 
@@ -211,7 +211,7 @@ namespace MPC.Web.Reports
             // 
             // Picture1
             // 
-            this.Picture1.Height = 2.047F;
+            this.Picture1.Height = 1.877F;
             this.Picture1.HyperLink = null;
             this.Picture1.ImageData = ((System.IO.Stream)(resources.GetObject("Picture1.ImageData")));
             this.Picture1.Left = 8.892F;
@@ -237,12 +237,12 @@ namespace MPC.Web.Reports
             this.line1.Left = 0.242F;
             this.line1.LineWeight = 1F;
             this.line1.Name = "line1";
-            this.line1.Top = 2.067F;
+            this.line1.Top = 1.907F;
             this.line1.Width = 9.875F;
             this.line1.X1 = 0.242F;
             this.line1.X2 = 10.117F;
-            this.line1.Y1 = 2.067F;
-            this.line1.Y2 = 2.067F;
+            this.line1.Y1 = 1.907F;
+            this.line1.Y2 = 1.907F;
             // 
             // pageFooter
             // 

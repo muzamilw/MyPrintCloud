@@ -17,7 +17,10 @@
                         <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;border-radius:5px;" data-bind="visible:invoiceStatus()===19 && id() > 0,click:$root.exportInvoice">Export</button>
                         <button class="btn btn-primary" style="margin-top:-10px;margin-right:5px;border-radius:5px;" data-bind="click:$root.openExternalReportsInvoice">Print</button>
                         <button class="btn btn-primary" style="margin-top:-10px;border-radius:5px;" data-bind="click:$root.openExternalEmailInvoiceReport">Email</button>
-                        <button class="btn btn-danger" style="margin-top:-10px;margin-left:5px;border-radius:5px;" data-bind="click:$root.onArchiveInvoice, visible:invoiceStatus()===19 && id() > 0">Archive</button>
+                        <button class="btn btn-danger" style="margin-top:-10px;margin-left:5px;border-radius:5px;" data-bind="click:$root.onArchiveInvoice, visible:invoiceStatus()===19 && id() > 0">Cancel</button>
+                        <!-- ko if: invoiceStatus()===22  -->
+                        <button class="btn btn-success" style="margin-top:-10px;margin-left:5px;border-radius:5px;" data-bind="click: $root.onUnPostInvoice"> Revert to Awaiting</button>
+                        <!-- /ko -->
                     </div>
 
 
@@ -285,11 +288,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="btn-group" style="float: left; margin-top: 21px;">
-                                                        <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
+                                                        <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewProductFromRetailStore,enable:invoiceStatus()===19">Add Product from Store</button>
                                                     </div>
 
                                                     <div class="btn-group" style="float: left; margin-top: 21px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods"> Add Finished Goods</button>
+                                                        <button type="button" class="btn btn-primary" data-bind="click : $root.onAddFinishedGoods,enable:invoiceStatus()===19"> Add Finished Goods</button>
                                                     </div>
                                                     @*<div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                                                             <button type="button" class="btn btn-primary" style="padding-left: 11px;padding-right: 11px;" data-bind="click : $root.onCreateNewBlankPrintProduct">Add Blank Print Product</button>
@@ -302,7 +305,7 @@
 
                                                         </div>*@
                                                     <div class="btn-group" style="float: left; margin-top: 21px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onAddInvoiceDetail">Add Invoice Detail</button>
+                                                        <button type="button" class="btn btn-primary" style="padding-left: 10px;padding-right: 10px;" data-bind="click: $root.onAddInvoiceDetail,enable:invoiceStatus()===19">Add Invoice Detail</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -351,11 +354,11 @@
                                                 </div>
                                                 <div class="col-sm-6" style="padding-left:0;">
                                                     <div class="btn-group" style="float: left; margin-top: 15px;">
-                                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charge</button>
+                                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick,enable:invoiceStatus()===19">Add Shipping Charge</button>
                                                     </div>
                                                     
                                                     <div class="btn-group" style="float: left; margin-top: 15px; margin-left: 5px;">
-                                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onAddCustomShippingCharge">Add Custom Shipping</button>
+                                                        <button type="button" class="btn btn-primary" data-bind="click: $root.onAddCustomShippingCharge,enable:invoiceStatus()===19">Add Custom Shipping</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6" style="margin-top:10px">
@@ -407,7 +410,7 @@
                                 <script id="itemTemplate" type="text/html">
                                     <tr data-bind="click:  $root.editItem, css: { errorFillRow: !isValid() }" style="cursor: pointer">
                                         <td>
-                                            <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
+                                            <a href="#" data-bind="text: productName, click: $root.editItem, enable:$root.selectedInvoice().invoiceStatus()===19"><span></span></a>
                                         </td>
                                         <td>
                                             <span style="font-size:20px;" data-bind="text: qty1"></span>
@@ -429,8 +432,8 @@
                                 <script id="deliveryItemTemplate" type="text/html">
                                     <tr>
                                         <td>
-                                            <a href="#" style="font-size: 20px" data-bind="text: productName, click: $root.editShippingItem"></a>     
-                                            
+                                            <a href="#" style="font-size: 20px" data-bind="text: productName, click: $root.editShippingItem, visible:$root.selectedInvoice().invoiceStatus()===19"></a>     
+                                            <a href="#" style="font-size: 20px" data-bind="text: productName, visible:$root.selectedInvoice().invoiceStatus()!==19"></a>  
                                         </td>
                                         <td></td>
                                         <td style=" text-align: right;">
@@ -438,7 +441,7 @@
                                             <span style="font-size:20px;" data-bind="numberInput: qty1GrossTotal()"></span>
                                         </td>
                                         <td>
-                                            <a href="#" class="table-link danger pull-right" data-bind="click: $root.onDeleteShippingItem" title="Delete">
+                                            <a href="#" class="table-link danger pull-right" data-bind="click: $root.onDeleteShippingItem,visible:$root.selectedInvoice().invoiceStatus ===19" title="Delete">
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>

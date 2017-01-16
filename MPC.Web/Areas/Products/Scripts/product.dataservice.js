@@ -141,6 +141,12 @@ define("product/product.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to send email notification to users
+                    amplify.request.define('notifyUsersTemplateCreation', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductTemplateNotification',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     isInitialized = true;
                 }
@@ -308,7 +314,16 @@ define("product/product.dataservice", function () {
                 data: param
             });
         },
-
+        notifyUsersTemplateCreation = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'notifyUsersTemplateCreation',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+            
+        },
 
             // get Ptv
             getPtv = function (params, callbacks) {
@@ -340,7 +355,8 @@ define("product/product.dataservice", function () {
             getPtvCalculation: getPtvCalculation,
             getPtv: getPtv,
             exportItems: exportItems,
-            importProducts: importProducts
+            importProducts: importProducts,
+            notifyUsersTemplateCreation: notifyUsersTemplateCreation
         };
     })();
 

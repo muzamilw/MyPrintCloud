@@ -16,6 +16,7 @@
                         </div>
                     </div>
                     <div class="pull-right top-page-ui" style="margin-bottom:19px;margin-top:0px;">
+                        <button class="btn btn-success" id="editTemplate" data-bind="click: $root.notifyUserForTemplate, visible: $root.canEditTemplateFromEditor && isNotifyTemplate()">Notify Users</button>
                         <button class="btn btn-yellow" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
                         <button class="btn btn-danger"  data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
                         <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
@@ -668,6 +669,22 @@
                                                     </label>
                                                 </div>
                                                 <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible:isDigitalDownload">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right" for="switchIsDigitalDownload">Digital Download Price</label>
+
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="input-group">
+                                                    <span data-bind="text:$root.currencyUnit" class="input-group-addon">$</span>
+                                                    <div class="col-xs-8 col-lg-8" style="padding:0">
+                                                        <input type="text" class="form-control" id="txtDigitalPrice" style="text-align:right;" placeholder="Enter Price" data-bind="autoNumeric: digitalDownloadPrice, settings:{mDec:2}">
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
 
@@ -2265,6 +2282,25 @@
                                                 <div class="onoffswitch" style="margin-right:0px;">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchHideImages" data-bind="checked: hideSharedImages">
                                                     <label class="onoffswitch-label" for="switchHideImages">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Users of associated territory will be notified when new product template created." data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label class="control-label text-right tooltip-float" style="margin-left:-35px;">Notify New Template Creation</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch" style="margin-right:0;">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchNotifyTemplate" data-bind="checked: $parent.isNotifyTemplate">
+                                                    <label class="onoffswitch-label" for="switchNotifyTemplate">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
                                                     </label>

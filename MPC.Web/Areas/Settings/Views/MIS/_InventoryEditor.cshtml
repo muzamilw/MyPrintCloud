@@ -225,7 +225,7 @@
                             <div class="col-lg-12 form-horizontal">
                                 <h3 class="group-header">Buy-in Dimensions & Pack Size</h3>
                                 <div class="col-lg-9">
-                                    <div class="form-group">
+                                    <div class="form-group" data-bind="visible:paperTypeId() !== '2'">
                                         <div class="col-lg-3 text-right" data-bind="visible:perQtyType()!==2 && perQtyType()!==3">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                             </div>
@@ -255,14 +255,14 @@
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:(categoryId() === 1 && paperTypeId()=== '2')" style="margin-bottom: 0px;">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                             </div>
                                             <label class="control-label text-right tooltip-float"></label>
                                         </div>
                                         <div class="col-lg-3">
-                                            <input type="text" class="form-control" data-bind="value:itemSizeWidth" />
+                                            <input type="text" class="form-control" style="text-align:right;" data-bind="value:itemSizeWidth" />
                                         </div>
                                         <div class="col-lg-1" style="text-align: center;">
 
@@ -270,18 +270,18 @@
 
                                         </div>
                                         <div class="col-lg-3">
-                                            <input type="text" class="form-control" data-bind="value:itemSizeHeight" />
+                                            <input type="text" class="form-control" style="text-align:right;" data-bind="value:itemSizeHeight" />
                                         </div>
                                     </div>
                                     <div class="form-group" data-bind="visible:(categoryId() === 1 && paperTypeId()=== '2')">
-                                        <div class="col-lg-5 text-right">
+                                        <div class="col-lg-3 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
 
                                             </div>
                                             <label class="control-label text-right tooltip-float"></label>
                                         </div>
                                         <div class="col-lg-3" style="text-align: center;">
-                                            <label class="control-label">(Width)</label>
+                                            <label class="control-label">(Width in Meters)</label>
                                         </div>
                                         <div class="col-lg-1">
                                             <div class="col-lg-1" style="padding-left: 4%;">
@@ -289,7 +289,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3" style="text-align: center;">
-                                            <label class="control-label">(Height)</label>
+                                            <label class="control-label">(Length in Meters)</label>
                                         </div>
                                     </div>
                                 </div>
@@ -487,10 +487,15 @@
                                         <div class="col-lg-3">
                                             <input type="text" style="text-align:right;" id="inStock" disabled class="form-control" data-bind="value:inStock, validationTooltip: inStock, validationOnElement:inStock" />
                                         </div>
-                                        <div class="col-lg-3">
-                                            <div class="pull-left">
-                                                <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.addStockQuantity">
+                                        <div class="col-lg-6">
+                                            <div class="btn-group" style="float: left;">
+                                                <a href="#" class="btn btn-success" data-bind="click: $root.addStockQuantity">
                                                     Add Stock Quantity
+                                                </a>
+                                            </div>
+                                            <div class="btn-group" style="float: left;margin-left:5px;">
+                                                <a href="#" class="btn btn-danger" data-bind="click: $root.removeStockQuantity">
+                                                    Remove Stock Quantity
                                                 </a>
                                             </div>
                                         </div>

@@ -122,7 +122,7 @@ namespace MPC.Repository.Repositories
             int toRow = request.PageSize;
             Expression<Func<StockItem, bool>> query =
                 stockItem =>
-                    (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
+                    (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) || (stockItem.ItemWeight != null && stockItem.ItemWeight.ToString().Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString)) || (stockItem.StockCategory.Name.Contains(request.SearchString))
                      || (stockItem.StockSubCategory.Name.Contains(request.SearchString)) || (stockItem.Company.Name.Contains(request.SearchString))) && (
                          (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
@@ -156,7 +156,7 @@ namespace MPC.Repository.Repositories
             {
                  query =
               stockItem =>
-                  (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
+                  (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString) || (stockItem.ItemWeight != null && stockItem.ItemWeight.ToString().Contains(request.SearchString))) &&
                   (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId) && (!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) &&
                   stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
             }
@@ -164,7 +164,7 @@ namespace MPC.Repository.Repositories
             {
                 query =
               stockItem =>
-                  (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
+                  (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString) || (stockItem.ItemWeight != null && stockItem.ItemWeight.ToString().Contains(request.SearchString))) &&
                   (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) && (!request.PaperType.HasValue || request.PaperType == stockItem.PaperType) &&
                   stockItem.OrganisationId == OrganisationId && stockItem.IsImperical == isImperical && stockItem.isDisabled != true;
 

@@ -449,10 +449,10 @@ namespace MPC.Webstore.Controllers
                         try
                         {
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp, baseResponse.Organisation, StockManagerIds, UserCookieManager.WBStoreId);
-                            if (result && baseResponse.Organisation.IsAutoPushPurchaseOrder == true)
-                            {
-                                PushAutoPurchaseOrder(OrderId, baseResponse.Organisation.OrganisationId, StockManagerIds[0]);
-                            }
+                            //if (result && baseResponse.Organisation.IsAutoPushPurchaseOrder == true)
+                            //{
+                            //    PushAutoPurchaseOrder(OrderId, baseResponse.Organisation.OrganisationId, StockManagerIds[0]);
+                            //}
                             UserCookieManager.WEBOrderId = 0;
                             
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);

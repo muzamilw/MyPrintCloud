@@ -3266,6 +3266,7 @@ namespace MPC.Implementation.MISServices
             SmartFormRequestModel smartFormRequest = new SmartFormRequestModel();
             DiscountVoucherRequestModel discountVoucherRequestModelRequest = new DiscountVoucherRequestModel();
             request.CompanyId = storeId;
+            request.PageSize = 25;
             smartFormRequest.CompanyId = storeId;
             discountVoucherRequestModelRequest.CompanyId = storeId;
             Organisation org = organisationRepository.GetOrganizatiobByID();
@@ -3487,6 +3488,11 @@ namespace MPC.Implementation.MISServices
                 if (fieldVariable.TemplateVariables.Any())
                 {
                     throw new MPCException("It cannot be deleted because it is used in Template.", fieldVariableRepository.OrganisationId);
+                }
+                
+                if (fieldVariable.ScopeVariables.Any())
+                {
+                    fieldVariable.ScopeVariables.ToList().ForEach(a => scopeVariableRepository.Delete(a));
                 }
 
                 fieldVariableRepository.Delete(fieldVariable);
@@ -9517,9 +9523,11 @@ namespace MPC.Implementation.MISServices
 
         public void CopyStoreFiles(ExportStore ObjExportStore,long CompanyId,long OrganisationId)
         {
+           string sMessage = string.Empty;
             try
             {
                 string DPath = string.Empty;
+                
                 List<string> JsonFiles = new List<string>();
                 using (ZipFile zip = new ZipFile())
                 {
@@ -9529,6 +9537,7 @@ namespace MPC.Implementation.MISServices
                     {
                         ZipEntry r = zip.AddFile(StoreFilePath, "");
                         r.Comment = "Json File for a Company";
+                        sMessage += r.Comment + Environment.NewLine;
                     }
 
                     string StoreItemsFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/CostCentres/StoreItems.txt";
@@ -9536,6 +9545,7 @@ namespace MPC.Implementation.MISServices
                     {
                         ZipEntry r = zip.AddFile(StoreItemsFilePath, "");
                         r.Comment = "Json File for a Company";
+                        sMessage += r.Comment + Environment.NewLine;
                     }
 
 
@@ -9544,6 +9554,7 @@ namespace MPC.Implementation.MISServices
                     {
                         ZipEntry r = zip.AddFile(StoreCategoriesFilePath, "");
                         r.Comment = "Json File for a Company";
+                        sMessage += r.Comment + Environment.NewLine;
                     }
 
                     JsonFiles.Add(StoreFilePath);
@@ -9567,7 +9578,7 @@ namespace MPC.Implementation.MISServices
                                 {
                                     ZipEntry r = zip.AddFile(FilePath, DPath);
                                     r.Comment = "Company Logo for Store";
-
+                                    sMessage += r.Comment + Environment.NewLine;
                                 }
                             }
                             if (ObjExportStore.Company.StoreBackgroundImage != null)
@@ -9578,7 +9589,7 @@ namespace MPC.Implementation.MISServices
                                 {
                                     ZipEntry r = zip.AddFile(FilePath, DPath);
                                     r.Comment = "Background image for Store";
-
+                                    sMessage += r.Comment + Environment.NewLine;
                                 }
                             }
 
@@ -9598,7 +9609,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Media Files for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
                                     }
@@ -9620,7 +9631,7 @@ namespace MPC.Implementation.MISServices
                                         {
                                             ZipEntry r = zip.AddFile(FilePath, DPath);
                                             r.Comment = "Category Image Path for Store";
-
+                                            sMessage += r.Comment + Environment.NewLine;
                                         }
                                     }
 
@@ -9633,7 +9644,7 @@ namespace MPC.Implementation.MISServices
                                         {
                                             ZipEntry r = zip.AddFile(FilePath, DPath);
                                             r.Comment = "Category Thumbnail Path for Store";
-
+                                            sMessage += r.Comment + Environment.NewLine;
                                         }
                                     }
 
@@ -9657,7 +9668,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items Image Path for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
 
@@ -9669,7 +9680,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items Thumbnail Path for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
 
@@ -9681,7 +9692,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items Grid image for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
                                         if (item.File1 != null)
@@ -9692,7 +9703,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items image for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
                                         if (item.File2 != null)
@@ -9703,7 +9714,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items image for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
                                         if (item.File3 != null)
@@ -9714,7 +9725,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items image for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
                                         if (item.File4 != null)
@@ -9725,7 +9736,7 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                 r.Comment = "Items image for Store";
-
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
                                         }
                                         if (item.File5 != null)
@@ -9752,7 +9763,7 @@ namespace MPC.Implementation.MISServices
                                                     {
                                                         ZipEntry r = zip.AddFile(FilePath, DPath);
                                                         r.Comment = "Items image for Store";
-
+                                                        sMessage += r.Comment + Environment.NewLine;
                                                     }
                                                 }
 
@@ -9867,7 +9878,7 @@ namespace MPC.Implementation.MISServices
                                                                 {
                                                                     ZipEntry r = zip.AddFile(FilePath, DPath);
                                                                     r.Comment = "Items image for Store";
-
+                                                                    sMessage += r.Comment + Environment.NewLine;
                                                                 }
 
                                                             }
@@ -9887,7 +9898,7 @@ namespace MPC.Implementation.MISServices
                                                                 {
                                                                     ZipEntry r = zip.AddFile(FilePath, DPath);
                                                                     r.Comment = "Items image for Store";
-
+                                                                    sMessage += r.Comment + Environment.NewLine;
                                                                 }
 
                                                             }
@@ -9899,6 +9910,7 @@ namespace MPC.Implementation.MISServices
                                                             {
                                                                 ZipEntry r = zip.AddFile(FilePaths, DPath);
                                                                 r.Comment = "Items image for Store";
+                                                                sMessage += r.Comment + Environment.NewLine;
                                                             }
                                                         }
                                                     }
@@ -9939,18 +9951,21 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 ZipEntry r = zip.AddFile(F1, DPath);
                                                 r.Comment = "template font";
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
 
                                             if (File.Exists(F2))
                                             {
                                                 ZipEntry r = zip.AddFile(F2, Dpath2);
                                                 r.Comment = "template font";
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
 
                                             if (File.Exists(F3))
                                             {
                                                 ZipEntry r = zip.AddFile(F3, DPath3);
                                                 r.Comment = "template font";
+                                                sMessage += r.Comment + Environment.NewLine;
                                             }
 
 
@@ -9973,7 +9988,7 @@ namespace MPC.Implementation.MISServices
                                         {
                                             ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
                                             r.Comment = "Contact images for Store";
-
+                                            sMessage += r.Comment + Environment.NewLine;
                                         }
                                     }
                                 }
@@ -9994,7 +10009,7 @@ namespace MPC.Implementation.MISServices
                             {
                                 ZipEntry r = zip.AddFile(SpritePath, pDirectory);
                                 r.Comment = "Sprite for Store";
-
+                                sMessage += r.Comment + Environment.NewLine;
                             }
 
                         }
@@ -10041,6 +10056,14 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception ex)
             {
+                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Exception/ExportLog.txt");
+
+                using (StreamWriter writer = new StreamWriter(virtualFolderPth, true))
+                {
+                    writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                       "" + Environment.NewLine + "Date :" + DateTime.Now.ToString() + sMessage);
+                    writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+                }
                 throw ex;
 
             }

@@ -35,7 +35,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, specifiedPrintCropMarks,
         specifiedDrawWatermarkText, specifiedOrganisationId, specifiedCompanyId, specifiedIsAddCropMarks, specifiedDrawBleedArea, specifiedAllowPdfDownload,
         specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
-        specifiedTemplateId, specifiedSmartFormId,specifiedThumbnailPath, callbacks, constructorParams) {
+        specifiedTemplateId, specifiedSmartFormId, specifiedThumbnailPath, callbacks, constructorParams, specifiedIsNotifyTemplate, specifiedDigitalPrice) {
         // ReSharper restore InconsistentNaming
         var
             // Unique key
@@ -183,6 +183,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // is vdp product
             isVdpProduct = ko.observable(specifiedIsVdpProduct || undefined),
+            isNotifyTemplate = ko.observable(specifiedIsNotifyTemplate || undefined),
             // is stock control
             isStockControl = ko.observable(specifiedIsStockControl || undefined),
             // is enabled
@@ -306,6 +307,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             estimateProductionTime = ko.observable(specifiedEstimateProductionTime || 3),
             // Is Template Design Mode
             isTemplateDesignMode = ko.observable(specifiedIsTemplateDesignMode || 1),
+            digitalDownloadPrice = ko.observable(specifiedDigitalPrice),
             // Is TemplateDesignMode for ui
             isTemplateDesignModeUi = ko.computed({
                 read: function () {
@@ -1762,7 +1764,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 productCategoryItems: productCategoryItems,
                 itemSections: itemSections,
                 itemImages: itemImages,
-                productMarketBriefQuestions: productMarketBriefQuestions
+                productMarketBriefQuestions: productMarketBriefQuestions,
+                isNotifyTemplate: isNotifyTemplate,
+                digitalDownloadPrice: digitalDownloadPrice
             }),
             // Item Vdp Prices has changes
             itemVdpPriceListHasChanges = ko.computed(function () {
@@ -1942,6 +1946,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     File3Deleted: file3Deleted(),
                     File4Deleted: file4Deleted(),
                     File5Deleted: file5Deleted(),
+                    IsNotifyTemplate: isNotifyTemplate(),
+                    DigitalDownloadPrice : digitalDownloadPrice(),
                     ItemVdpPrices: itemVdpPrices.map(function (itemVdpPrice) {
                         return itemVdpPrice.convertToServerData();
                     }),
@@ -2184,6 +2190,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             selectStockItemForSectionForNewProduct: selectStockItemForSectionForNewProduct,
             shouldValidateCategory: shouldValidateCategory,
             thumbnailPath: thumbnailPath,
+            isNotifyTemplate: isNotifyTemplate,
+            digitalDownloadPrice : digitalDownloadPrice,
             reset: reset,
             convertToServerData: convertToServerData
         };
@@ -4485,7 +4493,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
             source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, source.IsAddCropMarks,
             source.DrawBleedArea, source.AllowPdfDownload, source.IsMultipagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
-            source.ItemWeight, source.TemplateId, source.SmartFormId,source.ThumbnailPath, callbacks, constructorParams);
+            source.ItemWeight, source.TemplateId, source.SmartFormId, source.ThumbnailPath, callbacks, constructorParams, source.IsNotifyTemplate, source.DigitalDownloadPrice);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
@@ -140,6 +141,19 @@ namespace MPC.Repository.Repositories
             try
             {
                 return db.PaperSizes.Where(c => c.PaperSizeId == PSSID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string GetPaperNameById(int sizeId)
+        {
+            try
+            {
+                var paperSize = DbSet.FirstOrDefault(c => c.PaperSizeId == sizeId);
+                return paperSize != null ? paperSize.Name : string.Empty;
             }
             catch (Exception ex)
             {

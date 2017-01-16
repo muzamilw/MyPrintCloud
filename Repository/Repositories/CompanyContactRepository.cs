@@ -2419,6 +2419,11 @@ namespace MPC.Repository.Repositories
                 return 0;
         }
 
+        public List<string> GetContactEmailsByTerritories(List<long?> territories)
+        {
+            return DbSet.Where(c => territories.Contains(c.TerritoryId ?? 0) && c.isArchived != true && c.isWebAccess != false).Select(e => e.Email).ToList();
+        }
+
     }
 }
   

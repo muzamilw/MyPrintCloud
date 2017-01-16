@@ -50,5 +50,6 @@ namespace MPC.Models.Common
 
         public CompanyContact CompanyContact { get; set; }
         public List<AddOnCostsCenter> ItemsSelectedAddonsList { get; set; }
+        public bool IsDownloadOrder { get; set; }
     }
 }

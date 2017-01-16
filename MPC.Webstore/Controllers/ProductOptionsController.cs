@@ -362,6 +362,9 @@ namespace MPC.Webstore.Controllers
                 StoreBaseResopnse = null;
                 TempData["ItemMode"] = ItemMode;
                 ViewBag.ViewToFire = ViewToFire;
+                ViewBag.IsDigitalDownload = clonedItem.IsDigitalDownload?? false;
+                ViewBag.DownloadPrice = clonedItem.DigitalDownloadPrice??0;
+                ViewBag.IsDigitalDownloadOrder = clonedItem.IsDigitalDownloadOrder??false;
                 if (ViewToFire == "ProductOptionsAndDetails")
                 {
                     LoadRelatedItems(referenceItemId);
@@ -427,18 +430,20 @@ namespace MPC.Webstore.Controllers
                     if (StoreBaseResopnse.Company.isCalculateTaxByService == true) // calculate tax by service
                     {
 
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue, cartObject.IsDigitalDownloadOrder); // set files count
                     }
                     else
                     {
-                        if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
-                        {
-                            _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
-                        }
-                        else
-                        {
-                            _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
-                        }
+                        //if (Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
+                        //{
+                        //    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
+                        //}
+                        //else
+                        //{
+                        //    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue); // set files count
+                        //}
+                        //Code above is commented by Naveed on 20160907 while applying product taxt rate
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, Convert.ToInt64(cartObject.ItemStockOptionId), UserCookieManager.WBStoreId, 0, QuestionJsonQueue, CostCentreJsonQueue, InputJsonQueue, cartObject.IsDigitalDownloadOrder); // set files count
                     }
 
 
@@ -754,8 +759,18 @@ namespace MPC.Webstore.Controllers
             {
                 if (StoreBaseResopnse.Company.isIncludeVAT == true)
                 {
-                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
-                    ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
+
+                    if (referenceItem.DefaultItemTax != null)
+                    {
+                        ViewBag.TaxRate = Convert.ToDouble(referenceItem.DefaultItemTax);
+
+                    }
+                    else
+                    {
+                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                        ViewBag.TaxRate = Convert.ToDouble(StoreBaseResopnse.Company.TaxRate);
+                    }
+                   
 
                 }
                 else

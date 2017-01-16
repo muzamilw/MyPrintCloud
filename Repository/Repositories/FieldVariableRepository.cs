@@ -66,9 +66,10 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
             Expression<Func<FieldVariable, bool>> query =
             s =>
-                (s.CompanyId == request.CompanyId && s.OrganisationId == OrganisationId);
+                ((!isStringSpecified || s.VariableName.Contains(request.SearchString) || s.VariableTitle.Contains(request.SearchString) || s.VariableTag.Contains(request.SearchString)) && s.CompanyId == request.CompanyId && s.OrganisationId == OrganisationId);
 
             int rowCount = DbSet.Count(query);
             IEnumerable<FieldVariable> fieldVariables = request.IsAsc

@@ -427,6 +427,8 @@ namespace MPC.Models.DomainModels
         /// </summary>
         [NotMapped]
         public string SupplierCompanyName { get; set; }
+        [NotMapped]
+        public string SizeName { get; set; }
         #endregion
     }
 }

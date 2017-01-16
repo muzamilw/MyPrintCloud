@@ -35,13 +35,13 @@
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
-                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
+                            @*<li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
                                 @Html.ActionLink("Calender Events", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 @Html.ActionLink("Calendar", "Calendar", "Home")
-                                @*<a href="#tab-Calendar" data-toggle="tab">Calendar</a>*@
-                            </li>
+                                
+                            </li>*@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Contacts">

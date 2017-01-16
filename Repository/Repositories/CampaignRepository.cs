@@ -568,6 +568,24 @@ namespace MPC.Repository.Repositories
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
                                                         }
                                                     }
+                                                    else if (Tag == "«ProofWithoutCrop:7»")
+                                                    {
+                                                        int orderId = Convert.ToInt32(propertyInfo.GetValue(variablValues, null));
+                                                        if (orderId > 0)
+                                                        {
+                                                            tagValue = "/webstoreapi/DownloadArtwork?itemId=" + orderId + "&isWaterMark=1";
+
+                                                            tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
+                                                        }
+                                                    }
+                                                    else if (Tag == "«ProductCategoryName:7»")
+                                                    {
+                                                        int itemId = Convert.ToInt32(propertyInfo.GetValue(variablValues, null));
+                                                        if (itemId > 0)
+                                                        {
+                                                            tagValue = GetCategoriesByItem(itemId);
+                                                        }
+                                                    }
                                                     else if (propertyInfo.Name == "orderedItemID")
                                                     {
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ItemID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
@@ -1471,13 +1489,15 @@ namespace MPC.Repository.Repositories
                          c.CampaignId,
                          c.CampaignName,
                          c.CampaignImages,
-                         c.CampaignEmailEvent
+                         c.CampaignEmailEvent,
+                         c.IsEnabled
                      }).ToList().Select(c => new Campaign
                      {
                          CampaignId = c.CampaignId,
                          CampaignImages = c.CampaignImages,
                          CampaignName = c.CampaignName,
-                         CampaignEmailEvent = c.CampaignEmailEvent
+                         CampaignEmailEvent = c.CampaignEmailEvent,
+                         IsEnabled = c.IsEnabled
                      }).ToList();
             return campaign;
         }
@@ -1505,6 +1525,31 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        public void ProductTemplateNotificationEmail(long eventId, string emails, long itemId)
+        {
+            CampaignEmailParams cempaignEmailParams = new CampaignEmailParams
+            {
+                CompanyId =  0,
+                StoreId =  0,
+                OrganisationId = OrganisationId,
+                SalesManagerContactID = 1,
+                ItemId = itemId
+            };
+            if (!string.IsNullOrEmpty(emails))
+            {
+                Campaign evetCampaign = GetMisCampaignEmailByEvent(eventId);
+
+                if (evetCampaign != null && evetCampaign.IsEnabled == true)
+                {
+                    evetCampaign.NotificationEmailIds = emails;
+                    SaveChanges();
+                    Organisation organisation = db.Organisations.FirstOrDefault(o => o.OrganisationId == OrganisationId);
+                    emailBodyGenerator(evetCampaign, organisation, cempaignEmailParams, null, StoreMode.Retail, "", "", "", "", "", "", null);
+                }
+            }
+            
+
+        }
         public Campaign GetMisCampaignEmailByEvent(long emailEvent)
         {
             try
@@ -1518,6 +1563,16 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
+        }
+        public string GetCategoriesByItem(long itemId)
+        {
+            string catNames = string.Empty;
+            var cats =
+                db.ProductCategoryItems.Where(c => c.ItemId == itemId).Include(d => d.ProductCategory).Include(i => i.Item).ToList();
+            cats.ForEach(c => catNames += c.ProductCategory.CategoryName + ",");
+            if (catNames.EndsWith(","))
+                catNames = catNames.Substring(0, catNames.Length - 1);
+            return catNames;
         }
     }
 }

@@ -153,6 +153,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string CouponCode { get; set; }
         public double ActualValue { get; set; }
         public bool? IsDigitalDownload { get; set; }
+        public double? DigitalDownloadPrice { get; set; }
         #endregion
     }
 }

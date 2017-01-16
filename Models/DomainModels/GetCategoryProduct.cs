@@ -43,5 +43,7 @@ namespace MPC.Models.DomainModels
         public long ProductCategoryId { get; set; }
         public Nullable<long> TemplateId { get; set; }
         public Nullable<int> DesignerCategoryId { get; set; }
+        public bool? IsDigitalDownload { get; set; }
+        public double? DigitalDownloadPrice { get; set; }
     }
 }

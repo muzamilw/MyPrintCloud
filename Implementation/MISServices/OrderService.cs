@@ -819,7 +819,7 @@ namespace MPC.Implementation.MISServices
                         campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderMovedToShipping), estimate);
                     else if (estimate.StatusId == (int)OrderStatus.Invoice)
                         campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderInvoiced), estimate);
-                    else
+                    else if (estimate.StatusId == (int)OrderStatus.CancelledOrder)
                         campaignRepository.OrderProcessingNotificationEmail(Convert.ToInt32(Events.OrderCancelled), estimate);
                 }
             }
@@ -1316,9 +1316,43 @@ namespace MPC.Implementation.MISServices
                 target.Estimate_Total = source.Items.ToList().Sum(a => a.Qty1NetTotal);
                 // Clone Item Sections
                 CloneItemSections(item, targetItem);
+                CloneItemAttachments(item, targetItem);
             }
         }
 
+
+        
+        private void CloneItemAttachments(Item source, Item target)
+        {
+            if (source.ItemAttachments == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.ItemAttachments == null)
+            {
+                target.ItemAttachments = new List<ItemAttachment>();
+            }
+
+            foreach (ItemAttachment itemAttachment in source.ItemAttachments.ToList())
+            {
+                ItemAttachment targetItemAttachment = itemAttachmentRepository.Create();
+                itemAttachmentRepository.Add(targetItemAttachment);
+                targetItemAttachment.ApproveDate = itemAttachment.ApproveDate;
+                targetItemAttachment.Comments = itemAttachment.Comments;
+                targetItemAttachment.CompanyId = itemAttachment.CompanyId;
+                targetItemAttachment.ContactId = itemAttachment.ContactId;
+                targetItemAttachment.ContentType = itemAttachment.ContentType;
+                targetItemAttachment.FileName = itemAttachment.FileName;
+                targetItemAttachment.FileSource = itemAttachment.FileSource;
+                targetItemAttachment.FileTitle = itemAttachment.FileTitle;
+                targetItemAttachment.FileType = itemAttachment.FileType;
+                targetItemAttachment.FolderPath = itemAttachment.FolderPath;
+                targetItemAttachment.UploadDate = itemAttachment.UploadDate;
+                target.ItemAttachments.Add(targetItemAttachment);
+            }
+        }
         /// <summary>
         /// Copy Item Sections
         /// </summary>
@@ -1372,6 +1406,7 @@ namespace MPC.Implementation.MISServices
                     
                 }
                 CloneSectionCostCenter(itemSection, targetItemSection);
+                CloneSectionInkCoverage(itemSection, targetItemSection);
             }
         }
         private void CloneSectionCostCenter(ItemSection source, ItemSection target)
@@ -1392,6 +1427,9 @@ namespace MPC.Implementation.MISServices
                 SectionCostcentre targetSectionCostcentre = sectionCostCentreRepository.Create();
                 sectionCostCentreRepository.Add(targetSectionCostcentre);
                 targetSectionCostcentre.ItemSectionId = target.ItemSectionId;
+                targetSectionCostcentre.CostCentreType = sectionCostcentre.CostCentreType;
+                targetSectionCostcentre.SystemCostCentreType = sectionCostcentre.SystemCostCentreType;
+                
                 target.SectionCostcentres.Add(targetSectionCostcentre);
                 sectionCostcentre.Clone(targetSectionCostcentre);
                 if (source.Item.JobSelectedQty != null && target.Item.ItemType != 2)
@@ -1402,6 +1440,7 @@ namespace MPC.Implementation.MISServices
                         targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty1Charge;
                         targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty1MarkUpID;
                         targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty1NetTotal;
+                        targetSectionCostcentre.Qty1WorkInstructions = sectionCostcentre.Qty1WorkInstructions;
 
                     }
                     else if (source.Item.JobSelectedQty == 2)
@@ -1410,6 +1449,7 @@ namespace MPC.Implementation.MISServices
                         targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty2Charge;
                         targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty2MarkUpID;
                         targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty2NetTotal;
+                        targetSectionCostcentre.Qty1WorkInstructions = sectionCostcentre.Qty2WorkInstructions;
                     }
                     else if (source.Item.JobSelectedQty == 3)
                     {
@@ -1417,6 +1457,7 @@ namespace MPC.Implementation.MISServices
                         targetSectionCostcentre.Qty1Charge = sectionCostcentre.Qty3Charge;
                         targetSectionCostcentre.Qty1MarkUpID = sectionCostcentre.Qty3MarkUpID;
                         targetSectionCostcentre.Qty1NetTotal = sectionCostcentre.Qty3NetTotal;
+                        targetSectionCostcentre.Qty1WorkInstructions = sectionCostcentre.Qty3WorkInstructions;
                     }
 
                 }
@@ -1453,6 +1494,31 @@ namespace MPC.Implementation.MISServices
                 sectionCostCentreDetail.Qty2 = 0;
                 sectionCostCentreDetail.Qty3 = 0;
                 sectionCostCentreDetail.Clone(targetSectionCostCentreDetail);
+            }
+        }
+
+        private void CloneSectionInkCoverage(ItemSection source, ItemSection target)
+        {
+            if (source.SectionInkCoverages == null)
+            {
+                return;
+            }
+
+            // Initialize List
+            if (target.SectionInkCoverages == null)
+            {
+                target.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+            foreach (SectionInkCoverage sectionInkCoverage in source.SectionInkCoverages.ToList())
+            {
+                SectionInkCoverage targetSectionInkCoverage = sectionInkCoverageRepository.Create();
+                sectionInkCoverageRepository.Add(targetSectionInkCoverage);
+                targetSectionInkCoverage.SectionId = target.ItemSectionId;
+                targetSectionInkCoverage.InkId = sectionInkCoverage.InkId;
+                targetSectionInkCoverage.InkOrder = sectionInkCoverage.InkOrder;
+                targetSectionInkCoverage.Side = sectionInkCoverage.Side;
+                targetSectionInkCoverage.CoverageRate = sectionInkCoverage.CoverageRate;
+                target.SectionInkCoverages.Add(targetSectionInkCoverage);
             }
         }
 
@@ -1662,7 +1728,11 @@ namespace MPC.Implementation.MISServices
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = "/MPC_Content/Artworks/" + OrganisationId + "/" + sZipFileName;
 
-                    orderRepository.UpdateItemAttachmentPath(ItemsList);
+                    if (oOrder.isDirectSale != true)
+                    {
+                        orderRepository.UpdateItemAttachmentPath(ItemsList);
+                    }
+                    
                     //UpdateAttachmentsPath(oOrder)
                     return ReturnPhysicalPath;
                 }

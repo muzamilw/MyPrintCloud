@@ -88,12 +88,12 @@ namespace MPC.Implementation.MISServices
         private ProductCategory Update(ProductCategory productCategory)
         {
             productCategory.OrganisationId = productCategoryRepository.OrganisationId;
-            productCategoryRepository.Update(productCategory);
             UpdateCategoryTerritories(productCategory);
-            productCategoryRepository.SaveChanges();
             SaveProductCategoryThumbNailImage(productCategory);
             productCategoryRepository.Update(productCategory);
             productCategoryRepository.SaveChanges();
+            //productCategoryRepository.Update(productCategory);
+            //productCategoryRepository.SaveChanges();
             return productCategory;
         }
 
