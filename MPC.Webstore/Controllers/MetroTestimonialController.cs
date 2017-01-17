@@ -29,7 +29,7 @@ namespace MPC.Webstore.Controllers
             string best = Utils.GetKeyValueFromResourceFile("ltrlbestregard", UserCookieManager.WBStoreId, "");
 
             Messages();
-            RaveReview resultOfReviews = _MyCompanyService.GetRaveReview();
+            RaveReview resultOfReviews = _MyCompanyService.GetRaveReview(UserCookieManager.WBStoreId);
             if (resultOfReviews != null)
             {
                 ViewBag.lblRaveReview = "<br /> " + resultOfReviews.Review + "<br />,<br /> &nbsp;";
@@ -165,7 +165,7 @@ namespace MPC.Webstore.Controllers
         private void Rebind()
         {
             Messages();
-            RaveReview resultOfReviews = _MyCompanyService.GetRaveReview();
+            RaveReview resultOfReviews = _MyCompanyService.GetRaveReview(UserCookieManager.WBStoreId);
             if (resultOfReviews != null)
             {
                 ViewBag.lblRaveReview = "<br /> " + resultOfReviews.Review + "<br /> Best regards,<br /> &nbsp;";

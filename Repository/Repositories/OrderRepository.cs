@@ -2793,7 +2793,8 @@ namespace MPC.Repository.Repositories
                             TerritoryId = tblContacts.TerritoryId ?? 0,
                             CompanyName = tblcompany.Name,
                             RejectionReason = tblOrd.RejectionReason,
-                            OrderTotal = tblOrd.Estimate_Total??0
+                            OrderTotal = tblOrd.Estimate_Total??0,
+                            TerritoryName = tblcompany.CompanyTerritories.FirstOrDefault(a => a.TerritoryId == tblContacts.TerritoryId).TerritoryName
                         };
 
             // filter list by status

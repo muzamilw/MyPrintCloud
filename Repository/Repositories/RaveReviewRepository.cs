@@ -34,13 +34,13 @@ namespace MPC.Repository.Repositories
             return DbSet.ToList();
         }
 
-        public RaveReview GetRaveReview()
+        public RaveReview GetRaveReview(long companyId)
         {
             try
             {
                 List<RaveReview> EnabledReviewRecordList = new List<RaveReview>();
                 EnabledReviewRecordList = (from review in db.RaveReviews
-                                           where review.isDisplay == true
+                                           where review.isDisplay == true && review.CompanyId == companyId
                                            select review).ToList();
                 if (EnabledReviewRecordList.Count > 0)
                 {
@@ -52,7 +52,7 @@ namespace MPC.Repository.Repositories
                 }
                 else
                 {
-                    return EnabledReviewRecordList.FirstOrDefault();
+                    return EnabledReviewRecordList.FirstOrDefault(c => c.CompanyId == companyId);
                 }
 
             }

@@ -83,7 +83,7 @@ namespace MPC.Webstore.Controllers
 
         public void GetRaReview()
         {
-            RaveReview resultOfReviews = _myCompanyService.GetRaveReview();
+            RaveReview resultOfReviews = _myCompanyService.GetRaveReview(UserCookieManager.WBStoreId);
             if (resultOfReviews != null)
             {
                 ViewBag.lblRaveReview = "<br /> " + resultOfReviews.Review + "<br /> Best regards,<br /> &nbsp;";

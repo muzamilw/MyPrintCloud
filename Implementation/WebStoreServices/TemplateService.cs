@@ -3583,10 +3583,10 @@ namespace MPC.Implementation.WebStoreServices
                             Template objProduct = _templateRepository.GetTemplate(TemplateID, out oTemplatePages, out oTemplateObjects);
                             double bleedareaSize = DesignerUtils.PointToMM(objProduct.CuttingMargin.Value);
                             bool hasOverlayObject = false;
-                            byte[] PDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, false, true, out hasOverlayObject, false, organisationId ?? 0, bleedareaSize, false);
+                            byte[] PDFFile = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, false, printWaterMark, out hasOverlayObject, false, organisationId ?? 0, bleedareaSize, false);
 
-                            System.IO.File.WriteAllBytes(drZipPath + orderId + "/proof_" + item.ItemId + ".pdf", PDFFile);
-                            spdfPath = drZipPath + orderId + "/proof_" + item.ItemId + ".pdf";
+                            System.IO.File.WriteAllBytes(drZipPath + orderId + "/Artwork_no_crops_" + item.ItemId + ".pdf", PDFFile);
+                            spdfPath = drZipPath + orderId + "/Artwork_no_crops_" + item.ItemId + ".pdf";
 
                             if (System.IO.File.Exists(spdfPath))
                             {
@@ -3595,7 +3595,7 @@ namespace MPC.Implementation.WebStoreServices
                             }
                             if (!printWaterMark)
                             {
-                                byte[] PDFFile2 = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, true, false, out hasOverlayObject, false, organisationId ?? 0, bleedareaSize, false);
+                                byte[] PDFFile2 = generateMultiPagePDF(objProduct, oTemplatePages, oTemplateObjects, drURL, fontsUrl, false, true, true, false, out hasOverlayObject, false, organisationId ?? 0, 0, false);
 
                                 System.IO.File.WriteAllBytes(drZipPath + orderId + "/Artwork_" + item.ItemId + ".pdf", PDFFile2);
                                 spdfPath = drZipPath + orderId + "/Artwork_" + item.ItemId + ".pdf";
@@ -3612,9 +3612,9 @@ namespace MPC.Implementation.WebStoreServices
                     }
                     if (Directory.Exists(drURL))
                     {
-                        zip.Save(drZipPath + "\\" + "ProofWithoutCrop_" + orderId + ".zip");
+                        zip.Save(drZipPath + "\\" + orderId + ".zip");
                     }
-                    return "/MPC_Content/Designer/Organisation" + organisationId + "/ReadyTemplates/" + "ProofWithoutCrop_" + orderId + ".zip";
+                    return "/MPC_Content/Designer/Organisation" + organisationId + "/ReadyTemplates/" + orderId + ".zip";
                 }
             }
             

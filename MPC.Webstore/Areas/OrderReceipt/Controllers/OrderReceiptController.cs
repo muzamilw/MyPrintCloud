@@ -61,7 +61,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
                 ViewBag.TaxLabel = oCompany.TaxLabel;
 
                 ViewBag.Company = oCompany;
-
+                
                 AddressViewModel oStoreDefaultAddress = null;
               //  Address StoreAddress = _myCompanyService.GetDefaultAddressByStoreID(Convert.ToInt64(StoreId));
 
@@ -119,7 +119,7 @@ namespace MPC.Webstore.Areas.OrderReceipt.Controllers
             OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
             ViewBag.StoreId = StoreId;
-
+            ViewBag.IsDigitalDownloadOrder = order.IsDownloadOrder;
            
 
             if (IsPrintReceipt == "1")

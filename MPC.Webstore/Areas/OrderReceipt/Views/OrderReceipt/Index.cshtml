@@ -206,8 +206,12 @@
              padding-top: 20px;
           padding-bottom: 20px;
             height: 35px;   width: 100%;">
-                    <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", CookieStoreId, "Estimated dispatch date:"))</span><br />
-                    <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
+                    @if (ViewBag.IsDigitalDownloadOrder != true)
+                    {
+                        <span id="lbl_EstimatedDate" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnestimateddispatchdate", CookieStoreId, "Estimated dispatch date:"))</span><br />
+                        <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
+                    }
+
                 </div>
             </div>
             <div style="width: 33.33333333333333%; line-height: 30px; float:left;">
@@ -258,8 +262,12 @@
              padding-top: 20px;
           padding-bottom: 20px;
             height: 35px;     width: 100%;">
-                    <span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", CookieStoreId))</span><br />
-                    <label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label>
+                    @if (ViewBag.IsDigitalDownloadOrder != true)
+                    {
+                        <span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", CookieStoreId))</span><br />
+                        <label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label>
+                    }
+
                 </div>
             </div>
             <div style="clear:both;">
@@ -378,24 +386,24 @@
                                                 @item.ProductName
                                             }
                                         </span><br>
-                                        @if (item.PaperType != null && item.PaperType != string.Empty)
+                                        @if (item.PaperType != null && item.PaperType != string.Empty && ViewBag.IsDigitalDownloadOrder != true)
                                         {
                                             <div class="">
                                                 <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">Stock: @item.PaperType</span>
                                             </div>
                                         }
                                         @{
-                                                if (Model.ItemsSelectedAddonsList != null)
-                                                {
-                                                    List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
-                                                    foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == item.ItemID))
-                                                    {
-                                                        itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
-                                                                 
-                                                    }
-                                                }
+                            if (Model.ItemsSelectedAddonsList != null)
+                            {
+                                List<AddOnCostsCenter> costcenters = Model.ItemsSelectedAddonsList as List<AddOnCostsCenter>;
+                                foreach (AddOnCostsCenter cost in costcenters.Where(addon => addon.ItemID == item.ItemID))
+                                {
+                                    itemAddsOn = itemAddsOn + cost.AddOnName + "<br />" + cost.CostCentreDescription.Replace("---", "<br />");
+
+                                }
+                            }
                                         }
-                                        <div >
+                                        <div>
                                             <span style="font-size:12px;font-family:'Open Sans Condensed', sans-serif;">@Html.Raw(itemAddsOn)</span>
 
                                         </div>
@@ -459,34 +467,34 @@
                             <td></td>
                             <td align="left"></td>
                             <td align="left">
-                                <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", CookieStoreId, "Delivery")):</span>
+                                @if (Model.IsDownloadOrder != true)
+                                {
+                                    <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", CookieStoreId, "Delivery")):</span>
+                                }
+                                
                             </td>
                             <td>
-                                @if (Model.DeliveryDiscountVoucherId == null)
+                                @if (Model.IsDownloadOrder != true)
                                 {
-                                    if (Model.DeliveryCost > 0)
+                                    if (Model.DeliveryDiscountVoucherId == null)
                                     {
-                                        <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                                        if (Model.DeliveryCost > 0)
+                                        {
+                                            <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                                        }
+                                        else
+                                        {
+                                            <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                                        }
                                     }
                                     else
                                     {
-                                        <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                                        <span id="lblCalculatedDelivery" style="color: red !important;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   font-size: 14px;">Free Shipping</span>
+
+                                        <span class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</span>
                                     }
                                 }
-                                else
-                                {
-                                    <span id="lblCalculatedDelivery" style="color: red !important;
-
-            line-height: 1;
-            text-align: left;
-
-            margin-left: 0px;
-            margin-top: 11px;
-            font-weight: bold;
-            font-size: 14px;">Free Shipping</span>
-
-                                    <span class="Fsize13 colorBlack displayClear" style="color:red;">&nbsp;</span>
-                                }
+                               
                             </td>
                         </tr>
                         <tr id="rowVat">
