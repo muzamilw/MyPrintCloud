@@ -288,7 +288,8 @@ namespace MPC.Webstore.Controllers
 
                             if (_ItemService.HasDigitalItem(OrderId))
                             {
-                               HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                               //HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                                HiResArtworkDownloadLink = _templateService.GetGemplateWithoutCropMarks(OrderId, 0);
                                AttachmentList.Add(HiResArtworkDownloadLink);
                             }
                          
@@ -420,7 +421,8 @@ namespace MPC.Webstore.Controllers
 
                             if (_ItemService.HasDigitalItem(OrderId))
                             {
-                                HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                               // HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                                HiResArtworkDownloadLink = _templateService.GetGemplateWithoutCropMarks(OrderId, 0);
                                 AttachmentList.Add(HiResArtworkDownloadLink);
                             }
 
@@ -467,7 +469,8 @@ namespace MPC.Webstore.Controllers
 
                             if (_ItemService.HasDigitalItem(OrderId))
                             {
-                                HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                               // HiResArtworkDownloadLink = _MISOrderService.GenerateDigitalItemsArtwork(OrderId, UserCookieManager.WEBOrganisationID);
+                                HiResArtworkDownloadLink = _templateService.GetGemplateWithoutCropMarks(OrderId, 0);
                                 AttachmentList.Add(HiResArtworkDownloadLink);
                             }
 

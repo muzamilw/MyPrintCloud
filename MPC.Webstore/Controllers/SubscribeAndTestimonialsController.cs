@@ -42,7 +42,7 @@ namespace MPC.Webstore.Controllers
         // GET: SubscribeAndTestimonials
         public ActionResult Index()
         {
-            ViewData["RaveReview"] = _myCompanyService.GetRaveReview();
+            ViewData["RaveReview"] = _myCompanyService.GetRaveReview(UserCookieManager.WBStoreId);
             MPC.Models.DomainModels.Company model = null;
 
             //  MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();

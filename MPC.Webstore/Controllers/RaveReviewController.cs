@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Webstore.Common;
 
 namespace MPC.Webstore.Controllers
 {
@@ -18,10 +19,10 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
-             ViewBag.RaveReview = _myCompanyService.GetRaveReview();
+             ViewBag.RaveReview = _myCompanyService.GetRaveReview(UserCookieManager.WBStoreId);
            // RaveReview view = _myCompanyService.GetRaveReview();
            // string gg = ViewBag.RaveReview.Review;
-
+             
              return PartialView("PartialViews/RaveReview");
         }
     }

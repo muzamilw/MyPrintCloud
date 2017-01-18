@@ -1417,11 +1417,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
-        public RaveReview GetRaveReview()
+        public RaveReview GetRaveReview(long companyId)
         {
             try
             {
-                return _raveReviewRepository.GetRaveReview();
+                return _raveReviewRepository.GetRaveReview(companyId);
 
             }
             catch (Exception ex)

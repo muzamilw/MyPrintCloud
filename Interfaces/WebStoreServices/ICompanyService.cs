@@ -281,7 +281,7 @@ namespace MPC.Interfaces.WebStoreServices
         NewsLetterSubscriber GetSubscriber(string email, long CompanyId);
         int AddSubscriber(NewsLetterSubscriber subsriber);
         bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status);
-        RaveReview GetRaveReview();
+        RaveReview GetRaveReview(long companyId);
         /// <summary>
         /// Check web access code exists
         /// </summary>

@@ -327,7 +327,7 @@
                                             }
                                             </span><br>
                                             <div class="papertypecls">
-                                                @if (item.PaperType != null && item.PaperType!=string.Empty)
+                                                @if (item.PaperType != null && item.PaperType != string.Empty && ViewBag.IsDigitalDownloadOrder != true)
                                                 {
                                                     <span style="font-size:12px;">Stock: @item.PaperType</span>
                                                 }
