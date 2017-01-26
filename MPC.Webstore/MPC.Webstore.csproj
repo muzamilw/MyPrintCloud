@@ -1388,6 +1388,7 @@
     <Content Include="App_GlobalResources\2\2.fr-FR.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>2.fr-FR.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

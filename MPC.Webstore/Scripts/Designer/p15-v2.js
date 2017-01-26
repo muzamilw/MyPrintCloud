@@ -289,7 +289,7 @@ function fu04_01() {
                       var title = "LstImg" + IT.ImageId;
                       var draggable = '';
                       var urlThumbnail = url;
-                      var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                      var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#" title="' + title + '>' + '<img title="' + title + '  src="' + url +
                                        '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
 
                       $("#divRealEstateImagesContainer").append(ahtml);
@@ -396,7 +396,7 @@ function fudm(searchText,ParentFolderId,pload)
                           var title = IT.FolderName;
                           var draggable = '';
                           var urlThumbnail = url;
-                          var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                          var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#" title="' + title + '">' + '<img  title="' + title + '" src="' + url +
                                            '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" data-FolderId="' + IT.FolderId + '" id = "f' + IT.FolderId + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
 
                          
@@ -444,7 +444,7 @@ function fudm(searchText,ParentFolderId,pload)
                           var title = IT.AssetName;
                           var draggable = '';
                           var urlThumbnail = url;
-                          var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + url +
+                          var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#" title="' + title + '>' + '<img  title="' + title + ' src="' + url +
                                            '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "as' + IT.AssetId + '" alt="' + url + '"></a><p class="bkFileName">' + title + '</p></li>';
 
                           $("#divDAMImagesContainer").append(ahtml);
