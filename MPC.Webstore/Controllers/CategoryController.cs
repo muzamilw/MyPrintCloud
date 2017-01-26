@@ -233,7 +233,7 @@ namespace MPC.Webstore.Controllers
                                 if (product.IsDigitalDownload == true)
                                 {
                                     ProductPriceMatrixViewModel digiPm = new ProductPriceMatrixViewModel();
-                                    digiPm.Quantity = "Download PDF";
+                                    digiPm.Quantity =  Utils.GetKeyValueFromResourceFile("htmlDownloadPdf", UserCookieManager.WBStoreId, "Download PDF");// "Download PDF";
                                     digiPm.ItemID = (int)product.ItemId;
 
                                     digiPm.Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(product.DigitalDownloadPrice);// Convert.ToString(product.DigitalDownloadPrice);
@@ -309,7 +309,7 @@ namespace MPC.Webstore.Controllers
                                 if (product.IsDigitalDownload == true)
                                 {
                                     ProductPriceMatrixViewModel digiPm = new ProductPriceMatrixViewModel();
-                                    digiPm.Quantity = "Download PDF";
+                                    digiPm.Quantity =  Utils.GetKeyValueFromResourceFile("htmlDownloadPdf", UserCookieManager.WBStoreId, "Download PDF");//"Download PDF";
                                     digiPm.ItemID = (int)product.ItemId;
 
                                     digiPm.Price = StoreBaseResopnse.Currency + Utils.FormatDecimalValueToTwoDecimal(product.DigitalDownloadPrice??0);
