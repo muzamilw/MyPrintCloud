@@ -1739,9 +1739,10 @@ function fu02UI() {
             }
         }
     });
-    if (organisationId == 1679)
+    if (organisationId == 1579)
     {
-     //   $("#lblConfirmSpellings").text("Confirm spelling, details and management approval");
+       $(".PreviewerDownloadImg").addClass("right339");
+        $(".PreviewerDownloadPDF").html("Download PDF Proof");
     }
     $(".PreviewerDownloadPDF").css("display", "none");
     $("#divLayersPanelRetail").draggable({
