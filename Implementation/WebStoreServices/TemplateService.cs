@@ -1205,7 +1205,20 @@ namespace MPC.Implementation.WebStoreServices
                         oPdf.AddLine(mrg, oPdf.MediaBox.Height - mrg + offset, mrg, oPdf.MediaBox.Height);
                         oPdf.AddLine(oPdf.MediaBox.Width - mrg + offset, oPdf.MediaBox.Height - mrg, oPdf.MediaBox.Width, oPdf.MediaBox.Height - mrg); //----
                         oPdf.AddLine(oPdf.MediaBox.Width - mrg, oPdf.MediaBox.Height - mrg + offset, oPdf.MediaBox.Width - mrg, oPdf.MediaBox.Height); //|
+                        oPdf.Color.String = "0 0 0 0";
 
+                        oPdf.AddLine(mrg + 0.26, 0, mrg + 0.26, mrg - offset);
+                        oPdf.AddLine(0, mrg + 0.26, mrg - offset, mrg + 0.26);
+                        oPdf.AddLine(oPdf.MediaBox.Width - mrg + 0.26, 0, oPdf.MediaBox.Width - mrg + 0.26, mrg - offset);
+                        oPdf.AddLine(oPdf.MediaBox.Width - mrg + offset, mrg + 0.26, oPdf.MediaBox.Width, mrg + 0.26);
+
+                        oPdf.AddLine(0, oPdf.MediaBox.Height - mrg + 0.26, mrg - offset, oPdf.MediaBox.Height - mrg + 0.26);
+                        oPdf.AddLine(mrg + 0.26, oPdf.MediaBox.Height - mrg + offset, mrg + 0.26, oPdf.MediaBox.Height );
+
+                        oPdf.AddLine(oPdf.MediaBox.Width - mrg + offset, oPdf.MediaBox.Height - mrg + 0.26, oPdf.MediaBox.Width, oPdf.MediaBox.Height - mrg + 0.26); //----
+                        oPdf.AddLine(oPdf.MediaBox.Width - mrg + 0.26, oPdf.MediaBox.Height - mrg + offset, oPdf.MediaBox.Width - mrg + 0.26, oPdf.MediaBox.Height); //|
+                        
+                        oPdf.Color.String = "100 100 100 100";
                         // adding date time stamp
                         oPdf.Layer = 1;
                         oPdf.TextStyle.Outline = 0;
