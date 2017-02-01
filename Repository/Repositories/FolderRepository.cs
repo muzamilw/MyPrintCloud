@@ -96,7 +96,7 @@ namespace MPC.Repository.Repositories
                                  folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
                                  folder.OrganisationId == organisationId
                                  //&& folder.ParentFolderId == ParentFolderId.Value
-                                 && folder.FolderName.Contains(searchText)
+                                 && (folder.FolderName.Contains(searchText) || folder.Description.Contains(searchText))
                              select folder;
                 }
                 else //no search
@@ -123,7 +123,7 @@ namespace MPC.Repository.Repositories
                              where
                                  folderterritory.TerritoryId == territoryId && folder.CompanyId == companyId &&
                                  folder.OrganisationId == organisationId
-                                  && folder.FolderName.Contains(searchText)
+                                  && (folder.FolderName.Contains(searchText) || folder.Description.Contains(searchText))
                              select folder;
                 }
                 else // no search
@@ -171,7 +171,7 @@ namespace MPC.Repository.Repositories
                                folder.CompanyId == companyId &&
                                  folder.OrganisationId == organisationId
                                  && folder.ParentFolderId == ParentFolderId.Value
-                                 && folder.FolderName.Contains(searchText)
+                                 && (folder.FolderName.Contains(searchText) || folder.Description.Contains(searchText))
                              select folder;
                 }
                 else //no search
@@ -198,7 +198,7 @@ namespace MPC.Repository.Repositories
                              where
                                 folder.CompanyId == companyId &&
                                  folder.OrganisationId == organisationId
-                                  && folder.FolderName.Contains(searchText)
+                                  && (folder.FolderName.Contains(searchText) || folder.Description.Contains(searchText))
                              select folder;
                 }
                 else // no search

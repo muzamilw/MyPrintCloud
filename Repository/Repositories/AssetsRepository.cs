@@ -51,7 +51,7 @@ namespace MPC.Repository.Repositories
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                return DbSet.Where(a => (a.AssetName.Contains(searchText) == true || a.Description.Contains(searchText) == true)).ToList();  //a.FolderId == ParentFolderId && 
+                return DbSet.Where(a => (a.AssetName.Contains(searchText) == true || a.Description.Contains(searchText) == true || a.Keywords.Contains(searchText) == true)).ToList();  //a.FolderId == ParentFolderId && 
             }
             else
             {
