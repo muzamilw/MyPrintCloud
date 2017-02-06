@@ -40,7 +40,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CarrierId = source.CarrierId,
                 CarrierName = source.CarrierName,
-                CarrierPhone = source.CarrierPhone
+                CarrierPhone = source.CarrierPhone,
+                Url = source.Url
             };
         }
     }

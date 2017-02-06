@@ -217,8 +217,17 @@
                                 <label class="control-label text-right tooltip-float">Carrier</label>
                             </div>
                             <div class="col-sm-6">
-                                <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:$root.carrierFilter"></select>
+                                <select class="form-control" data-bind="options: $root.deliveryCarriers, optionsText: 'CarrierName', optionsValue: 'CarrierId', optionsCaption: 'Select a carrier ',value:$root.carrierFilter, event:{ change: $root.carrierChanged}"></select>
                                 <span class="help-block text-right"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:-20px;margin-bottom:26px">
+                            <div class="col-sm-4 text-right">
+
+                                <label class="control-label text-right tooltip-float">Link</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <a class="control-label text-right tooltip-float" data-bind="text:$root.CarrierLink() ==='null' ? '' :$root.CarrierLink(),attr:{href:$root.CarrierLink()},click: function(){$root.openDomainInTab($data);} " style="float:left;color: #3498db;"></a>
                             </div>
                         </div>
                         <div class="form-group" style="margin-top: -10px;">

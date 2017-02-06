@@ -50,6 +50,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     pager = ko.observable(),
                     //phone
                     CarriarPhone = ko.observable(),
+                    CarrierLink = ko.observable(),
                      //Sort On
                     sortOn = ko.observable(4),
                     //Sort In Ascending
@@ -162,6 +163,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                                 var dNote = model.DeliveryNote.Create(data);
                                 selectedDeliveryNote(dNote);
                                 CarriarPhone(dNote.supplierTelNo());
+                                CarrierLink(dNote.supplierUrl())
                                 carrierFilter(dNote.supplierId());
                                 selectedDeliveryNote().companyName(data.CompanyName);
                                 // Get Base Data For Company
@@ -551,7 +553,10 @@ define("deliveryNotes/deliveryNotes.viewModel",
                 gotoElement = function (validation) {
                     view.gotoElement(validation.element);
                 },
-               
+                openDomainInTab = function (data) {
+                    window.open(window.location.protocol + "//" + this.CarrierLink());
+                       event.stopImmediatePropagation();
+                },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -568,6 +573,7 @@ define("deliveryNotes/deliveryNotes.viewModel",
                             if (Dcarrier.CarrierId == carrier) {
                                 
                                 CarriarPhone(Dcarrier.CarrierPhone);
+                                CarrierLink(Dcarrier.Url);
                                 
                             }
                         });
@@ -622,7 +628,9 @@ define("deliveryNotes/deliveryNotes.viewModel",
                     formatResult: formatResult,
                     deliveryNoteEditorHeader: deliveryNoteEditorHeader,
                     carrierFilter: carrierFilter,
-                    CarriarPhone: CarriarPhone
+                    CarriarPhone: CarriarPhone,
+                    CarrierLink: CarrierLink,
+                    openDomainInTab: openDomainInTab
 
                 };
             })()
