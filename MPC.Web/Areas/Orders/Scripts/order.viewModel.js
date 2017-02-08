@@ -2357,6 +2357,7 @@ define("order/order.viewModel",
                             // deliverySchedule.deliveryNoteRaised(true);
                             selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
                             selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
+                          
                         }
                     },
                     // Set  Quantity Of new Added Delivery Schedule
@@ -2423,13 +2424,18 @@ define("order/order.viewModel",
                                     perUnitPrice = parseInt(selectedDeliverySchedule().quantity()) / parseInt(selectedItem.qty1());
                                 }
 
-                                var netPrice = (perUnitPrice * parseInt(selectedItem.qty1NetTotal())).toFixed(2);
-                                selectedDeliverySchedule().price(netPrice);
+                                var netPrice = parseFloat((perUnitPrice * parseInt(selectedItem.qty1NetTotal())).toFixed(2));
+                           
+                                if (netPrice > selectedDeliverySchedule().price()) {
+                                    toastr.error("Price is less then net price('"+netPrice+"') of total items.");
+                                    selectedDeliverySchedule().price(netPrice);
+                                }
                             }
                             
                             
                         }
                     }),
+             
                     //
                     checkForQuantity = function (selectedItem) {
                         // Check Whether quantity is not greater than selected item Qty1 
@@ -2454,6 +2460,7 @@ define("order/order.viewModel",
                             toastr.error("Quantity can not be greater than selected Item Quantity.");
                             return false;
                         }
+
                         return true;
                     },
                     // Set Deliver Schedule Fields Like Item Name, Address Name for List View
