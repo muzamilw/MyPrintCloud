@@ -12,6 +12,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? AddressId { get; set; }
         public int? Quantity { get; set; }
         public double? Price { get; set; }
+        public double? DeliveryCost { get; set; }
         public long? EstimateId { get; set; }
         public bool? DeliveryNoteRaised { get; set; }
         public DateTime DeliveryDate { get; set; }

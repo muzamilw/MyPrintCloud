@@ -5039,7 +5039,7 @@ namespace MPC.Repository.Repositories
         public bool IsDigitalDownloadOrder(long orderId)
         {
             bool result = false;
-            var orderItems = DbSet.Where(i => i.EstimateId == orderId && i.IsOrderedItem == true).ToList();
+            var orderItems = DbSet.Where(i => i.EstimateId == orderId && i.IsOrderedItem == true && i.ItemType != (int)ItemTypes.Delivery).ToList();
             bool hasDownloadItem = orderItems.Any(i => (i.IsDigitalDownloadOrder ?? false));
             bool hasPrintItem= orderItems.Any(i => (i.IsDigitalDownloadOrder ?? false) != true);
             if (hasDownloadItem && !hasPrintItem)

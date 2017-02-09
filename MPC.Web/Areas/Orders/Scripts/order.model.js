@@ -686,7 +686,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
         },
         // Shipping Information
         ShippingInformation = function (specifiedShippingId, specifiedItemId, specifiedAddressId, specifiedQuantity, specifiedPrice, specifiedDeliveryNoteRaised,
-            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName, specifiedCarrierId, specifiedConsignmentNo) {
+            specifiedDeliveryDate, specifiedEstimateId, specifiedAddressName, specifiedItemName, specifiedCarrierId, specifiedConsignmentNo, deliveryCost) {
             var // Unique key
                 shippingId = ko.observable(specifiedShippingId),
                 // Item ID
@@ -697,6 +697,8 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 quantity = ko.observable(specifiedQuantity).extend({ number: true, required: true }),
                 // Price
                 price = ko.observable(specifiedPrice).extend({ numberInput: ist.numberFormat }),
+                // delivery cost
+                deliveryCost = ko.observable(deliveryCost).extend({ numberInput: ist.numberFormat }),
                 //Deliver Not Raised Flag
                 deliveryNoteRaised = ko.observable(specifiedDeliveryNoteRaised !== undefined ? specifiedDeliveryNoteRaised : false),
                 // Deliver Date
@@ -736,6 +738,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                     addressId: addressId,
                     quantity: quantity,
                     price: price,
+                    deliveryCost:deliveryCost,
                     deliveryNoteRaised: deliveryNoteRaised,
                     deliveryDate: deliveryDate,
                     carrierId: carrierId,
@@ -758,6 +761,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                         Quantity: quantity(),
                         DeliveryDate: deliveryDate() ? moment(deliveryDate()).format(ist.utcFormat) : null,
                         Price: price(),
+                        deliveryCost:deliveryCost(),
                         DeliveryNoteRaised: deliveryNoteRaised(),
                         EstimateId: estimateId(),
                         CarrierId: carrierId(),
@@ -771,6 +775,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
                 addressId: addressId,
                 quantity: quantity,
                 price: price,
+                deliveryCost:deliveryCost,
                 deliveryNoteRaised: deliveryNoteRaised,
                 deliveryDate: deliveryDate,
                 formattedDeliveryDate: formattedDeliveryDate,
@@ -1476,7 +1481,7 @@ define(["ko", "common/itemDetail.model", "underscore", "underscore-ko"], functio
 
     ShippingInformation.Create = function (source) {
         return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised,
-            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName, source.CarrierId, source.ConsignmentNumber);
+            source.DeliveryDate, source.EstimateId, source.AddressName, source.ItemName, source.CarrierId, source.ConsignmentNumber, source.DeliveryCost);
     };
 
     return {

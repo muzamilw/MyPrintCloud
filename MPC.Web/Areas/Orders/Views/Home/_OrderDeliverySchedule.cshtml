@@ -25,6 +25,7 @@
                                 <th class="col-lg-2"><span>Delivery Date</span></th>
                                 <th class="col-lg-2">Carrier</th>
                                 <th class="col-lg-1">Consignment#</th>
+                                <th class="col-lg-1">Delivery Cost</th>
                                 <th class="col-lg-1"></th>
                                 <th class="col-lg-1"></th>
                             </tr>
@@ -75,7 +76,10 @@
             </td>
             <td><select class="form-control" data-bind="enable: !deliveryNoteRaised(), options: $root.deliveryCarriers , optionsText: 'CarrierName', optionsValue: 'CarrierId' ,value:carrierId,validationtooltip:carrierId"></select></td>
             <td><input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), value: consignmentNumber" /></td>
-            @*<td style="width: 114px;padding-top: 7px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>*@
+            <td style="width: 114px;padding-top: 7px">
+                <span data-bind="visible:deliveryCost()!==undefined,text: $root.currencySymbol"></span>
+                <input type="text" class="form-control" data-bind="enable: !deliveryNoteRaised(), value: deliveryCost" />
+            </td>
             @*<td>
                 <div class="checkbox-nice">
                     <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised' + $index() }">
@@ -110,7 +114,7 @@
             <td data-bind="dateString: deliveryDate"></td>
             <td style="width: 175px" data-bind="text: carrierName"></td>
             <td data-bind="text: consignmentNumber"></td>
-            @*<td style="width: 114px"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: price"></span> </td>*@
+            <td style="width: 114px"><span data-bind="visible:deliveryCost()!==undefined,text: $root.currencySymbol"></span><span data-bind="numberInput: deliveryCost"></span> </td>
             @*<td>
                 <div class="checkbox-nice">
                     <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised1' + $index() }">

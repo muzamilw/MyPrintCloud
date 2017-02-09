@@ -27,7 +27,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CarrierId = source.CarrierId,
                 ConsignmentNumber = source.ConsignmentNumber,
                 ItemName = source.Item != null ? source.Item.ProductName : string.Empty,
-                AddressName = source.Address != null ? source.Address.AddressName : string.Empty
+                AddressName = source.Address != null ? source.Address.AddressName : string.Empty,
+                DeliveryCost = source.DeliveryCost
             };
         }
 
@@ -47,7 +48,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 EstimateId = source.EstimateId,
                 DeliveryNoteRaised = source.DeliveryNoteRaised,
                 CarrierId = source.CarrierId,
-                ConsignmentNumber = source.ConsignmentNumber
+                ConsignmentNumber = source.ConsignmentNumber,
+                DeliveryCost = source.DeliveryCost
             };
         }
 

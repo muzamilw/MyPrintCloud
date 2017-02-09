@@ -30,6 +30,7 @@ namespace MPC.Models.ModelMappers
             target.EstimateId = source.EstimateId;
             target.Quantity = source.Quantity;
             target.Price = source.Price;
+            target.DeliveryCost = source.DeliveryCost;
             target.DeliveryDate = source.DeliveryDate;
             target.DeliveryNoteRaised = source.DeliveryNoteRaised;
             target.CarrierId = source.CarrierId;

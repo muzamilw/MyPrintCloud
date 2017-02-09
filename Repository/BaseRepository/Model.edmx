@@ -3535,6 +3535,7 @@
           <Property Name="AddressId" Type="bigint" />
           <Property Name="Quantity" Type="int" />
           <Property Name="Price" Type="float" />
+          <Property Name="DeliveryCost" Type="float" />
           <Property Name="DeliveryNoteRaised" Type="bit" />
           <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
           <Property Name="EstimateId" Type="bigint" />
@@ -14642,6 +14643,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="AddressId" Type="Int64" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="Price" Type="Double" />
+          <Property Name="DeliveryCost" Type="Double" />
           <Property Name="DeliveryNoteRaised" Type="Boolean" />
           <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EstimateId" Type="Int64" />
@@ -20648,6 +20650,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="DeliveryNoteRaised" ColumnName="DeliveryNoteRaised" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DeliveryCost" ColumnName="DeliveryCost" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
