@@ -395,7 +395,6 @@ namespace MPC.Implementation.MISServices
         private bool GeneratePO(long orderId, long contactId, long companyId, Guid createdBy)
         {
             string serverPath = HttpContext.Current.Request.Url.Host;
-
             bool isPoGenerate = purchaseRepository.GeneratePO(orderId, createdBy);
             if (isPoGenerate)
             {

@@ -96,6 +96,10 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                var orderItems = db.Items.Where(i => i.EstimateId == OrderId && i.IsOrderedItem == true && i.ItemType != (int)ItemTypes.Delivery).ToList();
+                bool hasPrintItem = orderItems.Any(i => (i.IsDigitalDownload ?? false) != true);
+                if (!hasPrintItem)
+                    return false;
                 db.usp_GeneratePurchaseOrders((int)OrderId, CreatedBy);
 
                 return true;
