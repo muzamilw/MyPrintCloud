@@ -607,7 +607,7 @@ namespace MPC.Repository.Repositories
                         List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == template.ProductId).ToList();
                         foreach (var objTVar in lstTemplateVariables)
                         {
-                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).SingleOrDefault();
+                            var scopeObj = result.Where(g => g.VariableId == objTVar.VariableId).FirstOrDefault();
                             if (scopeObj != null)
                             {
                                 if (objTVar.VariableText != null && objTVar.VariableText != "")
