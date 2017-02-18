@@ -466,9 +466,36 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
         }
 
-        
+        public List<Folder> GetAllFoldersInHierarchy(long CompanyID, long OrganisationID)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            List<Folder> list = db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && (i.ParentFolderId == 0 || i.ParentFolderId == null)).OrderBy(a => a.FolderName).ToList();
+            List<Folder> listToReturn = new List<Folder>();
+            foreach (Folder item in list)
+            {
+                listToReturn.Add(item);
+                DirSearch(item.FolderId, CompanyID, OrganisationID, listToReturn, "__");
+            }
 
-        
+
+            return listToReturn;
+        }
+
+        private List<Folder> DirSearch(long sDir, long CompanyID, long OrganisationID, List<Folder> listToReturn, string s)
+        {
+
+            List<Folder> list = db.Folders.Where(i => i.CompanyId == CompanyID && i.OrganisationId == OrganisationID && i.ParentFolderId == sDir).OrderBy(a => a.FolderName).ToList();
+            
+            foreach (Folder item in list)
+            {
+                item.FolderName = s + item.FolderName;
+                listToReturn.Add(item);
+                DirSearch(item.FolderId, CompanyID, OrganisationID, listToReturn, s+"__");
+            }
+
+            s.Remove(s.Length-2);
+            return listToReturn;
+        }
     }
    
 }

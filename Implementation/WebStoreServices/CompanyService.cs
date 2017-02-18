@@ -1986,6 +1986,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _FolderRepository.GetAllFolders(CompanyID, OrganisationID);
         }
+        public List<Folder> GetAllFoldersInHierarchy(long CompanyID, long OrganisationID)
+        {
+            return _FolderRepository.GetAllFoldersInHierarchy(CompanyID, OrganisationID);
+        }
         public long AddAsset(Asset Asset)
         {
             return _AssestsRepository.AddAsset(Asset);

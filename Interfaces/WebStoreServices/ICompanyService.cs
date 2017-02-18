@@ -322,5 +322,6 @@ namespace MPC.Interfaces.WebStoreServices
             long territoryId);
 
         FolderSearchResponse GetDamFoldersAssets(string searchText, long companyId, long organisationId, long territoryId, int parentFolderId);
+        List<Folder> GetAllFoldersInHierarchy(long CompanyID, long OrganisationID);
     }
 }

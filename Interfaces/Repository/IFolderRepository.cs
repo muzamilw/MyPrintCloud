@@ -30,6 +30,7 @@ namespace MPC.Interfaces.Repository
         List<Folder> GetFoldersBySearchTextCompanyTerritoryParentFolder(string searchText, long companyId, long organisationId, long territoryId, Nullable<long> ParentFolderId);
 
         List<Folder> GetFoldersBySearchTextCompanyTerritoryParentFolder(string searchText, long companyId, long organisationId, Nullable<long> ParentFolderId);
+        List<Folder> GetAllFoldersInHierarchy(long CompanyID, long OrganisationID);
     }
     
 

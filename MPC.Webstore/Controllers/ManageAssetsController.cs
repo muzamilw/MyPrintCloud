@@ -173,13 +173,13 @@ namespace MPC.Webstore.Controllers
 
             return View("PartialViews/ManageAssets");
         }
-
+      
 
 
         [HttpGet]
         public JsonResult GetFolders()
         {
-            List<Folder> GetFolder = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID).OrderBy(i=>i.FolderName).ToList();
+            List<Folder> GetFolder = _myCompanyService.GetAllFoldersInHierarchy(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
 
             List<CompanyTerritory> companyTerritories = _myCompanyService.GetAllCompanyTerritories(UserCookieManager.WBStoreId).ToList();
             

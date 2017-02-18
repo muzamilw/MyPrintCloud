@@ -37,9 +37,8 @@
     }
     else
     {
-        <div style="    height: inherit;
-    border: 1px solid #ebebeb;">
-        <div class="assetLeftPanelWithSearchBar float_left_simple" style=" min-height: 400px !important;">
+        <div style="height: inherit; min-height:700px; border: 1px solid #ebebeb;">
+        <div class="assetLeftPanelWithSearchBar float_left_simple">
                 <div class="assetSearchPanel">
                     @using (Html.BeginForm())
                     {
@@ -168,28 +167,32 @@
                     </div>
                     <br />
 
-                    <div style="padding-left:32px;">
+                    <div style="text-align:center">
+
                         @if (ContactRole != 3)
-                        {                         <div style="float:left;">
-                            <button id="btnPreview" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
-                        </div>
+                        {  
+                            <button id="btnPreview" style="width:64px" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
+                       
                         }
                         @if (ContactRole == 3)
                         {
-                            <div style="float:left;">
+                           
                                 <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
-                            </div>
+                            
                         }
                         @if (ContactRole != 3)
                         {
-                            <div style="float:left;">
-                                <button id="btnPreview" class="PrevButtons" onclick="Toogle()">Edit</button>
-                            </div>
+            
+                                <button id="btnPreview" style="width:64px;" class="PrevButtons" onclick="Toogle()">Edit</button>
                         }
-                        <div class="clearBoth">
-
-                        </div>
+                       
                     </div>
+                     <div style="text-align:center">
+                        <a id="Img_DownloadDiv" style="display:none;"  href="/path/to/image" download="myimage">
+                            <button class="PrevButtons">Download</button>
+                        </a>
+                    </div>
+                   
                 </div>
                 <br />
                 <div id="Div_Right_AssetDescription" style="text-align:left;display:none;">
@@ -244,7 +247,7 @@
 
                 @*Territory Dropdown*@
                 <label id="territories">Territories</label>
-                <div id="olTerritories" style="float:left;width:273px;overflow-y: auto; max-height: 150px;border: 1px solid rgb(193, 198, 204); margin-bottom:5px;border-radius: 6px;">
+                <div id="olTerritories" style="float:left;width:366px;overflow-y: auto; max-height: 150px;border: 1px solid rgb(193, 198, 204); margin-bottom:5px;border-radius: 6px;">
 
                 </div>
 
@@ -452,10 +455,12 @@
             var Folders='@Folder.Count';
             currentHeight = currentHeight + 20;
 
-            var height= 'height:'+currentHeight +'px!important';
-
-            $(".assetLeftPanelWithSearchBar").css("cssText",height);
-            $(".assetRightPanelDescription").css("cssText",height);
+            var height= 'height:'+currentHeight +'px!important;';
+            if(currentHeight > 700){
+                $(".assetLeftPanelWithSearchBar").css("cssText",height);
+                $(".assetRightPanelDescription").css("cssText",height);
+            }
+           
 
             if(@Tree.Count == 0)
             {
@@ -553,16 +558,19 @@
             $("#btnPreview").text("Preview");
             AsssetsID=AssetId;
             AssetImagePath=ImagePath;
+            
+            $('#Img_prevDisplay').attr("src",AssetImagePath);
+            $('#Img_DownloadDiv').attr("href",AssetImagePath);
+            $('#Img_DownloadDiv').attr("download",AssetName);
+            $("#Img_DownloadDiv").css("display","block");
 
             if(AssetImagePath!=null&&AssetImagePath!='')
             {
-
-                $('#Img_prevDisplay').attr("src",AssetImagePath);
+              
             }
             else
             {
                 AssetImagePath='/Content/Images/imgPlc.png';
-                $('#Img_prevDisplay').attr("src",AssetImagePath);
             }
             if(RoleId!=3)
             {
@@ -1374,8 +1382,8 @@
             $("#uploadfiesss").css("border", "1px solid #c1c6cc");
             $("#FolderName").css("border", "1px solid #c1c6cc");
             UpdateAsset=false;
-            $("#innerLayer").width(515);
-            browserleft = parseInt((bws.width - 515) / 2);
+            $("#innerLayer").width(660);
+            browserleft = parseInt((bws.width - 660) / 2);
 
             $("#innerLayer").css("left", browserleft + "px");
             $("#modelTitle").text('Add Asset');
@@ -1443,8 +1451,8 @@
             $("#FolderName").css("border", "1px solid #c1c6cc");
             $("#imgloader").css("border", "1px solid #c1c6cc");
 
-            $("#innerLayer").width(495);
-            browserleft = parseInt((bws.width - 495) / 2);
+            $("#innerLayer").width(660);
+            browserleft = parseInt((bws.width - 660) / 2);
 
             $("#innerLayer").css("left", browserleft + "px");
             $("#Quantity").css("display", "none");
@@ -1945,7 +1953,7 @@
                 Edit(AssetID);
                 $("#selectedFiles").html('');
 
-                $("#innerLayer").width(515);
+                $("#innerLayer").width(660);
                 $("#imgloader").val("Update Asset Image");
                 browserleft = parseInt((bws.width - 515) / 2);
                 $("#innerLayer").css("left", browserleft + "px");
@@ -2128,8 +2136,8 @@
             $("#selectedFiles").html('');
 
 
-            $("#innerLayer").width(495);
-            browserleft = parseInt((bws.width - 495) / 2);
+            $("#innerLayer").width(660);
+            browserleft = parseInt((bws.width - 660) / 2);
 
             $("#innerLayer").css("left", browserleft + "px");
             $("#FolderName").css("border", "1px solid #c1c6cc");
