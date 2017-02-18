@@ -112,7 +112,7 @@ UpgradeLog.htm
 *.cs.orig
 
 MPC.Web/config/Web.connectionstrings.config
-
+MPC.Webstore/config/Web.connectionstrings.config
 MPC.Webstore/ccAssembly/TestUserCostCentres.dll
 
 MPC.Web/MIS-Content2015-10-4.rar
