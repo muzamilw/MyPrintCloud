@@ -151,8 +151,11 @@
 
       grid.Column("Download",@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download")).ToString(), format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
       {
-        <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
-          background-color: transparent;" class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
+          if (item.StatusId != 35)
+          {
+            <button value="@Html.Raw(Html.GetKeyValueFromResourceFile("btnDownloadOrderInExcell", UserCookieManager.WBStoreId, "Download"))" style="height: 30px; width: 30px; background-image: url('Content/Images/download-icon.png');  border: none;
+          background-color: transparent; " class="rounded_corners" onclick="DownLoadArtworkFile(@item.OrderID)" />
+          }
       }</text>),
      grid.Column("View", format:@<text><button id="view" value="@Html.Raw(Html.GetKeyValueFromResourceFile("ViewBtn", UserCookieManager.WBStoreId, "View"))" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
     </text>),
@@ -171,7 +174,7 @@
         }</text>)
 
           }
-                       )
+                                )
 
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {

@@ -5016,7 +5016,10 @@ function togglePage(pId) {
             $.each(options, function (i, IT) {
                 if (IT.VariableId == varId) {
                     var selected = "";
-                    html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" ' + selected + ' >' + IT.Value + '</option>';;
+                    var val = IT.Value;
+                    if (val == null || val == "null")
+                        val = "";
+                    html += '<option  id = "option' + IT.VariableOptionId + '" value="' + val + '" ' + selected + ' >' + val + '</option>';;
                 }
             });
         }
