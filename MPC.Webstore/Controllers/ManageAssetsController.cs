@@ -179,8 +179,8 @@ namespace MPC.Webstore.Controllers
         [HttpGet]
         public JsonResult GetFolders()
         {
-            List<Folder> GetFolder = _myCompanyService.GetAllFoldersInHierarchy(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
-
+           // List<Folder> GetFolder = _myCompanyService.GetAllFoldersInHierarchy(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
+            List<Folder> GetFolder = _myCompanyService.GetAllFolders(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             List<CompanyTerritory> companyTerritories = _myCompanyService.GetAllCompanyTerritories(UserCookieManager.WBStoreId).ToList();
             
             JsonResponse obj = new JsonResponse();
