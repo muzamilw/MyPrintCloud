@@ -672,6 +672,7 @@
           <Property Name="LoginProvider" Type="nvarchar(max)" />
           <Property Name="ProviderKey" Type="nvarchar(max)" />
           <Property Name="HasClippingPath" Type="bit" />
+          <Property Name="HasUserDamRights" Type="bit" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -9794,6 +9795,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="LoginProvider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProviderKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="HasClippingPath" Type="Boolean" />
+          <Property Name="HasUserDamRights" Type="Boolean" />
         </EntityType>
         <EntityType Name="CompanyContactRole">
           <Key>
@@ -17124,6 +17126,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               <MappingFragment StoreEntitySet="CompanyContact">
                 <ScalarProperty Name="HasClippingPath" ColumnName="HasClippingPath" />
                 <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="HasUserDamRights" ColumnName="HasUserDamRights" />
                 <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
                 <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
                 <ScalarProperty Name="SecondaryEmail" ColumnName="SecondaryEmail" />

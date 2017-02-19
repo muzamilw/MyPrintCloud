@@ -102,6 +102,7 @@ namespace MPC.Models.DomainModels
         public string ProviderKey { get; set; }
 
         public bool? HasClippingPath { get; set; }
+        public bool? HasUserDamRights { get; set; }
         public virtual Company Company { get; set; }
         public virtual CompanyTerritory CompanyTerritory { get; set; }
         public virtual CompanyContactRole CompanyContactRole { get; set; }
