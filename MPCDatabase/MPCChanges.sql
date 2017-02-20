@@ -11459,3 +11459,5 @@ END
 
 ---------------------------------10 02 2017
 alter table ShippingInformation add DeliveryCost float null 
+
+alter table CompanyContact add HasUserDamRights bit null 

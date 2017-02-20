@@ -2375,12 +2375,6 @@
     <Content Include="Areas\Stores\Views\Stores\_ProductTemplatesList.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\ProductTemplatesIndex.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_ProductTemplatesPartial.cshtml" />
-    <None Include="config\Web.connectionstrings.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="config\Web.connectionstrings.default.config">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Content\less\Store.css.map">
       <DependentUpon>Store.css</DependentUpon>
     </Content>

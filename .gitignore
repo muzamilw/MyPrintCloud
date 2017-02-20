@@ -132,3 +132,5 @@ MPC.Webstore/ccAssembly/MPCSTAGINGUserCostCentres.dll
 MPC.Webstore/ccAssembly/PinkCardsMISUserCostCentres.dll
 *.config
 MPC.Web/config/Web.connectionstrings.config
+MPC.Web/config/Web.connectionstrings.config
+MPC.Web/config/Web.connectionstrings.config
