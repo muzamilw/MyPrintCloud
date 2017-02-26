@@ -168,18 +168,12 @@
                     <br />
 
                     <div style="text-align:center">
-
-                        @if (ContactRole != 3)
-                        {  
-                            <button id="btnPreview" style="width:64px" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
-                       
-                        }
-                        @if (ContactRole == 3)
-                        {
-                           
-                                <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
-                            
-                        }
+                        <a id="Img_DownloadDiv" style="display:none;" href="/path/to/image" download="myimage">
+                            <button class="PrevButtons">Download</button>
+                        </a>
+                        
+                        
+                        
                         @if (ContactRole != 3)
                         {
             
@@ -188,9 +182,17 @@
                        
                     </div>
                      <div style="text-align:center">
-                        <a id="Img_DownloadDiv" style="display:none;"  href="/path/to/image" download="myimage">
-                            <button class="PrevButtons">Download</button>
-                        </a>
+                       @if (ContactRole != 3)
+                       {
+                        <button id="btnPreview" style="width:64px" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
+
+                       }
+                    @if (ContactRole == 3)
+                    {
+
+                        <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
+
+                    }
                     </div>
                    
                 </div>
@@ -556,6 +558,8 @@
 
             $(".PreviewPanel").css("display","block");
             $("#btnPreview").text("Preview");
+            $("#btnPreview").addClass("PreviewbtnDisplay");
+
             AsssetsID=AssetId;
             AssetImagePath=ImagePath;
             
@@ -1179,6 +1183,7 @@
                     $.each(response.Folders, function (id, option) {
                         CountriesDD.append($('<option></option>').val(option.FolderId).html(option.FolderName));
                     });
+                    territoryList.append($('<div></div>').html('<input style="margin:5px;" id =' + 0 + ' type="checkbox" onclick="select_all();" id="select_all"><label for=' + 0 + '>Select All</label>'));
                     $.each(response.CompanyTerritories, function (id, option) {
                         territoryList.append($('<div></div>').html('<input style="margin:5px;" id =' + option.TerritoryId + ' type="checkbox" checked=' + option.IsSelectedInFolder +'><label for=' + option.TerritoryId + '>'+option.TerritoryName +'</label>'));
                     });
@@ -1198,6 +1203,7 @@
                 success: function (response) {
                     var territoryList = $("#olTerritories");
                     territoryList.html('');
+                    territoryList.append($('<div></div>').html('<input style="margin:5px;" id =' + 0 + ' type="checkbox" onclick="select_all();" id="select_all"><label for=' + 0 + '>Select All</label>'));
                     $.each(response.CompanyTerritories, function (id, option) {
                         territoryList.append($('<li><input id="chkTerritory" name="chkTerritory" type="checkbox" value="true"></li>').val(option.TerritoryId).html(option.TerritoryName));
                     });
@@ -1271,6 +1277,7 @@
                         }
                         
                     });
+                    territoryList.append($('<div></div>').html('<input style="margin:5px;" id =' + 0 + ' type="checkbox" onclick="select_all();" id="select_all"><label for=' + 0 + '>Select All</label>'));
                     $.each(response.CompanyTerritories, function (id, option) {
                         territoryList.append($('<div></div>').html('<input style="margin:5px;" id =' + option.TerritoryId + ' type="checkbox" checked=' + option.IsSelectedInFolder +'><label for=' + option.TerritoryId + '>'+option.TerritoryName +'</label>'));
                     });
@@ -2545,8 +2552,44 @@
             }
             return { width: parseInt(intW), height: parseInt(intH) };
         }
+        var ischecked= false;
+        function select_all(){
 
+            $.each($("#olTerritories").children(), function (id,option) {
+                if(id==0 & option.firstChild.checked == true){
+                    ischecked= true;
+                    return false;
+                }else if(id==0 & option.firstChild.checked == false){
+                    ischecked= false;
+                    return false;
+                    
+                }
+                               
+            });
+            if(ischecked){
+                Checked_all();
+            }else{
+                UnChecked_all();
+            }
+        }
+        function Checked_all(){
+            $.each($("#olTerritories").children(), function (id,option) {
+                    option.firstChild.checked= true;
+            });
+        }
+        function UnChecked_all(){
+            $.each($("#olTerritories").children(), function (id,option) {
+                option.firstChild.checked= false;
+            });
+        }
 
+            //var checkboxes = $(this).closest('form').find(':checkbox');
+            //if($(this).is(':checked')) {
+            //    checkboxes.prop('checked', true);
+            //} else {
+            //    checkboxes.prop('checked', false);
+            //}
+       // });
     </script>
 
 
