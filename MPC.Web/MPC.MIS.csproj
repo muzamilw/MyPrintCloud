@@ -1182,6 +1182,8 @@
     <Content Include="Areas\Stores\Scripts\Stores.model.js" />
     <Content Include="Areas\Stores\Scripts\Stores.view.js" />
     <Content Include="Areas\Stores\Scripts\Stores.viewModel.js" />
+    <Content Include="bin\MPC.MIS.dll" />
+    <Content Include="bin\MPC.MIS.pdb" />
     <Content Include="Content\Attachments\icoGif.png" />
     <Content Include="Content\Attachments\IcoIllustrator.png" />
     <Content Include="Content\Attachments\Icoindesign.png" />

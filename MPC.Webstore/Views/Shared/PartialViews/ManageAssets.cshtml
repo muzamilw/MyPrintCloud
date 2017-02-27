@@ -168,33 +168,31 @@
                     <br />
 
                     <div style="text-align:center">
+
+                        @if (ContactRole != 3)
+                        {
+                            <button id="btnPreview" style="width:64px" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
+
+                        }
+                        @if (ContactRole == 3)
+                        {
+
+                            <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
+
+                        }
+                        @if (ContactRole != 3)
+                        {
+
+                            <button id="btnPreview" style="width:64px;" class="PrevButtons" onclick="Toogle()">Edit</button>
+                        }
                         <a id="Img_DownloadDiv" style="display:none;" href="/path/to/image" download="myimage">
                             <button class="PrevButtons">Download</button>
                         </a>
-                        
-                        
-                        
-                        @if (ContactRole != 3)
-                        {
-            
-                                <button id="btnPreview" style="width:64px;" class="PrevButtons" onclick="Toogle()">Edit</button>
-                        }
-                       
                     </div>
-                     <div style="text-align:center">
-                       @if (ContactRole != 3)
-                       {
-                        <button id="btnPreview" style="width:64px" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
-
-                       }
-                    @if (ContactRole == 3)
-                    {
-
-                        <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
-
-                    }
+                    <div style="text-align:center">
+                        
                     </div>
-                   
+
                 </div>
                 <br />
                 <div id="Div_Right_AssetDescription" style="text-align:left;display:none;">
@@ -566,7 +564,7 @@
             $('#Img_prevDisplay').attr("src",AssetImagePath);
             $('#Img_DownloadDiv').attr("href",AssetImagePath);
             $('#Img_DownloadDiv').attr("download",AssetName);
-            $("#Img_DownloadDiv").css("display","block");
+            $("#Img_DownloadDiv").css("display","inline-block");
 
             if(AssetImagePath!=null&&AssetImagePath!='')
             {
