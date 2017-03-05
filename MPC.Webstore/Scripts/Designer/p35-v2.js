@@ -1108,13 +1108,29 @@ $('#editorLogo').click(function () {
     if (!checkUnreadPages()) {
         if (smartFormClicked) {
             StartLoader("Generating artwork for approval");
-            //   parent.Next(); // webstore caller function
             fu12("preview", $("#txtTemplateTitle").val());
             return false;
         } else {
-            $(".messageSmartForm").css("display", "block");
-            $("#Quick").click();
-            //alert("Please merge smart form details into template before you continue !");
+            $("#dialog-confirm").dialog({
+                resizable: false,
+                height: "auto",
+                width: 400,
+                modal: true,
+                buttons: {
+                    "Apply": function () {
+                        $(this).dialog("close");
+                        $(".messageSmartForm").css("display", "block");
+                        $("#Quick").click();
+                    },
+                    "Continue": function () {
+                        $(this).dialog("close");
+                        StartLoader("Generating artwork for approval");
+                        fu12("preview", $("#txtTemplateTitle").val());
+                        return false;
+                    }
+                }
+            });
+          
             return false;
         }
     } else {
