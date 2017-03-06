@@ -2394,8 +2394,6 @@
       <DependentUpon>ItemJobStatus.css</DependentUpon>
     </Content>
     <Content Include="Content\Attachments\ExportItems.rpx" />
-    <None Include="config\Web.connectionstrings.config" />
-    <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
