@@ -95,11 +95,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MPC.Common\Externaldlls\GrapeCity.LicenseService.ActiveReports.v7.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="LinqToTwitter.AspNet">
       <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitter.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitterPcl">
       <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitterPcl.dll</HintPath>
+    </Reference>
+    <Reference Include="MetadataExtractor">
+      <HintPath>..\packages\MetadataExtractor.1.5.3\lib\net45\MetadataExtractor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
@@ -294,6 +300,9 @@
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="XmpCore">
+      <HintPath>..\packages\XmpCore.1.2.2\lib\net35\XmpCore.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
