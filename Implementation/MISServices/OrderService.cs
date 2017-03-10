@@ -1653,6 +1653,9 @@ namespace MPC.Implementation.MISServices
                         foreach (Item item in ItemsList)
                         {
 
+                            if (item.IsDigitalDownload == true)
+                                continue;
+
                             sFolderPath = sCreateDirectory + "\\" + MakeValidFileName(item.ProductCode ?? "pc101" + "-" + item.ProductName);
 
                             string ZipfolderName = MakeValidFileName(item.ProductCode ?? "pc101" + "-" + item.ProductName);
