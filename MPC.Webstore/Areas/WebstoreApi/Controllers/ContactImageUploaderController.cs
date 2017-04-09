@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using MPC.Common;
+﻿using MPC.Common;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -17,7 +16,7 @@ using System.Net.Http.Formatting;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
-using MPC.Models.Common;
+using MetadataExtractor;
 namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 {
     public class ContactImageUploaderController : ApiController
@@ -600,6 +599,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               {
                   System.IO.Directory.CreateDirectory(virtualFolderPth);
               }
+          
               if (flag)
               {
                   Asset GetAsset = _companyService.GetAsset(Assetid);
@@ -610,7 +610,34 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
               }
               var fileName = Path.GetFileName(Request.FileName);
               Request.SaveAs(virtualFolderPth + "/" + fileName);
+              string filenameFull = virtualFolderPth + "/" + fileName;
               ImagePath = folderPath + "/" + fileName;
+              
+              try
+              {
+                  IEnumerable<MetadataExtractor.Directory> directories = ImageMetadataReader.ReadMetadata(filenameFull);
+                  foreach (var directory in directories)
+                      foreach (var tag in directory.Tags)
+                      {
+                          if (tag.Name == "Subject"&& tag.Description !="")
+                          {
+                              Asset GetAsset = _companyService.GetAsset(Assetid);
+                              GetAsset.Keywords = tag.Description;
+                              _companyService.UpdateAsset(GetAsset);
+                          }
+                          string des = tag.Description;
+                      }
+                    
+
+                //  ShellObject picture = ShellObject.FromParsingName(filenameFull);
+                  //ShellObject picture = ShellObject.FromParsingName(@"D:\Development\MyPrintCloud\t123.jpg");
+            //      var tag = picture.Properties.GetProperty(SystemProperties.System.Photo.TagViewAggregate);
+              }
+              catch (Exception e)
+              {
+
+              }
+              
           }
           else
           {
