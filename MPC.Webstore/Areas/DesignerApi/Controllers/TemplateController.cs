@@ -118,6 +118,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
+        public HttpResponseMessage GeneratePDF(long TemplateID, long OrganisationID)
+        {
+            templateService.processTemplatePDF(TemplateID, OrganisationID);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, true, formatter);
+
+        }
+
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
         public HttpResponseMessage getQuickText(long parameter1, long parameter2)
         {
             var result = templateService.GetContactQuickTextFields(parameter1, parameter2);
