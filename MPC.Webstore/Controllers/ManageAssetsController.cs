@@ -35,6 +35,7 @@ namespace MPC.Webstore.Controllers
             List<Folder> GetFolder = new List<Folder>();
             List<Asset> GetAssets = new List<Asset>();
             long loginContactId = _webclaims.loginContactID();
+            ViewBag.HasDamRights = _webclaims.loginContactDAMRights();
             if (Searchfolder != null && Searchfolder != string.Empty)
             {
                 Searchfolder = Searchfolder.Replace("___", " ");
@@ -74,6 +75,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Admin = Roles.Adminstrator;
                 ViewBag.Manager = Roles.Manager;
                 ViewBag.LoginContact = _webclaims.loginContactRoleID();
+               
             }
             else
             {

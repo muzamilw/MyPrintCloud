@@ -16,6 +16,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Title { get; set; }
+        public bool? HasUserDamRights { get; set; }
         public string HomeTel1 { get; set; }
         public string HomeTel2 { get; set; }
         public string HomeExtension1 { get; set; }

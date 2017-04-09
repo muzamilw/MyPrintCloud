@@ -1022,6 +1022,7 @@ namespace MPC.Repository.Repositories
                              contact.CanUserEditProfile,
                              contact.canPlaceDirectOrder,
                              contact.OrganisationId,
+                             contact.HasUserDamRights,
                              RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
                              contact.SecondaryEmail,
                              Company = new
@@ -1123,6 +1124,7 @@ namespace MPC.Repository.Repositories
                     CanUserEditProfile = contact.CanUserEditProfile,
                     canPlaceDirectOrder = contact.canPlaceDirectOrder,
                     OrganisationId = contact.OrganisationId,
+                    HasUserDamRights = contact.HasUserDamRights,
                     //RoleName = contact.CompanyContactRole != null ? contact.CompanyContactRole.ContactRoleName : string.Empty,
                     //FileName = fileName,
                     SecondaryEmail = contact.SecondaryEmail,

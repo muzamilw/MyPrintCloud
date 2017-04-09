@@ -12,5 +12,6 @@ namespace MPC.Models.Common
         public long ContactCompanyId { get; set; }
         public int ContactRoleId { get; set; }
         public long ContactTerritoryId { get; set; }
+        public bool HasUserDamRights {get; set;}
     }
 }

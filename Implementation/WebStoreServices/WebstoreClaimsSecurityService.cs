@@ -14,7 +14,7 @@ namespace MPC.Implementation.WebStoreServices
 {
     public sealed class WebstoreClaimsSecurityService : MarshalByRefObject, IWebstoreClaimsSecurityService
     {
-        private static void AddLoginUserClaims(long contactId, long companyId, int roleId, long territoryId, ClaimsIdentity claimsIdentity)
+        private static void AddLoginUserClaims(long contactId, long companyId, int roleId, long territoryId, ClaimsIdentity claimsIdentity, bool _HasUserDamRights)
         {
             Claim claim = new Claim(WebstoreClaimTypes.LoginUser,
                                         ClaimHelper.Serialize(
@@ -23,16 +23,25 @@ namespace MPC.Implementation.WebStoreServices
                                                 ContactId = contactId,
                                                 ContactCompanyId = companyId,
                                                 ContactRoleId = roleId,
-                                                ContactTerritoryId = territoryId
+                                                ContactTerritoryId = territoryId,
+                                                HasUserDamRights = _HasUserDamRights
     
                                             }),
                                         typeof(ContactClaimValue).AssemblyQualifiedName);
             claimsIdentity.AddClaim(claim);
         }
 
-        public void AddSignInClaimsToIdentity(long contactId, long companyId, int roleId, long territoryId, ClaimsIdentity claimsIdentity)
+        public void AddSignInClaimsToIdentity(long contactId, long companyId, int roleId, long territoryId, ClaimsIdentity claimsIdentity, bool? HasUserDamRights)
         {
-            AddLoginUserClaims(contactId, companyId, roleId,territoryId, claimsIdentity);
+            if (HasUserDamRights != null)
+            {
+                AddLoginUserClaims(contactId, companyId, roleId, territoryId, claimsIdentity, (bool)HasUserDamRights);
+            }
+            else
+            {
+                AddLoginUserClaims(contactId, companyId, roleId, territoryId, claimsIdentity, false);
+            }
+           
         }
 
         /// <summary>

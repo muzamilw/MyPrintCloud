@@ -484,7 +484,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // ReSharper disable once InconsistentNaming
     // ReSharper restore InconsistentNaming
-    var CompanyContact = function (specifiedContactId, specifiedAddressId, specifiedCompanyId, specifiedFirstName, specifiedMiddleName, specifiedLastName, specifiedTitle,
+    var CompanyContact = function (specifiedContactId,hasUserDamRights, specifiedAddressId, specifiedCompanyId, specifiedFirstName, specifiedMiddleName, specifiedLastName, specifiedTitle,
         specifiedHomeTel1, specifiedHomeTel2, specifiedHomeExtension1, specifiedHomeExtension2, specifiedMobile, specifiedEmail, specifiedFAX, specifiedJobTitle, specifiedDOB,
         specifiedNotes, specifiedIsDefaultContact, specifiedHomeAddress1, specifiedHomeAddress2, specifiedHomeCity, specifiedHomeState, specifiedHomePostCode, specifiedHomeCountry,
         specifiedSecretQuestion, specifiedSecretAnswer, specifiedPassword, specifiedURL, specifiedIsEmailSubscription, specifiedIsNewsLetterSubscription, specifiedimage,
@@ -500,6 +500,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
+            hasUserDamRights = ko.observable(hasUserDamRights),
             companyName = ko.observable(undefined),
             firstName = ko.observable(specifiedFirstName).extend({ required: { params: true, message: 'This field is required!' } }),
             middleName = ko.observable(specifiedMiddleName),
@@ -696,7 +697,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 StoreName: StoreName,
                 fileName: fileName,
                 secondaryEmail: secondaryEmail,
-                companyName: companyName
+                companyName: companyName,
+                hasUserDamRights: hasUserDamRights
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -784,6 +786,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     AdditionalField3: additionalField3(),
                     AdditionalField4: additionalField4(),
                     AdditionalField5: additionalField5(),
+                    HasUserDamRights: hasUserDamRights(),
                     canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval(),
                     CanUserEditProfile: canUserEditProfile(),
                     canPlaceDirectOrder: !isPayByPersonalCreditCard() ? false : canPlaceDirectOrder(),
@@ -988,6 +991,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             fileName: fileName,
             bussinessAddress: bussinessAddress,
             shippingAddress: shippingAddress,
+            hasUserDamRights: hasUserDamRights,
             stateName: stateName,
             StoreName: StoreName,
             secondaryEmail: secondaryEmail,
@@ -1005,6 +1009,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     CompanyContact.CreateFromClientModel = function (source) {
         return new CompanyContact(
             source.contactId,
+            source.hasUserDamRights,
             source.addressId,
             source.companyId,
             source.firstName,
@@ -1096,6 +1101,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     CompanyContact.Create = function (source) {
         var companyContact = new CompanyContact(
             source.ContactId,
+            source.HasUserDamRights,
             source.AddressId,
             source.CompanyId,
             source.FirstName,
@@ -1184,6 +1190,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.RoleName,
             source.FileName,
             source.StoreName
+            
         );
         companyContact.companyName(source.CompanyName);
         companyContact.StoreName(source.StoreName);

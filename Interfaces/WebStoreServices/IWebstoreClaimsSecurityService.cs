@@ -7,6 +7,6 @@ namespace MPC.Interfaces.WebStoreServices
     public interface IWebstoreClaimsSecurityService
     {
         void AddSignInClaimsToIdentity(long contactId, long companyId, int roleId, long territoryId,
-            ClaimsIdentity claimsIdentity);
+            ClaimsIdentity claimsIdentity, bool? HasUserDamRights);
     }
 }

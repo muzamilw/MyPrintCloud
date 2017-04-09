@@ -653,7 +653,7 @@ namespace MPC.Webstore.Controllers
 
                     ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                    ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
+                    ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity, loginUser.HasUserDamRights);
 
                     var claimsPriciple = new ClaimsPrincipal(identity);
                     // Make sure the Principal's are in sync
@@ -678,7 +678,7 @@ namespace MPC.Webstore.Controllers
 
                 ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
-                ClaimsSecurityService.AddSignInClaimsToIdentity(0, 0, 0, 0, identity);
+                ClaimsSecurityService.AddSignInClaimsToIdentity(0, 0, 0, 0, identity, false);
 
                 var claimsPriciple = new ClaimsPrincipal(identity);
                 // Make sure the Principal's are in sync

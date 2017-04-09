@@ -15,6 +15,11 @@ namespace MPC.Implementation.WebStoreServices
 {
     public sealed class WebstoreClaimsHelperService : IWebstoreClaimsHelperService
     {
+        public bool loginContactDAMRights()
+        {
+            IList<ContactClaimValue> roles = ClaimHelper.GetClaimsByType<ContactClaimValue>(WebstoreClaimTypes.LoginUser);
+            return roles.Select(role => role.HasUserDamRights).FirstOrDefault();
+        }
         public long loginContactID()
         {
             

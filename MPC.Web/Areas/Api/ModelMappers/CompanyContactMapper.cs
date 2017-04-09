@@ -104,7 +104,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        OrganisationId = source.OrganisationId,
                        FileName = source.FileName,
                        SecondaryEmail = source.SecondaryEmail,
-                       ScopeVariables = source.ScopVariables != null ? source.ScopVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
+                       ScopeVariables = source.ScopVariables != null ? source.ScopVariables.Select(ccv => ccv.CreateFrom()).ToList() : null,
+                       HasUserDamRights = source.HasUserDamRights
 
                        //CompanyTerritory = source.BussinessAddress.Territory.CreateFrom(),
                        //Address = source.BussinessAddress != null? source.BussinessAddress.CreateFrom() : null,
@@ -223,7 +224,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        FileName = fileName,
                        ImageBytes = source.image,
                        SecondaryEmail = source.SecondaryEmail,
-                       StoreName = source.Company != null ? source.Company.StoreName: string.Empty
+                       StoreName = source.Company != null ? source.Company.StoreName: string.Empty,
+                       HasUserDamRights = source.HasUserDamRights
 
                    };
         }
@@ -254,6 +256,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SecretAnswer = source.SecretAnswer,
                 IsEmailSubscription = source.IsEmailSubscription,
                 IsNewsLetterSubscription = source.IsNewsLetterSubscription,
+                HasUserDamRights = source.HasUserDamRights
             };
         }
 

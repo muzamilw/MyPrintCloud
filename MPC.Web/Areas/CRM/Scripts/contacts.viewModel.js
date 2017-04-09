@@ -334,7 +334,8 @@ define("crm/contacts.viewModel",
                 },
                 // Contact save buttoin handler
                  onSaveCompanyContact = function () {
-                     if (doBeforeSaveCompanyContact()) {
+                     // if (doBeforeSaveCompanyContact()) 
+                     {
                          dataservice.saveCompanyContact(
                              selectedCompanyContact().convertToServerData(),
                              {
