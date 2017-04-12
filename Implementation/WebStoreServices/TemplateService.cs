@@ -3031,6 +3031,11 @@ namespace MPC.Implementation.WebStoreServices
         {
             GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners,true,0,isMultipageProduct);
         }
+
+        public void processTemplatePDF(long TemplateID, long OrganisationID)
+        {
+            GenerateTemplatePdf(TemplateID, OrganisationID, true, true, false, true,0, true);
+        }
         // called from MIS and webstore to regenerate template PDF files  // added by saqib ali
         //draw bleed area is flag iin item 
         // bleed area size is present in organisation 

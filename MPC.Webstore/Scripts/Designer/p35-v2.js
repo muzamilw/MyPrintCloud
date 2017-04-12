@@ -1122,7 +1122,7 @@ $('#editorLogo').click(function () {
                         $(".messageSmartForm").css("display", "block");
                         $("#Quick").click();
                     },
-                    "Continue": function () {
+                    "Don't apply": function () {
                         $(this).dialog("close");
                         StartLoader("Generating artwork for approval");
                         fu12("preview", $("#txtTemplateTitle").val());
