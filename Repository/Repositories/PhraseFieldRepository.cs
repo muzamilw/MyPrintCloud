@@ -52,6 +52,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<PhraseField> GetPhraseFieldsBySectionId(long sectionId)
         {
+            
             return DbSet.Where(p => p.SectionId == sectionId && p.OrganisationId == OrganisationId).ToList();
         }
 

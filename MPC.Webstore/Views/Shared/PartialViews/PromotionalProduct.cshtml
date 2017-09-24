@@ -1,0 +1,80 @@
+﻿
+@using MPC.Models.Common
+@using MPC.Webstore.WebGridExtension;
+@using MPC.Webstore.Common;
+
+@model List<MPC.Models.DomainModels.Item>
+@{
+    var PromotionalProductList = Model as List<MPC.Models.DomainModels.Item>;
+    var NavigateUrl = "";
+}
+@{
+    Layout = null;
+}
+<div class="content_area left_right_padding paddingS4 PromotionalBanner" id="all-promotionalPro-pg">
+    <div id="controlBodyDiv" class="PromotionalBannerSub">
+        <div class="feature_product_main_heading">
+            <label id="ltrlSpecialOffers">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlSpecialOffers",UserCookieManager.WBStoreId,"Special Offers"))</label>
+        </div>
+        @foreach (var Product in PromotionalProductList)
+        {
+
+            <div class="BD rounded_corners">
+                <div class="pad5">
+                    <div class="LCLB">
+                        @{
+            if (Product.ProductType == (int)ProductType.MarketingBrief)
+            {
+
+                NavigateUrl = "/MarketingBrief/" + Product.ProductName + "/" + Product.ItemId;
+
+            }
+            else if (Product.ProductType == (int)ProductType.PrintProduct)
+            {
+                if (Product.IsUploadImage == true)
+                {
+                    NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+                }
+                else
+                {
+
+                    NavigateUrl = "/CloneFeatureItem/" + Product.ItemId;
+                }
+
+            }
+            else if (Product.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+            {
+                NavigateUrl = "/ProductOptions/" + 0 + "/" + Product.ItemId + "/UploadDesign";
+            }
+                        }
+                        <a id="hlProductDetail" href="@NavigateUrl">
+                            <div class="PDTC FI">
+                                <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@Product.ThumbnailPath />
+                            </div>
+                        </a>
+                    </div>
+                    <div class="product_detail_image_heading LCLB">
+                        <label id="lblProductName">@Product.ProductName</label>
+                    </div>
+                </div>
+                <div id="PriceCircle" class="blue_cicle_container">
+                    <div class="BC">
+                        <div class="all_padding3">
+                            <div class="paddingTop2px">
+                                &nbsp;
+                            </div>
+                            FROM
+                            <br />
+                            <label id="lblFromMinPrice" style="font-size:16px;font-weight:bold;">@Product.MinPrice</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="clear">
+        </div>
+        <br />
+        <br />
+    </div>
+</div>
+

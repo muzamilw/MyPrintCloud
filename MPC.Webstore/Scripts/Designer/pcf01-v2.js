@@ -4983,6 +4983,11 @@ function togglePage(pId) {
             });
         });
 
+        $('input, textarea, select').focus(function () {
+            IsInputSelected = true;
+        }).blur(function () {
+            IsInputSelected = false;
+        });
     }
     function pcl40_updateDropdownDefaultValues() {
         $.each(smartFormData.smartFormObjs, function (i, IT) {

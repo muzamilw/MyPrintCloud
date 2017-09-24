@@ -776,7 +776,7 @@ function ShowRejectionPopUpOrderHistory(title, Tvalue) {
 
     //<textarea name="Text1" cols="40" rows="5" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly" >@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
     // var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="txtOrderPolicy"  class="rounded_corners5 text_box" value=' + Tvalue + ' /><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
-    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <textarea type="text" id="RejectionReasoan" cols="40" style="width:100%;" rows="10"  class="rounded_corners5 text_box" >' + Tvalue + '</textarea></div><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;padding: 0 35px 8px; border-top:0; margin-top:0"><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div>';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <textarea type="text" id="RejectionReasoan" cols="40" style="width:100%;" rows="10"  class="rounded_corners5 text_box" >' + Tvalue + '</textarea><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
     var bws = getBrowserHeight();
     var shadow = document.getElementById("innerLayer");
     document.getElementById("layer").style.width = bws.width + "px";
@@ -796,7 +796,7 @@ function ShowRejectionPopUpOrderHistory(title, Tvalue) {
     document.getElementById("innerLayer").style.zIndex = "999999";
 
 
-   //document.getElementById("innerLayer").style.height = "280px";
+    //document.getElementById("innerLayer").style.height = "280px";
 
 
     document.getElementById("layer").style.display = "block";

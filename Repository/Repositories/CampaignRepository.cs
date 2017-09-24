@@ -965,7 +965,7 @@ namespace MPC.Repository.Repositories
                 int? isCampaignPaused = 0;
 
                 List<CampaignEmailQueue> allrecords = (from c in db.CampaignEmailQueues
-                                                       where c.IsDeliverd == 0 && c.AttemptCount < 5
+                                                       where c.IsDeliverd == 0 && c.AttemptCount < 5 && c.ErrorResponse != "Attachments not found or invalid path."
                                                        select c).ToList();
 
                 if (allrecords != null)
@@ -1028,7 +1028,11 @@ namespace MPC.Repository.Repositories
                             record.AttemptCount++;
                             db.SaveChanges();
                         }
+
+                       
                     }
+
+                    allrecords = null;
                 }
 
             }
@@ -1159,6 +1163,7 @@ namespace MPC.Repository.Repositories
                 throw new Exception("Error Sending email id : " + emailid,ex);
 
             }
+           
 
         }
 

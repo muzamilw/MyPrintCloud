@@ -22,14 +22,24 @@
         <div class="float_right manageAssetBtnsContainer">
             @if (ContactRole != 3)
             {
-                
-                <i class="fa fa-cog manageAssetIcons float_left_simple"></i><input id="AddFolder" class="manageAssetBtn float_left_simple" type="button" value="Add Folder" onclick="AddFolder()" />
+        
+
+
+                @*<i class="fa manageAssetIcons float_left_simple" style="background-image: url('~/Content/Images/0_Design-Icon.png'); "></i>                   *@
+    <img class="fa manageAssetIcons float_left_simple" src="~/Content/Images/Add_Folder.png" height="20" onclick="AddFolder()" />
+    <input id="AddFolder" class="manageAssetBtn float_left_simple" type="button" value="Add Folder" onclick="AddFolder()" />
+               <div class="float_left_simple lineBar"></div>
+    <img class="fa manageAssetIcons manageAssetgearIconRight float_left_simple" src="~/Content/Images/Add_Asset.png" height="20" onclick="AddAsset()" />
+                @*<i class="fa fa-cog manageAssetIcons manageAssetgearIconRight float_left_simple"></i>*@
+            <input id="AddAsset" class="manageAssetBtn float_left_simple" type="button" value="Add Asset" onclick="AddAsset()" />
                 <div class="float_left_simple lineBar"></div>
-                <i class="fa fa-cog manageAssetIcons manageAssetgearIconRight float_left_simple"></i><input id="AddAsset" class="manageAssetBtn float_left_simple" type="button" value="Add Asset" onclick="AddAsset()" />
+                @*<i class="fa fa-cog manageAssetIcons manageBulkAssetuploadIconRight float_left_simple"></i>*@
+    <img class="fa manageAssetIcons manageBulkAssetuploadIconRight float_left_simple" src="~/Content/Images/Add_Bulk.png" height="20" onclick="AddBulkAssets()" />
+            <input id="AddBulkAssets" class="manageAssetBtn float_left_simple" type="button" value="Add Bulk Assets" onclick="AddBulkAssets()" />
                 <div class="float_left_simple lineBar"></div>
-                <i class="fa fa-cog manageAssetIcons manageBulkAssetuploadIconRight float_left_simple"></i><input id="AddBulkAssets" class="manageAssetBtn float_left_simple" type="button" value="Add Bulk Assets" onclick="AddBulkAssets()" />
-                <div class="float_left_simple lineBar"></div>
-                <i class="fa fa-cog manageAssetIcons manageBulkAssetgearIconRight float_left_simple"></i><input id="DownloadBulkAssets" class="manageAssetBtn float_left_simple" type="button" value="Download Bulk Assets" onclick="downloadBulkAssets()" />
+                @*<i class="fa fa-cog manageAssetIcons manageBulkAssetgearIconRight float_left_simple"></i>*@
+    <img class="fa manageAssetIcons manageBulkAssetgearIconRight float_left_simple" src="~/Content/Images/Download_Bulk.png" height="20" onclick="downloadBulkAssets()" />
+            <input id="DownloadBulkAssets" class="manageAssetBtn float_left_simple" type="button" value="Download Bulk Assets" onclick="downloadBulkAssets()" />
             }
         </div>
         <div class="clearboth">
@@ -168,21 +178,23 @@
                           
                                 <div class="assetCategoryInnerCnt">
                                     
-                                        <div class="assetImgCnt">
-                                            <a>
-                                                @if (assets.ImagePath != null && assets.ImagePath != string.Empty)
-                                                {
-                                                    <label class="btn btn-info NoPadding" style="border-color: #f3f3f3;">
-                                                        <img src="@assets.ImagePath" class="img-check" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
-                                                        <input type="checkbox"  class="hidden" autocomplete="off">
-                                                    </label>
-                                                }
-                                                else
-                                                {
-                                                        <img src="/Content/Images/imgPlc.png" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
-                                                        }
-</a>
-                                        </div>
+                                    <div class="assetImgCnt" onmouseover="ShowCheckbox(@assets.AssetId)" onmouseout="HideCheckbox(@assets.AssetId)">
+                                        <a>
+                                            @if (assets.ImagePath != null && assets.ImagePath != string.Empty)
+                                            {
+                                                <input src="@assets.ImagePath" class="img-check checkbox checkbox-primary" id="@assets.AssetId" style="display:none;"  type="checkbox">
+                                                <label class="btn btn-info NoPadding" style="border-color: #f3f3f3;">
+                                                    <img src="@assets.ImagePath" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
+
+                                                </label>
+                                            }
+                                            else
+                                            {
+                                                <img src="/Content/Images/imgPlc.png" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
+                                            }
+                                        </a>
+                                    </div>
+
                                     
                                         <div class="assetNameCnt">
                                             <a onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')" class="catAssetName">@assets.AssetName</a>
@@ -482,6 +494,7 @@
     var inputfiles=[];
     var downloadfiles=[];
     var hasChanges = false;
+    var imgSelectedToDownLoad = false;
     $('#treeDemo').jstree();
 
     var SwitchtoFolder=false;
@@ -490,7 +503,8 @@
 
     $(document).ready(function () {
         $(".img-check").click(function(){
-            $(this).toggleClass("check");
+            //   $(this).toggleClass("check");
+            
             var index = downloadfiles.indexOf($(this)[0].src);
             if(index > -1){
                 downloadfiles.splice(index, 1);
@@ -498,7 +512,14 @@
                 downloadfiles.push($(this)[0].src);
             }
 
-
+            if(downloadfiles.length>0){
+                $(".img-check").show();
+                imgSelectedToDownLoad = true;
+            }
+            else{
+                imgSelectedToDownLoad = false;
+                $(".img-check").hide();
+            }
         });
         $("#fileUpload").on('change', function() {
             //Get count of selected files
@@ -1139,8 +1160,6 @@
         }
 
     }
-
-
     function ActionFolder() {
 
         $("#FolderName").css("border", "1px solid #c1c6cc");
@@ -1261,7 +1280,6 @@
 
         return result;
     }
-
     function AssetsValidationForUpdateCase()
     {
 
@@ -1283,8 +1301,6 @@
         return result;
 
     }
-
-
 
 
     function ValidateOnlyName()
@@ -2398,6 +2414,7 @@
             return item.AssetItemId === id;
         });
     }
+
     function ActionForFolder(FolderId,imagpath,thisflagPointer)
     {
         thisFlag=thisflagPointer;
@@ -2897,6 +2914,15 @@
 
 
     }
+    function ShowCheckbox(id){
+        $("#"+id).show();
+    }
+    function HideCheckbox(id){
+        if(imgSelectedToDownLoad==false)
+        $("#"+id).hide();
+    }
+    
+   
     </script>
 
 
