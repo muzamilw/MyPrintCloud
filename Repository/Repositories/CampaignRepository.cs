@@ -966,7 +966,7 @@ namespace MPC.Repository.Repositories
 
                 List<CampaignEmailQueue> allrecords = (from c in db.CampaignEmailQueues
                                                        where c.IsDeliverd == 0 && c.AttemptCount < 5 && c.ErrorResponse != "Attachments not found or invalid path."
-                                                       select c).ToList();
+                                                       select c).Take(100).ToList();
 
                 if (allrecords != null)
                 {
