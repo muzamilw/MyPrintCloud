@@ -2035,6 +2035,7 @@ define("crm/crm.viewModel",
                                     //#endregion
                                     isEditorVisible(false);
                                     toastr.success("Successfully save.");
+                                    selectedStore().reset();
                                     resetObservableArrays();
                                     if (callback && typeof callback === "function") {
                                         callback();

@@ -333,29 +333,32 @@ namespace MPC.Implementation.WebStoreServices
                                 //    return functionReturnValue;
                                 //}
 
+
+
+                                //substracting the spoilage as it is already added by estimating in the print sheet qty variable, this variable is without spoilage.
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
-                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1 - ( oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100)));
                                         break;
                                     case 2:
                                         if (oItemSection.PrintSheetQty2 == 0)
                                         {
-                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1 - (oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100)));
                                         }
                                         else
                                         {
-                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2);
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2 - (oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty2 * oItemSection.RunningSpoilage / 100)));
                                         }
                                         break;
                                     case 3:
                                         if (oItemSection.PrintSheetQty3 == 0)
                                         {
-                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1 - (oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100)));
                                         }
                                         else
                                         {
-                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3);
+                                            functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3 - (oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty3 * oItemSection.RunningSpoilage / 100)));
                                         }
                                         break;
                                 }
@@ -673,16 +676,19 @@ namespace MPC.Implementation.WebStoreServices
                                 //    return functionReturnValue;
                                 //}
 
+
+                                //note here PrintSheetQty already includes the spoilage, hence no need to add it.
+
                                 switch (CurrentQuantity)
                                 {
                                     case 1:
-                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty1 * oItemSection.RunningSpoilage / 100));
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty1);
                                         break;
                                     case 2:
-                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty2 * oItemSection.RunningSpoilage / 100));
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty2);
                                         break;
                                     case 3:
-                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty3 * oItemSection.RunningSpoilage / 100));
+                                        functionReturnValue = Convert.ToDouble(oItemSection.PrintSheetQty3);
                                         break;
                                     //Case 4
                                     //    ExecuteVariable = oItemSection.PrintSheetQty4 + oItemSection.SetupSpoilage + (oItemSection.PrintSheetQty4 * oItemSection.RunningSpoilage / 100)

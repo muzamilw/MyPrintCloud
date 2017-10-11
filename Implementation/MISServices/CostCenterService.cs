@@ -308,7 +308,7 @@ namespace MPC.Implementation.MISServices
                     sCostPlant += sCodeString;
 
                     sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine; 
-                    sCodeString += "QuotedPlantPrice =  ("  + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity )";
+                    sCodeString += "QuotedPlantPrice =  SetupCost + (" + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity )";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime =  " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"6\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity )";
@@ -321,7 +321,7 @@ namespace MPC.Implementation.MISServices
                     sCostPlant += sCodeString;
 
                     sCodeString = "Dim vQuantity as Integer =  {cinput,id=\"6\",question=\"" + costcenter.QuantityQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.QuantityQuestionDefaultValue) + "\"} " + Environment.NewLine;
-                    sCodeString += "QuotedPlantPrice =  (" + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity ) ";
+                    sCodeString += "QuotedPlantPrice =  SetupCost + (" + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity ) ";
                     sPricePlant += sCodeString;
 
                     sCodeString = "EstimatedTime =  " + "{cinput,id=\"1\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"7\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity ) ";
@@ -1361,7 +1361,7 @@ namespace MPC.Implementation.MISServices
                         sCostPlant += sCodeString;
 
                         sCodeString = "Dim vQuantity as Integer = " + "{SystemVariable, ID=\"" + Convert.ToString(costcenter.QuantityVariableId) + "\",Name=\"" + (varName != null ? varName.Name : "") + "\"}" + Environment.NewLine;
-                        sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"1\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity )";
+                        sCodeString += "QuotedPlantPrice =  SetupCost + (" + Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity )";
                         sPricePlant += sCodeString;
 
                         sCodeString = "EstimatedTime =  " + "{cinput,id=\"5\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"6\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity )";
@@ -1374,7 +1374,7 @@ namespace MPC.Implementation.MISServices
                         sCostPlant += sCodeString;
 
                         sCodeString = "Dim vQuantity as Integer =  {cinput,id=\"1\",question=\"" + costcenter.QuantityQuestionString + "\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.QuantityQuestionDefaultValue) + "\"} " + Environment.NewLine;
-                        sCodeString += "QuotedPlantPrice =  " + "{cinput,id=\"2\",question=\"Setup Cost\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupCost) + "\"} " + "  + (" +  Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity ) ";
+                        sCodeString += "QuotedPlantPrice = SetupCost +  (" +  Convert.ToString(costcenter.PricePerUnitQuantity) + " * vQuantity ) ";
                         sPricePlant += sCodeString;
 
                         sCodeString = "EstimatedTime =  " + "{cinput,id=\"6\",question=\"Setup Time\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.SetupTime) + "\"} " + " + ( " + "{cinput,id=\"7\",question=\"Time per Unit Quantity\",type=\"0\",InputType=\"0\",value=\"" + Convert.ToString(costcenter.TimePerUnitQuantity) + "\"} * vQuantity ) ";
