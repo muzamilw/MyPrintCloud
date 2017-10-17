@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -405,6 +407,7 @@
     <Compile Include="Areas\WebstoreApi\Controllers\ApplyDeliveryMethodController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\ContactImageUploaderController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\DamImageAPIController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DeleteAttachmentController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DiscountVoucherController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\DownloadArtworkController.cs" />
