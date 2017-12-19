@@ -169,7 +169,14 @@ namespace FileSystemWatcher
             }
         }
 
-        
+        private readonly string[] _validExtensions = { ".jpg", ".bmp", ".gif", ".png", ",jpeg" }; //  etc
+
+        public bool IsImageExtension(string ext)
+        {
+            return _validExtensions.Contains(ext);
+        }
+
+
 
         void ParsePath(string path, long parent)
         {
@@ -180,6 +187,17 @@ namespace FileSystemWatcher
             string sQry = string.Empty;
             string folderName = string.Empty;
             long parentFolderId = 0;
+
+            string description = "";
+            string keywords = "";
+            string sFileName = "";
+            string sFilePath = "";
+            string sFileFolder = "";
+            string sThumbPath = "";
+            string newPathname = "";
+            string newPathAbsName = "";
+            string qryAssetItem = "";
+
             foreach (var file in AllFiles)
             {
 
@@ -193,30 +211,51 @@ namespace FileSystemWatcher
                     if (parent > 0)
                     {
                         folderName = System.IO.Path.GetFileNameWithoutExtension(file);
-                        string sFileName = System.IO.Path.GetFileName(file);
-                        string sFilePath = file.Replace(sPath, "/mpc_content/DigitalAssets/" + OrganisationId + "/" + StoreId + "/tfedamdata");
+                        sFileName = System.IO.Path.GetFileName(file);
+                        sFilePath = file.Replace(sPath, "/mpc_content/DigitalAssets/" + OrganisationId + "/" + StoreId + "/tfedamdata");
                         sFilePath = sFilePath.Replace("\\","/");
+                        sFileFolder = System.IO.Path.GetDirectoryName(file);
                         if (folderName != null)
                         {
-                            folderName = folderName.Replace(";", "-");
-                            folderName = folderName.Replace("'", "''");
+
+                            folderName = specialCharactersEncoder(folderName);
+
+                            //folderName = folderName.Replace(";", "-");
+                            //folderName = folderName.Replace("'", "''");
                         }
                         sFilePath = sFilePath.Replace("'", "''");
-                        string sThumbPath = sFilePath.Replace(sFileName, folderName + "_thumb.jpg");
-                        
+                        sThumbPath = sFilePath.Replace(sFileName, folderName + "_thumb.jpg");
+
+                        description = specialCharactersEncoder(sFileName);
+                        keywords = specialCharactersEncoder(sFileName);
+
+                       
+
                         if (!sFilePath.Contains("_thumb"))
                         {
-                            sQry = "INSERT INTO Assets (AssetName,ImagePath,CreationDateTime,Price, Quantity,FolderId,CompanyId) VALUES('" + folderName + "','" + sThumbPath + "','" + DateTime.Now.ToShortDateString() + "',0,0," + parent + "," + StoreId + ")";
+                            sQry = "INSERT INTO Assets (AssetName,ImagePath,CreationDateTime,Price, Quantity,FolderId,CompanyId, Description, keywords) VALUES('" + folderName + "','" + sThumbPath + "','" + DateTime.Now.ToShortDateString() + "',0,0," + parent + "," + StoreId + ",'"+ description + "','" + keywords + "')";
                             var assetId = InsertQry(sQry);
+
+                            //shortening the file name and renaming the file an updating in db
+                            newPathname = "/mpc_content/DigitalAssets/" + OrganisationId + "/" + StoreId + "/tfedamdata/" + sFileName.Replace(System.IO.Path.GetFileName(sFileName), "img" + assetId.ToString() + System.IO.Path.GetExtension(file));
+                            newPathAbsName = sFileFolder + "\\img" + assetId.ToString() + System.IO.Path.GetExtension(file);
+                            Delimon.Win32.IO.File.Move(file, file.Replace(System.IO.Path.GetFileName(file), "img" + assetId.ToString() + System.IO.Path.GetExtension(file)));
+                            UpdateQry("update Assets set ImagePath='" + newPathname + "' where AssetId=" + assetId);
+
+
                             txtStatus.Text += "Asset " + folderName + " is added." + Environment.NewLine;
-                            string qryAssetItem = "INSERT INTO AssetItem (AssetId,FileUrl) VALUES(" + assetId + ",'" + sFilePath + "')";
+                            qryAssetItem = "INSERT INTO AssetItem (AssetId,FileUrl) VALUES(" + assetId + ",'" + newPathname + "')";
                             InsertQry(qryAssetItem);
                             txtStatus.Text += "Asset Attachment for " + folderName + " is added." + Environment.NewLine;
+
+                            //if (IsImageExtension(System.IO.Path.GetExtension(newPathAbsName)))
+                            //    CreateThumbnail(300, newPathAbsName, newPathAbsName);
                         }
                         
                     }
                     
                 }
+                Application.DoEvents();
             }
             foreach (string subdir in SubDirs)
             {
@@ -238,7 +277,7 @@ namespace FileSystemWatcher
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Create the Command and Parameter objects.
-                qry += "SELECT CAST(scope_identity() AS int)";
+                qry += " SELECT CAST(scope_identity() AS int)";
                 SqlCommand command = new SqlCommand(qry, connection);
                 command.CommandTimeout = 500;
 
@@ -254,10 +293,45 @@ namespace FileSystemWatcher
 
 
                     //result = command.ExecuteNonQuery();
+                    command = null;
+
+                    connection.Close();
+                    
+                    return Convert.ToInt64(result);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+        }
+
+        private void UpdateQry(string qry)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Create the Command and Parameter objects.
+               
+                SqlCommand command = new SqlCommand(qry, connection);
+                command.CommandTimeout = 500;
+
+                try
+                {
+                    if (connection.State != ConnectionState.Open)
+                        connection.Open();
+
+                    command.ExecuteScalar();
+
+                    //command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser],[Email])";
+                    //command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0,'" + Email + "')";
+
+
+                    //result = command.ExecuteNonQuery();
 
 
                     connection.Close();
-                    return Convert.ToInt64(result);
+               
                 }
                 catch (Exception ex)
                 {
@@ -378,13 +452,14 @@ namespace FileSystemWatcher
             if (!string.IsNullOrEmpty(value))
             {
                 value = value.Replace("/", "");
-                value = value.Replace(" ", "-");
-                value = value.Replace(";", "-");
+                value = value.Replace(" ", "_");
+                value = value.Replace(";", "_");
                 value = value.Replace("&#34;", "");
                 value = value.Replace("'", "");
                 value = value.Replace("&", "");
                 value = value.Replace("+", "");
                 value = value.Replace("#", "");
+                value = value.Replace("'", "''");
             }
 
             return value;

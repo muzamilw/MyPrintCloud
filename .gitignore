@@ -139,3 +139,7 @@ MPC.Web/config/Web.connectionstrings.config
 MPC.Web\config*/
 MPC.Web/config/Web.connectionstrings.config
 MPC.Web/config/Web.connectionstrings.config
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal

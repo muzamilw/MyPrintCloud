@@ -62,7 +62,7 @@
             this.txtRootPath.Name = "txtRootPath";
             this.txtRootPath.Size = new System.Drawing.Size(371, 20);
             this.txtRootPath.TabIndex = 6;
-            this.txtRootPath.Text = "D:\\MPC Imp\\December2016";
+            this.txtRootPath.Text = "E:\\damdata";
             // 
             // label1
             // 
@@ -75,7 +75,7 @@
             // 
             // btnImportDam
             // 
-            this.btnImportDam.Location = new System.Drawing.Point(349, 342);
+            this.btnImportDam.Location = new System.Drawing.Point(160, 264);
             this.btnImportDam.Name = "btnImportDam";
             this.btnImportDam.Size = new System.Drawing.Size(110, 23);
             this.btnImportDam.TabIndex = 8;
@@ -100,6 +100,7 @@
             this.txtOrg.Name = "txtOrg";
             this.txtOrg.Size = new System.Drawing.Size(100, 20);
             this.txtOrg.TabIndex = 10;
+            this.txtOrg.Text = "1651";
             this.txtOrg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
@@ -126,11 +127,12 @@
             this.txtStore.Name = "txtStore";
             this.txtStore.Size = new System.Drawing.Size(89, 20);
             this.txtStore.TabIndex = 12;
+            this.txtStore.Text = "33474";
             this.txtStore.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnGenerateThumbnails
             // 
-            this.btnGenerateThumbnails.Location = new System.Drawing.Point(160, 342);
+            this.btnGenerateThumbnails.Location = new System.Drawing.Point(521, 342);
             this.btnGenerateThumbnails.Name = "btnGenerateThumbnails";
             this.btnGenerateThumbnails.Size = new System.Drawing.Size(173, 23);
             this.btnGenerateThumbnails.TabIndex = 14;
@@ -140,7 +142,7 @@
             // 
             // cmdRenameFiles
             // 
-            this.cmdRenameFiles.Location = new System.Drawing.Point(160, 303);
+            this.cmdRenameFiles.Location = new System.Drawing.Point(521, 264);
             this.cmdRenameFiles.Name = "cmdRenameFiles";
             this.cmdRenameFiles.Size = new System.Drawing.Size(173, 23);
             this.cmdRenameFiles.TabIndex = 15;
@@ -150,7 +152,7 @@
             // 
             // btnShortenFilenames
             // 
-            this.btnShortenFilenames.Location = new System.Drawing.Point(349, 303);
+            this.btnShortenFilenames.Location = new System.Drawing.Point(521, 308);
             this.btnShortenFilenames.Name = "btnShortenFilenames";
             this.btnShortenFilenames.Size = new System.Drawing.Size(110, 23);
             this.btnShortenFilenames.TabIndex = 16;
