@@ -368,9 +368,11 @@ namespace FileSystemWatcher
                 {
                     if (System.IO.File.Exists(entry))
                     {
-                       CreateThumbnail(300, entry, entry);
+                        if(IsImageExtension(System.IO.Path.GetExtension(entry)))
+                            CreateThumbnail(300, entry, entry);
                     }
                 }
+                Application.DoEvents();
             }
             MessageBox.Show("Thumbnails under current folder are created.");
         }
@@ -385,43 +387,53 @@ namespace FileSystemWatcher
                 string sFileNamewoExt = System.IO.Path.GetFileNameWithoutExtension(ThumbnailImagePath);
                 string folderPath = ThumbnailImagePath.Substring(0, ThumbnailImagePath.Length - sFileName.Length);
                 ThumbnailImagePath = folderPath + sFileNamewoExt + "_thumb.jpg";
-                Image imgOriginal = Image.FromFile(OriginalImagePath);
-                // Finds height and width of original image
-                float OriginalHeight = imgOriginal.Height;
-                float OriginalWidth = imgOriginal.Width;
-                // Finds height and width of resized image
-                int ThumbnailWidth;
-                int ThumbnailHeight;
-                if (OriginalHeight > OriginalWidth)
+
+                if (System.IO.File.Exists(ThumbnailImagePath) == false)
                 {
-                    ThumbnailHeight = ThumbnailMax;
-                    ThumbnailWidth = (int)((OriginalWidth / OriginalHeight) * (float)ThumbnailMax);
+
+                    Image imgOriginal = Image.FromFile(OriginalImagePath);
+                    // Finds height and width of original image
+                    float OriginalHeight = imgOriginal.Height;
+                    float OriginalWidth = imgOriginal.Width;
+                    // Finds height and width of resized image
+                    int ThumbnailWidth;
+                    int ThumbnailHeight;
+                    if (OriginalHeight > OriginalWidth)
+                    {
+                        ThumbnailHeight = ThumbnailMax;
+                        ThumbnailWidth = (int)((OriginalWidth / OriginalHeight) * (float)ThumbnailMax);
+                    }
+                    else
+                    {
+                        ThumbnailWidth = ThumbnailMax;
+                        ThumbnailHeight = (int)((OriginalHeight / OriginalWidth) * (float)ThumbnailMax);
+                    }
+                    // Create new bitmap that will be used for thumbnail
+                    Bitmap ThumbnailBitmap = new Bitmap(ThumbnailWidth, ThumbnailHeight);
+                    Graphics ResizedImage = Graphics.FromImage(ThumbnailBitmap);
+                    // Resized image will have best possible quality
+                    ResizedImage.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    ResizedImage.CompositingQuality = CompositingQuality.HighQuality;
+                    ResizedImage.SmoothingMode = SmoothingMode.HighQuality;
+                    // Draw resized image
+                    ResizedImage.DrawImage(imgOriginal, 0, 0, ThumbnailWidth, ThumbnailHeight);
+                    // Save thumbnail to file
+                    ThumbnailBitmap.Save(ThumbnailImagePath);
+                    ThumbnailBitmap.Dispose();
+                    ResizedImage.Dispose();
+                    imgOriginal.Dispose();
+                    txtStatus.Text += "Thumb Generated for " + OriginalImagePath + Environment.NewLine;
                 }
                 else
                 {
-                    ThumbnailWidth = ThumbnailMax;
-                    ThumbnailHeight = (int)((OriginalHeight / OriginalWidth) * (float)ThumbnailMax);
+                    txtStatus.Text += "Thumb skipped for " + OriginalImagePath + Environment.NewLine;
                 }
-                // Create new bitmap that will be used for thumbnail
-                Bitmap ThumbnailBitmap = new Bitmap(ThumbnailWidth, ThumbnailHeight);
-                Graphics ResizedImage = Graphics.FromImage(ThumbnailBitmap);
-                // Resized image will have best possible quality
-                ResizedImage.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                ResizedImage.CompositingQuality = CompositingQuality.HighQuality;
-                ResizedImage.SmoothingMode = SmoothingMode.HighQuality;
-                // Draw resized image
-                ResizedImage.DrawImage(imgOriginal, 0, 0, ThumbnailWidth, ThumbnailHeight);
-                // Save thumbnail to file
-                ThumbnailBitmap.Save(ThumbnailImagePath);
-                ThumbnailBitmap.Dispose();
-                ResizedImage.Dispose();
-                imgOriginal.Dispose();
-                
+
             }
-            catch (Exception)
+            catch (Exception e) 
             {
-                
-                throw;
+
+                txtStatus.Text += "Thumb gen crashed for " + OriginalImagePath + Environment.NewLine;
             }
             
         }

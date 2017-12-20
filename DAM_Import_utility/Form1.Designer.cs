@@ -47,7 +47,7 @@
             this.btnWatchFile.BackColor = System.Drawing.Color.LightSkyBlue;
             this.btnWatchFile.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnWatchFile.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnWatchFile.Location = new System.Drawing.Point(12, 342);
+            this.btnWatchFile.Location = new System.Drawing.Point(478, 5);
             this.btnWatchFile.Name = "btnWatchFile";
             this.btnWatchFile.Size = new System.Drawing.Size(119, 23);
             this.btnWatchFile.TabIndex = 5;
@@ -58,7 +58,7 @@
             // 
             // txtRootPath
             // 
-            this.txtRootPath.Location = new System.Drawing.Point(88, 54);
+            this.txtRootPath.Location = new System.Drawing.Point(88, 34);
             this.txtRootPath.Name = "txtRootPath";
             this.txtRootPath.Size = new System.Drawing.Size(371, 20);
             this.txtRootPath.TabIndex = 6;
@@ -67,7 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 54);
+            this.label1.Location = new System.Drawing.Point(27, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 7;
@@ -75,7 +75,7 @@
             // 
             // btnImportDam
             // 
-            this.btnImportDam.Location = new System.Drawing.Point(160, 264);
+            this.btnImportDam.Location = new System.Drawing.Point(478, 34);
             this.btnImportDam.Name = "btnImportDam";
             this.btnImportDam.Size = new System.Drawing.Size(110, 23);
             this.btnImportDam.TabIndex = 8;
@@ -86,17 +86,19 @@
             // txtStatus
             // 
             this.txtStatus.AcceptsReturn = true;
-            this.txtStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtStatus.Location = new System.Drawing.Point(88, 80);
+            this.txtStatus.Location = new System.Drawing.Point(88, 63);
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(930, 160);
+            this.txtStatus.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtStatus.Size = new System.Drawing.Size(971, 316);
             this.txtStatus.TabIndex = 9;
             // 
             // txtOrg
             // 
-            this.txtOrg.Location = new System.Drawing.Point(88, 28);
+            this.txtOrg.Location = new System.Drawing.Point(88, 8);
             this.txtOrg.Name = "txtOrg";
             this.txtOrg.Size = new System.Drawing.Size(100, 20);
             this.txtOrg.TabIndex = 10;
@@ -106,7 +108,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 31);
+            this.label2.Location = new System.Drawing.Point(4, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 11;
@@ -115,7 +117,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(320, 31);
+            this.label3.Location = new System.Drawing.Point(320, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 13;
@@ -123,7 +125,7 @@
             // 
             // txtStore
             // 
-            this.txtStore.Location = new System.Drawing.Point(370, 28);
+            this.txtStore.Location = new System.Drawing.Point(370, 8);
             this.txtStore.Name = "txtStore";
             this.txtStore.Size = new System.Drawing.Size(89, 20);
             this.txtStore.TabIndex = 12;
@@ -132,7 +134,7 @@
             // 
             // btnGenerateThumbnails
             // 
-            this.btnGenerateThumbnails.Location = new System.Drawing.Point(521, 342);
+            this.btnGenerateThumbnails.Location = new System.Drawing.Point(889, 34);
             this.btnGenerateThumbnails.Name = "btnGenerateThumbnails";
             this.btnGenerateThumbnails.Size = new System.Drawing.Size(173, 23);
             this.btnGenerateThumbnails.TabIndex = 14;
@@ -142,7 +144,7 @@
             // 
             // cmdRenameFiles
             // 
-            this.cmdRenameFiles.Location = new System.Drawing.Point(521, 264);
+            this.cmdRenameFiles.Location = new System.Drawing.Point(594, 34);
             this.cmdRenameFiles.Name = "cmdRenameFiles";
             this.cmdRenameFiles.Size = new System.Drawing.Size(173, 23);
             this.cmdRenameFiles.TabIndex = 15;
@@ -152,7 +154,7 @@
             // 
             // btnShortenFilenames
             // 
-            this.btnShortenFilenames.Location = new System.Drawing.Point(521, 308);
+            this.btnShortenFilenames.Location = new System.Drawing.Point(773, 34);
             this.btnShortenFilenames.Name = "btnShortenFilenames";
             this.btnShortenFilenames.Size = new System.Drawing.Size(110, 23);
             this.btnShortenFilenames.TabIndex = 16;
@@ -179,6 +181,7 @@
             this.Controls.Add(this.btnWatchFile);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();
 

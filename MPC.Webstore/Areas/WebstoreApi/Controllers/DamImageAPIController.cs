@@ -20,13 +20,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage GetDAMImages(string parameter1, long parameter2, long parameter3, long parameter4, int parameter5)
+        public HttpResponseMessage GetAssets(string keywords, long storeId, long orgId, int parentFolderId)
         {
-            if (parameter1 == "0")
+            if (keywords == "0")
             {
-                parameter1 = "";
+                keywords = "";
             }
-            FolderSearchResponse damFoldersAssets = this.companyService.GetDamFoldersAssets(parameter1, parameter2, parameter3, parameter4, parameter5);
+            FolderSearchResponse damFoldersAssets = this.companyService.GetDamFoldersAssets(keywords, storeId, orgId, 0, parentFolderId);
             JsonMediaTypeFormatter jsonMediaTypeFormatter = new JsonMediaTypeFormatter();
             JsonSerializerSettings serializerSettings = jsonMediaTypeFormatter.SerializerSettings;
 
