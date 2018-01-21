@@ -84,11 +84,11 @@ namespace MPC.MIS.Controllers
             if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost" || System.Web.HttpContext.Current.Request.Url.Authority.Contains("ngrok"))
             {
                 validationInfo = new ValidationInfo();
-                validationInfo.CustomerID = "1105";
+                validationInfo.CustomerID = "1";
                 validationInfo.userId = "84B1BA93-BC52-4988-A8AB-C5C69A06E007";
                 validationInfo.FullName = "Simu";
                 validationInfo.Plan = "light";
-                validationInfo.Email = "naveedmnz@hotmail.com";
+                validationInfo.Email = "muzamilw@hotmail.com";// "naveedmnz@hotmail.com";
                 validationInfo.IsTrial = true;
                 validationInfo.TrialCount = 9;
 

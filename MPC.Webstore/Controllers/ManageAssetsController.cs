@@ -65,8 +65,16 @@ namespace MPC.Webstore.Controllers
                         ? _myCompanyService.GetFolderSearchResponse(Searchfolder, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, _webclaims.loginContactTerritoryID())
                         : _myCompanyService.GetFolderSearchResponse(Searchfolder, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID, 0);
 
-               // GetFolder = response.Folders;
+                // GetFolder = response.Folders;
                 //GetAssets = response.Assets;
+
+                //populate image thumb paths
+                foreach (var item in response.Assets)
+                {
+                    item.ImageThumbPath = System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb." + System.IO.Path.GetExtension(item.ImagePath);
+                    
+                }
+
                 ViewBag.Folders = response.Folders?? GetFolder;
                 List<TreeViewNodeVM> TreeModel = response.TreeView; //_myCompanyService.GetTreeVeiwList(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 ViewBag.TreeModel = TreeModel;
@@ -128,7 +136,13 @@ namespace MPC.Webstore.Controllers
                 // }
                 if (TreeModel.Count > 0)
                     TreeModel.Insert(0, new TreeViewNodeVM {FolderId = 0, FolderName = "Home"});
-                
+
+                foreach (var item in GetAssets)
+                {
+                    item.ImageThumbPath = System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb." + System.IO.Path.GetExtension(item.ImagePath);
+
+                }
+
                 ViewBag.Folders = GetFolder;
                 
                 ViewBag.TreeModel = TreeModel;

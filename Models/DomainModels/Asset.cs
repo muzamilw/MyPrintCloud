@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,5 +26,8 @@ namespace MPC.Models.DomainModels
         public Nullable<System.DateTime> UpdateDateTime { get; set; }
 
         public virtual ICollection<AssetItem> AssetItems { get; set; }
+
+        [NotMapped]
+        public string ImageThumbPath { get; set; }
     }
 }

@@ -184,7 +184,7 @@
                                             {
                                                 <input src="@assets.ImagePath" class="img-check checkbox checkbox-primary" id="@assets.AssetId" style="display:none;"  type="checkbox">
                                                 <label class="btn btn-info NoPadding" style="border-color: #f3f3f3;">
-                                                    <img src="@assets.ImagePath" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
+                                                    <img src="@assets.ImageThumbPath" onError="this.onerror=null;this.src='@assets.ImagePath';" onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')">
 
                                                 </label>
                                             }
@@ -200,7 +200,7 @@
                                             <a onclick="ShowAssetPreview(@assets.AssetId,'@assets.ImagePath','@assets.AssetName','@assets.CreationDateTime')" class="catAssetName">@assets.AssetName</a>
                                         </div>
 
-</div>
+                                </div>
                             
                             <div>
                                 @*@if (ContactRole != 3)
@@ -217,38 +217,36 @@
 
             <div class="assetRightPanelDescription float_left">
 
+                <div class="assetRightPanelDescription float_left">
+
                 <div class="assetSearchPanel PreviewPanel" style="display:none;">
                     <div id="Prev_img">
                         <img id="Img_prevDisplay" class="PreviewImage" src="/Content/Images/imgPlc.png" />
                     </div>
                     <br />
 
-                    <div style="text-align:center">
-
+                    <div style="padding-left:32px;">
                         @if (ContactRole != 3)
-                        {
-                            <button id="btnPreview" style="width:64px" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
-
+                        {                         <div style="float:left;">
+                            <button id="btnPreview" class="PrevButtons" onclick="NavigateToFolderID()">Open</button>
+                        </div>
                         }
                         @if (ContactRole == 3)
                         {
-
-                            <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
-
+                            <div style="float:left;">
+                                <button id="btnPreview" style="width:126px!important;" class="PrevButtons" onclick="NavigatetoBasketWindow()">Preview/DownLoad</button>
+                            </div>
                         }
                         @if (ContactRole != 3)
                         {
-
-                            <button id="btnPreview" style="width:64px;" class="PrevButtons" onclick="Toogle()">Edit</button>
+                            <div style="float:left;">
+                                <button id="btnPreview" class="PrevButtons" onclick="Toogle()">Edit</button>
+                            </div>
                         }
-                        <a id="Img_DownloadDiv" style="display:none;" href="/path/to/image" download="myimage">
-                            <button class="PrevButtons">Download</button>
-                        </a>
-                    </div>
-                    <div style="text-align:center">
+                        <div class="clearBoth">
 
+                        </div>
                     </div>
-
                 </div>
                 <br />
                 <div id="Div_Right_AssetDescription" style="text-align:left;display:none;">
@@ -268,6 +266,7 @@
         </div>
 
         <div class="clearBoth"></div>
+            </div>
     }
     <div class="shareWindow" id="AddFolderPanel" style="display:none;">
         @*<div id="dialog1" title="Waiting" style="display:none">*@
@@ -660,7 +659,7 @@
         }
         function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription,ParentFolderId)
         {
-            debugger;
+            
             ClearFields();
             var RoleId='@ContactRole';
         if(ParentFolderId==0)
@@ -765,39 +764,36 @@
 
 
         InnerHtml = "<div>";
-        var temp='';
-        $.each(ReturnDistinctValues(GridItems), function (i, IT) {
+        var temp = '';
 
-            //var fullFileUrl=IT.FileUrl;
-            //var url=(IT.FileUrl).split("/");
+        if (GridItems != null) {
+            $.each(ReturnDistinctValues(GridItems), function (i, IT) {
 
-            //var getExt=(IT.FileUrl).split(".");
-            //var Extension=getExt[1].toUpperCase();
+                //var fullFileUrl=IT.FileUrl;
+                //var url=(IT.FileUrl).split("/");
 
-            if(ReturnDistinctValues(GridItems).length==1)
-            {
-                InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s): </span>'+IT+'</div>')
-            }
-            else
-            {
-                if(i==0)
-                {
-                    InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s): </span>'+IT+' ,</div>')
+                //var getExt=(IT.FileUrl).split(".");
+                //var Extension=getExt[1].toUpperCase();
+
+                if (ReturnDistinctValues(GridItems).length == 1) {
+                    InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s): </span>' + IT + '</div>')
                 }
-                else
-                {
-                    if(ReturnDistinctValues(GridItems).length==i+1)
-                    {
-                        InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+IT+'</div>')
+                else {
+                    if (i == 0) {
+                        InnerHtml = InnerHtml.concat('<div style="padding-left:0px!important;;font-size:12px;" class="float_left"><span style="font-weight:bold;font-size:12px;">FileType(s): </span>' + IT + ' ,</div>')
                     }
-                    else
-                    {
-                        InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">'+IT+' ,</div>')
+                    else {
+                        if (ReturnDistinctValues(GridItems).length == i + 1) {
+                            InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">' + IT + '</div>')
+                        }
+                        else {
+                            InnerHtml = InnerHtml.concat('<div style=";font-size:12px;" class="float_left">' + IT + ' ,</div>')
+                        }
                     }
                 }
             }
-        }
             );
+        }
         InnerHtml += "</div>";
 
         $("#AssetFiles_side").css("display", "block");

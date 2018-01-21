@@ -22,7 +22,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [System.Web.Http.HttpGet]
         public HttpResponseMessage GetAssets(string keywords, long storeId, long orgId, int parentFolderId)
         {
-            if (keywords == "0")
+            if (keywords == null ||keywords == "0")
             {
                 keywords = "";
             }
