@@ -71,7 +71,7 @@ namespace MPC.Webstore.Controllers
                 //populate image thumb paths
                 foreach (var item in response.Assets)
                 {
-                    item.ImageThumbPath = System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb." + System.IO.Path.GetExtension(item.ImagePath);
+                    item.ImageThumbPath =  System.IO.Path.GetDirectoryName(item.ImagePath) + "/" + System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb" + System.IO.Path.GetExtension(item.ImagePath);
                     
                 }
 
@@ -139,7 +139,7 @@ namespace MPC.Webstore.Controllers
 
                 foreach (var item in GetAssets)
                 {
-                    item.ImageThumbPath = System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb." + System.IO.Path.GetExtension(item.ImagePath);
+                    item.ImageThumbPath = System.IO.Path.GetDirectoryName(item.ImagePath) +"/"+ System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb" + System.IO.Path.GetExtension(item.ImagePath);
 
                 }
 

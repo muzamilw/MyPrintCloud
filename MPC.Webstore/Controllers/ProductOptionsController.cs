@@ -288,7 +288,12 @@ namespace MPC.Webstore.Controllers
                                 long UserTerritoryId = 0;
                                 long UserTerritoryColorId = 0;
 
+                                long TerritoryIdForDAM = 0;
+
                                 CompanyContact loggedInUserContact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
+
+                                TerritoryIdForDAM = Convert.ToInt64(loggedInUserContact.TerritoryId); 
+
                                 if (_myItemService.IsTerritoryUseUserFonts(Convert.ToInt64(loggedInUserContact.TerritoryId)))
                                 {
 
@@ -305,12 +310,12 @@ namespace MPC.Webstore.Controllers
                               
                                 if (clonedItem != null && clonedItem.TemplateType == 3)
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId + "/" + UserTerritoryColorId + "/" + damEnabled; 
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId + "/" + UserTerritoryColorId + "/" + damEnabled + "/" + TerritoryIdForDAM; 
 
                                 }
                                 else
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId + "/" + UserTerritoryColorId + "/" + damEnabled;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/" + UserTerritoryId + "/" + UserTerritoryColorId + "/" + damEnabled + "/" + TerritoryIdForDAM;
 
                                 }
                             }

@@ -164,6 +164,7 @@ var conversionUnit = "Points";
 var lastSel = "";
 var isImageUploaded = false;
 var userTerritoryId = 0;
+var DamTerritoryId = 0;
 var userColorTerritoryId = 0;
 var damEnabled = 0;
 var damFolders = [];
@@ -173,26 +174,26 @@ function buildParams() {
     if (window.location.protocol == "https:")
         V2Url = "https://designerv2.saleflow.com/";
 
-    damEnabled = locVars[locVars.length - 1];
+    damEnabled = locVars[locVars.length - 2];
 
-    userColorTerritoryId = locVars[locVars.length - 2];
-    userTerritoryId = locVars[locVars.length - 3];
-
-	printCropMarks = locVars[locVars.length - 6];
-	printWaterMarks = locVars[locVars.length - 5];
-	CustomerName =parseInt(  locVars[locVars.length - 10]);
-	tID = parseInt(locVars[locVars.length - 12]);
-	IsCalledFrom =parseInt(  locVars[locVars.length - 8]);
-	IsEmbedded = locVars[locVars.length - 4];
-	CustomerID = parseInt( locVars[locVars.length - 10]);
-	ContactID =parseInt(  locVars[locVars.length - 9]);
-	organisationId = parseInt( locVars[locVars.length - 7]);
-	cIDv2 =parseInt( locVars[locVars.length - 13]);
+    userColorTerritoryId = locVars[locVars.length - 3];
+    userTerritoryId = locVars[locVars.length - 4];
+    DamTerritoryId = locVars[locVars.length - 1];
+	printCropMarks = locVars[locVars.length - 7];
+	printWaterMarks = locVars[locVars.length - 6];
+	CustomerName =parseInt(  locVars[locVars.length - 11]);
+	tID = parseInt(locVars[locVars.length - 13]);
+	IsCalledFrom =parseInt(  locVars[locVars.length - 9]);
+	IsEmbedded = locVars[locVars.length - 5];
+	CustomerID = parseInt( locVars[locVars.length - 11]);
+	ContactID =parseInt(  locVars[locVars.length - 10]);
+	organisationId = parseInt( locVars[locVars.length - 8]);
+	cIDv2 =parseInt( locVars[locVars.length - 14]);
 	productionFolderPath = "Organisation" + organisationId + "/Templates/";
-	ItemId = parseInt(locVars[locVars.length - 11]);
+	ItemId = parseInt(locVars[locVars.length - 12]);
     //alert(ItemId);
 	LoadBasicTemplateSettings();
-	var tempName = locVars[locVars.length - 14];
+	var tempName = locVars[locVars.length - 15];
 	while (tempName.indexOf('%20') != -1)
 	    tempName = tempName.replace("%20", " ");
 	$("#txtTemplateTitle").val(tempName);

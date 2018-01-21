@@ -2223,6 +2223,7 @@ namespace MPC.Implementation.WebStoreServices
             bool isCorp = true;
             long ContactTerritoryId = 0;
             long TerritoryIdForColor = 0;
+            long TerritoryIdForDAM = 0;
             if (ModeOfStore == StoreMode.Corp)
                 isCorp = true;
             else
@@ -2362,6 +2363,9 @@ namespace MPC.Implementation.WebStoreServices
                 CompanyContact loggedInUserContact = _CompanyContactRepository.GetContactByContactId(ContactIdFromClaim);
                 if (loggedInUserContact != null && loggedInUserContact.TerritoryId != null)
                 {
+
+                    TerritoryIdForDAM = Convert.ToInt64(loggedInUserContact.TerritoryId);
+
                     if (_CompanyTerritoryRepository.IsUseUserFont(Convert.ToInt64(loggedInUserContact.TerritoryId)))
                     {
                         ContactTerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
@@ -2382,11 +2386,11 @@ namespace MPC.Implementation.WebStoreServices
 
             if (item != null && item.TemplateType == 3)
             {
-                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor + "/" + damEnabled;
+                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor + "/" + damEnabled + "/" + TerritoryIdForDAM;
             }
             else
             {
-                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor + "/" + damEnabled;
+                itemCloneObj.RedirectUrl = "/Designer/" + ProductName + "/0/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + OrganisationId + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded + "/" + ContactTerritoryId + "/" + TerritoryIdForColor + "/" + damEnabled + "/" + TerritoryIdForDAM;
             }
             return itemCloneObj;
         }

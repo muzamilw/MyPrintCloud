@@ -386,7 +386,7 @@ function fu05_Clload() {
 function fudm(searchText,ParentFolderId,pload)
 {
     $("#divDAMImagesContainer").empty();
-    $.getJSON("/designerapi/DamImage/GetDAMImages/" + searchText + "/" + CustomerID + "/" + organisationId + "/" + userTerritoryId + "/" + ParentFolderId,
+    $.getJSON("/designerapi/DamImage/GetDAMImages/" + searchText + "/" + CustomerID + "/" + organisationId + "/" + DamTerritoryId + "/" + ParentFolderId,
                   function (xdata) {
                       damImages = xdata;
 
@@ -395,6 +395,10 @@ function fudm(searchText,ParentFolderId,pload)
                          
                           var title = IT.FolderName;
                           var draggable = '';
+                          if (url == null)
+                          {
+                              url = '/content/images/imgPlc.png';
+                          }
                           var urlThumbnail = url;
                           var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#" title="' + title + '"><img  title="' + title + '" src="' + url +
                                            '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" data-FolderId="' + IT.FolderId + '" id = "f' + IT.FolderId + '" alt="' + url + '"/></a><p class="bkFileName">' + title + '</p></li>';
