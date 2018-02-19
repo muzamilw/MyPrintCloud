@@ -320,7 +320,7 @@ namespace MPC.Webstore.Controllers
                                 }
                             }
                         }
-                        else 
+                        else //retail store
                         {
                             bool damEnabled = StoreBaseResopnse.Company.IsEnableDataAsset.HasValue == true ? StoreBaseResopnse.Company.IsEnableDataAsset.Value : false;
                               
@@ -328,11 +328,11 @@ namespace MPC.Webstore.Controllers
                             {
                                 if (clonedItem != null && clonedItem.TemplateType == 3)
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled+"/0";
                                 }
                                 else
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + _myClaimHelper.loginContactCompanyID() + "/" + _myClaimHelper.loginContactID() + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled + "/0";
 
                                 }
                             }
@@ -341,11 +341,11 @@ namespace MPC.Webstore.Controllers
                                 long temporaryContactID = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
                                 if (clonedItem != null && clonedItem.TemplateType == 3)
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/" + DesignerCatId + "/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled + "/0";
                                 }
                                 else
                                 {
-                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled;
+                                    ViewBag.DesignerUrl = "/Designer/" + Utils.specialCharactersEncoder(clonedItem.ProductName) + "/0/" + TemplateIdForDesigner + "/" + clonedItem.ItemId + "/" + UserCookieManager.TemporaryCompanyId + "/" + temporaryContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/true/true/true/0/0/" + damEnabled + "/0";
 
                                 }
                             }

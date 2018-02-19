@@ -1227,10 +1227,12 @@ namespace MPC.Webstore.Controllers
                     isEmbedded = false;
                 }
 
+                bool damEnabled = StoreBaseResopnse.Company.IsEnableDataAsset.HasValue == true ? StoreBaseResopnse.Company.IsEnableDataAsset.Value : false;
+
                 string ProdName = _IItemService.specialCharactersEncoder(sProductName);
                 //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
                 bool printCropMarks = true;
-                string URL = "/Designer/" + ProdName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+                string URL = "/Designer/" + ProdName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded +"/0/0/"+ damEnabled + "/0";
                 Response.Redirect(URL);
                 return null;
 

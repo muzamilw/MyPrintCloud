@@ -321,14 +321,16 @@ font-size: 18px;
         height: 25px;
     }
 
-        .regular-checkbox-new:hover + label, .regular-checkbox-new + label:hover, .regular-checkbox-new:hover + label:hover {
+        /*.regular-checkbox-new:hover + label, .regular-checkbox-new + label:hover, .regular-checkbox-new:hover + label:hover {
             background-position: -72px -36px;
             color: #403d39;
-        }
+            background-color:rebeccapurple;
+        }*/
 
     .regular-checkbox-new:checked + label {
         background-position: -36px -72px;
         color: #403d39;
+        background-color:white;
     }
 
         .regular-checkbox-new:checked:hover + label, .regular-checkbox-new:checked + label:hover, .regular-checkbox-new:checked:hover + label:hover {
