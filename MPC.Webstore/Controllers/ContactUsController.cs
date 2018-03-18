@@ -92,7 +92,7 @@ namespace MPC.Webstore.Controllers
                 MesgBody += Utils.GetKeyValueFromResourceFile("ltrlnaturofinq", UserCookieManager.WBStoreId, "Nature of Enquiry: General:") + "<br>"
 ;
                 MesgBody += Utils.GetKeyValueFromResourceFile("ltrlinqq", UserCookieManager.WBStoreId, "Enquiry:") + model.YourEnquiry + "<br>";
-                bool result = _myCompainservice.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, model.YourEnquiry + " Contact enquiry from " + StoreName, null, 0);
+                bool result = _myCompainservice.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, model.YourEnquiry + " Contact enquiry from " + StoreName, null, 0, StoreBaseResopnse.Organisation.OrganisationId);
 
                  if (result)
                 {

@@ -69,11 +69,11 @@ namespace MPC.Webstore.Controllers
                                     SystemUser EmailOFSM = _myUserManagerService.GetSalesManagerDataByID(company.SalesAndOrderManagerId1.Value);
                                     if (EmailOFSM != null)
                                     {
-                                        _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, EmailOFSM.FullName, EmailOFSM.Email, organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0);
+                                        _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, EmailOFSM.FullName, EmailOFSM.Email, organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0, company.OrganisationId.Value);
                                     }
                                     else
                                     {
-                                        _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, "", "info@myprintcloud.com", organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0);
+                                        _myCampaignService.AddMsgToTblQueue(id, "", id, MesgBody, "", "info@myprintcloud.com", organisation.SmtpUserName, organisation.SmtpPassword, organisation.SmtpServer, "Error Report on " + company.Name, null, 0, company.OrganisationId.Value);
                                     }
                                 }
                             }

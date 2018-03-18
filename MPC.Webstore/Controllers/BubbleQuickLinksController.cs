@@ -157,7 +157,7 @@ namespace MPC.Webstore.Controllers
                     MesgBody += "Message: " + comment + "<br>";
 
                   //  bool result = EmailManager.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, ddlEnqiryNature.SelectedItem.Text + " Contact enquiry from " + StoreName, null, 0);
-                    bool result = _myCompainservice.AddMsgToTblQueue(EmailOFSM.Email, "", EmailOFSM.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, Message, null, 0);
+                    bool result = _myCompainservice.AddMsgToTblQueue(EmailOFSM.Email, "", EmailOFSM.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, Message, null, 0, StoreBaseResopnse.Organisation.OrganisationId);
                     if (result)
                     {
                         //txtName.Text = "";

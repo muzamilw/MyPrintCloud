@@ -210,11 +210,11 @@ namespace MPC.Repository.Repositories
 
                                     if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
                                     {
-                                        result = AddMsgToTblQueue(val.Trim(), secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
+                                        result = AddMsgToTblQueue(val.Trim(), secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId), SeverSettings.OrganisationId);
                                     }
                                     else
                                     {
-                                        result = AddMsgToTblQueue(val.Trim(), secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
+                                        result = AddMsgToTblQueue(val.Trim(), secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0, SeverSettings.OrganisationId);
                                     }
 
                                     if (oCampaign.EmailEvent == (int)Events.OnlineOrder)
@@ -241,11 +241,11 @@ namespace MPC.Repository.Repositories
 
                                 if (oCampaign.CampaignType == Convert.ToInt32(Campaigns.MarketingCampaign))
                                 {
-                                    result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId));
+                                    result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, Convert.ToInt32(oCampaign.CampaignReportId), SeverSettings.OrganisationId);
                                 }
                                 else
                                 {
-                                    result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0);
+                                    result = AddMsgToTblQueue(To, secondEmail, ToName, mesgBody, fromName, mailFrom, smtpUserName, mailPassword, smtpServer, oCampaign.SubjectA, AttachmentsList, 0, SeverSettings.OrganisationId);
                                 }
 
                                 if (oCampaign.EmailEvent == (int)Events.OnlineOrder)
@@ -856,7 +856,7 @@ namespace MPC.Repository.Repositories
             }
 
         }
-        public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
+        public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID, long OrganisationId)
         {
             try
             {
@@ -878,6 +878,9 @@ namespace MPC.Repository.Repositories
                     emailQueue.AttemptCount = 0;
                     emailQueue.CampaignReportId = CampaignReportID;
                     emailQueue.SendDateTime = DateTime.Now;
+                    emailQueue.OrganisationId = OrganisationId;
+
+
                     string fileAttachment = "";
                     if (AttachmentList != null)
                     {
@@ -964,82 +967,89 @@ namespace MPC.Repository.Repositories
                 bool res = false;
                 int? isCampaignPaused = 0;
 
-                List<CampaignEmailQueue> allrecords = (from c in db.CampaignEmailQueues
-                                                       where c.IsDeliverd == 0 && c.AttemptCount < 5 && c.ErrorResponse != "Attachments not found or invalid path."
-                                                       select c).Take(100).ToList();
 
-                if (allrecords != null)
+                if (hcontext.Application["OrganisationId"] != null)
                 {
-                    string ErrorMsg = string.Empty;
+                    long ORgID = Convert.ToInt64( hcontext.Application["OrganisationId"]);
 
-                    foreach (CampaignEmailQueue record in allrecords)
+                    List<CampaignEmailQueue> allrecords = (from c in db.CampaignEmailQueues
+                                                           where c.IsDeliverd == 0 && c.AttemptCount < 5 && c.ErrorResponse != "Attachments not found or invalid path." && c.OrganisationId == ORgID
+                                                           select c).Take(100).ToList();
+
+                    if (allrecords != null)
                     {
-                        ErrorMsg = string.Empty;
-                        if (isCampaignPaused == 0 && record.CampaignReportId != null)
+                        string ErrorMsg = string.Empty;
+
+                        foreach (CampaignEmailQueue record in allrecords)
                         {
-                            isCampaignPaused = (from c in db.Campaigns
-                                                where c.CampaignReportId == record.CampaignReportId
-                                                select c.Status).FirstOrDefault();
-                        }
-                        if (isCampaignPaused != Convert.ToInt32(ScheduledStatus.Paused))
-                        {
-                            if (string.IsNullOrEmpty(record.SMTPPassword) || string.IsNullOrEmpty(record.SMTPUserName) || string.IsNullOrEmpty(record.SMTPServer))
+                            ErrorMsg = string.Empty;
+                            if (isCampaignPaused == 0 && record.CampaignReportId != null)
                             {
-                                record.ErrorResponse = "smtp Settings not found.";
-                                record.AttemptCount++;
-                                db.SaveChanges();
+                                isCampaignPaused = (from c in db.Campaigns
+                                                    where c.CampaignReportId == record.CampaignReportId
+                                                    select c.Status).FirstOrDefault();
                             }
-                            else
+                            if (isCampaignPaused != Convert.ToInt32(ScheduledStatus.Paused))
                             {
-                                if (SendEmail(record, hcontext, out ErrorMsg))
+                                if (string.IsNullOrEmpty(record.SMTPPassword) || string.IsNullOrEmpty(record.SMTPUserName) || string.IsNullOrEmpty(record.SMTPServer))
                                 {
-                                    if (record.FileAttachment != null)
-                                    {
-                                        res = true;
-                                    }
-
-                                    if (res)
-                                    {
-
-                                        //string filePath = string.Empty;
-                                        //string[] Allfiles = record.FileAttachment.Split('|');
-                                        //foreach (var file in Allfiles)
-                                        //{
-                                        //    filePath = hcontext.Server.MapPath(file);
-                                        //    if (File.Exists(filePath))
-                                        //        File.Delete(filePath);
-                                        //}
-
-                                    }
-                                    db.CampaignEmailQueues.Remove(record);
+                                    record.ErrorResponse = "smtp Settings not found.";
+                                    record.AttemptCount++;
                                     db.SaveChanges();
                                 }
                                 else
                                 {
-                                    record.ErrorResponse = ErrorMsg;
-                                    record.AttemptCount++;
-                                    db.SaveChanges();
+                                    if (SendEmail(record, hcontext, out ErrorMsg))
+                                    {
+                                        if (record.FileAttachment != null)
+                                        {
+                                            res = true;
+                                        }
+
+                                        if (res)
+                                        {
+
+                                            //string filePath = string.Empty;
+                                            //string[] Allfiles = record.FileAttachment.Split('|');
+                                            //foreach (var file in Allfiles)
+                                            //{
+                                            //    filePath = hcontext.Server.MapPath(file);
+                                            //    if (File.Exists(filePath))
+                                            //        File.Delete(filePath);
+                                            //}
+
+                                        }
+                                        db.CampaignEmailQueues.Remove(record);
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        record.ErrorResponse = ErrorMsg;
+                                        record.AttemptCount++;
+                                        db.SaveChanges();
+                                    }
                                 }
+
+                            }
+                            else
+                            {
+                                record.AttemptCount++;
+                                db.SaveChanges();
                             }
 
-                        }
-                        else
-                        {
-                            record.AttemptCount++;
-                            db.SaveChanges();
+
                         }
 
-                       
+                        allrecords = null;
                     }
 
-                    allrecords = null;
                 }
-
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+        
         }
 
 

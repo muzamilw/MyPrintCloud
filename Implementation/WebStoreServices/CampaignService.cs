@@ -90,9 +90,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             _CampaignRepository.MonitorScheduledEmails();
         }
-        public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID)
+        public bool AddMsgToTblQueue(string Toemail, string CC, string ToName, string msgbody, string fromName, string fromEmail, string smtpUserName, string ServerPass, string ServerName, string subject, List<string> AttachmentList, int CampaignReportID, long OrganisationId)
         {
-            return _CampaignRepository.AddMsgToTblQueue(Toemail,CC,ToName,msgbody,fromName,fromEmail,smtpUserName,ServerPass,ServerName,subject,AttachmentList,CampaignReportID);
+            return _CampaignRepository.AddMsgToTblQueue(Toemail,CC,ToName,msgbody,fromName,fromEmail,smtpUserName,ServerPass,ServerName,subject,AttachmentList,CampaignReportID, OrganisationId);
         }
         public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId, string SalesManagerEmail)
         {

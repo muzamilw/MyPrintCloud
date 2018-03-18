@@ -362,7 +362,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormEmail", UserCookieManager.WBStoreId, "Email: ") + rfqForm.Email + "<br>";
                 MesgBody += Utils.GetKeyValueFromResourceFile("lblContactFormMessage", UserCookieManager.WBStoreId, "Message: ") + rfqForm.Message + "<br>";
 
-                bool result = _campaignService.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, " Contact enquiry from " + StoreName, null, 0);
+                bool result = _campaignService.AddMsgToTblQueue(salesManager.Email, "", salesManager.FullName, MesgBody, fromName, fromEmail, smtpUser, smtpPassword, smtpserver, " Contact enquiry from " + StoreName, null, 0, StoreBaseResopnse.Organisation.OrganisationId);
 
                 if (result)
                 {

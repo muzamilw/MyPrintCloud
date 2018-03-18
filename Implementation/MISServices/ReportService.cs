@@ -519,7 +519,7 @@ namespace MPC.Implementation.MISServices
             List<string> AttachmentsList = new List<string>();
             AttachmentsList.Add(PathFull);
 
-            CampaignRepository.AddMsgToTblQueue(EmailTo, EmailCC, ToName, Signature, objSystemUser.FullName ?? string.Empty, objSystemUser.Email ?? string.Empty, objOrg.SmtpUserName ?? string.Empty, objOrg.SmtpPassword ?? string.Empty, objOrg.SmtpServer ?? string.Empty, EmailSubject, AttachmentsList, 0);
+            CampaignRepository.AddMsgToTblQueue(EmailTo, EmailCC, ToName, Signature, objSystemUser.FullName ?? string.Empty, objSystemUser.Email ?? string.Empty, objOrg.SmtpUserName ?? string.Empty, objOrg.SmtpPassword ?? string.Empty, objOrg.SmtpServer ?? string.Empty, EmailSubject, AttachmentsList, 0,0);
 
         }
 

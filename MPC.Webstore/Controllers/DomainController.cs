@@ -95,6 +95,10 @@ namespace MPC.Webstore.Controllers
 
                 if (StoreBaseResopnse.Company != null)
                 {
+
+                    HttpContext.Application["OrganisationId"] = StoreBaseResopnse.Company.OrganisationId.Value;
+
+
                     UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
                     UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
                     UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
