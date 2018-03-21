@@ -26,6 +26,12 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 keywords = "";
             }
+
+            if ( orgId == 1651 && parentFolderId == 0 )  //hard coding the root to 1806 aka ICE upload folder
+            {
+                parentFolderId = 1806;
+            }
+
             FolderSearchResponse damFoldersAssets = this.companyService.GetDamFoldersAssets(keywords, storeId, orgId, 0, parentFolderId);
             JsonMediaTypeFormatter jsonMediaTypeFormatter = new JsonMediaTypeFormatter();
             JsonSerializerSettings serializerSettings = jsonMediaTypeFormatter.SerializerSettings;

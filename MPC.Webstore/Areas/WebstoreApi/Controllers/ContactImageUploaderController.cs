@@ -763,6 +763,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           AssetDeposit obj = new AssetDeposit();
           obj.Asset=_companyService.GetAsset(AssetId);
           obj.ListItems = _companyService.GetAssetItemsByAssetID(AssetId);
+
+            var assetitem = new AssetItem();
+            assetitem.FileUrl = obj.Asset.ImagePath;
+            assetitem.AssetId = obj.Asset.AssetId;
+            obj.ListItems.Add(assetitem);
+
+
           obj.AssetFolder = _companyService.GetFolderByFolderId(Convert.ToInt64(obj.Asset.FolderId));
           var formatterr = new JsonMediaTypeFormatter();
           var jsons = formatterr.SerializerSettings;

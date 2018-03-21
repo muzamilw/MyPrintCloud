@@ -344,7 +344,7 @@
                 <button style="display:none;float:right;" id="SaveFolder" class="shareButton" value="Save" type="submit" onclick="ActionFolder();">Save</button>
                 <div class="clearBoth"></div>
             </div>
-            <input style="display:none;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
+            <input style="display:none;" id="FilesUploader" type="file" name="uploadFile" class="newTxtBox" multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx,csv" max="4" />
 
         </div>
 
@@ -520,15 +520,15 @@
                 $(".img-check").hide();
             }
         });
-        $("#fileUpload").on('change', function() {
+        $("#fileUploaddo not use").on('change', function() {
             //Get count of selected files
-            var countFiles = $(this)[0].files.length;
+            var countFiles = $("#fileUpload").get(0).files.length;
             var imgPath = $(this)[0].value;
             var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
             var name = imgPath.substring(imgPath.lastIndexOf('\\') + 1, imgPath.lastIndexOf('.'));
             var image_holder = $("#selectedFiles");
             image_holder.empty();
-            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg" || extn == "csv" || extn == "pdf" || extn == "txt") {
                 if (typeof(FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < countFiles; i++)
@@ -541,6 +541,7 @@
                             $("<img />", {
                                 "src": e.target.result,
                                 "class": "thumb-image",
+                                "style": "max-width:140px;max-height:107px;",
                                 "name":e.target.fileName,
                                 "ext" : extn
                             }).appendTo(image_holder);
@@ -552,7 +553,7 @@
                     alert("This browser does not support FileReader.");
                 }
             } else {
-                alert("Pls select only images");
+                alert("Please select only images");
             }
         });
 
@@ -1055,13 +1056,13 @@
 
     //});
     function SearchFoldersResult() {
-        debugger;
+        
         var searchVal = $("#Searchfolder").val();
         if (searchVal == '') {
             window.location.href = "/ManageAssets";
         }
         else {
-            window.location.href = "/ManageAssets?folderId=0&Searchfolder="+searchVal+"";
+            window.location.href = "/ManageAssets?folderId=0&Searchfolder=" + encodeURIComponent(searchVal)+"";
         }
     }
     function RebindGrid() {
@@ -1516,12 +1517,12 @@
     //    $(this).attr("value", "");
     //}
 
-    //$f1.change(FChange);
-    $("input[id^='FilesUploader']").change(function (e) {
+   
+        $("input[id^='fileUpload']").change(function (e) {   //input[id^='FilesUploader']
 
 
         removedFiles = [];
-        var filename = $("input[id^='FilesUploader']").val().replace(/C:\\fakepath\\/i, '');
+        var filename = $("input[id^='fileUpload']").val().replace(/C:\\fakepath\\/i, '');    //input[id^='FilesUploader'],
 
 
 
@@ -1539,7 +1540,7 @@
 
             doReCreate();
         }
-        $("input[id^='FilesUploader']").val('');
+        $("input[id^='fileUpload']").val('');
     });
     function downloadBulkAssets(){
         // var zip = new JSZip();
@@ -1869,7 +1870,7 @@
             var FolderDescription = $("#FoldDescription").val();
             var count= $("#selectedFiles").children().length;
 
-            $.each($("#selectedFiles").children(), function (id, img) {
+            $.each($("#selectedFiles IMG"), function (id, img) {
                 //       FolderName.push(img.name);
                 //      imgSrc.push(img.src);
                 //       imgname.push(img.name+"."+img.getAttribute('ext'));
@@ -2091,7 +2092,7 @@
     }
 
     function EditFolder(FolderID) {
-        debugger;
+        
         $("#modelTitle").text('Update Folder');
         document.getElementById("layer").style.display = "block";
         document.getElementById("innerLayer").style.display = "block";
@@ -2208,7 +2209,7 @@
         });
     }
     function SetSelectedFolderrr(obj, FolderId,Index) {
-        debugger;
+        
         var index = 1;
         $.each($("#folderDropDown")[0].children, function(id2, option2) {
             if (option2.id==FolderId) {
@@ -2305,23 +2306,23 @@
 
                 if(Extension=='psd')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".PS" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".PS" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
                 }
                 else if(Extension=='ai' || Extension=='ait' || Extension=='eps')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".A1" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".A1" style="height:38px;width:38px" src="/Content/Images/PS.png"></button></a></div>')
                 }
                 else if(Extension=='indd' || Extension=='ind' || Extension=='idml' || Extension=='indt' || Extension=='inxx')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:38px;width:38px" src="/Content/images/IND.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".IND"  style="height:38px;width:38px" src="/Content/images/IND.png"></button></a></div>')
                 }
                 else if(Extension=='pdf')
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:38px;width:38px" src="/Content/images/PDF.png"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+fullFileUrl+' download target="_blank"><button  class="fileButtons"><img title=".PDF" style="height:38px;width:38px" src="/Content/images/PDF.png"></button></a></div>')
                 }
                 else
                 {
-                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+'/'+fullFileUrl+' download  target="_blank"><button  class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:38px;width:38px" src="/Content/images/text.gif"></button></a></div>')
+                    InnerHtml = InnerHtml.concat('<div class="float_left"><a href='+fullFileUrl+' download  target="_blank"><button  class="fileButtons"><img title=".'+ Extension.toUpperCase() +'" style="height:38px;width:38px" src="/Content/images/text.gif"></button></a></div>')
                 }
 
             }
@@ -2522,8 +2523,18 @@
                 var changedate=newDate.split("-");
                 var getd=changedate[2].split("T");
 
-                $("#assetupdated").text("Asset Updated:" + getd[0]+"/"+changedate[1]+"/"+changedate[0]);
-                BindFileItems(response.Asset.AssetItems,true);
+                $("#assetupdated").text("Asset Updated:" + getd[0] + "/" + changedate[1] + "/" + changedate[0]);
+                var list = null;
+
+                if (response.Asset.AssetItems != null)
+                {
+                    list = response.Asset.AssetItems;
+                }
+                else
+                {
+                    list = response.ListItems;
+                }
+                BindFileItems(list,true);
                 $("#popupoverlaybasketWindow").css("display", "block");
                 $(".shareIcons").css("display", "none");
                 var userbasketLeft = parseInt((bws.width - 500) / 2);
@@ -2607,7 +2618,7 @@
 
 
         var FileName = "";
-        var files = $("#FilesUploader").get(0).files;
+        var files = $("#fileUpload").get(0).files;
 
 
         if (files.length > 0) {
@@ -2618,6 +2629,12 @@
 
             var isAddfile = 1;
             for (i = 0; i < files.length; i++) {
+
+
+               
+
+
+
 
                 var fileext = files[i].name.split('.');
                 var lastIndex = fileext.length;
@@ -2657,6 +2674,22 @@
                                 FileName = files[i].name.replace("/", "__")
                             storedFiles.push(FileName);
 
+                            var reader = new FileReader();
+                            var path = files[i].name
+                            extn = path.substring(path.lastIndexOf('.') + 1).toLowerCase();
+                            reader.fileName = path.substring(0, path.lastIndexOf('.')).toLowerCase();;
+                            reader.onload = function (e) {
+                                $("<img />", {
+                                    "src": e.target.result,
+                                    "class": "thumb-image",
+                                    "style": "max-width:140px;max-height:107px;",
+                                    "name": e.target.fileName,
+                                    "ext": extn
+                                }).appendTo(selDiv);
+                            }
+                            //image_holder.show();
+                            reader.readAsDataURL(files[i]);
+
                         }
 
                         //}
@@ -2669,7 +2702,7 @@
 
         }
         if (postedFiles.length > (3 + removedFiles.length)) {
-            $("#FilesUploader").css("display", "none");
+            $("#fileUpload").css("display", "none");
         }
 
     }

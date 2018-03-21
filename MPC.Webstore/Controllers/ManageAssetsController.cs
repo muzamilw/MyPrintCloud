@@ -69,10 +69,13 @@ namespace MPC.Webstore.Controllers
                 //GetAssets = response.Assets;
 
                 //populate image thumb paths
-                foreach (var item in response.Assets)
+                if (response.Assets != null)
                 {
-                    item.ImageThumbPath =  System.IO.Path.GetDirectoryName(item.ImagePath) + "/" + System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb" + System.IO.Path.GetExtension(item.ImagePath);
-                    
+                    foreach (var item in response.Assets)
+                    {
+                        item.ImageThumbPath = System.IO.Path.GetDirectoryName(item.ImagePath) + "/" + System.IO.Path.GetFileNameWithoutExtension(item.ImagePath) + "_thumb" + System.IO.Path.GetExtension(item.ImagePath);
+
+                    }
                 }
 
                 ViewBag.Folders = response.Folders?? GetFolder;
