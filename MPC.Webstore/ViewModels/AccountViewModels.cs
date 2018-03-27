@@ -264,6 +264,7 @@ namespace MPC.Webstore.Models
         public long TerritoryId { get; set; }
         public long ColorTerritoryId { get; set; }
         public bool DAMEnabedFlag { get; set; }
+        public long TerritoryIDForDAM { get; set; }
     }
 
     public class ItemViewModel

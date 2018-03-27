@@ -1226,6 +1226,9 @@ namespace MPC.Webstore.Controllers
                 objTemplate.isTemplateDesignMode = isTemplateDesignMode;
                 objTemplate.TerritoryId = 0;
                 objTemplate.ColorTerritoryId = 0;
+                objTemplate.TerritoryIDForDAM = 0;
+
+
                 bool damEnabled = StoreBaseResopnse.Company.IsEnableDataAsset.HasValue == true ? StoreBaseResopnse.Company.IsEnableDataAsset.Value : false;
                 objTemplate.DAMEnabedFlag = damEnabled;
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
@@ -1243,6 +1246,8 @@ namespace MPC.Webstore.Controllers
                         objTemplate.ColorTerritoryId = Convert.ToInt64(loggedInUserContact.TerritoryId);
 
                     }
+
+                    objTemplate.TerritoryIDForDAM = Convert.ToInt64(loggedInUserContact.TerritoryId);
                 }
                 Templates.Add(objTemplate);
             }

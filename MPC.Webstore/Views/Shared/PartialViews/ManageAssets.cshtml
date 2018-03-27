@@ -81,7 +81,6 @@
                         <h4 class="h4FolderHeading" title="Load parent folders" style="margin-bottom: 15px;">Folders</h4>
                         <div id="treeDemo">
                             <ul id="tree">
-
                                 <li>
                                     <a href="#"></a>
                                     @Html.Partial("PartialViews/TreeChildNodes", Tree)
@@ -660,7 +659,10 @@
         }
         function ShowFolderPreview(folderId,Imagepath,tt,folderName,FolderDescription,ParentFolderId)
         {
-            
+
+          
+
+
             ClearFields();
             var RoleId='@ContactRole';
         if(ParentFolderId==0)
@@ -702,6 +704,12 @@
         {
             $("#assetCatNameUser_side").text(' '+response.AssetFolder.FolderName);
         }
+
+        $("#Prev_img")[0].scrollIntoView({
+            behavior: "smooth", // or "auto" or "instant"
+            block: "start" // or "end"
+        });
+       
 
 
         // }
