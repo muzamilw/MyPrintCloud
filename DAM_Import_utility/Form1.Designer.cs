@@ -40,6 +40,7 @@
             this.btnGenerateThumbnails = new System.Windows.Forms.Button();
             this.cmdRenameFiles = new System.Windows.Forms.Button();
             this.btnShortenFilenames = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnWatchFile
@@ -89,11 +90,11 @@
             this.txtStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtStatus.Location = new System.Drawing.Point(88, 63);
+            this.txtStatus.Location = new System.Drawing.Point(88, 100);
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtStatus.Size = new System.Drawing.Size(971, 316);
+            this.txtStatus.Size = new System.Drawing.Size(971, 279);
             this.txtStatus.TabIndex = 9;
             // 
             // txtOrg
@@ -162,11 +163,22 @@
             this.btnShortenFilenames.UseVisualStyleBackColor = true;
             this.btnShortenFilenames.Click += new System.EventHandler(this.btnShortenFilenames_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(478, 71);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(110, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Import Tags";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1071, 391);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnShortenFilenames);
             this.Controls.Add(this.cmdRenameFiles);
             this.Controls.Add(this.btnGenerateThumbnails);
@@ -201,6 +213,7 @@
         private System.Windows.Forms.Button btnGenerateThumbnails;
         private System.Windows.Forms.Button cmdRenameFiles;
         private System.Windows.Forms.Button btnShortenFilenames;
+        private System.Windows.Forms.Button button1;
     }
 }
 

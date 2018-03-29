@@ -590,7 +590,103 @@ namespace FileSystemWatcher
                 }
             }
         }
-        
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+
+
+            
+            int count = 0;
+            int countTotal = 0;
+            string qry = "";
+            using (SqlConnection connection2 = new SqlConnection(connectionString))
+            {
+
+                connection2.Open();
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    // Create the Command and Parameter objects.
+                    qry += "SELECT AssetId,ImagePath from assets where CompanyId = 33474";
+                    SqlCommand command = new SqlCommand(qry, connection);
+                    command.CommandTimeout = 500;
+
+                    SqlCommand command2 = new SqlCommand(qry, connection2);
+                    command.CommandTimeout = 500;
+
+                    SqlDataReader rdr = null;
+
+                    try
+                    {
+                        if (connection.State != ConnectionState.Open)
+                            connection.Open();
+
+                        rdr = command.ExecuteReader();
+
+                        while (rdr.Read())
+                        {
+                            long assetId = (long)rdr["AssetId"];
+                            string ImagePath = (string)rdr["ImagePath"];
+                            string OrigImagePath = (string)rdr["ImagePath"];
+                           
+                                ImagePath = @"D:\wwwRoot\australia.myprintcloud.com\mis" + ImagePath.Replace('/', System.IO.Path.DirectorySeparatorChar);
+                                //txtStatus.Text +=ImagePath +  " XXXXXXX " + Path.GetFileName(ImagePath) +   Environment.NewLine; 
+
+                                if (System.IO.File.Exists(ImagePath))
+                                {
+                                   
+                                    var fileinfo = new CFileInfo(ImagePath);
+                                    //txtStatus.Text += assetId + fileinfo.FileTags + Environment.NewLine;
+                                    command2.CommandText = "update Assets set Keywords='" +  fileinfo.FileTags.Replace("'","''") + "' where assetid =" + assetId.ToString();
+                                    command2.ExecuteNonQuery();
+
+
+                                }
+                                else
+                                {
+                                    txtStatus.Text += "File Could not be found " + ImagePath + Environment.NewLine;
+                                    //MessageBox.Show("File Could not be found " + ImagePath);
+                                }
+
+
+
+                            count++;
+
+                           
+
+                            Application.DoEvents();
+
+                        }
+
+
+                        txtStatus.Text = "complete";
+
+                        MessageBox.Show(count.ToString() + "-------" + countTotal.ToString());
+
+
+                        //command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0,'" + Email + "')";
+
+
+                        //result = command.ExecuteNonQuery();
+
+
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        rdr.Close();
+                        connection.Close();
+                    }
+
+                }
+            }
+        }
     }
 
     
